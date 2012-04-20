@@ -1,17 +1,73 @@
 from mako.template import Template as t
-from pyramid.view import view_config
+from pyramid.view import (
+    view_config,
+    forbidden_view_config,
+)
+
+from pyramid.httpexceptions import HTTPFound
+
+from pyramid.security import (
+    authenticated_userid,
+    remember,
+    forget,
+)
 
 import model as m
 
 
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
+    logged_in = authenticated_userid(request)
+    is_awarded = lambda a: logged_in and a.person.email == logged_in
+    awarded_assertions = filter(is_awarded, m.Assertion.query.all())
     return dict(
-        issuers=m.Issuer.query.all(),
         title="Tahrir",  # TODO -- pull from config
+        issuers=m.Issuer.query.all(),
+        awarded_assertions=awarded_assertions,
+        logged_in=logged_in,
     )
 
 
 @view_config(context=m.Assertion, renderer='json')
 def json(context, request):
     return context.__json__()
+
+
+@view_config(route_name='login', renderer='templates/login.pt')
+@forbidden_view_config(renderer='templates/login.pt')
+def login(request):
+    login_url = request.resource_url(request.context, 'login')
+    referrer = request.url
+    if referrer == login_url:
+        referrer = '/' # never use the login form itself as came_from
+    came_from = request.params.get('came_from', referrer)
+    message = ''
+    email = ''
+    if 'form.submitted' in request.params:
+        email = request.params['email']
+        if m.Person.query.filter_by(email=email).count() == 0:
+            new_user = m.Person(email=email)
+            m.DBSession.add(new_user)
+
+        # NOTE -- there is no way to fail login here :D
+        # TODO -- validate the email address
+        if True:
+            headers = remember(request, email)
+            return HTTPFound(location = came_from,
+                             headers = headers)
+        message = 'Failed login'
+
+    return dict(
+        message = message,
+        url = request.application_url + '/login',
+        came_from = came_from,
+        email = email,
+        )
+
+
+@view_config(route_name='logout')
+def logout(request):
+    headers = forget(request)
+    return HTTPFound(location = request.resource_url(request.context),
+                     headers = headers)
+
