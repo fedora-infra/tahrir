@@ -1,5 +1,12 @@
-tahrir README
-=============
+tahrir
+======
+
+tahrir is `Arabic for Liberation <http://en.wikipedia.org/wiki/Tahrir_Square>`_.
+
+tahrir is also a `Pyramid <http://www.pylonsproject.org/>`_ app for issuing
+your own `Open Badges <https://wiki.mozilla.org/Badges>`_.
+
+It is in pre-alpha.  The name is overkill.
 
 Getting Started
 ---------------
