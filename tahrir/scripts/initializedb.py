@@ -1,6 +1,5 @@
 
 import datetime
-import hashlib
 import os
 import pprint
 import sys
@@ -68,8 +67,6 @@ def main(argv=sys.argv):
             salt=settings['tahrir.salt'],
             issued_on=datetime.datetime.now(),
         )
-        assertion.recipient = hashlib.sha256(
-            assertion.person.email + assertion.salt).hexdigest()
 
         DBSession.add(assertion)
 

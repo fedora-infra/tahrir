@@ -43,20 +43,19 @@ class Issuer(DeclarativeBase):
             contact=self.contact,
         )
 
+def badge_id_default(context):
+    return context.current_parameters['name'].lower().replace(' ', '-')
+
 
 class Badge(DeclarativeBase):
     __tablename__ = 'badges'
-    id = Column(Unicode, primary_key=True)
+    id = Column(Unicode, primary_key=True, default=badge_id_default)
     name = Column(Unicode(128), nullable=False)
     image = Column(Unicode(128), nullable=False)
     description = Column(Unicode(128), nullable=False)
     criteria = Column(Unicode(128), nullable=False)
     assertions = relationship("Assertion", backref="badge")
     issuer_id = Column(Integer, ForeignKey('issuers.id'), nullable=False)
-
-    def __init__(self, *args, **kw):
-        super(Badge, self).__init__(*args, **kw)
-        self.id = self.name.lower().replace(' ', '-')
 
     def __unicode__(self):
         return self.name
@@ -81,22 +80,27 @@ class Person(DeclarativeBase):
     def __unicode__(self):
         return self.email
 
+def recipient_default(context):
+    person_id = context.current_parameters['person_id']
+    person = Person.query.filter_by(id=person_id).one()
+    return hashlib.sha256(
+        person.email + context.current_parameters['salt']
+    ).hexdigest()
+
+def salt_default(context):
+    # TODO -- some how we need to get this value from the config.  :)
+    return "beefy"
 
 class Assertion(DeclarativeBase):
     __tablename__ = 'assertions'
     id = Column(Integer, primary_key=True)
-    badge_id = Column(Integer, ForeignKey('badges.id'), nullable=False)
+    badge_id = Column(Unicode, ForeignKey('badges.id'), nullable=False)
     person_id = Column(Integer, ForeignKey('persons.id'), nullable=False)
-    salt = Column(Unicode(128), nullable=False)
+    salt = Column(Unicode(128), nullable=False, default=salt_default)
     issued_on = Column(DateTime)
 
-    recipient = Column(Unicode(256), nullable=False)
+    recipient = Column(Unicode(256), nullable=False, default=recipient_default)
 
-#    def __init__(self, *args, **kw):
-#        super(Assertion, self).__init__(*args, **kw)
-#        self.recipient = \
-#                hashlib.sha256(self.person.email + self.salt).hexdigest()
-#
     def __unicode__(self):
         return unicode(self.badge) + " <-> " + unicode(self.person)
 

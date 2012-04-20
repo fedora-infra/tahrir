@@ -23,15 +23,15 @@ class BadgeForm(tws.DbFormPage):
         image = twf.TextField(validator=twc.Required)
         description = twf.TextField(validator=twc.Required)
         criteria = twf.TextField(validator=twc.Required)
-        issuer_id = tws.DbCheckBoxList(entity=m.Issuer)
+        issuer = tws.DbRadioButtonList(entity=m.Issuer)
 
 
 class AssertionForm(tws.DbFormPage):
     entity = m.Assertion
     class child(twf.TableForm):
         id = twf.HiddenField()
-        badge_id = tws.DbCheckBoxList(entity=m.Badge)
-        person_id = tws.DbCheckBoxList(entity=m.Person)
+        badge = tws.DbRadioButtonList(entity=m.Badge)
+        person = tws.DbRadioButtonList(entity=m.Person)
 
 
 class PersonForm(tws.DbFormPage):

@@ -1,5 +1,4 @@
 
-import hashlib
 import transaction
 
 from mako.template import Template as t
