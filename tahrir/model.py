@@ -43,13 +43,17 @@ class Issuer(DeclarativeBase):
 
 class Badge(DeclarativeBase):
     __tablename__ = 'badges'
-    id = Column(Integer, primary_key=True)
+    id = Column(Unicode, primary_key=True)
     name = Column(Unicode(128), nullable=False)
     image = Column(Unicode(128), nullable=False)
     description = Column(Unicode(128), nullable=False)
     criteria = Column(Unicode(128), nullable=False)
     assertions = relationship("Assertion", backref="badge")
     issuer_id = Column(Integer, ForeignKey('issuers.id'))
+
+    def __init__(self, *args, **kw):
+        super(Badge, self).__init__(*args, **kw)
+        self.id = self.name.lower().replace(' ', '-')
 
     def __json__(self):
         return dict(
