@@ -15,12 +15,28 @@ class IssuerForm(tws.DbFormPage):
         contact = twf.TextField(validator=twc.Required)
 
 
+class SavingFileField(twf.FileField):
+    validator = twf.FileValidator(extesion='.png')
+
+    def _validate(self, value, state=None):
+        try:
+            super(SavingFileField, self)._validate(value, state)
+            # TODO -- actually save this file
+            print self.value.value
+            self.value = self.value.filename
+            return self.value
+        except twc.ValidationError:
+            sys.exit(1)
+            self.value = None
+            raise
+
+
 class BadgeForm(tws.DbFormPage):
     entity = m.Badge
     class child(twf.TableForm):
         id = twf.HiddenField()
         name = twf.TextField(validator=twc.Required)
-        image = twf.TextField(validator=twc.Required)
+        image = SavingFileField
         description = twf.TextField(validator=twc.Required)
         criteria = twf.TextField(validator=twc.Required)
         issuer = tws.DbRadioButtonList(entity=m.Issuer)

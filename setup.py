@@ -13,6 +13,7 @@ requires = [
     'zope.sqlalchemy',
     "weberror",
     "tw2.sqla",
+    "formencode",  # For file uploads
     ]
 
 setup(name='tahrir',

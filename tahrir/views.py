@@ -1,6 +1,8 @@
 
 import transaction
 
+import tw2.core as twc
+
 from mako.template import Template as t
 from pyramid.view import (
     view_config,
@@ -38,11 +40,13 @@ def admin(request):
         if any([k.startswith(key) for k in request.params]):
             w = name_lookup[key]
 
-            data = w.validate(request.params)
-            w.validated_request(request, data,
-                                protect_prm_tamp=False)
-
-            return HTTPFound(location='/')
+            try:
+                data = w.validate(request.params)
+                w.validated_request(request, data,
+                                    protect_prm_tamp=False)
+                return HTTPFound(location='/')
+            except twc.ValidationError as e:
+                print e.widget
 
     return dict(
         issuer_form = widgets.IssuerForm,
