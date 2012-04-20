@@ -47,7 +47,7 @@ def main(argv=sys.argv):
         DBSession.add(issuer)
         badge = Badge(
             name="Plus One!",
-            image="/pngs/threebean-plus-one.png", # TODO -- wat?
+            image="/pngs/threebean-plus-one.png",
             description="""
             Got a recommendation from threebean for being awesome.
             """.strip(),
@@ -62,7 +62,7 @@ def main(argv=sys.argv):
         assertion = Assertion(
             badge=badge,
             person=person,
-            salt="beefy",  # TODO -- pull from config
+            salt=settings['tahrir.salt'],
             issued_on=datetime.datetime.now(),
         )
         DBSession.add(assertion)
