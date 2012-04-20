@@ -28,44 +28,22 @@ def admin(request):
     if logged_in != request.registry.settings['tahrir.admin']:
         return HTTPFound(location='/')
 
-    cls = None
-    if any([k.startswith('issuer') for k in request.params]):
-        keys = ['origin', 'name', 'org', 'contact']
-        cls = m.Issuer
+    name_lookup = {
+        'issuerform': widgets.IssuerForm,
+        'badgeform': widgets.BadgeForm,
+        'assertionform': widgets.AssertionForm,
+        'personform': widgets.PersonForm,
+    }
 
-    if any([k.startswith('badge') for k in request.params]):
-        keys = ['name', 'image', 'description', 'criteria', 'issuer_id']
-        cls = m.Badge
+    for key in name_lookup:
+        if any([k.startswith(key) for k in request.params]):
+            w = name_lookup[key]
 
-    if any([k.startswith('assertion') for k in request.params]):
-        keys = ['badge_id', 'person_id']
-        cls = m.Assertion
+            data = w.validate(request.params)
+            w.validated_request(request, data,
+                                protect_prm_tamp=False)
 
-    if any([k.startswith('person') for k in request.params]):
-        keys = ['email']
-        cls = m.Person
-
-    if cls:
-        with transaction.manager:
-            name_lookup = {
-                m.Issuer: "issuerform",
-                m.Badge: "badgeform",
-                m.Assertion: "assertionform",
-                m.Person: "personform",
-            }
-            mod = lambda k: name_lookup[cls] + ":" + k
-            obj = cls(**dict((k, request.params[mod(k)]) for k in keys))
-
-            # NOTE -- crashing happens right here for Assertion.
-            # TODO -- instead, I should use the tw2.sqla backend code to get all
-            # the relational stuff right for me.
-            if cls == m.Assertion:
-                obj.recipient = hashlib.sha256(
-                    obj.person.email + obj.salt).hexdigest()
-
-            m.DBSession.add(obj)
-
-        return HTTPFound(location='/')
+            return HTTPFound(location='/')
 
     return dict(
         issuer_form = widgets.IssuerForm,
