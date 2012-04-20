@@ -8,11 +8,21 @@
             <td>${issuer.name}</td>
             <td>
               <table>
-                <tr><th>Badge</th><th># Awarded</th></tr>
+                <tr><th>Badge</th><th>Awarded</th></tr>
                 % for badge in issuer.badges:
                   <tr>
                     <td>${badge.name}</td>
-                    <td>${str(len(badge.assertions))}</td>
+                    <td>
+                      <ul>
+                        % for assertion in badge.assertions:
+                          <li>
+                          <a href="/assertions/${assertion.recipient}">
+                            ${assertion.recipient[:6]}
+                          </a>
+                          </li>
+                        % endfor
+                      </ul>
+                    </td>
                   </tr>
                 % endfor
               </table>

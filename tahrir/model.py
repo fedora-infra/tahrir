@@ -77,14 +77,20 @@ class Assertion(DeclarativeBase):
     salt = Column(Unicode(128), nullable=False)
     issued_on = Column(DateTime)
 
+    recipient = Column(Unicode(256))
+
+    def __init__(self, *args, **kw):
+        super(Assertion, self).__init__(*args, **kw)
+        self.recipient = \
+                hashlib.sha256(self.person.email + self.salt).hexdigest()
+
     @property
-    def recipient(self):
-        return "sha256$%s" % \
-            hashlib.sha256(self.person.email + self.salt).hexdigest()
+    def _recipient(self):
+        return "sha256$%s" % self.recipient
 
     def __json__(self):
         result = dict(
-            recipient=self.recipient,
+            recipient=self._recipient,
             salt=self.salt,
             badge=self.badge.__json__(),
         )
