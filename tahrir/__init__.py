@@ -16,7 +16,10 @@ def main(global_config, **settings):
     required_keys = [
         'tahrir.salt',
         'tahrir.pngs.uri',
+        'tahrir.admin',
+        'tahrir.title',
     ]
+
     # validate the config
     for key in required_keys:
         if key not in settings:
@@ -45,6 +48,7 @@ def main(global_config, **settings):
     config.add_static_view(
         'pngs', settings['tahrir.pngs.uri'], cache_max_age=3600)
     config.add_route('home', '/')
+    config.add_route('admin', '/admin')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
 

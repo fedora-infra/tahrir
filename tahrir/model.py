@@ -32,6 +32,9 @@ class Issuer(DeclarativeBase):
     contact = Column(Unicode(128), nullable=False)
     badges = relationship("Badge", backref="issuer")
 
+    def __unicode__(self):
+        return self.name
+
     def __json__(self):
         return dict(
             origin=self.origin,
@@ -49,11 +52,14 @@ class Badge(DeclarativeBase):
     description = Column(Unicode(128), nullable=False)
     criteria = Column(Unicode(128), nullable=False)
     assertions = relationship("Assertion", backref="badge")
-    issuer_id = Column(Integer, ForeignKey('issuers.id'))
+    issuer_id = Column(Integer, ForeignKey('issuers.id'), nullable=False)
 
     def __init__(self, *args, **kw):
         super(Badge, self).__init__(*args, **kw)
         self.id = self.name.lower().replace(' ', '-')
+
+    def __unicode__(self):
+        return self.name
 
     def __json__(self):
         return dict(
@@ -72,21 +78,27 @@ class Person(DeclarativeBase):
     email = Column(Unicode(128), nullable=False)
     assertions = relationship("Assertion", backref="person")
 
+    def __unicode__(self):
+        return self.email
+
 
 class Assertion(DeclarativeBase):
     __tablename__ = 'assertions'
     id = Column(Integer, primary_key=True)
-    badge_id = Column(Integer, ForeignKey('badges.id'))
-    person_id = Column(Integer, ForeignKey('persons.id'))
+    badge_id = Column(Integer, ForeignKey('badges.id'), nullable=False)
+    person_id = Column(Integer, ForeignKey('persons.id'), nullable=False)
     salt = Column(Unicode(128), nullable=False)
     issued_on = Column(DateTime)
 
-    recipient = Column(Unicode(256))
+    recipient = Column(Unicode(256), nullable=False)
 
-    def __init__(self, *args, **kw):
-        super(Assertion, self).__init__(*args, **kw)
-        self.recipient = \
-                hashlib.sha256(self.person.email + self.salt).hexdigest()
+#    def __init__(self, *args, **kw):
+#        super(Assertion, self).__init__(*args, **kw)
+#        self.recipient = \
+#                hashlib.sha256(self.person.email + self.salt).hexdigest()
+#
+    def __unicode__(self):
+        return unicode(self.badge) + " <-> " + unicode(self.person)
 
     @property
     def _recipient(self):

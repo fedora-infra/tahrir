@@ -1,5 +1,6 @@
 
 import datetime
+import hashlib
 import os
 import pprint
 import sys
@@ -33,7 +34,9 @@ def main(argv=sys.argv):
 
     config_uri = argv[1]
     setup_logging(config_uri)
-    settings = get_appsettings(config_uri)
+    settings = get_appsettings(config_uri, name="pyramid")
+    import pprint
+    pprint.pprint(settings)
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
     DeclarativeBase.metadata.create_all(engine)
@@ -65,6 +68,9 @@ def main(argv=sys.argv):
             salt=settings['tahrir.salt'],
             issued_on=datetime.datetime.now(),
         )
+        assertion.recipient = hashlib.sha256(
+            assertion.person.email + assertion.salt).hexdigest()
+
         DBSession.add(assertion)
 
         pprint.pprint(assertion.__json__())

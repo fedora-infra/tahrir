@@ -13,22 +13,11 @@ class AssertionApp(object):
             badge=self.badge,
         ).one()
 
-class AdminApp(object):
-    __acl__ = [
-        (Allow, Everyone, 'view'),
-        (Allow, 'group:editors', 'edit'),
-    ]
-
-    def __getitem__(self, key):
-        return "AWESOME"
-
 class RootApp(object):
     __name__ = None
     __parent__ = None
-    def __getitem__(self, key):
-        if key == 'admin':
-            return AdminApp()
 
+    def __getitem__(self, key):
         if key == 'assertions':
             return self
 

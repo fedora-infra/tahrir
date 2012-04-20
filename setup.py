@@ -4,22 +4,21 @@ from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.rst')).read()
-CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 requires = [
     'pyramid',
     'SQLAlchemy',
     'transaction',
     'pyramid_tm',
-    'pyramid_debugtoolbar',
     'zope.sqlalchemy',
-    'waitress',
+    "weberror",
+    "tw2.sqla",
     ]
 
 setup(name='tahrir',
       version='0.0',
       description='tahrir',
-      long_description=README + '\n\n' +  CHANGES,
+      long_description=README,
       classifiers=[
         "Programming Language :: Python",
         "Framework :: Pylons",
