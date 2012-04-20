@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>TODO</title>
+    <title>Tahrir Admin</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <link rel="stylesheet"
     href="/static/pylons.css"
