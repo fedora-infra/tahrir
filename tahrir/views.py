@@ -1,34 +1,21 @@
-from pyramid.response import Response
+from mako.template import Template as t
 from pyramid.view import view_config
 
-from sqlalchemy.exc import DBAPIError
+import os;
+SEP = os.path.sep
 
-from .models import (
-    DBSession,
-    MyModel,
+import model as m
+
+@view_config(route_name='home', renderer='index.mak')
+def index(request):
+    return dict(
+        issuers=m.Issuer.query.all(),
+        badges=m.Badge.query.all(),
+        assertions=m.Assertion.query.all(),
+        persons=m.Person.query.all(),
     )
 
-@view_config(route_name='home', renderer='templates/mytemplate.pt')
-def my_view(request):
-    try:
-        one = DBSession.query(MyModel).filter(MyModel.name=='one').first()
-    except DBAPIError:
-        return Response(conn_err_msg, content_type='text/plain', status_int=500)
-    return {'one':one, 'project':'tahrir'}
-
-conn_err_msg = """\
-Pyramid is having a problem using your SQL database.  The problem
-might be caused by one of the following things:
-
-1.  You may need to run the "initialize_tahrir_db" script
-    to initialize your database tables.  Check your virtual 
-    environment's "bin" directory for this script and try to run it.
-
-2.  Your database server may not be running.  Check that the
-    database server referred to by the "sqlalchemy.url" setting in
-    your "development.ini" file is running.
-
-After you fix the problem, please restart the Pyramid application to
-try it again.
-"""
-
+#http://stackoverflow.com/questions/4633320/is-there-a-better-way-to-switch-between-html-and-json-output-in-pyramid
+#@view_config(context=m.DeclarativeBase, name='json', xhr=True)
+#def json(request):
+#    return request.context.__json__()

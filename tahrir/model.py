@@ -20,6 +20,7 @@ from zope.sqlalchemy import ZopeTransactionExtension
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 DeclarativeBase = declarative_base()
+DeclarativeBase.query = DBSession.query_property()
 
 
 class Issuer(DeclarativeBase):
