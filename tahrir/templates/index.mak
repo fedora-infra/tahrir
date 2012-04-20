@@ -14,10 +14,10 @@
                     <td>${badge.name}</td>
                     <td>
                       <ul>
-                        % for assertion in badge.assertions:
+                        % for a in badge.assertions:
                           <li>
-                          <a href="/assertions/${assertion.recipient}">
-                            ${assertion.recipient[:6]}
+                          <a href="/assertions/${badge.id}/${a.recipient}">
+                            ${a.recipient[:6]}
                           </a>
                           </li>
                         % endfor

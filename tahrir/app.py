@@ -29,6 +29,9 @@ class RootApp(object):
         if key == 'admin':
             return AdminApp()
 
+        if key == 'assertions':
+            return self
+
         badge = m.Badge.query.filter_by(id=key).one()
         return AssertionApp(badge=badge)
 
