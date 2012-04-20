@@ -31,18 +31,19 @@
           </div>
         </div>
         <div id="bottom"><div class="bottom">
-            ${person_form.display() | n}
-        </div></div>
-        <div id="bottom"><div class="bottom">
-            ${issuer_form.display() | n}
-        </div></div>
-        <div id="bottom"><div class="bottom">
-            ${badge_form.display() | n}
-        </div></div>
-        <div id="bottom"><div class="bottom">
-            ${assertion_form.display() | n}
-        </div></div>
-      </div>
-    </div>
-  </body>
-</html>
+            <table>
+              <tr><td>
+                  ${person_form.display() | n}
+                  </td><td>
+                  ${issuer_form.display() | n}
+              </td></tr>
+              <tr><td>
+                  ${badge_form.display() | n}
+                  </td><td>
+                  ${assertion_form.display() | n}
+              </td></tr>
+            </table>
+          </div>
+        </div>
+      </body>
+    </html>
