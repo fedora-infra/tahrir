@@ -21,7 +21,7 @@ def index(request):
     is_awarded = lambda a: logged_in and a.person.email == logged_in
     awarded_assertions = filter(is_awarded, m.Assertion.query.all())
     return dict(
-        title="Tahrir",  # TODO -- pull from config
+        title=request.registry.settings['tahrir.title'],
         issuers=m.Issuer.query.all(),
         awarded_assertions=awarded_assertions,
         logged_in=logged_in,
