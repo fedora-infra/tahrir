@@ -10,9 +10,7 @@ import model as m
 def index(request):
     return dict(
         issuers=m.Issuer.query.all(),
-        badges=m.Badge.query.all(),
-        assertions=m.Assertion.query.all(),
-        persons=m.Person.query.all(),
+        title="Tahrir",  # TODO -- pull from config
     )
 
 #http://stackoverflow.com/questions/4633320/is-there-a-better-way-to-switch-between-html-and-json-output-in-pyramid
