@@ -27,7 +27,7 @@ class Issuer(DeclarativeBase):
     __tablename__ = 'issuers'
     id = Column(Integer, primary_key=True)
     origin = Column(Unicode(128), nullable=False)
-    name = Column(Unicode(128), nullable=False)
+    name = Column(Unicode(128), nullable=False, unique=True)
     org = Column(Unicode(128), nullable=False)
     contact = Column(Unicode(128), nullable=False)
     badges = relationship("Badge", backref="issuer")
@@ -50,7 +50,7 @@ def badge_id_default(context):
 class Badge(DeclarativeBase):
     __tablename__ = 'badges'
     id = Column(Unicode, primary_key=True, default=badge_id_default)
-    name = Column(Unicode(128), nullable=False)
+    name = Column(Unicode(128), nullable=False, unique=True)
     image = Column(Unicode(128), nullable=False)
     description = Column(Unicode(128), nullable=False)
     criteria = Column(Unicode(128), nullable=False)
@@ -74,7 +74,7 @@ class Badge(DeclarativeBase):
 class Person(DeclarativeBase):
     __tablename__ = 'persons'
     id = Column(Integer, primary_key=True)
-    email = Column(Unicode(128), nullable=False)
+    email = Column(Unicode(128), nullable=False, unique=True)
     assertions = relationship("Assertion", backref="person")
 
     def __unicode__(self):
