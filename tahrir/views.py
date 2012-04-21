@@ -29,6 +29,10 @@ def admin(request):
     if logged_in != request.registry.settings['tahrir.admin']:
         return HTTPFound(location='/')
 
+    is_awarded = lambda a: logged_in and a.person.email == logged_in
+    awarded_assertions = filter(is_awarded, m.Assertion.query.all())
+
+
     name_lookup = {
         'issuerform': widgets.IssuerForm,
         'badgeform': widgets.BadgeForm,
@@ -49,6 +53,9 @@ def admin(request):
                 print e.widget
 
     return dict(
+        logged_in=logged_in,
+        awarded_assertions=awarded_assertions,
+        title=request.registry.settings['tahrir.title'],
         issuer_form = widgets.IssuerForm,
         badge_form = widgets.BadgeForm,
         assertion_form = widgets.AssertionForm,
