@@ -28,13 +28,21 @@
     <title>${title}</title>
   </head>
   <body>
-    <div id="header">
+    <div class="header">
       <div><H1><span id="logo">${title}</span></H1></div>
     </div>
-    <div class="right pane">
+
+    <a href="http://github.com/ralphbean/tahrir">
+      <img style="position: absolute; top: 0; right: 0; border: 0;"
+      src="/static/img/github.png"
+      alt="Fork me on GitHub" />
+    </a>
+
+    <div class="subheader">
       % if logged_in:
-        Logged in as ${logged_in} - <a href="/logout">Logout</a><br/>
-        You have ${str(len(awarded_assertions))} badges from this site.<br/>
+        Logged in as <span class="strong">${logged_in}</span>
+        <a href="/logout">Logout</a><br/><br/>
+        You have ${str(len(awarded_assertions))} badges from this site.
         % if awarded_assertions:
           <a href="javascript:claim_badges();">Claim them.</a>
         % endif

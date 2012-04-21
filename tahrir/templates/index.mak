@@ -3,6 +3,7 @@
   <div class="center pane">
     <div class="content">
       <table>
+        <tr><th>Issuer</th><th></th></tr>
         % for issuer in issuers:
           <tr>
             <td>${issuer.name}</td>
