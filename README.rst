@@ -14,6 +14,7 @@ Getting Started With Development
 --------------------------------
 
 ::
+
     $ sudo yum -y install python-virtualenvwrapper
     $ git clone git://github.com/ralphbean/tahrir.git
     $ cd tahrir
