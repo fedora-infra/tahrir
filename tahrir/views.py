@@ -74,8 +74,8 @@ def json(context, request):
     return context.__json__()
 
 
-@view_config(route_name='login', renderer='templates/login.pt')
-@forbidden_view_config(renderer='templates/login.pt')
+@view_config(route_name='login', renderer='login.mak')
+@forbidden_view_config(renderer='login.mak')
 def login(request):
     login_url = request.resource_url(request.context, 'login')
     referrer = request.url
@@ -99,6 +99,7 @@ def login(request):
         message = 'Failed login'
 
     return dict(
+        title=request.registry.settings['tahrir.title'],
         message = message,
         url = request.application_url + '/login',
         came_from = came_from,
