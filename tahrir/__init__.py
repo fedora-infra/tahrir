@@ -8,6 +8,7 @@ from pyramid.authorization import ACLAuthorizationPolicy
 
 from .app import get_root
 from .model import DBSession
+from .widgets import SavingFileField
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
@@ -26,8 +27,12 @@ def main(global_config, **settings):
             raise ValueError("%s required in settings." % key)
 
     # Make data dir if it doesn't already exist.
+    settings['tahrir.pngs.uri'] = os.path.abspath(settings['tahrir.pngs.uri'])
     if not os.path.exists(settings['tahrir.pngs.uri']):
         os.makedirs(settings['tahrir.pngs.uri'])
+
+    # Set that directory on the filefield widget.
+    SavingFileField.png_dir = settings['tahrir.pngs.uri']
 
     # start setting things up
     engine = engine_from_config(settings, 'sqlalchemy.')

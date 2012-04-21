@@ -4,6 +4,13 @@ import tw2.core as twc
 import tw2.sqla as tws
 import tw2.forms as twf
 
+import hashlib
+import os
+import time
+
+import logging
+log = logging.getLogger(__name__)
+
 
 class IssuerForm(tws.DbFormPage):
     entity = m.Issuer
@@ -18,12 +25,26 @@ class IssuerForm(tws.DbFormPage):
 class SavingFileField(twf.FileField):
     validator = twf.FileValidator(extesion='.png')
 
+    png_dir = None
+
+    def _save_file(self, filename, value):
+        if not self.png_dir:
+            raise twc.ValidationError("Image saving is misconfigured.")
+
+        filename = os.path.sep.join([self.png_dir, filename])
+        log.info("Writing image to %s" % filename)
+
+        with open(filename, 'wb') as f:
+            f.write(value)
+
+        return True
+
     def _validate(self, value, state=None):
         try:
             super(SavingFileField, self)._validate(value, state)
-            # TODO -- actually save this file
-            print self.value.value
-            self.value = self.value.filename
+            filename = hashlib.md5(self.value.filename).hexdigest() + ".png"
+            self._save_file(filename, self.value.value)
+            self.value = filename
             return self.value
         except twc.ValidationError:
             sys.exit(1)
