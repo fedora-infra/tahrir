@@ -8,10 +8,11 @@
             <td>${issuer.name}</td>
             <td>
               <table>
-                <tr><th>Badge</th><th>Awarded</th></tr>
+                <tr><th colspan="2">Badge</th><th>Awarded</th></tr>
                 % for badge in issuer.badges:
                   <tr>
                     <td>${badge.name}</td>
+                    <td><img class="badge" src="/pngs/${badge.image}"></img>
                     <td>
                       <ul>
                         % for a in badge.assertions:

@@ -1,5 +1,6 @@
 <html>
   <head>
+    <link rel="stylesheet" href="/static/css/tahrir.css" />
     % if logged_in and awarded_assertions:
       <script
         type="text/javascript"
