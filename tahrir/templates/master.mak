@@ -18,7 +18,7 @@
           };
           var urls = [
           % for a in awarded_assertions:
-            "/assertions/${a.badge.id}/${a.recipient}",
+            "http://${base_url}/assertions/${a.badge.id}/${a.recipient}",
           % endfor
           ];
           OpenBadges.issue(urls, callback);

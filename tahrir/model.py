@@ -64,7 +64,7 @@ class Badge(DeclarativeBase):
         return dict(
             version="0.5.0",
             name=self.name,
-            image=self.image,
+            image="/pngs/" + self.image,
             description=self.description,
             criteria=self.criteria,
             issuer=self.issuer.__json__(),

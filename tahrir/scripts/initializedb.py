@@ -39,6 +39,9 @@ def main(argv=sys.argv):
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
     DeclarativeBase.metadata.create_all(engine)
+
+    return  # Skip all the following... just leaving it for posterity
+
     with transaction.manager:
         issuer = Issuer(
             name="Ralph Bean",

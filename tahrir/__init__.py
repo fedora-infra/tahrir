@@ -19,6 +19,7 @@ def main(global_config, **settings):
         'tahrir.pngs.uri',
         'tahrir.admin',
         'tahrir.title',
+        'tahrir.base_url',
     ]
 
     # validate the config

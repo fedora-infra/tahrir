@@ -55,6 +55,7 @@ def admin(request):
     return dict(
         logged_in=logged_in,
         awarded_assertions=awarded_assertions,
+        base_url=request.registry.settings['tahrir.base_url'],
         title=request.registry.settings['tahrir.title'],
         issuer_form = widgets.IssuerForm,
         badge_form = widgets.BadgeForm,
@@ -71,6 +72,7 @@ def index(request):
     return dict(
         issuers=m.Issuer.query.all(),
         awarded_assertions=awarded_assertions,
+        base_url=request.registry.settings['tahrir.base_url'],
         logged_in=logged_in,
         title=request.registry.settings['tahrir.title'],
     )
