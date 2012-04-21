@@ -48,7 +48,7 @@ def admin(request):
                 data = w.validate(request.params)
                 w.validated_request(request, data,
                                     protect_prm_tamp=False)
-                return HTTPFound(location='/')
+                return HTTPFound(location='/admin')
             except twc.ValidationError as e:
                 print e.widget
 
