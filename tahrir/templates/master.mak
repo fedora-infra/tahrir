@@ -13,8 +13,9 @@
       <script type="text/javascript">
         function claim_badges() {
           var callback = function(errors, successes) {
-            console.log(errors);
-            console.log(successes);
+            // Do nothing.
+            //console.log(errors);
+            //console.log(successes);
           };
           var urls = [
           % for a in awarded_assertions:
