@@ -6,7 +6,6 @@ import tw2.forms as twf
 
 import hashlib
 import os
-import time
 
 import logging
 log = logging.getLogger(__name__)
