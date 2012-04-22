@@ -53,6 +53,7 @@ def admin(request):
                 print e.widget
 
     return dict(
+        is_admin=True,
         logged_in=logged_in,
         awarded_assertions=awarded_assertions,
         base_url=request.registry.settings['tahrir.base_url'],
@@ -67,9 +68,11 @@ def admin(request):
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
     logged_in = authenticated_userid(request)
+    is_admin = logged_in == request.registry.settings['tahrir.admin']
     is_awarded = lambda a: logged_in and a.person.email == logged_in
     awarded_assertions = filter(is_awarded, m.Assertion.query.all())
     return dict(
+        is_admin=is_admin,
         issuers=m.Issuer.query.all(),
         awarded_assertions=awarded_assertions,
         base_url=request.registry.settings['tahrir.base_url'],

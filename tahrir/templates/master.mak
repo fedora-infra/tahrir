@@ -42,11 +42,14 @@
 
     <div class="subheader">
       % if logged_in:
-        Logged in as <span class="strong">${logged_in}</span>
-        <a href="/logout">Logout</a><br/><br/>
+        Logged in as <span class="strong">${logged_in}</span> --
+        <a href="/logout">Logout</a>.<br/><br/>
         You have ${str(len(awarded_assertions))} badges from this site.
         % if awarded_assertions:
           <a href="javascript:claim_badges();">Claim them.</a>
+        % endif
+        % if is_admin:
+          <br/><br/><a href="/admin">Admin.</a>
         % endif
       % else:
         <a href="/login">Login</a> to claim your badges.
