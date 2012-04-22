@@ -50,6 +50,12 @@ Running
 
     $ pserve tahrir.ini
 
+Reporting Bugs
+--------------
+
+If you find bugs in Tahrir or have ideas for enhancements, please report them at
+http://github.com/ralphbean/tahrir/issues.
+
 Hacking
 -------
 
