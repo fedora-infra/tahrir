@@ -50,9 +50,16 @@ def main(global_config, **settings):
     config.set_authorization_policy(authz_policy)
 
     config.add_static_view(
-        'static', 'static', cache_max_age=3600)
+        'static',
+        settings.get('tahrir.static.uri', 'static'),
+        cache_max_age=3600,
+    )
     config.add_static_view(
-        'pngs', settings['tahrir.pngs.uri'], cache_max_age=3600)
+        'pngs',
+        settings['tahrir.pngs.uri'],
+        cache_max_age=3600,
+    )
+
     config.add_route('home', '/')
     config.add_route('admin', '/admin')
     config.add_route('login', '/login')
