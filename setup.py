@@ -17,7 +17,7 @@ requires = [
     ]
 
 setup(name='tahrir',
-      version='0.1.1',
+      version='0.1.2',
       description='A pyramid app for issuing your own Open Badges',
       long_description=README,
       classifiers=[
