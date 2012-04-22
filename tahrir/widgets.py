@@ -57,7 +57,11 @@ class BadgeForm(tws.DbFormPage):
         id = twf.HiddenField()
         name = twf.TextField(validator=twc.Required)
         image = SavingFileField
-        description = twf.TextField(validator=twc.Required)
+        description = twf.TextArea(
+            rows=5,
+            cols=25,
+            validator=twc.Required,
+        )
         criteria = twf.TextField(validator=twc.Required)
         issuer = tws.DbRadioButtonList(entity=m.Issuer)
 
