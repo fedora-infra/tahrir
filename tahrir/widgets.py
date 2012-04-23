@@ -60,7 +60,7 @@ class BadgeForm(tws.DbFormPage):
         description = twf.TextArea(
             rows=5,
             cols=25,
-            validator=twc.Required,
+            validator=twc.LengthValidator(max=128, min=1),
         )
         criteria = twf.TextField(validator=twc.Required)
         issuer = tws.DbRadioButtonList(entity=m.Issuer)
