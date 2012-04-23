@@ -28,7 +28,7 @@ values under the ``[server:main]`` section:
  - ``host``
  - ``port``
 
-And the following values undre the ``[app:pyramid]`` section:
+And the following values under the ``[app:pyramid]`` section:
 
   - ``tahrir.salt``
   - ``tahrir.admin``
