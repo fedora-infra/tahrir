@@ -1,4 +1,8 @@
 import hashlib
+import pygments.lexers
+import pygments.formatters
+import simplejson
+
 from sqlalchemy import (
     Column,
     Integer,
@@ -130,3 +134,16 @@ class Assertion(DeclarativeBase):
             result['issued_on'] = self.issued_on.strftime("%Y-%m-%d")
 
         return result
+
+    def __getitem__(self, key):
+        if key != "pygments":
+            raise KeyError
+
+        html_args = {'full': True}
+        pretty_encoder = simplejson.encoder.JSONEncoder(indent=2)
+        html = pygments.highlight(
+            pretty_encoder.encode(self.__json__()),
+            pygments.lexers.JavascriptLexer(),
+            pygments.formatters.HtmlFormatter(**html_args)
+        ).strip()
+        return html

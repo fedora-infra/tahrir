@@ -9,8 +9,8 @@ from pyramid.view import (
     forbidden_view_config,
 )
 
+from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound
-
 from pyramid.security import (
     authenticated_userid,
     remember,
@@ -79,6 +79,10 @@ def index(request):
         title=request.registry.settings['tahrir.title'],
     )
 
+
+@view_config(context=unicode)
+def html(context, request):
+    return Response(context)
 
 @view_config(context=m.Assertion, renderer='json')
 def json(context, request):

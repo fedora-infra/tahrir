@@ -23,7 +23,8 @@
                             <img class="gravatar"
                             src="${a.person.gravatar_link}"></img>
                           </div>
-                          <a href="/assertions/${badge.id}/${a.recipient}">
+                          <a
+                            href="/assertions/${badge.id}/${a.recipient}/pygments">
                             ${a.recipient[:6]}
                           </a>
                           </li>
