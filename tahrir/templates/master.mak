@@ -1,11 +1,13 @@
 <html>
   <head>
     <link rel="stylesheet" href="/static/css/tahrir.css" />
+    <link rel="stylesheet" href="/static/css/monokai.css" />
+    <script
+      type="text/javascript"
+      src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="/static/js/popup.js"></script>
     % if logged_in and awarded_assertions:
-      <script
-        type="text/javascript"
-        src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
-      </script>
       <script
         type="text/javascript"
         src="http://beta.openbadges.org/issuer.js">
@@ -55,6 +57,8 @@
         <a href="/login">Login</a> to claim your badges.
       % endif
     </div>
+    <div class="clear"></div>
+    <div class="popup"></div>
     <div class="clear"></div>
     ${self.body()}
     <div class="clear"></div>

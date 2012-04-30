@@ -153,7 +153,7 @@ class Assertion(DeclarativeBase):
         return lambda: DBSession.delete(self)
 
     def __pygments__(self):
-        html_args = {'full': True}
+        html_args = {'full': False}
         pretty_encoder = simplejson.encoder.JSONEncoder(indent=2)
         html = pygments.highlight(
             pretty_encoder.encode(self.__json__()),
