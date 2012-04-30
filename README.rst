@@ -25,16 +25,16 @@ Get a sample configuration file::
 And edit it to your liking.  In particular you will need to change the following
 values under the ``[server:main]`` section:
 
- - ``host``
- - ``port``
+ - ``host`` = yoursite.com
+ - ``port`` = 80
 
 And the following values under the ``[app:pyramid]`` section:
 
-  - ``tahrir.salt``
-  - ``tahrir.admin``
-  - ``tahrir.title``
-  - ``tahrir.pngs.uri``
-  - ``tahrir.base_url``
+  - ``tahrir.salt`` = "whatever you want"
+  - ``tahrir.admin`` = "some super secret string used to login as admin"
+  - ``tahrir.title`` = "just badgin' around"
+  - ``tahrir.pngs.uri`` = /home/user/badges/pngs
+  - ``tahrir.base_url`` = "yoursite.com"
 
 Setting up the DB
 -----------------
