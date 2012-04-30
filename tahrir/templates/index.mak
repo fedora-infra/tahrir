@@ -18,13 +18,12 @@
                     <td>
                       <ul>
                         % for a in badge.assertions:
-                          <li>
+                          <li class="popup">
                           <div class="gravatar">
                             <img class="gravatar"
                             src="${a.person.gravatar_link}"></img>
                           </div>
                           <a
-                            class="popup"
                             href="/assertions/${badge.id}/${a.recipient}/pygments">
                             ${a.recipient[:6]}
                           </a>

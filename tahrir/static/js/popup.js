@@ -1,18 +1,30 @@
+var on_a_link = false;
+var speed = 50;
 $(document).ready(function() {
     $("div.popup").hide();
-    $("a.popup").hover(
+    $("li.popup").hover(
         // mouse-over
         function(event) {
-            $.ajax(event.currentTarget.href, {
+            $.ajax(event.currentTarget.children[1].href, {
                 success: function(html) {
-                    $("div.popup").show(200);
+                    on_a_link = true;
+                    $("div.popup").show(speed);
+                    $("div.popup").animate({
+                        top: event.pageY-100,
+                        left: 0,
+                    }, speed);
                     $("div.popup").html(html);
                 },
             });
         },
         // mouse-out
         function(event) {
-            $("div.popup").hide(200);
+            on_a_link = false;
+            setTimeout(function(){
+                if (! on_a_link) {
+                    $("div.popup").hide(speed);
+                }
+            }, 500);
         }
     );
 });
