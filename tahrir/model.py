@@ -77,6 +77,15 @@ class Person(DeclarativeBase):
     email = Column(Unicode(128), nullable=False, unique=True)
     assertions = relationship("Assertion", backref="person")
 
+    @property
+    def gravatar_link(self):
+        d='mm'
+        s=24
+        hash = hashlib.md5(self.email).hexdigest()
+        url = "http://www.gravatar.com/avatar/%s?s=%i&d=%s" % (hash, s, d)
+        return url
+
+
     def __unicode__(self):
         return self.email
 

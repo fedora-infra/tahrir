@@ -13,11 +13,16 @@
                 % for badge in issuer.badges:
                   <tr>
                     <td>${badge.name}</td>
-                    <td><img class="badge" src="/pngs/${badge.image}"></img>
+                    <td><img class="badge"
+                      src="/pngs/${badge.image}"></img></td>
                     <td>
                       <ul>
                         % for a in badge.assertions:
                           <li>
+                          <div class="gravatar">
+                            <img class="gravatar"
+                            src="${a.person.gravatar_link}"></img>
+                          </div>
                           <a href="/assertions/${badge.id}/${a.recipient}">
                             ${a.recipient[:6]}
                           </a>
