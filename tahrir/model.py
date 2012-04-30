@@ -106,9 +106,16 @@ def salt_default(context):
     return "beefy"
 
 
+def assertion_id_default(context):
+    person_id = context.current_parameters['person_id']
+    badge_id = context.current_parameters['badge_id']
+    return "%r -> %r" % (badge_id, person_id)
+
+
 class Assertion(DeclarativeBase):
     __tablename__ = 'assertions'
-    id = Column(Integer, primary_key=True)
+    id = Column(Unicode(128), primary_key=True, unique=True,
+                default=assertion_id_default)
     badge_id = Column(Unicode, ForeignKey('badges.id'), nullable=False)
     person_id = Column(Integer, ForeignKey('persons.id'), nullable=False)
     salt = Column(Unicode(128), nullable=False, default=salt_default)
