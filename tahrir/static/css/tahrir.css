@@ -57,6 +57,10 @@ td {
     padding: 5px;
 }
 
+li {
+    width: 150px;
+}
+
 div.gravatar {
         display: inline-block;
         width: 24px;
