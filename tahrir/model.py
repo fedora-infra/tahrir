@@ -142,10 +142,17 @@ class Assertion(DeclarativeBase):
 
         return result
 
+    # TODO -- make a "traversable" mixin that adds REST-like methods
     def __getitem__(self, key):
-        if key != "pygments":
+        if key not in ("pygments", "delete"):
             raise KeyError
 
+        return getattr(self, "__%s__" % key)()
+
+    def __delete__(self):
+        return lambda: DBSession.delete(self)
+
+    def __pygments__(self):
         html_args = {'full': True}
         pretty_encoder = simplejson.encoder.JSONEncoder(indent=2)
         html = pygments.highlight(

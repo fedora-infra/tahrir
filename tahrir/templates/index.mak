@@ -27,6 +27,13 @@
                             href="/assertions/${badge.id}/${a.recipient}/pygments">
                             ${a.recipient[:6]}
                           </a>
+                          % if is_admin:
+                            -
+                            <a
+                              href="/assertions/${badge.id}/${a.recipient}/delete">
+                              (Delete)
+                            </a>
+                          % endif
                           </li>
                         % endfor
                       </ul>

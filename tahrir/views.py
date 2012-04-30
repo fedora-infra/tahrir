@@ -1,5 +1,6 @@
 
 import transaction
+import types
 
 import tw2.core as twc
 
@@ -80,9 +81,23 @@ def index(request):
     )
 
 
+@view_config(context=types.FunctionType)
+def action(context, request):
+    logged_in = authenticated_userid(request)
+
+    if logged_in != request.registry.settings['tahrir.admin']:
+        return HTTPFound(location='/')
+
+    # Do the action
+    context()
+
+    return HTTPFound(location='/')
+
+
 @view_config(context=unicode)
 def html(context, request):
     return Response(context)
+
 
 @view_config(context=m.Assertion, renderer='json')
 def json(context, request):
