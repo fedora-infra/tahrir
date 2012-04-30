@@ -13,6 +13,7 @@ log = logging.getLogger(__name__)
 
 class IssuerForm(tws.DbFormPage):
     entity = m.Issuer
+
     class child(twf.TableForm):
         id = twf.HiddenField()
         origin = twf.TextField(validator=twc.Required)
@@ -53,6 +54,7 @@ class SavingFileField(twf.FileField):
 
 class BadgeForm(tws.DbFormPage):
     entity = m.Badge
+
     class child(twf.TableForm):
         id = twf.HiddenField()
         name = twf.TextField(validator=twc.Required)
@@ -68,6 +70,7 @@ class BadgeForm(tws.DbFormPage):
 
 class AssertionForm(tws.DbFormPage):
     entity = m.Assertion
+
     class child(twf.TableForm):
         id = twf.HiddenField()
         badge = tws.DbRadioButtonList(entity=m.Badge)
@@ -76,6 +79,7 @@ class AssertionForm(tws.DbFormPage):
 
 class PersonForm(tws.DbFormPage):
     entity = m.Person
+
     class child(twf.TableForm):
         id = twf.HiddenField()
         email = twf.TextField(validator=twc.Required)

@@ -10,6 +10,7 @@ from .app import get_root
 from .model import DBSession
 from .widgets import SavingFileField
 
+
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
@@ -68,4 +69,3 @@ def main(global_config, **settings):
     config.scan()
 
     return config.make_wsgi_app()
-

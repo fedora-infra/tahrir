@@ -43,6 +43,7 @@ class Issuer(DeclarativeBase):
             contact=self.contact,
         )
 
+
 def badge_id_default(context):
     return context.current_parameters['name'].lower().replace(' ', '-')
 
@@ -79,15 +80,14 @@ class Person(DeclarativeBase):
 
     @property
     def gravatar_link(self):
-        d='mm'
-        s=24
+        d, s = 'mm', 24
         hash = hashlib.md5(self.email).hexdigest()
         url = "http://www.gravatar.com/avatar/%s?s=%i&d=%s" % (hash, s, d)
         return url
 
-
     def __unicode__(self):
         return self.email
+
 
 def recipient_default(context):
     person_id = context.current_parameters['person_id']
@@ -96,9 +96,11 @@ def recipient_default(context):
         person.email + context.current_parameters['salt']
     ).hexdigest()
 
+
 def salt_default(context):
     # TODO -- some how we need to get this value from the config.  :)
     return "beefy"
+
 
 class Assertion(DeclarativeBase):
     __tablename__ = 'assertions'

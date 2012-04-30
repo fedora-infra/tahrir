@@ -3,6 +3,7 @@ from pyramid.security import Everyone
 
 import model as m
 
+
 class AssertionApp(object):
     def __init__(self, badge):
         self.badge = badge
@@ -12,6 +13,7 @@ class AssertionApp(object):
             recipient=key,
             badge=self.badge,
         ).one()
+
 
 class RootApp(object):
     __name__ = None
@@ -23,6 +25,7 @@ class RootApp(object):
 
         badge = m.Badge.query.filter_by(id=key).one()
         return AssertionApp(badge=badge)
+
 
 def get_root(request):
     return RootApp()
