@@ -23,7 +23,7 @@ class IssuerForm(tws.DbFormPage):
 
 
 class SavingFileField(twf.FileField):
-    validator = twf.FileValidator(extesion='.png')
+    validator = twf.FileValidator(extesion='.png', required=True)
 
     png_dir = None
 
@@ -47,7 +47,6 @@ class SavingFileField(twf.FileField):
             self.value = filename
             return self.value
         except twc.ValidationError:
-            sys.exit(1)
             self.value = None
             raise
 
