@@ -68,6 +68,8 @@ class Badge(DeclarativeBase):
     def __json__(self):
         if not self.image.startswith("http"):
             image = "/pngs/" + self.image
+        else:
+            image = self.image
         return dict(
             version="0.5.0",
             name=self.name,

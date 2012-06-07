@@ -14,7 +14,10 @@
                   <tr>
                     <td>${badge.name}</td>
                     <td><img class="badge"
-                      src="/pngs/${badge.image}"></img></td>
+                      % if badge.image.startswith("http"):
+                        src="${badge.image}"></img></td>
+                      % else:
+                        src="/pngs/${badge.image}"></img></td>
                     <td>
                       <ul>
                         % for a in badge.assertions:
