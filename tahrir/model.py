@@ -54,7 +54,7 @@ def badge_id_default(context):
 
 class Badge(DeclarativeBase):
     __tablename__ = 'badges'
-    id = Column(Unicode, primary_key=True, default=badge_id_default)
+    id = Column(Unicode(128), primary_key=True, default=badge_id_default)
     name = Column(Unicode(128), nullable=False, unique=True)
     image = Column(Unicode(128), nullable=False)
     description = Column(Unicode(128), nullable=False)
@@ -120,7 +120,7 @@ class Assertion(DeclarativeBase):
     __tablename__ = 'assertions'
     id = Column(Unicode(128), primary_key=True, unique=True,
                 default=assertion_id_default)
-    badge_id = Column(Unicode, ForeignKey('badges.id'), nullable=False)
+    badge_id = Column(Unicode(128), ForeignKey('badges.id'), nullable=False)
     person_id = Column(Integer, ForeignKey('persons.id'), nullable=False)
     salt = Column(Unicode(128), nullable=False, default=salt_default)
     issued_on = Column(DateTime)
