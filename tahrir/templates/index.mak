@@ -18,6 +18,7 @@
                         src="${badge.image}"></img></td>
                       % else:
                         src="/pngs/${badge.image}"></img></td>
+                      % endif
                     <td>
                       <ul>
                         % for a in badge.assertions:
