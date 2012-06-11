@@ -12,7 +12,7 @@ from pyramid.paster import (
     setup_logging,
 )
 
-from ..model import (
+from tahrir_api.query_model import (
     DBSession,
     Issuer,
     Badge,

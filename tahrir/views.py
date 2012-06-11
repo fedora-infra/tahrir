@@ -18,7 +18,7 @@ from pyramid.security import (
     forget,
 )
 
-import model as m
+import tahrir_api.query_model as m
 import widgets
 
 
