@@ -7,6 +7,8 @@ README = open(os.path.join(here, 'README.rst')).read()
 
 requires = [
     'pyramid',
+    'tahrir_api',
+    'mysql-python',
     'SQLAlchemy',
     'transaction',
     'pyramid_tm',
@@ -17,7 +19,7 @@ requires = [
     ]
 
 setup(name='tahrir',
-      version='0.1.4',
+      version='0.1.5',
       description='A pyramid app for issuing your own Open Badges',
       long_description=README,
       license="AGPLv3+",
