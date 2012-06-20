@@ -41,8 +41,6 @@ setup(name='tahrir',
       entry_points="""\
       [paste.app_factory]
       main = tahrir:main
-      [console_scripts]
-      initialize_tahrir_db = tahrir.scripts.initializedb:main
       """,
       )
 
