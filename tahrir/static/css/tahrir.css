@@ -57,6 +57,7 @@ table {
 
 td {
     padding: 5px;
+    word-wrap: break-word;
 }
 
 .issuer-table {
