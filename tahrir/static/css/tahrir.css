@@ -69,6 +69,11 @@ td {
     visibility: collapse;
 }
 
+.top-aligned-cell {
+    vertical-align: text-top;
+    padding-top: 25px;
+}
+
 .badge-name {
     width: 50%;
 }

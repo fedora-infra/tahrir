@@ -6,7 +6,7 @@
         <tr><th>Issuer</th><th></th></tr>
         % for issuer in issuers:
           <tr>
-			<td>${issuer.name}</td>
+			<td class="top-aligned-cell">${issuer.name}</td>
             <td>
               <table class="issuer-table">
                 <!-- This row tells the browser how wide each table column
