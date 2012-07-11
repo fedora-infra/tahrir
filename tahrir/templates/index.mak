@@ -2,17 +2,22 @@
 <div class="page">
   <div class="center pane">
     <div class="content">
-      <table>
+      <table style="table-layout: fixed; width: 100%">
+		<!-- This row tells the browser how wide each table column
+			 should be. I tried things like setting different
+			 visibility, display, and height on it so that the blank
+			 row does not render in-page, but none of them worked. -->
+		<tr>
+			<td style="width: 30%"></td>
+			<td style="width: 70%"></td>
+		</tr>
         <tr><th>Issuer</th><th></th></tr>
         % for issuer in issuers:
           <tr>
-			<td class="top-aligned-cell">${issuer.name}</td>
+			<td class="issuer-cell">${issuer.name}</td>
             <td>
               <table class="issuer-table">
-                <!-- This row tells the browser how wide each table column
-					 should be. I tried things like setting different
-					 visibility, display, and height on it so that the blank
-					 row does not render in-page, but none of them worked. -->
+				<!-- See previous comment regarding the following row. -->
 				<tr>
 					<td class="badge-name collapsed-row"></td>
 					<td class="badge-image collapsed-row"></td>

@@ -69,7 +69,7 @@ td {
     visibility: collapse;
 }
 
-.top-aligned-cell {
+.issuer-cell {
     vertical-align: text-top;
     padding-top: 25px;
 }
