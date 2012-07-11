@@ -6,20 +6,32 @@
         <tr><th>Issuer</th><th></th></tr>
         % for issuer in issuers:
           <tr>
-            <td>${issuer.name}</td>
+			<td>${issuer.name}</td>
             <td>
-              <table>
-                <tr><th colspan="2">Badge</th><th>Awarded</th></tr>
+              <table class="issuer-table">
+                <!-- This row tells the browser how wide each table column
+					 should be. I tried things like setting different
+					 visibility, display, and height on it so that the blank
+					 row does not render in-page, but none of them worked. -->
+				<tr>
+					<td class="badge-name collapsed-row"></td>
+					<td class="badge-image collapsed-row"></td>
+					<td class="badge-assertions collapsed-row"></td>
+				</tr>
+				<tr>
+					<th colspan="2">Badge</th>
+					<th>Awarded</th>
+				</tr>
                 % for badge in issuer.badges:
                   <tr>
-                    <td>${badge.name}</td>
-                    <td><img class="badge"
+                    <td class="badge-name">${badge.name}</td>
+                    <td class="badge-image"><img class="badge"
                       % if badge.image.startswith("http"):
                         src="${badge.image}"/></td>
                       % else:
                         src="/pngs/${badge.image}"/></td>
                       % endif
-                    <td>
+                    <td class="badge-assertions">
                       <ul>
                         % for a in badge.assertions:
                           <li class="popup">

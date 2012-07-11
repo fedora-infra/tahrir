@@ -52,10 +52,43 @@ body {
 table {
     margin-right: auto;
     margin-left: auto;
+    padding: 5px;
 }
 
 td {
     padding: 5px;
+}
+
+.issuer-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.collapsed-row {
+    visibility: collapse;
+}
+
+.badge-name {
+    width: 50%;
+}
+
+.badge-image {
+    width: 15%;
+    text-align: center;
+}
+
+.badge-assertions {
+    width: 35%;
+}
+
+.badge-assertions ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.badge-assertions li {
+    padding-left: 15px;
 }
 
 li {
