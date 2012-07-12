@@ -97,8 +97,8 @@ td {
     padding-left: 15px;
 }
 
-li {
-    width: 200px;
+li.popup {
+    width: 150px;
 }
 
 div.popup {
