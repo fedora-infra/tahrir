@@ -18,7 +18,7 @@ from pyramid.security import (
     forget,
 )
 
-import model as m
+import tahrir_api.model as m
 import widgets
 
 
@@ -117,7 +117,7 @@ def login(request):
     if 'form.submitted' in request.params:
         email = request.params['email']
         if m.Person.query.filter_by(email=email).count() == 0:
-            new_user = m.Person(email=email)
+            new_user = m.Person(id=hash(email), email=email)
             m.DBSession.add(new_user)
 
         # NOTE -- there is no way to fail login here :D

@@ -7,6 +7,7 @@ README = open(os.path.join(here, 'README.rst')).read()
 
 requires = [
     'pyramid',
+    'tahrir_api >= 0.1.4.0',
     'SQLAlchemy',
     'transaction',
     'pyramid_tm',
@@ -14,10 +15,14 @@ requires = [
     "weberror",
     "tw2.sqla",
     "formencode",  # For file uploads
+
+    # Optional -- used for scaling images to 256x256.
+    # You also need "ImageMagick-devel" for this to build from pypi
+    #"magickwand",
     ]
 
 setup(name='tahrir',
-      version='0.1.4',
+      version='0.1.7',
       description='A pyramid app for issuing your own Open Badges',
       long_description=README,
       license="AGPLv3+",
@@ -40,8 +45,6 @@ setup(name='tahrir',
       entry_points="""\
       [paste.app_factory]
       main = tahrir:main
-      [console_scripts]
-      initialize_tahrir_db = tahrir.scripts.initializedb:main
       """,
       )
 

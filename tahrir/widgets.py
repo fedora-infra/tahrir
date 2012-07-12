@@ -1,11 +1,13 @@
 
-import model as m
+import tahrir_api.model as m
 import tw2.core as twc
 import tw2.sqla as tws
 import tw2.forms as twf
 
 import hashlib
 import os
+import shutil
+import tempfile
 
 import logging
 log = logging.getLogger(__name__)
@@ -20,6 +22,27 @@ class IssuerForm(tws.DbFormPage):
         name = twf.TextField(validator=twc.Required)
         org = twf.TextField(validator=twc.Required)
         contact = twf.TextField(validator=twc.Required)
+
+def scale_to_standard_size(filename):
+    try:
+        import magickwand.image as magick
+    except Exception, e:
+        log.warn(str(e))
+        log.warn("Did not scale image to standard size")
+
+    img = magick.Image(filename)
+    w, h = img.size
+    s = min(w, h)
+    wo = int(float(w - s) / 2.0)
+    ho = int(float(h - s) / 2.0)
+
+    img.crop((s, s), (wo, ho))
+    img.thumbnail(256)
+    handle, tempname = tempfile.mkstemp(suffix='.png')
+    img.save(tempname)
+    shutil.move(filename, filename + '.original')
+    shutil.move(tempname, filename)
+
 
 
 class SavingFileField(twf.FileField):
@@ -36,6 +59,8 @@ class SavingFileField(twf.FileField):
 
         with open(filename, 'wb') as f:
             f.write(value)
+
+        scale_to_standard_size(filename)
 
         return True
 

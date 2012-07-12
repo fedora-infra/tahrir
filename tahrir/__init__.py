@@ -7,7 +7,7 @@ from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 
 from .app import get_root
-from .model import DBSession
+from tahrir_api.model import DBSession
 from .widgets import SavingFileField
 
 
