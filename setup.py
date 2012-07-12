@@ -15,6 +15,10 @@ requires = [
     "weberror",
     "tw2.sqla",
     "formencode",  # For file uploads
+
+    # Optional -- used for scaling images to 256x256.
+    # You also need "ImageMagick-devel" for this to build from pypi
+    #"magickwand",
     ]
 
 setup(name='tahrir',
