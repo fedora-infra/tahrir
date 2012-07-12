@@ -1,5 +1,5 @@
 
-import tahrir_api.query_model as m
+import tahrir_api.model as m
 import tw2.core as twc
 import tw2.sqla as tws
 import tw2.forms as twf
