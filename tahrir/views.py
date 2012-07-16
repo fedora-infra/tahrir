@@ -114,6 +114,7 @@ def login(request):
     came_from = request.params.get('came_from', referrer)
     request.session['came_from'] = came_from
     return dict(
+        openid_url=request.registry.settings['openid.provider'],
         title=request.registry.settings['tahrir.title'],
         url=request.application_url + '/dologin.html',
         came_from=came_from,
