@@ -65,6 +65,8 @@ def main(global_config, **settings):
     config.add_route('admin', '/admin')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
+    config.add_route('verify_openid', pattern="/dologin.html",
+            view='pyramid.openid.verify_openid')
 
     config.scan()
 
