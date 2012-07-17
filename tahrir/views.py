@@ -116,7 +116,7 @@ def login(request):
     return dict(
         openid_url=request.registry.settings['openid.provider'],
         title=request.registry.settings['tahrir.title'],
-        url=request.registry.settings['tahrir.base_url'] + '/dologin.html',
+        url="http://" + request.registry.settings['tahrir.base_url'] + '/dologin.html',
         came_from=came_from,
         )
 
