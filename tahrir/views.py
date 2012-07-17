@@ -128,7 +128,7 @@ def logout(request):
                      headers=headers)
 
 def openid_success(context, request, *args, **kwargs):
-    identity = request.params['openid.identiity']
+    identity = request.params['openid.identity']
     if not identity.startswith(request.registry.settings['openid.provider']):
         request.session.flash(
         'Invalid OpenID provider. You can only use{0}'.format(
