@@ -103,6 +103,10 @@ def html(context, request):
 def json(context, request):
     return context.__json__()
 
+@view_config(context='pyramid.httpexceptions.HTTPNotFound', renderer='404.mak')
+def _404(request):
+    return {}
+
 
 @view_config(route_name='login', renderer='login.mak')
 @forbidden_view_config(renderer='login.mak')
