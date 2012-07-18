@@ -112,27 +112,12 @@ def login(request):
     if referrer == login_url:
         referrer = '/'  # never use the login form itself as came_from
     came_from = request.params.get('came_from', referrer)
-    message = ''
-    email = ''
-    if 'form.submitted' in request.params:
-        email = request.params['email']
-        if m.Person.query.filter_by(email=email).count() == 0:
-            new_user = m.Person(id=hash(email), email=email)
-            m.DBSession.add(new_user)
-
-        # NOTE -- there is no way to fail login here :D
-        # TODO -- validate the email address
-        if True:
-            headers = remember(request, email)
-            return HTTPFound(location=came_from, headers=headers)
-        message = 'Failed login'
-
+    request.session['came_from'] = came_from
     return dict(
+        openid_url=request.registry.settings['openid.provider'],
         title=request.registry.settings['tahrir.title'],
-        message=message,
-        url=request.application_url + '/login',
+        url="http://" + request.registry.settings['tahrir.base_url'] + '/dologin.html',
         came_from=came_from,
-        email=email,
         )
 
 
@@ -141,3 +126,22 @@ def logout(request):
     headers = forget(request)
     return HTTPFound(location=request.resource_url(request.context),
                      headers=headers)
+
+def openid_success(context, request, *args, **kwargs):
+    identity = request.params['openid.identity']
+    email = request.params['openid.sreg.email']
+    if not identity.startswith(request.registry.settings['openid.provider']):
+        request.session.flash(
+        'Invalid OpenID provider. You can only use{0}'.format(
+            request.registry.settings['openid.provider']))
+        return HTTPFound(location=request.application_url + '/login')
+    username = identity.split("/")[-1]
+    if m.Person.query.filter_by(email=email).count() == 0:
+        new_user = m.Person(email=email)
+        m.DBSession.add(new_user)
+    headers = remember(request, email)
+    came_from = request.session['came_from']
+    del(request.session['came_from'])
+    response = HTTPFound(location=came_from)
+    response.headerlist.extend(headers)
+    return response
