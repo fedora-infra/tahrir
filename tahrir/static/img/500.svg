@@ -18,7 +18,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   sodipodi:docname="404.svg"
+   sodipodi:docname="500.svg"
    inkscape:export-filename="/home/decause/code/surf-2012/metrics/badges/404.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -3340,7 +3340,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.9899495"
-     inkscape:cx="80.227138"
+     inkscape:cx="-102.61047"
      inkscape:cy="306.92121"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -3362,7 +3362,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -3379,7 +3379,7 @@
        sodipodi:cy="418.07648"
        sodipodi:rx="82.85714"
        sodipodi:ry="82.85714"
-       d="m 365.71429,418.07648 a 82.85714,82.85714 0 1 1 -165.71428,0 82.85714,82.85714 0 1 1 165.71428,0 z"
+       d="m 365.71429,418.07648 c 0,45.76073 -37.09641,82.85714 -82.85714,82.85714 -45.76074,0 -82.85714,-37.09641 -82.85714,-82.85714 0,-45.76074 37.0964,-82.85714 82.85714,-82.85714 45.76073,0 82.85714,37.0964 82.85714,82.85714 z"
        transform="matrix(3.4067907,0,0,3.4067907,-467.83108,-1218.8191)" />
     <path
        inkscape:connector-curvature="0"
@@ -3388,7 +3388,7 @@
        style="fill:#ffffff;fill-rule:evenodd" />
     <text
        xml:space="preserve"
-       style="font-size:165.73576355px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:VDS;-inkscape-font-specification:VDS"
+       style="font-size:165.73576355000000149px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:VDS;-inkscape-font-specification:VDS"
        x="257.55887"
        y="298.70633"
        id="text10346"
@@ -3397,6 +3397,6 @@
          id="tspan10348"
          x="257.55887"
          y="298.70633"
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:PressStart2P;-inkscape-font-specification:PressStart2P">500</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:PressStart2P;-inkscape-font-specification:PressStart2P;fill:#ffffff;fill-opacity:1">500</tspan></text>
   </g>
 </svg>
