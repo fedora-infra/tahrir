@@ -32,9 +32,9 @@
                     <td class="badge-name">${badge.name}</td>
                     <td class="badge-image"><img class="badge"
                       % if badge.image.startswith("http"):
-                        src="${badge.image}"/></td>
+                        src="${badge.image}" alt="${badge.name} icon"/></td>
                       % else:
-                        src="/pngs/${badge.image}"/></td>
+                        src="/pngs/${badge.image}" alt="${badge.name} icon"/></td>
                       % endif
                     <td class="badge-assertions">
                       <ul>
@@ -42,7 +42,7 @@
                           <li class="popup">
                           <div class="gravatar">
                             <img class="gravatar"
-                            src="${a.person.gravatar_link}"/>
+                            src="${a.person.gravatar_link}" alt="Face Icon"/>
                           </div>
                           <a
                             href="/assertions/${badge.id}/${a.recipient}/pygments">
