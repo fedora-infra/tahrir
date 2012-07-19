@@ -26,8 +26,8 @@ import widgets
 @view_config(route_name='admin', renderer='admin.mak')
 def admin(request):
     logged_in = authenticated_userid(request)
-
-    if logged_in != request.registry.settings['tahrir.admin']:
+    admins = [a.strip() for a in request.registry.settings['tahrir.admin'].split(',')]
+    if logged_in not in admins:
         return HTTPFound(location='/')
 
     is_awarded = lambda a: logged_in and a.person.email == logged_in
