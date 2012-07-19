@@ -111,6 +111,15 @@ def _404(request):
             base_url=request.registry.settings['tahrir.base_url'],
             )
 
+@view_config(context='pyramid.httpexceptions.HTTPServerError', renderer='500.mak')
+def _500(request):
+    request.response.status = 500
+    return dict(
+            title=request.registry.settings['tahrir.title'],
+            base_url=request.registry.settings['tahrir.base_url'],
+            )
+
+
 
 @view_config(route_name='login', renderer='login.mak')
 @forbidden_view_config(renderer='login.mak')
