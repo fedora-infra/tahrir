@@ -105,10 +105,10 @@ def json(context, request):
 
 @view_config(context='pyramid.httpexceptions.HTTPNotFound', renderer='404.mak')
 def _404(request):
+    request.response.status = 404
     return dict(
             title=request.registry.settings['tahrir.title'],
             base_url=request.registry.settings['tahrir.base_url'],
-
             )
 
 
