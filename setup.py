@@ -23,7 +23,7 @@ requires = [
     ]
 
 setup(name='tahrir',
-      version='0.1.7',
+      version='0.1.8',
       description='A pyramid app for issuing your own Open Badges',
       long_description=README,
       license="AGPLv3+",
