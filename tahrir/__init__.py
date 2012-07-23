@@ -5,6 +5,7 @@ from sqlalchemy import engine_from_config
 
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.session import UnencryptedCookieSessionFactoryConfig
 
 from .app import get_root
 from tahrir_api.model import DBSession
@@ -44,8 +45,12 @@ def main(global_config, **settings):
         secret='verysecret',
     )
     authz_policy = ACLAuthorizationPolicy()
-
-    config = Configurator(settings=settings, root_factory=get_root)
+    session_factory = UnencryptedCookieSessionFactoryConfig(
+            settings['session.secret'])
+    config = Configurator(
+            settings=settings,
+            root_factory=get_root,
+            session_factory=session_factory)
 
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
@@ -65,6 +70,8 @@ def main(global_config, **settings):
     config.add_route('admin', '/admin')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
+    config.add_route('verify_openid', pattern="/dologin.html",
+            view='pyramid_openid.verify_openid')
 
     config.scan()
 

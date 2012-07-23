@@ -22,9 +22,11 @@ class RootApp(object):
     def __getitem__(self, key):
         if key == 'assertions':
             return self
-
-        badge = m.Badge.query.filter_by(id=key).one()
-        return AssertionApp(badge=badge)
+        try:
+            badge = m.Badge.query.filter_by(id=key).one()
+            return AssertionApp(badge=badge)
+        except:
+            return self
 
 
 def get_root(request):
