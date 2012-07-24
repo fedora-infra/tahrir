@@ -149,7 +149,7 @@ def openid_success(context, request, *args, **kwargs):
     email = request.params['openid.sreg.email']
     if not identity.startswith(request.registry.settings['openid.provider']):
         request.session.flash(
-        'Invalid OpenID provider. You can only use{0}'.format(
+        'Invalid OpenID provider. You can only use {0}.'.format(
             request.registry.settings['openid.provider']))
         return HTTPFound(location=request.application_url + '/login')
     username = identity.split("/")[-1]
