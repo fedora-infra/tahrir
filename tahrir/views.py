@@ -23,13 +23,23 @@ from pyramid.security import (
 import tahrir_api.model as m
 import widgets
 
+# TODO -- this should be in some lib, not "views"
+# TODO -- even better, it should be using pyramid's __acl__ machinery.
+def is_admin(request, user):
+    admins = map(
+        str.strip,
+        request.registry.settings['tahrir.admin'].split(',')
+    )
+    return user in admins
+
+
 
 # TODO -- really wield tw2.sqla here
 @view_config(route_name='admin', renderer='admin.mak')
 def admin(request):
     logged_in = authenticated_userid(request)
-    admins = [a.strip() for a in request.registry.settings['tahrir.admin'].split(',')]
-    if logged_in not in admins:
+
+    if not is_admin(request, logged_in):
         return HTTPFound(location='/')
 
     is_awarded = lambda a: logged_in and a.person.email == logged_in
@@ -70,11 +80,10 @@ def admin(request):
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
     logged_in = authenticated_userid(request)
-    is_admin = logged_in == request.registry.settings['tahrir.admin']
     is_awarded = lambda a: logged_in and a.person.email == logged_in
     awarded_assertions = filter(is_awarded, m.Assertion.query.all())
     return dict(
-        is_admin=is_admin,
+        is_admin=is_admin(request, logged_in),
         issuers=m.Issuer.query.all(),
         awarded_assertions=awarded_assertions,
         base_url=request.registry.settings['tahrir.base_url'],
@@ -87,7 +96,7 @@ def index(request):
 def action(context, request):
     logged_in = authenticated_userid(request)
 
-    if logged_in != request.registry.settings['tahrir.admin']:
+    if not is_admin(request, logged_in):
         return HTTPFound(location='/')
 
     # Do the action
