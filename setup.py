@@ -7,7 +7,6 @@ README = open(os.path.join(here, 'README.rst')).read()
 
 requires = [
     'pyramid',
-    'pyramid_openid',
     'tahrir_api >= 0.1.4.0',
     'SQLAlchemy',
     'transaction',
@@ -16,6 +15,7 @@ requires = [
     "weberror",
     "tw2.sqla",
     "formencode",  # For file uploads
+    'velruse',
 
     # Optional -- used for scaling images to 256x256.
     # You also need "ImageMagick-devel" for this to build from pypi
