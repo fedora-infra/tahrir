@@ -20,6 +20,7 @@ from pyramid.security import (
     forget,
 )
 
+from tahrir.utils import strip_tags
 import tahrir_api.model as m
 import widgets
 
@@ -57,7 +58,8 @@ def admin(request):
             w = name_lookup[key]
 
             try:
-                data = w.validate(request.params)
+                params = strip_tags(request.params)
+                data = w.validate(params)
                 w.validated_request(request, data,
                                     protect_prm_tamp=False)
                 return HTTPFound(location='/admin')
