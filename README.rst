@@ -62,12 +62,35 @@ Hacking
 If you'd like to contribute to tahrir or just poke at the code, you can use the
 following instructions to set up a development environment.
 
+Create an account on Fedora Account Systems (FAS) here: https://admin.fedoraproject.org/accounts
+Make sure you have Python 2.7 or above installed in your system
+Then, install the Python version of virtualenvwrapper (in Ubuntu):
+
+::
+    
+	$ sudo apt-get install python-setuptools
+	$ sudo apt-get install python-virtualenv
+	$ sudo easy-install pip
+	$ sudo pip install python-virtualenvwrapper
+
+In Fedora, you can do the same by:
+
 ::
 
-    $ sudo yum -y install python-virtualenvwrapper
-    $ git clone git://github.com/ralphbean/tahrir.git
-    $ cd tahrir
-    $ mkvirtualenv tahrir
-    (tahrir)$ python setup.py develop
-    (tahrir)$ initialize_tahrir_db development.ini
-    (tahrir)% pserve --reload development.ini
+	$ sudo yum -y install python-virtualenvwrapper
+
+Then follow these steps:
+
+::
+
+	$ git clone git://github.com/ralphbean/tahrir.git
+	$ cd tahrir
+	$ mkvirtualenv tahrir
+	(tahrir)$ python setup.py develop
+	(tahrir)$ initialize_tahrir_db development.ini
+	(tahrir)% pserve --reload development.ini
+
+The pserve command should output "starting HTTP server on https://localhost:6543"
+Login to https://localhost:6543 in your web browser (Firefox) using your FAS account username and password.
+In order to make yourself an admin of the local copy of tahrir, edit the "development.ini" file by changing the value to "YOUR_FAS_USERNAME@fedoraproject.org" and login. You should now be able to see the admin view of tahrir in your local copy at http://localhost:6543/admin.
+
