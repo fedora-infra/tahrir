@@ -1,6 +1,8 @@
 
 import transaction
 import types
+import velruse
+import json as _json
 
 import tw2.core as twc
 
@@ -18,16 +20,27 @@ from pyramid.security import (
     forget,
 )
 
+from tahrir.utils import strip_tags
 import tahrir_api.model as m
 import widgets
+
+# TODO -- this should be in some lib, not "views"
+# TODO -- even better, it should be using pyramid's __acl__ machinery.
+def is_admin(request, user):
+    admins = map(
+        str.strip,
+        request.registry.settings['tahrir.admin'].split(',')
+    )
+    return user in admins
+
 
 
 # TODO -- really wield tw2.sqla here
 @view_config(route_name='admin', renderer='admin.mak')
 def admin(request):
     logged_in = authenticated_userid(request)
-    admins = [a.strip() for a in request.registry.settings['tahrir.admin'].split(',')]
-    if logged_in not in admins:
+
+    if not is_admin(request, logged_in):
         return HTTPFound(location='/')
 
     is_awarded = lambda a: logged_in and a.person.email == logged_in
@@ -45,7 +58,8 @@ def admin(request):
             w = name_lookup[key]
 
             try:
-                data = w.validate(request.params)
+                params = strip_tags(request.params)
+                data = w.validate(params)
                 w.validated_request(request, data,
                                     protect_prm_tamp=False)
                 return HTTPFound(location='/admin')
@@ -68,11 +82,10 @@ def admin(request):
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
     logged_in = authenticated_userid(request)
-    is_admin = logged_in == request.registry.settings['tahrir.admin']
     is_awarded = lambda a: logged_in and a.person.email == logged_in
     awarded_assertions = filter(is_awarded, m.Assertion.query.all())
     return dict(
-        is_admin=is_admin,
+        is_admin=is_admin(request, logged_in),
         issuers=m.Issuer.query.all(),
         awarded_assertions=awarded_assertions,
         base_url=request.registry.settings['tahrir.base_url'],
@@ -85,7 +98,7 @@ def index(request):
 def action(context, request):
     logged_in = authenticated_userid(request)
 
-    if logged_in != request.registry.settings['tahrir.admin']:
+    if not is_admin(request, logged_in):
         return HTTPFound(location='/')
 
     # Do the action
@@ -120,22 +133,40 @@ def _500(request):
             )
 
 
-
 @view_config(route_name='login', renderer='login.mak')
 @forbidden_view_config(renderer='login.mak')
 def login(request):
-    login_url = request.resource_url(request.context, 'login')
-    referrer = request.url
-    if referrer == login_url:
-        referrer = '/'  # never use the login form itself as came_from
-    came_from = request.params.get('came_from', referrer)
-    request.session['came_from'] = came_from
-    return dict(
-        openid_url=request.registry.settings['openid.provider'],
-        title=request.registry.settings['tahrir.title'],
-        url="http://" + request.registry.settings['tahrir.base_url'] + '/dologin.html',
-        came_from=came_from,
-        )
+    url = "/"
+    fas_url = "https://admin.fedoraproject.org/accounts/openid/id/"
+    username = request.params.get('fas_username')
+    if username:
+        identifier = "openid_identifier=" + fas_url + username
+        url = velruse.login_url(request, 'openid') + "?" + identifier
+
+    return HTTPFound(location=url)
+
+
+@view_config(context='velruse.AuthenticationComplete')
+def login_complete_view(request):
+    context = request.context
+    username = context.profile['accounts'][0]['username'].split('/')[-1]
+    email = username + "@fedoraproject.org"  # You don't have a choice.. :/
+
+    if m.Person.query.filter_by(email=email).count() == 0:
+        new_user = m.Person(email=email)
+        m.DBSession.add(new_user)
+
+    headers = remember(request, email)
+    # TODO -- don't hardcode the '/'
+    response = HTTPFound(location="/")
+    response.headerlist.extend(headers)
+    return response
+
+
+@view_config(context='velruse.AuthenticationDenied', renderer='json')
+def login_denied_view(request):
+    # TODO -- this can be made fancier, yes?
+    return {'result': 'denied'}
 
 
 @view_config(route_name='logout')
@@ -143,22 +174,3 @@ def logout(request):
     headers = forget(request)
     return HTTPFound(location=request.resource_url(request.context),
                      headers=headers)
-
-def openid_success(context, request, *args, **kwargs):
-    identity = request.params['openid.identity']
-    email = request.params['openid.sreg.email']
-    if not identity.startswith(request.registry.settings['openid.provider']):
-        request.session.flash(
-        'Invalid OpenID provider. You can only use{0}'.format(
-            request.registry.settings['openid.provider']))
-        return HTTPFound(location=request.application_url + '/login')
-    username = identity.split("/")[-1]
-    if m.Person.query.filter_by(email=email).count() == 0:
-        new_user = m.Person(email=email)
-        m.DBSession.add(new_user)
-    headers = remember(request, email)
-    came_from = request.session['came_from']
-    del(request.session['came_from'])
-    response = HTTPFound(location=came_from)
-    response.headerlist.extend(headers)
-    return response

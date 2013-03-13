@@ -56,7 +56,10 @@
           <br/><br/><a href="/admin">Admin.</a>
         % endif
       % else:
-        <a href="/login">Login</a> to claim your badges.
+        <form action="login" method="post">
+          <input type="text" name="fas_username" placeholder="FAS Username"/>
+          <input type="submit" value="Login with FAS" />
+        </form>
       % endif
     </div>
     <div class="clear"></div>
