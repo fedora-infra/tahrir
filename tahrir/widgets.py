@@ -46,7 +46,7 @@ def scale_to_standard_size(filename):
 
 
 class SavingFileField(twf.FileField):
-    validator = twf.FileValidator(extesion='.png', required=True)
+    validator = twf.FileValidator(extension='.png', required=True)
 
     png_dir = None
 
