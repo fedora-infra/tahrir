@@ -23,10 +23,10 @@ requires = [
     ]
 
 setup(name='tahrir',
-      version='0.1.8',
+      version='0.1.9',
       description='A pyramid app for issuing your own Open Badges',
       long_description=README,
-      license="AGPLv3+",
+      license="AGPLv3+ with additional permission",
       classifiers=[
         "Programming Language :: Python",
         "Framework :: Pyramid",

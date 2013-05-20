@@ -136,21 +136,18 @@ def _500(request):
 @view_config(route_name='login', renderer='login.mak')
 @forbidden_view_config(renderer='login.mak')
 def login(request):
-    url = "/"
-    fas_url = "https://admin.fedoraproject.org/accounts/openid/id/"
-    username = request.params.get('fas_username')
-    if username:
-        identifier = "openid_identifier=" + fas_url + username
-        url = velruse.login_url(request, 'openid') + "?" + identifier
-
+    identifier = "openid_identifier=https://id.fedoraproject.org"
+    url = velruse.login_url(request, 'openid') + "?" + identifier
     return HTTPFound(location=url)
 
 
 @view_config(context='velruse.AuthenticationComplete')
 def login_complete_view(request):
     context = request.context
-    username = context.profile['accounts'][0]['username'].split('/')[-1]
-    email = username + "@fedoraproject.org"  # You don't have a choice.. :/
+    if context.profile['emails']:
+        email = context.profile['emails'][0]
+    else:
+        email = context.profile['preferredUsername'] + "@fedoraproject.org"
 
     if m.Person.query.filter_by(email=email).count() == 0:
         new_user = m.Person(email=email)
