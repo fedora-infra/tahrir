@@ -57,7 +57,6 @@
         % endif
       % else:
         <form action="login" method="post">
-          <input type="text" name="fas_username" placeholder="FAS Username"/>
           <input type="submit" value="Login with FAS" />
         </form>
       % endif
