@@ -136,11 +136,8 @@ def _500(request):
 @view_config(route_name='login', renderer='login.mak')
 @forbidden_view_config(renderer='login.mak')
 def login(request):
-    url = "/"
-    fas_url = "https://admin.fedoraproject.org/accounts/openid/id/"
     identifier = "openid_identifier=https://id.fedoraproject.org"
     url = velruse.login_url(request, 'openid') + "?" + identifier
-
     return HTTPFound(location=url)
 
 
