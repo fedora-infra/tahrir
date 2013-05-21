@@ -14,8 +14,12 @@ requires = [
     'zope.sqlalchemy',
     "weberror",
     "tw2.sqla",
+    "tw2.bootstrap.forms",
     "formencode",  # For file uploads
     'velruse',
+
+    "qrcode",
+    "Pillow",
 
     # Optional -- used for scaling images to 256x256.
     # You also need "ImageMagick-devel" for this to build from pypi

@@ -20,6 +20,11 @@
         </tr>
         <tr>
           <td>
+            ${invitation_form.display() | n}
+          </td>
+        </tr>
+        <tr>
+          <td>
             ${assertion_form.display() | n}
           </td>
         </tr>
