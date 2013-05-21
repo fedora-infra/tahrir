@@ -62,7 +62,6 @@ def admin(request):
             w = name_lookup[key]
 
             try:
-                print request.params
                 params = strip_tags(request.params)
                 data = w.validate(params)
                 w.validated_request(request, data,
