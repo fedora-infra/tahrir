@@ -5,6 +5,7 @@ import velruse
 import json as _json
 import StringIO
 import qrcode as qrcode_module
+from datetime import datetime
 
 import tw2.core as twc
 
@@ -51,6 +52,7 @@ def admin(request):
     name_lookup = {
         'issuerform': widgets.IssuerForm,
         'badgeform': widgets.BadgeForm,
+        'invitationform': widgets.InvitationForm,
         'assertionform': widgets.AssertionForm,
         'personform': widgets.PersonForm,
     }
@@ -60,6 +62,7 @@ def admin(request):
             w = name_lookup[key]
 
             try:
+                print request.params
                 params = strip_tags(request.params)
                 data = w.validate(params)
                 w.validated_request(request, data,
@@ -78,6 +81,7 @@ def admin(request):
         badge_form=widgets.BadgeForm,
         assertion_form=widgets.AssertionForm,
         person_form=widgets.PersonForm,
+        invitation_form=widgets.InvitationForm,
     )
 
 
@@ -109,10 +113,38 @@ def action(context, request):
     return HTTPFound(location='/')
 
 
-@view_config(route_name='qrcode')
-def qrcode(request):
+@view_config(context=m.Invitation, name='claim')
+def invitation_claim(request):
+    """ Action that awards a person a badge after scanning a qrcode. """
+
+    if request.context.expires_on > datetime.now():
+        return HTTPGone("That invitation is expired.")
+
+    logged_in = authenticated_userid(request)
+    person = m.Person.query.filter_by(email=logged_in).one()
+
+    # TODO -- check to see if they already have this badge
+
+    assertion = m.Assertion(
+        badge_id=request.context.badge_id,
+        person_id=person.id,
+        issued_on=datetime.now(),
+    )
+    m.DBSession.add(assertion)
+
+    # TODO -- return them to a page that auto-exports their badges.
+
+    return HTTPFound(location='/')
+
+@view_config(context=m.Invitation, name='qrcode')
+def invitation_qrcode(request):
     """ Returns a raw dummy qrcode through to the user. """
-    img = qrcode_module.make("Some dummy data")
+
+    if request.context.expires_on > datetime.now():
+        return HTTPGone("That invitation is expired.")
+
+    target = request.resource_url(request.context, 'claim')
+    img = qrcode_module.make(target)
     stringstream = StringIO.StringIO()
     img.save(stringstream)
     return Response(

@@ -14,6 +14,7 @@ requires = [
     'zope.sqlalchemy',
     "weberror",
     "tw2.sqla",
+    "tw2.bootstrap.forms",
     "formencode",  # For file uploads
     'velruse',
 

@@ -3,11 +3,16 @@ import tahrir_api.model as m
 import tw2.core as twc
 import tw2.sqla as tws
 import tw2.forms as twf
+import tw2.bootstrap.forms.calendars as twbc
 
 import hashlib
 import os
 import shutil
 import tempfile
+from datetime import (
+    datetime,
+    timedelta,
+)
 
 import logging
 log = logging.getLogger(__name__)
@@ -100,6 +105,18 @@ class AssertionForm(tws.DbFormPage):
         id = twf.HiddenField()
         badge = tws.DbRadioButtonList(entity=m.Badge)
         person = tws.DbRadioButtonList(entity=m.Person)
+
+
+class InvitationForm(tws.DbFormPage):
+    entity = m.Invitation
+
+    class child(twf.TableForm):
+        id = twf.HiddenField()
+        badge = tws.DbRadioButtonList(entity=m.Badge)
+        created_on = twbc.CalendarDateTimePicker(
+            value=datetime.now())
+        expires_on = twbc.CalendarDateTimePicker(
+            value=datetime.now() + timedelta(hours=2))
 
 
 class PersonForm(tws.DbFormPage):
