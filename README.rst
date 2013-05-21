@@ -79,7 +79,17 @@ In Fedora, you can do the same by:
 
 	$ sudo yum -y install python-virtualenvwrapper
 
-Then follow these steps:
+After installing virtualenvwrapper, you'll need to set it up for the
+first time::
+
+    $ export WORKON_HOME=~/.virtualenvs/
+    $ mkdir -p $WORKON_HOME
+    $ source /usr/local/bin/virtualenvwrapper.sh
+
+You'll want to add the ``source /usr/local/bin/virtualenvwrapper.sh`` to
+your bashrc.
+
+Then, to set up Tahrir, follow these steps:
 
 ::
 
