@@ -29,6 +29,7 @@ def scale_to_standard_size(filename):
     except Exception, e:
         log.warn(str(e))
         log.warn("Did not scale image to standard size")
+        return
 
     img = magick.Image(filename)
     w, h = img.size
