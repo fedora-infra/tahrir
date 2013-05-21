@@ -1,5 +1,6 @@
 """ TODO - this should be moved into tw2.sqla """
 
+import cgi
 from HTMLParser import HTMLParser
 
 class MLStripper(HTMLParser):
@@ -23,6 +24,8 @@ def strip_tags(_d):
             d[k] = strip_tags(v)
         elif type(v) == list:
             d[k] = map(strip_tags, v)
+        elif isinstance(v, cgi.FieldStorage):
+            d[k] = v
         else:
             d[k] = _strip_tags(v)
 
