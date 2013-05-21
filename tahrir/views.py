@@ -4,7 +4,7 @@ import types
 import velruse
 import json as _json
 import StringIO
-import qrcode
+import qrcode as qrcode_module
 
 import tw2.core as twc
 
@@ -112,7 +112,7 @@ def action(context, request):
 @view_config(route_name='qrcode')
 def qrcode(request):
     """ Returns a raw dummy qrcode through to the user. """
-    img = qrcode.make("Some dummy data")
+    img = qrcode_module.make("Some dummy data")
     stringstream = StringIO.StringIO()
     img.save(stringstream)
     return Response(
