@@ -3,6 +3,8 @@ import transaction
 import types
 import velruse
 import json as _json
+import StringIO
+import qrcode
 
 import tw2.core as twc
 
@@ -105,6 +107,18 @@ def action(context, request):
     context()
 
     return HTTPFound(location='/')
+
+
+@view_config(route_name='qrcode')
+def qrcode(request):
+    """ Returns a raw dummy qrcode through to the user. """
+    img = qrcode.make("Some dummy data")
+    stringstream = StringIO.StringIO()
+    img.save(stringstream)
+    return Response(
+        body=stringstream.getvalue(),
+        content_type='image/png',
+    )
 
 
 @view_config(context=unicode)
