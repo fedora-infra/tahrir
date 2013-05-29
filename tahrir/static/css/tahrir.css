@@ -30,11 +30,6 @@ a, a:visited, a:active, a:link {
     color: #C1C1C1;
 }
 
-.subheader {
-    text-align: right;
-    font-size: 90%;
-}
-
 .content {
     background-color: #C1C1C1;
     color: #1E1E1E !important;

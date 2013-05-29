@@ -2,8 +2,8 @@
 <div class="page">
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-33">
-		<h2>Your Badges</h2>
-		<p>This column lists the badges earned by the user.</p>
+		<h2>Latest Awards</h2>
+		<p>This column lists the most recent awards to users.</p>
 		% for issuer in issuers:
 		<h3>Issued by ${issuer.name}</h3>
 		<ul class="badge-list">
@@ -41,8 +41,8 @@
 	</div>
 	<!-- COLUMN 2 (Middle)-->
 	<div class="grid-33">
-		<h2>Badge Ticker</h2>
-		<p>This column shows the latest awards.</p>
+		<h2>Fresh Contributors</h2>
+		<p>This column shows the newest badge-earners on the network.</p>
 	</div>
 	<!-- COLUMN 3 (Right)-->
 	<div class="grid-33">

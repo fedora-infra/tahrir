@@ -36,7 +36,7 @@
   </head>
   <body>
   	<div class="grid-container">
-    <div class="header">
+    <div class="header grid-50 suffix-50">
       <div><H1><span id="logo">${title}<span id="sublogo">التحرير</span></span></H1></div>
     </div>
 
@@ -46,11 +46,13 @@
       alt="Fork me on GitHub" />
     </a>
 
-    <div class="subheader">
+	<div class="clear"></div>
+
+	<div class="grid-100">
       % if logged_in:
-        Logged in as <span class="strong">${logged_in}</span> --
-        <a href="/logout">Logout</a>.<br/><br/>
+        Logged in as <span class="strong">${logged_in}</span>.
         You have ${str(len(awarded_assertions))} badges from this site.
+        [<a href="/logout">Logout</a>]
         % if awarded_assertions:
           <a href="javascript:claim_badges();">Claim them.</a>
         % endif
