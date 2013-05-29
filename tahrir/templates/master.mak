@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/css/tahrir.css" />
     <link rel="stylesheet" href="/static/css/monokai.css" />
+	<link rel="stylesheet" href="/static/css/unsemantic-grid-responsive.css" />
     <script
       type="text/javascript"
       src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
@@ -34,8 +35,9 @@
     <title>${title}</title>
   </head>
   <body>
+  	<div class="grid-container">
     <div class="header">
-      <div><H1><span id="logo">${title}</span></H1></div>
+      <div><H1><span id="logo">${title}<span id="sublogo">التحرير</span></span></H1></div>
     </div>
 
     <a href="http://github.com/ralphbean/tahrir">
@@ -66,6 +68,7 @@
     <div class="clear"></div>
     ${self.body()}
     <div class="clear"></div>
+	</div> <!-- End grid-container -->
   </body>
 </html>
 
