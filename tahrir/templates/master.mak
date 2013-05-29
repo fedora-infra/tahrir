@@ -52,13 +52,16 @@
       % if logged_in:
         Logged in as <span class="strong">${logged_in}</span>.
         You have ${str(len(awarded_assertions))} badges from this site.
-        [<a href="/logout">Logout</a>]
         % if awarded_assertions:
           <a href="javascript:claim_badges();">Claim them.</a>
         % endif
-        % if is_admin:
-          <br/><br/><a href="/admin">Admin.</a>
+        [
+		% if is_admin:
+          <a href="/admin">Admin</a> |
         % endif
+		<a href="/logout">Logout</a>
+
+		]
       % else:
         <form action="login" method="post">
           <input type="submit" value="Login with FAS" />
