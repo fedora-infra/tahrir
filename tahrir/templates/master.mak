@@ -64,11 +64,14 @@
       % endif
     </div>
     <div class="clear"></div>
-    <div class="popup"></div>
-    <div class="clear"></div>
     ${self.body()}
     <div class="clear"></div>
 	</div> <!-- End grid-container -->
+	<div id="footer">
+		You can report bugs and file issues with Tahrir on
+		<a href="https://github.com/fedora-infra/tahrir/issues">
+		the GitHub issues tracker</a>.
+	</div>
   </body>
 </html>
 

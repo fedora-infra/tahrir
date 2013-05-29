@@ -58,6 +58,11 @@ td {
     word-wrap: break-word;
 }
 
+#footer {
+    font-size: 10px;
+    text-align: center;
+} 
+
 .issuer-table {
     table-layout: fixed;
     width: 100%;
