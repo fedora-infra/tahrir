@@ -53,9 +53,7 @@ def main(global_config, **settings):
             session_factory=session_factory)
 
     config.include('velruse.providers.openid')
-    config.add_openid_login(
-        realm="http://localhost:6543/"
-    )
+    config.add_openid_login(realm="http://localhost:6543/")
 
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
@@ -74,6 +72,7 @@ def main(global_config, **settings):
     config.add_route('home', '/')
     config.add_route('admin', '/admin')
     config.add_route('qrcode', '/qrcode')
+    config.add_route('badge', '/badge/{id}')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
 

@@ -27,12 +27,13 @@ from tahrir.utils import strip_tags
 import tahrir_api.model as m
 import widgets
 
+
 # TODO -- this should be in some lib, not "views"
 # TODO -- even better, it should be using pyramid's __acl__ machinery.
 def is_admin(request, user):
     admins = map(
         str.strip,
-        request.registry.settings['tahrir.admin'].split(',')
+        request.registry.settings['tahrir.admin'].split(','),
     )
     return user in admins
 
@@ -151,6 +152,20 @@ def invitation_qrcode(request):
         content_type='image/png',
     )
 
+
+@view_config(route_name='badge', renderer='badge.mak')
+def badge(request):
+    """Render badge info page."""
+    badge_id = request.matchdict.get('id')
+    badge_query = m.Badge.query.filter_by(id=badge_id)
+    if badge_query.count() > 0:
+        badge = badge_query[0]
+        return dict(
+                badge=badge,
+                title=request.registry.settings['tahrir.title'] + " | " + badge.name + " badge",
+                )
+    else:
+        return HTTPFound(location=request.route_url('home'))
 
 @view_config(context=unicode)
 def html(context, request):
