@@ -156,6 +156,7 @@ def invitation_qrcode(request):
 @view_config(route_name='badge', renderer='badge.mak')
 def badge(request):
     """Render badge info page."""
+    logged_in = authenticated_userid(request)
     badge_id = request.matchdict.get('id')
     badge_query = m.Badge.query.filter_by(id=badge_id)
     if badge_query.count() > 0:
@@ -163,6 +164,8 @@ def badge(request):
         return dict(
                 badge=badge,
                 title=request.registry.settings['tahrir.title'] + " | " + badge.name + " badge",
+                logged_in=logged_in,
+                is_admin=is_admin(request, logged_in),
                 )
     else:
         return HTTPFound(location=request.route_url('home'))
@@ -170,6 +173,7 @@ def badge(request):
 @view_config(route_name='user', renderer='user.mak')
 def user(request):
     """Render user info page."""
+    logged_in = authenticated_userid(request)
     user_id = request.matchdict.get('id')
     user_query = m.Person.query.filter_by(id=user_id)
     if user_query.count() > 0:
@@ -177,6 +181,8 @@ def user(request):
         return dict(
                 user=user,
                 title=request.registry.settings['tahrir.title'] + " | " + user.email + "'s profile",
+                logged_in=logged_in,
+                is_admin=is_admin(request, logged_in),
                 )
     else:
         return HTTPFound(location=request.route_url('home'))

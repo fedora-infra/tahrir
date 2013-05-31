@@ -36,7 +36,7 @@
   </head>
   <body>
   	<div class="grid-container">
-    <div class="header grid-50 suffix-50">
+    <div class="header grid-100">
       <div><H1><span id="logo">${title}<span id="sublogo">التحرير</span></span></H1></div>
     </div>
 
@@ -79,4 +79,3 @@
 	</div>
   </body>
 </html>
-

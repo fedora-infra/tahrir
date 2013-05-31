@@ -13,7 +13,7 @@
 	</div>
 	<!-- COLUMN 2 (Right)-->
 	<div class="grid-34">
-		<p>This users has X badges!</p>
+		<p>This user has X badges!</p>
 		<p>This user joined on a date!</p>
 	</div>
     
