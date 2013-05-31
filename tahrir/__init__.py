@@ -73,6 +73,7 @@ def main(global_config, **settings):
     config.add_route('admin', '/admin')
     config.add_route('qrcode', '/qrcode')
     config.add_route('badge', '/badge/{id}')
+    config.add_route('user', '/user/{id}')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
 

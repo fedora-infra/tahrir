@@ -167,6 +167,21 @@ def badge(request):
     else:
         return HTTPFound(location=request.route_url('home'))
 
+@view_config(route_name='user', renderer='user.mak')
+def user(request):
+    """Render user info page."""
+    user_id = request.matchdict.get('id')
+    user_query = m.Person.query.filter_by(id=user_id)
+    if user_query.count() > 0:
+        user = user_query[0]
+        return dict(
+                user=user,
+                title=request.registry.settings['tahrir.title'] + " | " + user.email + "'s profile",
+                )
+    else:
+        return HTTPFound(location=request.route_url('home'))
+
+
 @view_config(context=unicode)
 def html(context, request):
     return Response(context)
