@@ -96,6 +96,8 @@ def index(request):
     logged_in = authenticated_userid(request)
     is_awarded = lambda a: logged_in and a.person.email == logged_in
     awarded_assertions = filter(is_awarded, m.Assertion.query.all())
+    # set came_from so we can get back home after openid auth.
+    request.session['came_from'] = '/'
     return dict(
         is_admin=is_admin(request, logged_in),
         issuers=m.Issuer.query.all(),
