@@ -45,7 +45,13 @@ def admin(request):
     logged_in = authenticated_userid(request)
 
     if not is_admin(request, logged_in):
-        return HTTPFound(location='/')
+        # TODO: It would be good to set came_from in the login
+        # processing view, but due to how redirection is structured,
+        # it will be a bit difficult to determine the _actual_
+        # last real page the user came from, so we will just set
+        # came_from here for now.
+        request.session['came_from'] = '/admin'
+        return HTTPFound(location='/login')
 
     is_awarded = lambda a: logged_in and a.person.email == logged_in
     awarded_assertions = filter(is_awarded, m.Assertion.query.all())
@@ -159,6 +165,8 @@ def badge(request):
     logged_in = authenticated_userid(request)
     badge_id = request.matchdict.get('id')
     badge_query = m.Badge.query.filter_by(id=badge_id)
+    is_awarded = lambda a: logged_in and a.person.email == logged_in
+    awarded_assertions = filter(is_awarded, m.Assertion.query.all())
     if badge_query.count() > 0:
         badge = badge_query[0]
         return dict(
@@ -166,6 +174,7 @@ def badge(request):
                 title=request.registry.settings['tahrir.title'] + " | " + badge.name + " badge",
                 logged_in=logged_in,
                 is_admin=is_admin(request, logged_in),
+                awarded_assertions=awarded_assertions,
                 )
     else:
         return HTTPFound(location=request.route_url('home'))
@@ -176,6 +185,8 @@ def user(request):
     logged_in = authenticated_userid(request)
     user_id = request.matchdict.get('id')
     user_query = m.Person.query.filter_by(id=user_id)
+    is_awarded = lambda a: logged_in and a.person.email == logged_in
+    awarded_assertions = filter(is_awarded, m.Assertion.query.all())
     if user_query.count() > 0:
         user = user_query[0]
         return dict(
@@ -183,6 +194,7 @@ def user(request):
                 title=request.registry.settings['tahrir.title'] + " | " + user.email + "'s profile",
                 logged_in=logged_in,
                 is_admin=is_admin(request, logged_in),
+                awarded_assertions=awarded_assertions,
                 )
     else:
         return HTTPFound(location=request.route_url('home'))
@@ -219,6 +231,14 @@ def _500(request):
 def login(request):
     identifier = "openid_identifier=https://id.fedoraproject.org"
     url = velruse.login_url(request, 'openid') + "?" + identifier
+    """
+    login_url = request.resource_url(request.context, 'login')
+    referrer = request.url
+    if referrer is login_url:
+        referrer = '/' # never use login form as came_from
+    came_from = request.params.get('came_from', referrer)
+    request.session['came_from'] = came_from
+    """
     return HTTPFound(location=url)
 
 
@@ -236,7 +256,7 @@ def login_complete_view(request):
 
     headers = remember(request, email)
     # TODO -- don't hardcode the '/'
-    response = HTTPFound(location="/")
+    response = HTTPFound(location=request.session['came_from'])
     response.headerlist.extend(headers)
     return response
 
