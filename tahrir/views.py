@@ -130,6 +130,8 @@ def invitation_claim(request):
 
     logged_in = authenticated_userid(request)
     person = m.Person.query.filter_by(email=logged_in).one()
+    
+    request.session['came_from'] = '/claim'
 
     # TODO -- check to see if they already have this badge
 
