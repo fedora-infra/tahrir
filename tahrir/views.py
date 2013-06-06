@@ -129,10 +129,14 @@ def invitation_claim(request):
         return HTTPGone("That invitation is expired.")
 
     logged_in = authenticated_userid(request)
+
+    if not logged_in:
+        request.session['came_from'] = '/invitations/{}/claim'.format(
+                request.context.id)
+        return HTTPFound(location='/login')
+
     person = m.Person.query.filter_by(email=logged_in).one()
     
-    request.session['came_from'] = '/claim'
-
     # TODO -- check to see if they already have this badge
 
     assertion = m.Assertion(
