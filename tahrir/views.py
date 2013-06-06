@@ -137,7 +137,12 @@ def invitation_claim(request):
 
     person = m.Person.query.filter_by(email=logged_in).one()
     
-    # TODO -- check to see if they already have this badge
+    # Check to see if the user already has the badge.
+    if request.context.badge_id == m.Assertion.query.filter_by(
+                                    person_id=person.id,
+                                    badge_id=request.context.badge_id).one().badge_id:
+        # TODO: Flash a message explaining that they already have the badge
+        return HTTPFound(location='/')
 
     assertion = m.Assertion(
         badge_id=request.context.badge_id,
