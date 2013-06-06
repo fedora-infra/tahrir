@@ -16,7 +16,7 @@ from pyramid.view import (
 )
 
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPFound
+from pyramid.httpexceptions import HTTPFound, HTTPGone
 from pyramid.security import (
     authenticated_userid,
     remember,
