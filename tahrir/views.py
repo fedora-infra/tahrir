@@ -125,7 +125,7 @@ def action(context, request):
 def invitation_claim(request):
     """ Action that awards a person a badge after scanning a qrcode. """
 
-    if request.context.expires_on > datetime.now():
+    if request.context.expires_on < datetime.now():
         return HTTPGone("That invitation is expired.")
 
     logged_in = authenticated_userid(request)
@@ -150,7 +150,7 @@ def invitation_claim(request):
 def invitation_qrcode(request):
     """ Returns a raw dummy qrcode through to the user. """
 
-    if request.context.expires_on > datetime.now():
+    if request.context.expires_on < datetime.now():
         return HTTPGone("That invitation is expired.")
 
     target = request.resource_url(request.context, 'claim')
