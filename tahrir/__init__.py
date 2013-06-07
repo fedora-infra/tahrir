@@ -17,7 +17,6 @@ def main(global_config, **settings):
     """
 
     required_keys = [
-        'tahrir.salt',
         'tahrir.pngs.uri',
         'tahrir.admin',
         'tahrir.title',
