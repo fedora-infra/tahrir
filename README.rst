@@ -30,7 +30,6 @@ values under the ``[server:main]`` section:
 
 And the following values under the ``[app:pyramid]`` section:
 
-  - ``tahrir.salt`` = "whatever you want"
   - ``tahrir.admin`` = "some super secret string used to login as admin"
   - ``tahrir.title`` = "just badgin' around"
   - ``tahrir.pngs.uri`` = /home/user/badges/pngs
