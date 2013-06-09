@@ -2,7 +2,7 @@
 <div class="page">
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-33">
-		<h2>Latest Awards</h2>
+		<h2 class="section-header">Latest Awards</h2>
 		<p>This column lists the most recent awards to users.</p>
 		% for issuer in issuers:
 		<h3>Issued by ${issuer.name}</h3>
@@ -41,12 +41,12 @@
 	</div>
 	<!-- COLUMN 2 (Middle)-->
 	<div class="grid-33">
-		<h2>Fresh Contributors</h2>
+		<h2 class="section-header">Fresh Contributors</h2>
 		<p>This column shows the newest badge-earners on the network.</p>
 	</div>
 	<!-- COLUMN 3 (Right)-->
 	<div class="grid-33">
-		<h2>Top Contributors</h2>
+		<h2 class="section-header">Top Contributors</h2>
 		<p>This column lists the users with the most awards.</p>
 	</div>
     

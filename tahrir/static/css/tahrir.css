@@ -16,6 +16,12 @@ a, a:visited, a:active, a:link {
     color: #3C6EB4;
 }
 
+.page {
+    /* Without the below line, the page div is skewed
+     * right. */
+    margin-right: 15px;
+}
+
 .navbar a {
     color: white;
     text-decoration: none;
@@ -39,6 +45,13 @@ a, a:visited, a:active, a:link {
     color: #3158AF;
     height: 50px;
     margin-top: -10px;
+}
+
+.section-header {
+    background: #3158AF;
+    color: white;
+    text-align: center;
+    padding: 10px;
 }
 
 .navbar {
