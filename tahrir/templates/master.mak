@@ -57,6 +57,8 @@
 		<li><a href="/admin">Admin</a></li>
 	% endif
 		<li><a href="/logout">Logout</a></li>
+% else:
+	<li><a href="/login">Login</a></li>
 % endif
 	</ul>
 
@@ -67,10 +69,6 @@
         % if awarded_assertions:
           <a href="javascript:claim_badges();">Claim them.</a>
         % endif
-      % else:
-        <form action="login" method="post">
-          <input type="submit" value="Login with FAS" />
-        </form>
       % endif
     </div>
     <div class="clear"></div>
