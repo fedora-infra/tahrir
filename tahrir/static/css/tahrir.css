@@ -36,8 +36,9 @@ a, a:visited, a:active, a:link {
 }
 
 .header {
-    color: #C1C1C1;
+    color: #3158AF;
     height: 50px;
+    margin-top: -10px;
 }
 
 .navbar {
@@ -46,6 +47,7 @@ a, a:visited, a:active, a:link {
     color: white;
     width: 100%;
     padding: 5px;
+    margin-left: -8px; /* There has to be a better way. */
 }
 
 .navbar li {
