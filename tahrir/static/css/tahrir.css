@@ -9,10 +9,19 @@ body {
     font-size 12pt;
     height: auto;
     font-family: Cantarell, sans-serif;
+    width: 100%;
 }
 
 a, a:visited, a:active, a:link {
     color: #3C6EB4;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+#logo {
 }
 
 #sublogo {
@@ -28,18 +37,20 @@ a, a:visited, a:active, a:link {
 
 .header {
     color: #C1C1C1;
+    height: 50px;
 }
 
-.content {
-    background-color: #C1C1C1;
-    color: #1E1E1E !important;
-    width: 700px;
-    margin-right: auto;
-    margin-left: auto;
+.navbar {
+    list-style-type: none;
+    background: #3158AF;
+    color: white;
+    width: 100%;
+    padding: 5px;
+}
 
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    border: 1px solid black;
+.navbar li {
+    display: inline;
+    padding: 5px;
 }
 
 table {

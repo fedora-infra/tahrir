@@ -48,6 +48,18 @@
 
 	<div class="clear"></div>
 
+	<ul class="grid-100 navbar">
+		<li>My Badges</li>
+		<li>All Badges</li>
+		<li>Users</li>
+% if logged_in:
+	% if is_admin:
+		<li><a href="/admin">Admin</a></li>
+	% endif
+		<li><a href="/logout">Logout</a></li>
+% endif
+	</ul>
+
 	<div class="grid-100">
       % if logged_in:
         Logged in as <span class="strong">${logged_in}</span>.
@@ -55,13 +67,6 @@
         % if awarded_assertions:
           <a href="javascript:claim_badges();">Claim them.</a>
         % endif
-        [
-		% if is_admin:
-          <a href="/admin">Admin</a> |
-        % endif
-		<a href="/logout">Logout</a>
-
-		]
       % else:
         <form action="login" method="post">
           <input type="submit" value="Login with FAS" />
