@@ -27,7 +27,12 @@ a, a:visited, a:active, a:link {
     text-decoration: none;
 }
 
+.logo-image {
+    margin-right: 10px;
+}
+
 #logo {
+    color: #9B9B9B; /* Dark gray */
 }
 
 #sublogo {
@@ -45,6 +50,7 @@ a, a:visited, a:active, a:link {
     color: #3158AF;
     height: 50px;
     margin-top: -10px;
+    margin-bottom: 20px;
 }
 
 .section-header {
