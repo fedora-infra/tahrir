@@ -112,6 +112,11 @@ class InvitationForm(tws.DbFormPage):
     class child(twf.TableForm):
         id = twf.HiddenField()
         badge = tws.DbRadioButtonList(entity=m.Badge)
+        # TODO: Make the below field auto-populate based
+        # on the currently authenticated user. Maybe
+        # the framework for this is already in place,
+        # but I'm not sure how to do it.
+        created_by = tws.DbRadioButtonList(entity=m.Person)
         created_on = twf.CalendarDateTimePicker(
             value=datetime.now())
         expires_on = twf.CalendarDateTimePicker(
