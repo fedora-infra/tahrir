@@ -37,8 +37,8 @@
   <body>
   	<div class="grid-container">
     <div class="header grid-100">
-	<div><H1><img src="/static/img/fedora_logo.png" alt="Fedora logo" class="logo-image"/>
-		<span id="logo">${title}<span id="sublogo">التحرير</span></span></H1></div>
+	<div><H1><a id="header-link" href="/"><img src="/static/img/fedora_logo.png" alt="Fedora logo" class="logo-image"/>
+		<span id="logo">${title}<span id="sublogo">التحرير</span></span></a></H1></div>
     </div>
 
     <a href="http://github.com/ralphbean/tahrir">

@@ -41,6 +41,19 @@ a, a:visited, a:active, a:link {
     font-size: 50%;
 }
 
+/* This is applied to the content of columns, but not to the header,
+ * so that the content is a bit less-wide than the header.
+ * (on suggestion of Jenn Kotler)
+ */
+.padded-content {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#header-link {
+    text-decoration: none;
+}
+
 .strong {
     font-weight: bold;
     text-decoration: underline;
