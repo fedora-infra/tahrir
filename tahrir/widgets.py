@@ -3,7 +3,6 @@ import tahrir_api.model as m
 import tw2.core as twc
 import tw2.sqla as tws
 import tw2.forms as twf
-import tw2.bootstrap.forms.calendars as twbc
 
 import hashlib
 import os
@@ -113,9 +112,14 @@ class InvitationForm(tws.DbFormPage):
     class child(twf.TableForm):
         id = twf.HiddenField()
         badge = tws.DbRadioButtonList(entity=m.Badge)
-        created_on = twbc.CalendarDateTimePicker(
+        # TODO: Make the below field auto-populate based
+        # on the currently authenticated user. Maybe
+        # the framework for this is already in place,
+        # but I'm not sure how to do it.
+        created_by = tws.DbRadioButtonList(entity=m.Person)
+        created_on = twf.CalendarDateTimePicker(
             value=datetime.now())
-        expires_on = twbc.CalendarDateTimePicker(
+        expires_on = twf.CalendarDateTimePicker(
             value=datetime.now() + timedelta(hours=2))
 
 
