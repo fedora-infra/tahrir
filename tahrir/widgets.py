@@ -112,10 +112,9 @@ class InvitationForm(tws.DbFormPage):
     class child(twf.TableForm):
         id = twf.HiddenField()
         badge = tws.DbRadioButtonList(entity=m.Badge)
-        # TODO -- make these into fancy datetime pickers some day.
-        created_on = twf.TextField(
+        created_on = twf.CalendarDateTimePicker(
             value=datetime.now())
-        expires_on = twf.TextField(
+        expires_on = twf.CalendarDateTimePicker(
             value=datetime.now() + timedelta(hours=2))
 
 
