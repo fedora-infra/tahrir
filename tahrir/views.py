@@ -188,6 +188,7 @@ def badge(request):
                 logged_in=logged_in,
                 is_admin=is_admin(request, logged_in),
                 awarded_assertions=awarded_assertions,
+                base_url=request.registry.settings['tahrir.base_url'],
                 )
     else:
         return HTTPFound(location=request.route_url('home'))
@@ -208,6 +209,7 @@ def user(request):
                 logged_in=logged_in,
                 is_admin=is_admin(request, logged_in),
                 awarded_assertions=awarded_assertions,
+                base_url=request.registry.settings['tahrir.base_url'],
                 )
     else:
         return HTTPFound(location=request.route_url('home'))
