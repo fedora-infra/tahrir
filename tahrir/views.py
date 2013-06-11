@@ -184,7 +184,7 @@ def badge(request):
         badge = badge_query[0]
         return dict(
                 badge=badge,
-                title=request.registry.settings['tahrir.title'] + " | " + badge.name + " badge",
+                title=request.registry.settings['tahrir.title'],
                 logged_in=logged_in,
                 is_admin=is_admin(request, logged_in),
                 awarded_assertions=awarded_assertions,
@@ -205,7 +205,7 @@ def user(request):
         user = user_query[0]
         return dict(
                 user=user,
-                title=request.registry.settings['tahrir.title'] + " | " + user.email + "'s profile",
+                title=request.registry.settings['tahrir.title'],
                 logged_in=logged_in,
                 is_admin=is_admin(request, logged_in),
                 awarded_assertions=awarded_assertions,
