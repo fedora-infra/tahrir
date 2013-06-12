@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/static/css/tahrir.css" />
     <link rel="stylesheet" href="/static/css/monokai.css" />
 	<link rel="stylesheet" href="/static/css/unsemantic-grid-responsive.css" />
+	<link rel="shortcut icon" href="/static/img/favicon.ico" />
     <script
       type="text/javascript"
       src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
