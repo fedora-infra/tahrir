@@ -22,6 +22,21 @@ a, a:visited, a:active, a:link {
     margin-right: 15px;
 }
 
+.navbar {
+    list-style-type: none;
+    background: #3158AF;
+    color: white;
+    width: 100%;
+    padding: 5px;
+    margin-left: -8px; /* There has to be a better way. */
+    margin-top: 20px;
+}
+
+.navbar li {
+    display: inline;
+    padding: 5px;
+}
+
 .navbar a {
     color: white;
     text-decoration: none;
@@ -29,6 +44,7 @@ a, a:visited, a:active, a:link {
 
 .logo-image {
     margin-right: 10px;
+    margin-top: -10px;
 }
 
 #logo {
@@ -71,20 +87,6 @@ a, a:visited, a:active, a:link {
     color: white;
     text-align: center;
     padding: 10px;
-}
-
-.navbar {
-    list-style-type: none;
-    background: #3158AF;
-    color: white;
-    width: 100%;
-    padding: 5px;
-    margin-left: -8px; /* There has to be a better way. */
-}
-
-.navbar li {
-    display: inline;
-    padding: 5px;
 }
 
 table {

@@ -37,8 +37,10 @@
   <body>
   	<div class="grid-container">
     <div class="header grid-100">
-	<div><H1><a id="header-link" href="/"><img src="/static/img/fedora_logo.png" alt="Fedora logo" class="logo-image"/>
-		<span id="logo">${title}<span id="sublogo">التحرير</span></span></a></H1></div>
+		<div><H1><a id="header-link" href="/"><img
+			src="/static/img/fedora_badges_small.png" alt="Fedora Badges logo"
+			class="logo-image"/></a></H1>
+		</div>
     </div>
 
     <a href="http://github.com/ralphbean/tahrir">
@@ -77,7 +79,7 @@
     <div class="clear"></div>
 	</div> <!-- End grid-container -->
 	<div id="footer">
-		You can report bugs and file issues with Tahrir on
+		You can report bugs and file issues with التحرير (Tahrir) on
 		<a href="https://github.com/fedora-infra/tahrir/issues">
 		the GitHub issues tracker</a>.
 	</div>
