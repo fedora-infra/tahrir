@@ -50,13 +50,12 @@ def main(global_config, **settings):
     config = Configurator(
             settings=settings,
             root_factory=get_root,
-            session_factory=session_factory)
+            session_factory=session_factory,
+            authentication_policy=authn_policy,
+            authorization_policy=authz_policy)
 
     config.include('velruse.providers.openid')
     config.add_openid_login(realm="http://localhost:6543/")
-
-    config.set_authentication_policy(authn_policy)
-    config.set_authorization_policy(authz_policy)
 
     config.add_static_view(
         'static',
