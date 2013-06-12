@@ -7,7 +7,6 @@ README = open(os.path.join(here, 'README.rst')).read()
 
 requires = [
     'pyramid',
-    'pyramid_openid',
     'tahrir_api >= 0.1.4.0',
     'SQLAlchemy',
     'transaction',
@@ -15,7 +14,12 @@ requires = [
     'zope.sqlalchemy',
     "weberror",
     "tw2.sqla",
+    "tw2.bootstrap.forms",
     "formencode",  # For file uploads
+    'velruse',
+
+    "qrcode",
+    "Pillow",
 
     # Optional -- used for scaling images to 256x256.
     # You also need "ImageMagick-devel" for this to build from pypi
@@ -23,10 +27,10 @@ requires = [
     ]
 
 setup(name='tahrir',
-      version='0.1.8',
+      version='0.1.9',
       description='A pyramid app for issuing your own Open Badges',
       long_description=README,
-      license="AGPLv3+",
+      license="AGPLv3+ with additional permission",
       classifiers=[
         "Programming Language :: Python",
         "Framework :: Pyramid",

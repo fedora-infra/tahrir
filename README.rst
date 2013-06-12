@@ -62,12 +62,75 @@ Hacking
 If you'd like to contribute to tahrir or just poke at the code, you can use the
 following instructions to set up a development environment.
 
+Create an account on Fedora Account Systems (FAS) here: https://admin.fedoraproject.org/accounts
+Make sure you have Python 2.7 or above installed in your system
+Then, install the Python version of virtualenvwrapper (in Ubuntu):
+
+::
+    
+	$ sudo apt-get install python-setuptools
+	$ sudo apt-get install python-virtualenv
+	$ sudo easy-install pip
+	$ sudo pip install python-virtualenvwrapper
+
+In Fedora, you can do the same by:
+
 ::
 
-    $ sudo yum -y install python-virtualenvwrapper
-    $ git clone git://github.com/ralphbean/tahrir.git
-    $ cd tahrir
-    $ mkvirtualenv tahrir
-    (tahrir)$ python setup.py develop
-    (tahrir)$ initialize_tahrir_db development.ini
-    (tahrir)% pserve --reload development.ini
+	$ sudo yum -y install python-virtualenvwrapper
+
+After installing virtualenvwrapper, you'll need to set it up for the
+first time::
+
+    $ export WORKON_HOME=~/.virtualenvs/
+    $ mkdir -p $WORKON_HOME
+    $ source /usr/local/bin/virtualenvwrapper.sh
+
+You'll want to add the ``source /usr/local/bin/virtualenvwrapper.sh`` to
+your bashrc.
+
+Then, to set up Tahrir, follow these steps:
+
+::
+
+	$ git clone git://github.com/ralphbean/tahrir.git
+	$ cd tahrir
+	$ mkvirtualenv tahrir
+	(tahrir)$ python setup.py develop
+	(tahrir)$ initialize_tahrir_db development.ini
+	(tahrir)% pserve --reload development.ini
+
+The pserve command should output "starting HTTP server on https://localhost:6543"
+Login to https://localhost:6543 in your web browser (Firefox) using your FAS account username and password.
+In order to make yourself an admin of the local copy of tahrir, edit the "development.ini" file by changing the value to "YOUR_FAS_USERNAME@fedoraproject.org" and login. You should now be able to see the admin view of tahrir in your local copy at http://localhost:6543/admin.
+
+Windows(32 and 64 bit versions):
+-------------------------------
+For problems like:
+1. c:\env\tahrir>c:\env\Scripts\initialize_tahrir_db development.ini
+   Error: pkg_resources.DistributionNotFound: simplejson
+2. c:\env\tahrir>c:\env\Scripts\easy_install simplejson
+   Error: raise ValueError(str(list(result.keys())))
+   ValueError: [u'path']
+
+Follow these instructions:
+1. Download and install mingw from
+   http://code.google.com/p/mingw-builds/downloads/detail?name=i686-mingw32-gcc-4.7.0-release-c,c%2b%2b,fortran-sjlj.zip&can=2&q=
+   Extract the contents of this folder to c:\mingw
+2. Download and install setuptools if not already present. This can be done by running ez_setup.py from c:\Python2x
+3. Create a configuration file for distutils i.e. create a file distutils.cfg at the following location:
+   C:\Python2x\Lib\distutils\distutils.cfg
+   Add the following lines to it:
+
+   [build]
+   compiler=mingw32
+4. Now open command prompt and use easy_install to install simplejson
+C:\env\tahrir>c:\env\Scripts\easy_install simplejson
+
+This will install simplejson in Python2x\Lib\site-packages\
+A few other packages namely httplib2,tw2.core may have to be installed the same way before the “initialize_tahrir_db” command can be executed.
+
+
+
+
+

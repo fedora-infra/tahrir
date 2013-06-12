@@ -1,13 +1,24 @@
-@import url(http://fonts.googleapis.com/css?family=Press+Start+2P);
-
 img.badge {
     width: 64px;
     height: 64px;
 }
 
 body {
-    font-family: 'Press Start 2P', cursive;
-    background-color: #1E1E1E;
+    background-color: white;
+    color: black;
+    font-size 12pt;
+    height: auto;
+    font-family: Cantarell, sans-serif;
+}
+
+a, a:visited, a:active, a:link {
+    color: #3C6EB4;
+}
+
+#sublogo {
+    vertical-align: 35%;
+    padding-left: 15px;
+    font-size: 50%;
 }
 
 .strong {
@@ -17,24 +28,6 @@ body {
 
 .header {
     color: #C1C1C1;
-}
-
-.subheader a {
-    color: #D01A55;
-}
-
-.content a {
-    color: #D01A55;
-}
-
-.subheader {
-    padding: 20px;
-    color: #C1C1C1;
-    width: 700px;
-    margin-right: auto;
-    margin-left: auto;
-    text-align: right;
-    font-size: 90%;
 }
 
 .content {
@@ -59,6 +52,11 @@ td {
     padding: 5px;
     word-wrap: break-word;
 }
+
+#footer {
+    font-size: 10px;
+    text-align: center;
+} 
 
 .issuer-table {
     table-layout: fixed;
