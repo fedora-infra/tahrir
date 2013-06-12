@@ -40,6 +40,7 @@ def main(global_config, **settings):
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
 
+    # TODO: Move this secret to a secret.ini file or something.
     authn_policy = AuthTktAuthenticationPolicy(
         secret='verysecret',
     )
