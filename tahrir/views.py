@@ -81,8 +81,6 @@ def admin(request):
         is_admin=True,
         logged_in=logged_in,
         awarded_assertions=awarded_assertions,
-        base_url=request.registry.settings['tahrir.base_url'],
-        title=request.registry.settings['tahrir.title'],
         issuer_form=widgets.IssuerForm,
         badge_form=widgets.BadgeForm,
         assertion_form=widgets.AssertionForm,
@@ -102,9 +100,7 @@ def index(request):
         is_admin=is_admin(request, logged_in),
         issuers=m.Issuer.query.all(),
         awarded_assertions=awarded_assertions,
-        base_url=request.registry.settings['tahrir.base_url'],
         logged_in=logged_in,
-        title=request.registry.settings['tahrir.title'],
     )
 
 
@@ -184,11 +180,9 @@ def badge(request):
         badge = badge_query[0]
         return dict(
                 badge=badge,
-                title=request.registry.settings['tahrir.title'],
                 logged_in=logged_in,
                 is_admin=is_admin(request, logged_in),
                 awarded_assertions=awarded_assertions,
-                base_url=request.registry.settings['tahrir.base_url'],
                 )
     else:
         return HTTPFound(location=request.route_url('home'))
@@ -205,11 +199,9 @@ def user(request):
         user = user_query[0]
         return dict(
                 user=user,
-                title=request.registry.settings['tahrir.title'],
                 logged_in=logged_in,
                 is_admin=is_admin(request, logged_in),
                 awarded_assertions=awarded_assertions,
-                base_url=request.registry.settings['tahrir.base_url'],
                 )
     else:
         return HTTPFound(location=request.route_url('home'))
@@ -227,18 +219,12 @@ def json(context, request):
 @view_config(context='pyramid.httpexceptions.HTTPNotFound', renderer='404.mak')
 def _404(request):
     request.response.status = 404
-    return dict(
-            title=request.registry.settings['tahrir.title'],
-            base_url=request.registry.settings['tahrir.base_url'],
-            )
+    return dict()
 
 @view_config(context='pyramid.httpexceptions.HTTPServerError', renderer='500.mak')
 def _500(request):
     request.response.status = 500
-    return dict(
-            title=request.registry.settings['tahrir.title'],
-            base_url=request.registry.settings['tahrir.base_url'],
-            )
+    return dict()
 
 
 @view_config(route_name='login', renderer='login.mak')
