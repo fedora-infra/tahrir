@@ -26,7 +26,7 @@
                             href="/assertions/${badge.id}/${a.recipient}/pygments">
                             ${a.recipient[:6]}
                           </a>
-                          % if is_admin:
+						  % if 'group:admins' in auth_principals:
                             -
                             <a
                               href="/assertions/${badge.id}/${a.recipient}/delete">

@@ -43,6 +43,7 @@ def main(global_config, **settings):
     # TODO: Move this secret to a secret.ini file or something.
     authn_policy = AuthTktAuthenticationPolicy(
         secret='verysecret',
+        callback=groupfinder, # groupfinder callback checks for admin privs
     )
     authz_policy = ACLAuthorizationPolicy()
     session_factory = UnencryptedCookieSessionFactoryConfig(
@@ -80,3 +81,17 @@ def main(global_config, **settings):
     config.scan()
 
     return config.make_wsgi_app()
+
+
+# I think this is fine here...
+def groupfinder(userid, request):
+    """Currently, this function simply checks if the user
+    is listed as an admin in the config file (tahrir.ini).
+    This is the callback function used by the authorization
+    policy."""
+    admins = map(
+        str.strip,
+        request.registry.settings['tahrir.admin'].split(','),
+    )
+    if userid in admins:
+        return ['group:admins']
