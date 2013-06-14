@@ -1,14 +1,13 @@
 import os
 
 from pyramid.config import Configurator
-from sqlalchemy import engine_from_config
 
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
 
 from .app import get_root
-from tahrir_api.model import DBSession
+from tahrir_api.dbapi import TahrirDatabase
 from .widgets import SavingFileField
 
 
@@ -36,10 +35,6 @@ def main(global_config, **settings):
     # Set that directory on the filefield widget.
     SavingFileField.png_dir = settings['tahrir.pngs.uri']
 
-    # start setting things up
-    engine = engine_from_config(settings, 'sqlalchemy.')
-    DBSession.configure(bind=engine)
-
     # TODO: Move this secret to a secret.ini file or something.
     authn_policy = AuthTktAuthenticationPolicy(
         secret='verysecret',
@@ -57,6 +52,9 @@ def main(global_config, **settings):
 
     config.include('velruse.providers.openid')
     config.add_openid_login(realm="http://localhost:6543/")
+
+    config.add_request_method(TahrirDatabase(settings['sqlalchemy.url']),
+                              'database', reify=True)
 
     config.add_static_view(
         'static',
