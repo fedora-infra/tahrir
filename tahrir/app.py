@@ -1,5 +1,4 @@
-from pyramid.security import Allow
-from pyramid.security import Everyone
+from pyramid.security import Allow, Deny, Everyone
 
 import tahrir_api.model as m
 
@@ -33,6 +32,10 @@ class RootApp(object):
     __name__ = None
     __parent__ = None
 
+    __acl__ = [
+            (Allow, 'group:admins', 'admin'),
+            ]
+    
     def __getitem__(self, key):
         if key == 'assertions':
             return self

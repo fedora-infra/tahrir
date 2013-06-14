@@ -57,7 +57,7 @@
 		<li>All Badges</li>
 		<li>Users</li>
 % if logged_in:
-	% if is_admin:
+	% if 'group:admins' in auth_principals:
 		<li><a href="/admin">Admin</a></li>
 	% endif
 		<li><a href="/logout">Logout</a></li>

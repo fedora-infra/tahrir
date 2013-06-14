@@ -1,4 +1,3 @@
-
 import transaction
 import types
 import velruse
@@ -19,6 +18,7 @@ from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound, HTTPGone
 from pyramid.security import (
     authenticated_userid,
+    effective_principals,
     remember,
     forget,
 )
@@ -28,30 +28,13 @@ import tahrir_api.model as m
 import widgets
 
 
-# TODO -- this should be in some lib, not "views"
-# TODO -- even better, it should be using pyramid's __acl__ machinery.
-def is_admin(request, user):
-    admins = map(
-        str.strip,
-        request.registry.settings['tahrir.admin'].split(','),
-    )
-    return user in admins
-
-
-
 # TODO -- really wield tw2.sqla here
-@view_config(route_name='admin', renderer='admin.mak')
+@view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
     logged_in = authenticated_userid(request)
 
-    if not is_admin(request, logged_in):
-        # TODO: It would be good to set came_from in the login
-        # processing view, but due to how redirection is structured,
-        # it will be a bit difficult to determine the _actual_
-        # last real page the user came from, so we will just set
-        # came_from here for now.
-        request.session['came_from'] = '/admin'
-        return HTTPFound(location='/login')
+    # TODO: Check if I even need this anymore... leaving for now.
+    request.session['came_from'] = '/admin'
 
     is_awarded = lambda a: logged_in and a.person.email == logged_in
     awarded_assertions = filter(is_awarded, m.Assertion.query.all())
@@ -78,11 +61,9 @@ def admin(request):
                 print e.widget
 
     return dict(
-        is_admin=True,
+        auth_principals=effective_principals(request),
         logged_in=logged_in,
         awarded_assertions=awarded_assertions,
-        base_url=request.registry.settings['tahrir.base_url'],
-        title=request.registry.settings['tahrir.title'],
         issuer_form=widgets.IssuerForm,
         badge_form=widgets.BadgeForm,
         assertion_form=widgets.AssertionForm,
@@ -99,12 +80,10 @@ def index(request):
     # set came_from so we can get back home after openid auth.
     request.session['came_from'] = '/'
     return dict(
-        is_admin=is_admin(request, logged_in),
+        auth_principals=effective_principals(request),
         issuers=m.Issuer.query.all(),
         awarded_assertions=awarded_assertions,
-        base_url=request.registry.settings['tahrir.base_url'],
         logged_in=logged_in,
-        title=request.registry.settings['tahrir.title'],
     )
 
 
@@ -112,7 +91,7 @@ def index(request):
 def action(context, request):
     logged_in = authenticated_userid(request)
 
-    if not is_admin(request, logged_in):
+    if 'group:admins' not in effective_principals(request):
         return HTTPFound(location='/')
 
     # Do the action
@@ -184,11 +163,9 @@ def badge(request):
         badge = badge_query[0]
         return dict(
                 badge=badge,
-                title=request.registry.settings['tahrir.title'],
                 logged_in=logged_in,
-                is_admin=is_admin(request, logged_in),
+                auth_principals=effective_principals(request),
                 awarded_assertions=awarded_assertions,
-                base_url=request.registry.settings['tahrir.base_url'],
                 )
     else:
         return HTTPFound(location=request.route_url('home'))
@@ -205,11 +182,9 @@ def user(request):
         user = user_query[0]
         return dict(
                 user=user,
-                title=request.registry.settings['tahrir.title'],
                 logged_in=logged_in,
-                is_admin=is_admin(request, logged_in),
+                auth_principals=effective_principals(request),
                 awarded_assertions=awarded_assertions,
-                base_url=request.registry.settings['tahrir.base_url'],
                 )
     else:
         return HTTPFound(location=request.route_url('home'))
@@ -227,18 +202,12 @@ def json(context, request):
 @view_config(context='pyramid.httpexceptions.HTTPNotFound', renderer='404.mak')
 def _404(request):
     request.response.status = 404
-    return dict(
-            title=request.registry.settings['tahrir.title'],
-            base_url=request.registry.settings['tahrir.base_url'],
-            )
+    return dict()
 
 @view_config(context='pyramid.httpexceptions.HTTPServerError', renderer='500.mak')
 def _500(request):
     request.response.status = 500
-    return dict(
-            title=request.registry.settings['tahrir.title'],
-            base_url=request.registry.settings['tahrir.base_url'],
-            )
+    return dict()
 
 
 @view_config(route_name='login', renderer='login.mak')
