@@ -3,51 +3,38 @@
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-33">
 		<h2 class="section-header">Latest Awards</h2>
-		<p class="padded-content">This column lists the most recent awards to users.</p>
-		% for issuer in issuers:
-		<h3>Issued by ${issuer.name}</h3>
-		<ul class="badge-list">
-			% for badge in issuer.badges:
-				<li><span class="badge-image"><img class="badge"
-					% if badge.image.startswith("http"):
-					  src="${badge.image}" alt="${badge.name} icon" />
-					% else:
-					  src="/pngs/${badge.image}" alt="${badge.name} icon" />
-					% endif
-					<span class="badge-name">${badge.name}</span>
+		<div class="padded-content">
+			<table>
+			% for assertion in latest_awards:
+			<tr>
+			<td>img</td>
+			<td>${assertion.recipient[:6]} was awarded the
+				${assertion.badge_id}
+				badge by ${assertion.person_id}
+				on ${assertion.issued_on.strftime("%Y-%m-%d")}</td>
 			% endfor
-			% for a in badge.assertions:
-                          <li class="popup">
-                          <div class="gravatar">
-                            <img class="gravatar"
-                            src="${a.person.gravatar_link}" alt="Face Icon"/>
-                          </div>
-                          <a
-                            href="/assertions/${badge.id}/${a.recipient}/pygments">
-                            ${a.recipient[:6]}
-                          </a>
-						  % if 'group:admins' in auth_principals:
-                            -
-                            <a
-                              href="/assertions/${badge.id}/${a.recipient}/delete">
-                              (Delete)
-                            </a>
-                          % endif
-                          </li>
-			% endfor
-
-		</ul>
-		% endfor
+			</tr>
+			</table>
+		</div> <!-- End padded content. -->
 	</div>
 	<!-- COLUMN 2 (Middle)-->
 	<div class="grid-33">
 		<h2 class="section-header">Fresh Contributors</h2>
-		<p class="padded-content">This column shows the newest badge-earners on the network.</p>
+		<div class="padded-content">
+			<ul>
+			% for person in newest_persons:
+				<li>${person}</li>
+			% endfor
+			</ul>
+		</div> <!-- End padded content. -->
+
 	</div>
 	<!-- COLUMN 3 (Right)-->
 	<div class="grid-33">
 		<h2 class="section-header">Top Contributors</h2>
-		<p class="padded-content">This column lists the users with the most awards.</p>
+		<div class="padded-content">
+			<p>This column lists the users with the most awards.</p>
+		</div> <!-- End padded content. -->
 	</div>
     
 	<div class="clear spacer"></div>

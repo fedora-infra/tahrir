@@ -1,5 +1,6 @@
 import transaction
 import types
+import sqlalchemy as sa
 import velruse
 import json as _json
 import StringIO
@@ -82,6 +83,11 @@ def index(request):
     return dict(
         auth_principals=effective_principals(request),
         issuers=m.Issuer.query.all(),
+        latest_awards=m.Assertion.query.order_by(
+                sa.asc(m.Assertion.issued_on)).limit(10).all(),
+        newest_persons=m.Person.query.order_by(
+                sa.asc(m.Person.id)).limit(10).all(),
+        top_persons=list(),
         awarded_assertions=awarded_assertions,
         logged_in=logged_in,
     )
