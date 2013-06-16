@@ -68,7 +68,7 @@
 
 	<div class="grid-100">
       % if logged_in:
-        Logged in as <span class="strong">${logged_in}</span>.
+        Logged in as <strong>${logged_in}</strong>.
         You have ${str(len(awarded_assertions))} badges from this site.
         % if awarded_assertions:
           <a href="javascript:claim_badges();">Claim them.</a>
