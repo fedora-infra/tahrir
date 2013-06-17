@@ -40,9 +40,25 @@ def main(global_config, **settings):
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
 
-    # TODO: Move this secret to a secret.ini file or something.
+    # Load secret stuff from secret.ini.
+    try:
+        from paste.deploy.loadwsgi import appconfig
+        secret_config = appconfig('config:secret.ini',
+                'tahrir', relative_to='.')
+    except IOError:
+        # There is a better way to log this message than print.
+        print 'Failed to load secret.ini.'
+        return 0
+    
+    settings.update({
+        'session.secret':
+                secret_config['session.secret'],
+        'authnsecret':
+                secret_config['authnsecret'],
+    })
+
     authn_policy = AuthTktAuthenticationPolicy(
-        secret='verysecret',
+        secret=settings['authnsecret'],
         callback=groupfinder, # groupfinder callback checks for admin privs
     )
     authz_policy = ACLAuthorizationPolicy()
