@@ -53,8 +53,10 @@
 	<div class="clear"></div>
 
 	<ul class="grid-100 navbar">
-		<li>My Badges</li>
-		<li>All Badges</li>
+      % if logged_in:
+		<li>Profile</li>
+      % endif
+		<li>Explore</li>
 		<li>Users</li>
 % if logged_in:
 	% if 'group:admins' in auth_principals:
@@ -65,15 +67,14 @@
 	<li><a href="/login">Login</a></li>
 % endif
 	</ul>
-
+<!-- TODO: Move this somewhere better. -->
+% if logged_in:
+	You have ${str(len(awarded_assertions))} badges from this site.
+	% if awarded_assertions:
+	  <a href="javascript:claim_badges();">Claim them.</a>
+	% endif
+% endif
 	<div class="grid-100">
-      % if logged_in:
-        Logged in as <span class="strong">${logged_in}</span>.
-        You have ${str(len(awarded_assertions))} badges from this site.
-        % if awarded_assertions:
-          <a href="javascript:claim_badges();">Claim them.</a>
-        % endif
-      % endif
     </div>
     <div class="clear"></div>
     ${self.body()}

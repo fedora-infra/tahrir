@@ -8,10 +8,10 @@
 			% for assertion in latest_awards:
 			<tr>
 			<td>img</td>
-			<td>${assertion.recipient[:6]} was awarded the
-				${assertion.badge_id}
-				badge by ${assertion.person_id}
-				on ${assertion.issued_on.strftime("%Y-%m-%d")}</td>
+			<td>${assertion.recipient[:6]} was awarded
+				<a href="/badge/${assertion.badge_id}">
+					${assertion.badge_id}</a>
+				<span class="date">${assertion.issued_on.strftime("%Y-%m-%d")}</span></td>
 			% endfor
 			</tr>
 			</table>
@@ -19,13 +19,13 @@
 	</div>
 	<!-- COLUMN 2 (Middle)-->
 	<div class="grid-33">
-		<h2 class="section-header">Fresh Contributors</h2>
+		<h2 class="section-header">New Contributors</h2>
 		<div class="padded-content">
-			<ul>
+			<table>
 			% for person in newest_persons:
-				<li>${person}</li>
+				<tr><td>${person}</td></tr>
 			% endfor
-			</ul>
+			</table>
 		</div> <!-- End padded content. -->
 
 	</div>
@@ -33,7 +33,7 @@
 	<div class="grid-33">
 		<h2 class="section-header">Top Contributors</h2>
 		<div class="padded-content">
-			<p>This column lists the users with the most awards.</p>
+			<p>Coming soon!</p>
 		</div> <!-- End padded content. -->
 	</div>
     

@@ -14,12 +14,19 @@ body {
 
 a, a:visited, a:active, a:link {
     color: #3C6EB4;
+    text-decoration: none;
 }
 
 .page {
     /* Without the below line, the page div is skewed
      * right. */
     margin-right: 15px;
+}
+
+.date {
+    font-size: 0.6em;
+    color: #9B9B9B; /* Dark gray */
+    clear: both;
 }
 
 .navbar {
@@ -34,13 +41,26 @@ a, a:visited, a:active, a:link {
 
 .navbar li {
     display: inline;
-    padding: 5px;
+    padding: 10px;
 }
 
 .navbar a {
     color: white;
     text-decoration: none;
 }
+
+table {
+    border-spacing: 0px;
+    width: 100%;
+}
+
+td {
+    padding: 10px;
+}
+
+tr:nth-child(odd) { background: #E8EFF8; } /* "Clear day" */
+
+tr:nth-child(even) { background: white; }
 
 .logo-image {
     margin-right: 10px;
@@ -70,11 +90,6 @@ a, a:visited, a:active, a:link {
     text-decoration: none;
 }
 
-.strong {
-    font-weight: bold;
-    text-decoration: underline;
-}
-
 .header {
     color: #3158AF;
     height: 50px;
@@ -89,34 +104,14 @@ a, a:visited, a:active, a:link {
     padding: 10px;
 }
 
-table {
-    margin-right: auto;
-    margin-left: auto;
-    padding: 5px;
-}
-
-td {
-    padding: 5px;
-    word-wrap: break-word;
-}
-
 #footer {
+    color: #9B9B9B; /* Dark gray */
     font-size: 10px;
     text-align: center;
 } 
 
-.issuer-table {
-    table-layout: fixed;
-    width: 100%;
-}
-
 .collapsed-row {
     visibility: collapse;
-}
-
-.issuer-cell {
-    vertical-align: text-top;
-    padding-top: 25px;
 }
 
 .badge-name {
