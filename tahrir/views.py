@@ -24,6 +24,7 @@ from pyramid.security import (
     forget,
 )
 
+from tahrir_api.dbapi import TahrirDatabase
 from tahrir.utils import strip_tags
 import tahrir_api.model as m
 import widgets
@@ -129,12 +130,9 @@ def invitation_claim(request):
         # TODO: Flash a message explaining that they already have the badge
         return HTTPFound(location='/')
 
-    assertion = m.Assertion(
-        badge_id=request.context.badge_id,
-        person_id=person.id,
-        issued_on=datetime.now(),
-    )
-    m.DBSession.add(assertion)
+    db.add_assertion(request.context.badge_id,
+                     person.id,
+                     datetime.now())
 
     # TODO -- return them to a page that auto-exports their badges.
 
@@ -241,8 +239,7 @@ def login_complete_view(request):
         email = context.profile['preferredUsername'] + "@fedoraproject.org"
 
     if m.Person.query.filter_by(email=email).count() == 0:
-        new_user = m.Person(email=email)
-        m.DBSession.add(new_user)
+        db.add_person(email)
 
     headers = remember(request, email)
     # TODO -- don't hardcode the '/'

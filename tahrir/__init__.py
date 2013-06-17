@@ -11,6 +11,10 @@ from tahrir_api.dbapi import TahrirDatabase
 from .widgets import SavingFileField
 
 
+def get_db(request):
+    return TahrirDatabase(request.registry.settings['sqlalchemy.url'])
+
+
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
@@ -53,8 +57,7 @@ def main(global_config, **settings):
     config.include('velruse.providers.openid')
     config.add_openid_login(realm="http://localhost:6543/")
 
-    config.add_request_method(TahrirDatabase(settings['sqlalchemy.url']),
-                              'database', reify=True)
+    config.add_request_method(get_db, 'database', reify=True)
 
     config.add_static_view(
         'static',
