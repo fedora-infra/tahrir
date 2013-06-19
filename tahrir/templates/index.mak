@@ -33,7 +33,11 @@
 	<div class="grid-33">
 		<h2 class="section-header">Top Contributors</h2>
 		<div class="padded-content">
-			<p>Coming soon!</p>
+			<table>
+			% for person in top_persons:
+				<tr><td>${person}</td></tr>
+			% endfor
+			</table>
 		</div> <!-- End padded content. -->
 	</div>
     
