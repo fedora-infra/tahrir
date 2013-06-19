@@ -11,13 +11,17 @@ from tahrir_api.dbapi import TahrirDatabase
 from .widgets import SavingFileField
 
 
-def get_db(request):
-    return TahrirDatabase(request.registry.settings['sqlalchemy.url'])
 
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
+    
+    def get_db(request):
+        """ Database retrieval function to be added to the request for
+            calling anywhere.
+        """
+        return db
 
     required_keys = [
         'tahrir.pngs.uri',
@@ -39,17 +43,13 @@ def main(global_config, **settings):
     # Set that directory on the filefield widget.
     SavingFileField.png_dir = settings['tahrir.pngs.uri']
     
-    # start setting things up
-    engine = engine_from_config(settings, 'sqlalchemy.')
-    DBSession.configure(bind=engine)
-
     # Load secret stuff from secret.ini.
     try:
         from paste.deploy.loadwsgi import appconfig
         secret_config = appconfig('config:secret.ini',
                 'tahrir', relative_to='.')
     except IOError:
-        # There is a better way to log this message than print.
+        # TODO: There is a better way to log this message than print.
         print 'Failed to load secret.ini.'
         return 0
     
@@ -67,6 +67,10 @@ def main(global_config, **settings):
     authz_policy = ACLAuthorizationPolicy()
     session_factory = UnencryptedCookieSessionFactoryConfig(
             settings['session.secret'])
+
+    # Instantiate the db.
+    db = TahrirDatabase(settings['sqlalchemy.url'])
+
     config = Configurator(
             settings=settings,
             root_factory=get_root,
@@ -77,7 +81,7 @@ def main(global_config, **settings):
     config.include('velruse.providers.openid')
     config.add_openid_login(realm="http://localhost:6543/")
 
-    config.add_request_method(get_db, 'database', reify=True)
+    config.add_request_method(get_db, 'db', reify=True)
 
     config.add_static_view(
         'static',

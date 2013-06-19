@@ -25,8 +25,9 @@ from pyramid.security import (
 )
 
 from tahrir_api.dbapi import TahrirDatabase
-from tahrir.utils import strip_tags
 import tahrir_api.model as m
+
+from tahrir.utils import strip_tags
 import widgets
 
 
@@ -77,17 +78,24 @@ def admin(request):
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
     logged_in = authenticated_userid(request)
-    is_awarded = lambda a: logged_in and a.person.email == logged_in
-    awarded_assertions = filter(is_awarded, m.Assertion.query.all())
+    #is_awarded = lambda a: logged_in and a.person.email == logged_in
+    #awarded_assertions = filter(is_awarded, m.Assertion.query.all())
+    if logged_in:
+        awarded_assertions = len(request.db.get_assertions_by_email(
+                                 logged_in))
+    else:
+        awarded_assertions = None
     # set came_from so we can get back home after openid auth.
     request.session['came_from'] = '/'
     return dict(
         auth_principals=effective_principals(request),
-        issuers=m.Issuer.query.all(),
-        latest_awards=m.Assertion.query.order_by(
-                sa.asc(m.Assertion.issued_on)).limit(10).all(),
-        newest_persons=m.Person.query.order_by(
-                sa.asc(m.Person.id)).limit(10).all(),
+        #latest_awards=m.Assertion.query.order_by(
+        #        sa.asc(m.Assertion.issued_on)).limit(10).all(),
+        #newest_persons=m.Person.query.order_by(
+        #        sa.asc(m.Person.id)).limit(10).all(),
+        latest_awards=request.db.get_all_assertions().order_by(
+                        sa.asc(m.Assertion.issued_on)).limit(10).all(),
+        newest_persons=list(),
         top_persons=list(),
         awarded_assertions=awarded_assertions,
         logged_in=logged_in,
