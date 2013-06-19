@@ -79,8 +79,8 @@ def admin(request):
 def index(request):
     logged_in = authenticated_userid(request)
     if logged_in:
-        awarded_assertions = len(request.db.get_assertions_by_email(
-                                 logged_in))
+        awarded_assertions = request.db.get_assertions_by_email(
+                                 logged_in)
     else:
         awarded_assertions = None
     # set came_from so we can get back home after openid auth.
@@ -255,7 +255,6 @@ def login_complete_view(request):
         request.db.add_person(email)
 
     headers = remember(request, email)
-    # TODO -- don't hardcode the '/'
     response = HTTPFound(location=request.session['came_from'])
     response.headerlist.extend(headers)
     return response
