@@ -90,21 +90,24 @@ def index(request):
     # set came_from so we can get back home after openid auth.
     request.session['came_from'] = '/'
 
-    persons_assertions = request.db.get_all_persons().join(m.Assertion)
+    persons_assertions = request.db.get_all_assertions().join(m.Person)
+    #persons_assertions = request.db.get_all_persons().outerjoin(m.Assertion)
     from collections import defaultdict
     top_persons = defaultdict(int) # person_id: assertion count
     for item in persons_assertions:
-        top_persons[item.email] += 1
+        top_persons[item.person.email] += 1
     # TODO: Make sure this top_persons stuff actually sorts properly. :P
     # I can't check easily right now, since all other views are busted
     # during this database rewiring.
+    from q import q
+    q(persons_assertions)
     return dict(
         auth_principals=effective_principals(request),
         latest_awards=request.db.get_all_assertions().order_by(
                         sa.asc(m.Assertion.issued_on)).limit(10).all(),
         newest_persons=request.db.get_all_persons().order_by(
                         sa.asc(m.Person.id)).limit(10).all(),
-        top_persons=sorted(top_persons, key=top_persons.get),
+        top_persons=top_persons,
         awarded_assertions=awarded_assertions,
         logged_in=logged_in,
     )

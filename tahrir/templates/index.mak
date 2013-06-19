@@ -34,8 +34,15 @@
 		<h2 class="section-header">Top Contributors</h2>
 		<div class="padded-content">
 			<table>
-			% for person in top_persons:
-				<tr><td>${person}</td></tr>
+			% for person in sorted(top_persons, key=top_persons.get, reverse=True):
+				<tr><td>${person} with <strong>${top_persons[person]}
+				</strong>
+				% if top_persons[person] == 1:
+					badge
+				% else:
+					badges
+				% endif
+				</td></tr>
 			% endfor
 			</table>
 		</div> <!-- End padded content. -->
