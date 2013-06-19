@@ -180,15 +180,13 @@ def badge(request):
     """Render badge info page."""
     logged_in = authenticated_userid(request)
     badge_id = request.matchdict.get('id')
-    badge_query = m.Badge.query.filter_by(id=badge_id)
-    is_awarded = lambda a: logged_in and a.person.email == logged_in
+    badge = request.db.get_badge(badge_id)
     if logged_in:
         awarded_assertions = request.db.get_assertions_by_email(
                                  logged_in)
     else:
         awarded_assertions = None
-    if badge_query.count() > 0:
-        badge = badge_query[0]
+    if badge:
         return dict(
                 badge=badge,
                 logged_in=logged_in,
@@ -201,17 +199,21 @@ def badge(request):
 @view_config(route_name='user', renderer='user.mak')
 def user(request):
     """Render user info page."""
+
     logged_in = authenticated_userid(request)
+
+    # I am so sorry for these next three lines. See get_person_email()
+    # in Tahrir API for a better explanation.
     user_id = request.matchdict.get('id')
-    user_query = m.Person.query.filter_by(id=user_id)
-    is_awarded = lambda a: logged_in and a.person.email == logged_in
+    user_email = request.db.get_person_email(user_id)
+    user = request.db.get_person(user_email)
+
     if logged_in:
         awarded_assertions = request.db.get_assertions_by_email(
                                  logged_in)
     else:
         awarded_assertions = None
-    if user_query.count() > 0:
-        user = user_query[0]
+    if user:
         return dict(
                 user=user,
                 logged_in=logged_in,
