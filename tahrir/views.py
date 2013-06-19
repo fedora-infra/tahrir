@@ -40,7 +40,11 @@ def admin(request):
     request.session['came_from'] = '/admin'
 
     is_awarded = lambda a: logged_in and a.person.email == logged_in
-    awarded_assertions = filter(is_awarded, m.Assertion.query.all())
+    if logged_in:
+        awarded_assertions = request.db.get_assertions_by_email(
+                                 logged_in)
+    else:
+        awarded_assertions = None
 
     name_lookup = {
         'issuerform': widgets.IssuerForm,
@@ -175,7 +179,11 @@ def badge(request):
     badge_id = request.matchdict.get('id')
     badge_query = m.Badge.query.filter_by(id=badge_id)
     is_awarded = lambda a: logged_in and a.person.email == logged_in
-    awarded_assertions = filter(is_awarded, m.Assertion.query.all())
+    if logged_in:
+        awarded_assertions = request.db.get_assertions_by_email(
+                                 logged_in)
+    else:
+        awarded_assertions = None
     if badge_query.count() > 0:
         badge = badge_query[0]
         return dict(
@@ -194,7 +202,11 @@ def user(request):
     user_id = request.matchdict.get('id')
     user_query = m.Person.query.filter_by(id=user_id)
     is_awarded = lambda a: logged_in and a.person.email == logged_in
-    awarded_assertions = filter(is_awarded, m.Assertion.query.all())
+    if logged_in:
+        awarded_assertions = request.db.get_assertions_by_email(
+                                 logged_in)
+    else:
+        awarded_assertions = None
     if user_query.count() > 0:
         user = user_query[0]
         return dict(
