@@ -133,16 +133,17 @@ def invitation_claim(request):
                 request.context.id)
         return HTTPFound(location='/login')
 
-    person = m.Person.query.filter_by(email=logged_in).one()
+    person = request.db.get_person_by_email(logged_in).one()
     
     # Check to see if the user already has the badge.
-    if request.context.badge_id == m.Assertion.query.filter_by(
+    if request.context.badge_id == request.db.get_assertions_by_email(
+                                    logged_in).filter_by(
                                     person_id=person.id,
                                     badge_id=request.context.badge_id).one().badge_id:
         # TODO: Flash a message explaining that they already have the badge
         return HTTPFound(location='/')
 
-    db.add_assertion(request.context.badge_id,
+    request.db.add_assertion(request.context.badge_id,
                      person.id,
                      datetime.now())
 
@@ -250,8 +251,8 @@ def login_complete_view(request):
     else:
         email = context.profile['preferredUsername'] + "@fedoraproject.org"
 
-    if m.Person.query.filter_by(email=email).count() == 0:
-        db.add_person(email)
+    if not request.db.get_person(email):
+        request.db.add_person(email)
 
     headers = remember(request, email)
     # TODO -- don't hardcode the '/'
