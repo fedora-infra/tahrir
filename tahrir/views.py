@@ -78,8 +78,6 @@ def admin(request):
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
     logged_in = authenticated_userid(request)
-    #is_awarded = lambda a: logged_in and a.person.email == logged_in
-    #awarded_assertions = filter(is_awarded, m.Assertion.query.all())
     if logged_in:
         awarded_assertions = len(request.db.get_assertions_by_email(
                                  logged_in))
@@ -89,13 +87,10 @@ def index(request):
     request.session['came_from'] = '/'
     return dict(
         auth_principals=effective_principals(request),
-        #latest_awards=m.Assertion.query.order_by(
-        #        sa.asc(m.Assertion.issued_on)).limit(10).all(),
-        #newest_persons=m.Person.query.order_by(
-        #        sa.asc(m.Person.id)).limit(10).all(),
         latest_awards=request.db.get_all_assertions().order_by(
                         sa.asc(m.Assertion.issued_on)).limit(10).all(),
-        newest_persons=list(),
+        newest_persons=request.db.get_all_persons().order_by(
+                        sa.asc(m.Person.id)).limit(10).all(),
         top_persons=list(),
         awarded_assertions=awarded_assertions,
         logged_in=logged_in,
