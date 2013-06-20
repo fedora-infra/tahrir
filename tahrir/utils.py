@@ -1,5 +1,3 @@
-""" TODO - this should be moved into tw2.sqla """
-
 import cgi
 from HTMLParser import HTMLParser
 

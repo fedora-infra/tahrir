@@ -7,8 +7,6 @@ import StringIO
 import qrcode as qrcode_module
 from datetime import datetime
 
-import tw2.core as twc
-
 from mako.template import Template as t
 from pyramid.view import (
     view_config,
@@ -31,7 +29,6 @@ from tahrir.utils import strip_tags
 import widgets
 
 
-# TODO -- really wield tw2.sqla here
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
     logged_in = authenticated_userid(request)

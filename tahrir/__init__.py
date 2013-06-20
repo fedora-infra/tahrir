@@ -8,9 +8,6 @@ from pyramid.session import UnencryptedCookieSessionFactoryConfig
 
 from .app import get_root
 from tahrir_api.dbapi import TahrirDatabase
-from .widgets import SavingFileField
-
-
 
 
 def main(global_config, **settings):
