@@ -126,10 +126,6 @@ Follow these instructions:
 4. Now open command prompt and use easy_install to install simplejson
 C:\env\tahrir>c:\env\Scripts\easy_install simplejson
 
-This will install simplejson in Python2x\Lib\site-packages\
-A few other packages namely httplib2,tw2.core may have to be installed the same way before the “initialize_tahrir_db” command can be executed.
-
-
-
-
-
+This will install simplejson in Python2x\Lib\site-packages\ A few other
+packages namely httplib2, may have to be installed the same way before the
+“initialize_tahrir_db” command can be executed.

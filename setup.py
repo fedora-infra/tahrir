@@ -13,10 +13,7 @@ requires = [
     'pyramid_tm',
     'zope.sqlalchemy',
     "weberror",
-    "tw2.sqla",
-    "formencode",  # For file uploads
     'velruse',
-
     "qrcode",
     "Pillow",
 
@@ -39,8 +36,8 @@ setup(name='tahrir',
         ],
       author='Ralph Bean',
       author_email='rbean@redhat.com',
-      url='http://github.com/ralphbean/tahrir',
-      keywords='web wsgi bfg pylons pyramid',
+      url='http://github.com/fedora-infra/tahrir',
+      keywords='web wsgi bfg pylons pyramid badges open fedbadges',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,

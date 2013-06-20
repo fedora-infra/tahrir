@@ -7,8 +7,6 @@ import StringIO
 import qrcode as qrcode_module
 from datetime import datetime
 
-import tw2.core as twc
-
 from mako.template import Template as t
 from pyramid.view import (
     view_config,
@@ -24,12 +22,13 @@ from pyramid.security import (
     forget,
 )
 
-from tahrir.utils import strip_tags
+from tahrir_api.dbapi import TahrirDatabase
 import tahrir_api.model as m
+
+from tahrir.utils import strip_tags
 import widgets
 
 
-# TODO -- really wield tw2.sqla here
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
     logged_in = authenticated_userid(request)
@@ -38,56 +37,42 @@ def admin(request):
     request.session['came_from'] = '/admin'
 
     is_awarded = lambda a: logged_in and a.person.email == logged_in
-    awarded_assertions = filter(is_awarded, m.Assertion.query.all())
-
-    name_lookup = {
-        'issuerform': widgets.IssuerForm,
-        'badgeform': widgets.BadgeForm,
-        'invitationform': widgets.InvitationForm,
-        'assertionform': widgets.AssertionForm,
-        'personform': widgets.PersonForm,
-    }
-
-    for key in name_lookup:
-        if any([k.startswith(key) for k in request.params]):
-            w = name_lookup[key]
-
-            try:
-                params = strip_tags(request.params)
-                data = w.validate(params)
-                w.validated_request(request, data,
-                                    protect_prm_tamp=False)
-                return HTTPFound(location='/admin')
-            except twc.ValidationError as e:
-                print e.widget
+    if logged_in:
+        awarded_assertions = request.db.get_assertions_by_email(
+                                 logged_in)
+    else:
+        awarded_assertions = None
 
     return dict(
         auth_principals=effective_principals(request),
         logged_in=logged_in,
         awarded_assertions=awarded_assertions,
-        issuer_form=widgets.IssuerForm,
-        badge_form=widgets.BadgeForm,
-        assertion_form=widgets.AssertionForm,
-        person_form=widgets.PersonForm,
-        invitation_form=widgets.InvitationForm,
     )
 
 
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
     logged_in = authenticated_userid(request)
-    is_awarded = lambda a: logged_in and a.person.email == logged_in
-    awarded_assertions = filter(is_awarded, m.Assertion.query.all())
+    if logged_in:
+        awarded_assertions = request.db.get_assertions_by_email(
+                                 logged_in)
+    else:
+        awarded_assertions = None
     # set came_from so we can get back home after openid auth.
     request.session['came_from'] = '/'
+
+    persons_assertions = request.db.get_all_assertions().join(m.Person)
+    from collections import defaultdict
+    top_persons = defaultdict(int) # person_id: assertion count
+    for item in persons_assertions:
+        top_persons[item.person.email] += 1
     return dict(
         auth_principals=effective_principals(request),
-        issuers=m.Issuer.query.all(),
-        latest_awards=m.Assertion.query.order_by(
-                sa.asc(m.Assertion.issued_on)).limit(10).all(),
-        newest_persons=m.Person.query.order_by(
-                sa.asc(m.Person.id)).limit(10).all(),
-        top_persons=list(),
+        latest_awards=request.db.get_all_assertions().order_by(
+                        sa.asc(m.Assertion.issued_on)).limit(10).all(),
+        newest_persons=request.db.get_all_persons().order_by(
+                        sa.asc(m.Person.id)).limit(10).all(),
+        top_persons=top_persons,
         awarded_assertions=awarded_assertions,
         logged_in=logged_in,
     )
@@ -120,21 +105,19 @@ def invitation_claim(request):
                 request.context.id)
         return HTTPFound(location='/login')
 
-    person = m.Person.query.filter_by(email=logged_in).one()
+    person = request.db.get_person_by_email(logged_in).one()
     
     # Check to see if the user already has the badge.
-    if request.context.badge_id == m.Assertion.query.filter_by(
+    if request.context.badge_id == request.db.get_assertions_by_email(
+                                    logged_in).filter_by(
                                     person_id=person.id,
                                     badge_id=request.context.badge_id).one().badge_id:
         # TODO: Flash a message explaining that they already have the badge
         return HTTPFound(location='/')
 
-    assertion = m.Assertion(
-        badge_id=request.context.badge_id,
-        person_id=person.id,
-        issued_on=datetime.now(),
-    )
-    m.DBSession.add(assertion)
+    request.db.add_assertion(request.context.badge_id,
+                     person.id,
+                     datetime.now())
 
     # TODO -- return them to a page that auto-exports their badges.
 
@@ -162,11 +145,13 @@ def badge(request):
     """Render badge info page."""
     logged_in = authenticated_userid(request)
     badge_id = request.matchdict.get('id')
-    badge_query = m.Badge.query.filter_by(id=badge_id)
-    is_awarded = lambda a: logged_in and a.person.email == logged_in
-    awarded_assertions = filter(is_awarded, m.Assertion.query.all())
-    if badge_query.count() > 0:
-        badge = badge_query[0]
+    badge = request.db.get_badge(badge_id)
+    if logged_in:
+        awarded_assertions = request.db.get_assertions_by_email(
+                                 logged_in)
+    else:
+        awarded_assertions = None
+    if badge:
         return dict(
                 badge=badge,
                 logged_in=logged_in,
@@ -179,13 +164,21 @@ def badge(request):
 @view_config(route_name='user', renderer='user.mak')
 def user(request):
     """Render user info page."""
+
     logged_in = authenticated_userid(request)
+
+    # I am so sorry for these next three lines. See get_person_email()
+    # in Tahrir API for a better explanation.
     user_id = request.matchdict.get('id')
-    user_query = m.Person.query.filter_by(id=user_id)
-    is_awarded = lambda a: logged_in and a.person.email == logged_in
-    awarded_assertions = filter(is_awarded, m.Assertion.query.all())
-    if user_query.count() > 0:
-        user = user_query[0]
+    user_email = request.db.get_person_email(user_id)
+    user = request.db.get_person(user_email)
+
+    if logged_in:
+        awarded_assertions = request.db.get_assertions_by_email(
+                                 logged_in)
+    else:
+        awarded_assertions = None
+    if user:
         return dict(
                 user=user,
                 logged_in=logged_in,
@@ -240,12 +233,10 @@ def login_complete_view(request):
     else:
         email = context.profile['preferredUsername'] + "@fedoraproject.org"
 
-    if m.Person.query.filter_by(email=email).count() == 0:
-        new_user = m.Person(email=email)
-        m.DBSession.add(new_user)
+    if not request.db.get_person(email):
+        request.db.add_person(email)
 
     headers = remember(request, email)
-    # TODO -- don't hardcode the '/'
     response = HTTPFound(location=request.session['came_from'])
     response.headerlist.extend(headers)
     return response
