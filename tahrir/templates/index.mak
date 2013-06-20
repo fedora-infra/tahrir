@@ -7,13 +7,14 @@
 			<table>
 			% for assertion in latest_awards:
 			<tr>
-			<td><img class="badge"
+			<td><a href="/badge/${assertion.badge_id}">
+				<img class="badge"
 % if badge_images[assertion.badge_id].startswith("http"):
 					src="${badge_images[assertion.badge_id]}"
 % else:
 					src="/pngs/${badge_images[assertion.badge_id]}"
 % endif
-					alt="${assertion.badge_id} icon"></td>
+					alt="${assertion.badge_id} icon" /></a></td>
 			<td>${assertion.recipient[:6]} was awarded
 				<a href="/badge/${assertion.badge_id}">
 					${assertion.badge_id}</a>
