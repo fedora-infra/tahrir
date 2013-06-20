@@ -13,7 +13,6 @@ requires = [
     'pyramid_tm',
     'zope.sqlalchemy',
     "weberror",
-    "formencode",  # For file uploads
     'velruse',
     "qrcode",
     "Pillow",
