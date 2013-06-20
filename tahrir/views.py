@@ -234,13 +234,19 @@ def login(request):
 @view_config(context='velruse.AuthenticationComplete')
 def login_complete_view(request):
     context = request.context
+    settings = request.registry.settings
+
+    nickname = context.profile['preferredUsername']
+
     if context.profile['emails']:
         email = context.profile['emails'][0]
     else:
-        email = context.profile['preferredUsername'] + "@fedoraproject.org"
+        ident = settings.get('tahrir.openid_identifier')
+        domain = '.'.join(ident.split('.')[:-2])
+        email = nickname + "@" + domain
 
     if not request.db.get_person(email):
-        request.db.add_person(email)
+        request.db.add_person(email=email, nickname=nickname)
 
     headers = remember(request, email)
     response = HTTPFound(location=request.session['came_from'])
