@@ -10,7 +10,7 @@ body {
     height: auto;
     font-family: Cantarell, sans-serif;
     width: 100%;
-    overflow: hidden;
+    overflow-x: hidden !important;
 }
 
 a, a:visited, a:active, a:link {
