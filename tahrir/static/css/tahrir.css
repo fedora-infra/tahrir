@@ -24,9 +24,10 @@ a, a:visited, a:active, a:link {
 }
 
 .date {
-    font-size: 0.6em;
+    font-size: 0.8em;
     color: #9B9B9B; /* Dark gray */
-    clear: both;
+    display: block;
+    padding-top: 10px;
 }
 
 .navbar {
