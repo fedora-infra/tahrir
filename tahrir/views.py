@@ -66,13 +66,24 @@ def index(request):
     top_persons = defaultdict(int) # person_id: assertion count
     for item in persons_assertions:
         top_persons[item.person.email] += 1
+        
+    # Get latest awards.
+    latest_awards=request.db.get_all_assertions().order_by(
+                    sa.asc(m.Assertion.issued_on)).limit(10).all()
+
+    # Get badge images and put them in a dict.
+    badge_images = dict() # badge_id: image URL
+    for item in latest_awards:
+        badge_images[item.badge_id] = request.db.get_badge(
+                                            item.badge_id).image
+
     return dict(
         auth_principals=effective_principals(request),
-        latest_awards=request.db.get_all_assertions().order_by(
-                        sa.asc(m.Assertion.issued_on)).limit(10).all(),
+        latest_awards=latest_awards,
         newest_persons=request.db.get_all_persons().order_by(
                         sa.asc(m.Person.id)).limit(10).all(),
         top_persons=top_persons,
+        badge_images=badge_images,
         awarded_assertions=awarded_assertions,
         logged_in=logged_in,
     )
