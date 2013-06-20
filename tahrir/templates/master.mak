@@ -44,7 +44,7 @@
 		</div>
     </div>
 
-    <a href="http://github.com/ralphbean/tahrir">
+    <a href="http://github.com/fedora-infra/tahrir">
       <img style="position: absolute; top: 0; right: 0; border: 0;"
       src="/static/img/github.png"
       alt="Fork me on GitHub" />
