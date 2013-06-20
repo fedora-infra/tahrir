@@ -58,9 +58,9 @@ def index(request):
 
     persons_assertions = request.db.get_all_assertions().join(m.Person)
     from collections import defaultdict
-    top_persons = defaultdict(int) # person email: assertion count
+    top_persons = defaultdict(int) # person: assertion count
     for item in persons_assertions:
-        top_persons[item.person.email] += 1
+        top_persons[item.person] += 1
         
     # Get latest awards.
     latest_awards=request.db.get_all_assertions().order_by(
