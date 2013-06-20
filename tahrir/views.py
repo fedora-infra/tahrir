@@ -166,36 +166,24 @@ def badge(request):
 def user(request):
     """Render user info page."""
 
-    # I am so sorry for these next three lines. See get_person_email()
-    # in Tahrir API for a better explanation.
+    # So, here they can use their 'id' or their 'nickname'.
+    # We'll try nickname first since we want to encourage that (or whatever)
+    # and fall back to id if that fails.  If both fail, raise a 404.
     user_id = request.matchdict.get('id')
-    user_email = request.db.get_person_email(user_id)
-    user = request.db.get_person(user_email)
+    user = request.db.get_person(nickname=user_id)
+
+    if not user:
+        user = request.db.get_person(id=user_id)
 
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
 
-
-    if authenticated_userid(request):
-        awarded_assertions = request.db.get_assertions_by_email(
-                                 authenticated_userid(request))
-    else:
-        awarded_assertions = None
-
-    user_assertions = request.db.get_assertions_by_email(user_email)
-    user_badges = [request.db.get_badge(x.badge_id) \
-                    for x in user_assertions]
-
-    if user:
-        return dict(
-                user=user,
-                user_badges=user_badges,
-                auth_principals=effective_principals(request),
-                awarded_assertions=awarded_assertions,
-                )
-    else:
-        # TODO: Say that there was no user found.
-        return HTTPFound(location=request.route_url('home'))
+    return dict(
+            user=user,
+            user_badges=[a.badge for a in user.assertions],
+            auth_principals=effective_principals(request),
+            awarded_assertions=user.assertions,
+            )
 
 
 @view_config(context=unicode)
