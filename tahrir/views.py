@@ -170,6 +170,7 @@ def badge(request):
                 awarded_assertions=awarded_assertions,
                 )
     else:
+        # TODO: Say that there was no badge found.
         return HTTPFound(location=request.route_url('home'))
 
 @view_config(route_name='user', renderer='user.mak')
@@ -189,14 +190,21 @@ def user(request):
                                  logged_in)
     else:
         awarded_assertions = None
+
+    user_assertions = request.db.get_assertions_by_email(user_email)
+    user_badges = [request.db.get_badge(x.badge_id) \
+                    for x in user_assertions]
+
     if user:
         return dict(
                 user=user,
+                user_badges=user_badges,
                 logged_in=logged_in,
                 auth_principals=effective_principals(request),
                 awarded_assertions=awarded_assertions,
                 )
     else:
+        # TODO: Say that there was no user found.
         return HTTPFound(location=request.route_url('home'))
 
 

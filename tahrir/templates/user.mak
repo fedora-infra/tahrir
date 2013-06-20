@@ -30,6 +30,15 @@
 	<!-- COLUMN 2 (Right)-->
 	<div class="grid-75">
 		<h3>Badges Earned</h3>
+		% for badge in user_badges:
+			<a href="/badge/${badge.id}"><img class="badge"
+			% if badge.image.startswith("http"):
+				src="${badge.image}"
+			% else:
+				src="/pngs/${badge.image}"
+			% endif
+				alt="${badge.id} icon" /></a>
+		% endfor
 	</div>
     
 	<div class="clear spacer"></div>
