@@ -31,31 +31,26 @@ import widgets
 
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
-    logged_in = authenticated_userid(request)
-
     # TODO: Check if I even need this anymore... leaving for now.
     request.session['came_from'] = '/admin'
 
-    is_awarded = lambda a: logged_in and a.person.email == logged_in
-    if logged_in:
+    if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
-                                 logged_in)
+                                 authenticated_userid(request))
     else:
         awarded_assertions = None
 
     return dict(
         auth_principals=effective_principals(request),
-        logged_in=logged_in,
         awarded_assertions=awarded_assertions,
     )
 
 
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
-    logged_in = authenticated_userid(request)
-    if logged_in:
+    if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
-                                 logged_in)
+                                 authenticated_userid(request))
     else:
         awarded_assertions = None
     # set came_from so we can get back home after openid auth.
@@ -85,14 +80,11 @@ def index(request):
         top_persons=top_persons,
         badge_images=badge_images,
         awarded_assertions=awarded_assertions,
-        logged_in=logged_in,
     )
 
 
 @view_config(context=types.FunctionType)
 def action(context, request):
-    logged_in = authenticated_userid(request)
-
     if 'group:admins' not in effective_principals(request):
         return HTTPFound(location='/')
 
@@ -109,20 +101,19 @@ def invitation_claim(request):
     if request.context.expires_on < datetime.now():
         return HTTPGone("That invitation is expired.")
 
-    logged_in = authenticated_userid(request)
-
-    if not logged_in:
+    if not authenticated_userid(request):
         request.session['came_from'] = '/invitations/{}/claim'.format(
                 request.context.id)
         return HTTPFound(location='/login')
 
-    person = request.db.get_person_by_email(logged_in).one()
+    person = request.db.get_person_by_email(
+                    authenticated_userid(request)).one()
     
     # Check to see if the user already has the badge.
     if request.context.badge_id == request.db.get_assertions_by_email(
-                                    logged_in).filter_by(
-                                    person_id=person.id,
-                                    badge_id=request.context.badge_id).one().badge_id:
+                        authenticated_userid(request)).filter_by(
+                        person_id=person.id,
+                        badge_id=request.context.badge_id).one().badge_id:
         # TODO: Flash a message explaining that they already have the badge
         return HTTPFound(location='/')
 
@@ -154,18 +145,16 @@ def invitation_qrcode(request):
 @view_config(route_name='badge', renderer='badge.mak')
 def badge(request):
     """Render badge info page."""
-    logged_in = authenticated_userid(request)
     badge_id = request.matchdict.get('id')
     badge = request.db.get_badge(badge_id)
-    if logged_in:
+    if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
-                                 logged_in)
+                                authenticated_userid(request))
     else:
         awarded_assertions = None
     if badge:
         return dict(
                 badge=badge,
-                logged_in=logged_in,
                 auth_principals=effective_principals(request),
                 awarded_assertions=awarded_assertions,
                 )
@@ -177,17 +166,15 @@ def badge(request):
 def user(request):
     """Render user info page."""
 
-    logged_in = authenticated_userid(request)
-
     # I am so sorry for these next three lines. See get_person_email()
     # in Tahrir API for a better explanation.
     user_id = request.matchdict.get('id')
     user_email = request.db.get_person_email(user_id)
     user = request.db.get_person(user_email)
 
-    if logged_in:
+    if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
-                                 logged_in)
+                                 authenticated_userid(request))
     else:
         awarded_assertions = None
 
@@ -199,7 +186,6 @@ def user(request):
         return dict(
                 user=user,
                 user_badges=user_badges,
-                logged_in=logged_in,
                 auth_principals=effective_principals(request),
                 awarded_assertions=awarded_assertions,
                 )

@@ -22,3 +22,5 @@ def inject_globals(event):
     # dict returned by the view every time!
     event['title'] = request.registry.settings['tahrir.title']
     event['base_url'] = request.registry.settings['tahrir.base_url']
+
+    event['logged_in'] = authenticated_userid(request)
