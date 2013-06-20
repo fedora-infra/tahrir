@@ -217,8 +217,9 @@ def _500(request):
 @view_config(route_name='login', renderer='login.mak')
 @forbidden_view_config(renderer='login.mak')
 def login(request):
-    identifier = "openid_identifier=https://id.fedoraproject.org"
-    url = velruse.login_url(request, 'openid') + "?" + identifier
+    settings = request.registry.settings
+    ident = "openid_identifier=" + settings.get('tahrir.openid_identifier')
+    url = velruse.login_url(request, 'openid') + "?" + ident
     """
     login_url = request.resource_url(request.context, 'login')
     referrer = request.url
