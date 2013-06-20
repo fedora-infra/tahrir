@@ -58,7 +58,7 @@ def index(request):
 
     persons_assertions = request.db.get_all_assertions().join(m.Person)
     from collections import defaultdict
-    top_persons = defaultdict(int) # person_id: assertion count
+    top_persons = defaultdict(int) # person email: assertion count
     for item in persons_assertions:
         top_persons[item.person.email] += 1
         
