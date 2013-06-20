@@ -24,4 +24,5 @@ def inject_globals(event):
     event['base_url'] = request.registry.settings['tahrir.base_url']
 
     event['logged_in'] = authenticated_userid(request)
-    event['logged_in_id'] = request.db.get_person(event['logged_in']).id
+    person = request.db.get_person(event['logged_in'])
+    event['logged_in_id'] = getattr(person, 'id', None)
