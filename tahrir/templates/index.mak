@@ -17,7 +17,7 @@
 					alt="${assertion.badge_id} icon" /></a></td>
 			<td>${assertion.recipient[:6]} was awarded
 				<a href="/badge/${assertion.badge_id}">
-					${assertion.badge_id}</a>
+					${assertion.badge_id}</a>.
 				<span class="date">${assertion.issued_on.strftime("%Y-%m-%d")}</span></td>
 			% endfor
 			</tr>
@@ -31,7 +31,8 @@
 			<table>
 			% for person in newest_persons:
 				<tr><td><a href="/user/${person.id}">
-						${person.email}</a></td></tr>
+						${person.email}</a>
+					is user ${person.id}.</td></tr>
 			% endfor
 			</table>
 		</div> <!-- End padded content. -->
@@ -48,9 +49,9 @@
 						with <strong>${top_persons[person]}
 				</strong>
 				% if top_persons[person] == 1:
-					badge
+					badge.
 				% else:
-					badges
+					badges.
 				% endif
 				</td></tr>
 			% endfor
