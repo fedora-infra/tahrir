@@ -182,9 +182,7 @@ def user(request):
     else:
         awarded_assertions = None
 
-    user_assertions = request.db.get_assertions_by_email(user_email)
-    user_badges = [request.db.get_badge(x.badge_id) \
-                    for x in user_assertions]
+    user_badges = [a.badge for a in user.assertions]
 
     if user:
         return dict(
