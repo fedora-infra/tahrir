@@ -37,9 +37,6 @@ def main(global_config, **settings):
     if not os.path.exists(settings['tahrir.pngs.uri']):
         os.makedirs(settings['tahrir.pngs.uri'])
 
-    # Set that directory on the filefield widget.
-    SavingFileField.png_dir = settings['tahrir.pngs.uri']
-    
     # Load secret stuff from secret.ini.
     try:
         from paste.deploy.loadwsgi import appconfig

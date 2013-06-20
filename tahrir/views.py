@@ -43,36 +43,10 @@ def admin(request):
     else:
         awarded_assertions = None
 
-    name_lookup = {
-        'issuerform': widgets.IssuerForm,
-        'badgeform': widgets.BadgeForm,
-        'invitationform': widgets.InvitationForm,
-        'assertionform': widgets.AssertionForm,
-        'personform': widgets.PersonForm,
-    }
-
-    for key in name_lookup:
-        if any([k.startswith(key) for k in request.params]):
-            w = name_lookup[key]
-
-            try:
-                params = strip_tags(request.params)
-                data = w.validate(params)
-                w.validated_request(request, data,
-                                    protect_prm_tamp=False)
-                return HTTPFound(location='/admin')
-            except twc.ValidationError as e:
-                print e.widget
-
     return dict(
         auth_principals=effective_principals(request),
         logged_in=logged_in,
         awarded_assertions=awarded_assertions,
-        issuer_form=widgets.IssuerForm,
-        badge_form=widgets.BadgeForm,
-        assertion_form=widgets.AssertionForm,
-        person_form=widgets.PersonForm,
-        invitation_form=widgets.InvitationForm,
     )
 
 
