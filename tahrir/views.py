@@ -14,7 +14,7 @@ from pyramid.view import (
 )
 
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPFound, HTTPGone
+from pyramid.httpexceptions import HTTPFound, HTTPGone, HTTPNotFound
 from pyramid.security import (
     authenticated_userid,
     effective_principals,
@@ -171,6 +171,10 @@ def user(request):
     user_id = request.matchdict.get('id')
     user_email = request.db.get_person_email(user_id)
     user = request.db.get_person(user_email)
+
+    if not user:
+        raise HTTPNotFound("No such user %r" % user_id)
+
 
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
