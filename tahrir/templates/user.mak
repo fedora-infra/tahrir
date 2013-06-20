@@ -4,9 +4,27 @@
 	<div class="grid-25">
 		<h3>${user.email}</h3>
 		<table>
-			<tr><td>Nickname</td></tr>
-			<tr><td>Website</td></tr>
-			<tr><td>Bio</td></tr>
+			<tr><td>
+			% if user.nickname:
+				${user.nickname}
+			% else:
+				No nickname set.
+			% endif
+			</td></tr>
+			<tr><td>
+			% if user.website:
+				${user.website}
+			% else:
+				No website set.
+			% endif
+			</td></tr>
+			<tr><td>
+			% if user.bio:
+				${user.bio}
+			% else:
+				No bio set.
+			% endif
+			</td></tr>
 		</table>
 	</div>
 	<!-- COLUMN 2 (Right)-->
