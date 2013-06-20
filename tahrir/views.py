@@ -14,7 +14,7 @@ from pyramid.view import (
 )
 
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPFound, HTTPGone
+from pyramid.httpexceptions import HTTPFound, HTTPGone, HTTPNotFound
 from pyramid.security import (
     authenticated_userid,
     effective_principals,
@@ -172,6 +172,10 @@ def user(request):
     user_email = request.db.get_person_email(user_id)
     user = request.db.get_person(user_email)
 
+    if not user:
+        raise HTTPNotFound("No such user %r" % user_id)
+
+
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
                                  authenticated_userid(request))
@@ -217,8 +221,9 @@ def _500(request):
 @view_config(route_name='login', renderer='login.mak')
 @forbidden_view_config(renderer='login.mak')
 def login(request):
-    identifier = "openid_identifier=https://id.fedoraproject.org"
-    url = velruse.login_url(request, 'openid') + "?" + identifier
+    settings = request.registry.settings
+    ident = "openid_identifier=" + settings.get('tahrir.openid_identifier')
+    url = velruse.login_url(request, 'openid') + "?" + ident
     """
     login_url = request.resource_url(request.context, 'login')
     referrer = request.url
@@ -233,13 +238,19 @@ def login(request):
 @view_config(context='velruse.AuthenticationComplete')
 def login_complete_view(request):
     context = request.context
+    settings = request.registry.settings
+
+    nickname = context.profile['preferredUsername']
+
     if context.profile['emails']:
         email = context.profile['emails'][0]
     else:
-        email = context.profile['preferredUsername'] + "@fedoraproject.org"
+        ident = settings.get('tahrir.openid_identifier')
+        domain = '.'.join(ident.split('.')[:-2])
+        email = nickname + "@" + domain
 
     if not request.db.get_person(email):
-        request.db.add_person(email)
+        request.db.add_person(email=email, nickname=nickname)
 
     headers = remember(request, email)
     response = HTTPFound(location=request.session['came_from'])
