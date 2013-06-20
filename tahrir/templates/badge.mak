@@ -3,9 +3,20 @@
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-25">
 		<h3>${badge.name}</h3>
-		<img src="${badge.image}" alt="${badge.name} image" />
-		<p>${badge.description}</p>
-		<em>Issued by issuer ${badge.issuer_id}</em>
+		<a href="/badge/${badge.id}"><img class="badge"
+		% if badge.image.startswith("http"):
+			src="${badge.image}"
+		% else:
+			src="/pngs/${badge.image}"
+		% endif
+			alt="${badge.id} icon" /></a>
+		<table>
+		<tr><td>Description</td><td>${badge.description}</td></tr>
+			<tr><td>Criteria</td><td>${badge.criteria}</td></tr>
+			<tr><td>Created</td><td>${badge.created_on.strftime("%Y-%m-%d")}
+				</td></tr>
+			<tr><td>Issuer</td><td>${badge.issuer_id}</td></tr>
+		</table>
 	</div>
 	<!-- COLUMN 2 (Right)-->
 	<div class="grid-75">
