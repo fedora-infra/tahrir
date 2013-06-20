@@ -54,7 +54,7 @@
 
 	<ul class="grid-100 navbar">
       % if logged_in:
-		<li>Profile</li>
+		<li><a href="/user/${logged_in_id}">Profile</a></li>
       % endif
 		<li>Explore</li>
 		<li>Users</li>
