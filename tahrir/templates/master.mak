@@ -36,6 +36,13 @@
     <title>${title}</title>
   </head>
   <body>
+
+	<div class="ribbon">
+	  <a href="http://github.com/fedora-infra/tahrir" rel="me">
+		  Get the Source!
+	  </a>
+	</div>
+
   	<div class="grid-container">
     <div class="header grid-100">
 		<div><H1><a id="header-link" href="/"><img
@@ -43,12 +50,6 @@
 			class="logo-image"/></a></H1>
 		</div>
     </div>
-
-    <a href="http://github.com/ralphbean/tahrir">
-      <img style="position: absolute; top: 0; right: 0; border: 0;"
-      src="/static/img/github.png"
-      alt="Fork me on GitHub" />
-    </a>
 
 	<div class="clear"></div>
 
