@@ -18,6 +18,11 @@ a, a:visited, a:active, a:link {
     text-decoration: none;
 }
 
+legend {
+    font-size: 1.2em;
+    padding-bottom: 10px;
+}
+
 .page {
     /* Without the below line, the page div is skewed
      * right. */
