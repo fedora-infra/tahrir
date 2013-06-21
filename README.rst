@@ -9,12 +9,24 @@ your own `Open Badges <https://wiki.mozilla.org/Badges>`_.
 
 The name is total overkill.
 
-Installing
-----------
+Deploying for reals
+-------------------
 
-::
+It's `packaged for Fedora and epel6
+<https://apps.fedoraproject.org/packages/python-tahrir>`_.  The authors use an
+`ansible <http://ansibleworks.com>`_ playbook to deploy tahrir in production.
+You can find our repo `here
+<http://infrastructure.fedoraproject.org/infra/ansible/>`_, our playbook `here
+<http://infrastructure.fedoraproject.org/infra/ansible/playbooks/groups/badges-web.yml>`_,
+and our tahrir role `here
+<http://infrastructure.fedoraproject.org/infra/ansible/roles/badges-frontend/>`_.
 
-    $ sudo pip install tahrir
+Installing... just to try it out
+--------------------------------
+
+You can always::
+
+    $ pip install tahrir
 
 Building a configuration file
 -----------------------------
