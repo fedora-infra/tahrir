@@ -29,7 +29,7 @@
 		<h2 class="section-header">New Contributors</h2>
 		<div class="padded-content">
 			<table>
-			% for person in newest_persons:
+			% for person in sorted(newest_persons, key=lambda x: x.id, reverse=True):
 				<tr><td><a href="/user/${person.id}">
 						${person.email}</a>
 					is user ${person.id}.</td></tr>
