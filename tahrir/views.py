@@ -83,8 +83,8 @@ def index(request):
     )
 
 
-@view_config(context=types.FunctionType)
-def action(context, request, permission="admin"):
+@view_config(context=types.FunctionType, permission='admin')
+def action(context, request):
 
     # Do the action
     context()
