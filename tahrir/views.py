@@ -84,9 +84,7 @@ def index(request):
 
 
 @view_config(context=types.FunctionType)
-def action(context, request):
-    if 'group:admins' not in effective_principals(request):
-        return HTTPFound(location='/')
+def action(context, request, permission="admin"):
 
     # Do the action
     context()
