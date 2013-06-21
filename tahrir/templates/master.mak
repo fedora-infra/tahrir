@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/css/tahrir.css" />
     <link rel="stylesheet" href="/static/css/monokai.css" />
-	<link rel="stylesheet" href="/static/css/unsemantic-grid-responsive.css" />
+	<link rel="stylesheet" media="screen" href="/static/css/unsemantic-grid-responsive.css" />
+	<link rel="stylesheet" media="mobile" href="/static/css/unsemantic-grid-responsive-tablet.css" />
 	<link rel="shortcut icon" href="/static/img/favicon.ico" />
     <script
       type="text/javascript"
