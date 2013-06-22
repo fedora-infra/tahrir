@@ -10,10 +10,13 @@ class AssertionApp(object):
         self.badge = badge
 
     def __getitem__(self, key):
-        return m.Assertion.query.filter_by(
+        resource = m.Assertion.query.filter_by(
             recipient=key,
             badge=self.badge,
         ).one()
+        resource.__parent__ = self
+        resource.__name__ = resource.id
+        return resource
 
 
 class InvitationApp(object):
@@ -49,7 +52,9 @@ class RootApp(object):
 
         try:
             badge = m.Badge.query.filter_by(id=key).one()
-            return AssertionApp(badge=badge)
+            resource = AssertionApp(badge=badge)
+            resource.__parent__ = self
+            return resource
         except:
             return self
 
