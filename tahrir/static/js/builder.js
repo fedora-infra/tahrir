@@ -2,12 +2,14 @@
 
 $(document).ready(function() {
 
+    var badgeName = "";
+
     function generateOutput() {
         return "%YAML 1.2\n"
              + "---\n"
              + "\n"
              + "# This is some metadata about the badge.\n"
-             + "name:           Blah\n"
+             + "name:           " + badgeName + "\n"
              + "description:    Blahhh\n"
              + "creator:        Joe\n"
              + "\n"
@@ -15,8 +17,13 @@ $(document).ready(function() {
              + "a for-real badge.\n";
     }
 
-    $('input#lol').keydown(function() {
-        var previewVal = $(this).val();
+    function updateTextarea() {
         $('textarea#preview').val(generateOutput());
+    }
+                   
+
+    $('input[name=badge-name]').keyup(function() {
+        badgeName = $(this).val();
+        updateTextarea();
     });
 });
