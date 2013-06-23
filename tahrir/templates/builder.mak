@@ -43,11 +43,21 @@
 			<td><label for="triggerTopic">Trigger Topic</label></td>
 			<td><input name="triggerTopic" tabindex="8" /></td></tr>
 		</table>
-		<h3>Preview</h3>
-		<textarea id="preview"
-				  form="builder-form" readonly="readonly"
-				  rows="25" cols="80"></textarea>
 	</form>
+	<h3>Preview</h3>
+	<form id="preview-options-form">
+		<table style="width: 300px;">
+		<tr><td>
+		<label for="read-only">Preview is read only?
+				<span class="sublabel">Any changes will be
+								undone if any of the above fields are altered.</span>
+								</label></td>
+		<td><input type="checkbox" name="read-only" checked="checked"/></td></r>
+		</table>
+	</form>
+	<textarea id="preview"
+			  form="builder-form" readonly="readonly"
+			  rows="25" cols="80"></textarea>
 	</div>
     
 	<div class="clear spacer"></div>

@@ -60,6 +60,11 @@ $(document).ready(function() {
         badgeDescription = $(this).val();
         updateTextarea();
     });
+    
+    $('input[name=badge-creator]').keyup(function() {
+        badgeCreator = $(this).val();
+        updateTextarea();
+    });
 
     $('input[name=discussion]').keyup(function() {
         discussion = $(this).val();
@@ -90,4 +95,22 @@ $(document).ready(function() {
         criteria = $(this).val();
         updateTextarea();
     });
+
+    // Handling for preview form:
+    $('input[name=read-only]').click(function() {
+        if ($(this).is(':checked')) {
+            $('textarea#preview').prop('readonly', 'readonly');
+        }
+        else { 
+            $('textarea#preview').prop('readonly', '');
+        }
+    });
+
+    // Set read-only based on checkbox on page load.
+    if ($('input[name=read-only]').is(':checked')) {
+        $('textarea#preview').prop('readonly', 'readonly');
+    }
+    else { 
+        $('textarea#preview').prop('readonly', '');
+    }
 });
