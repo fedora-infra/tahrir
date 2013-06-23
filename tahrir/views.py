@@ -32,7 +32,7 @@ import widgets
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
     # TODO: Check if I even need this anymore... leaving for now.
-    request.session['came_from'] = '/admin'
+    request.session['came_from'] = request.route_url('admin')
 
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
@@ -54,7 +54,7 @@ def index(request):
     else:
         awarded_assertions = None
     # set came_from so we can get back home after openid auth.
-    request.session['came_from'] = '/'
+    request.session['came_from'] = request.route_url('home')
 
     persons_assertions = request.db.get_all_assertions().join(m.Person)
     from collections import defaultdict
@@ -100,9 +100,10 @@ def invitation_claim(request):
         return HTTPGone("That invitation is expired.")
 
     if not authenticated_userid(request):
-        request.session['came_from'] = '/invitations/{}/claim'.format(
-                request.context.id)
-        return HTTPFound(location='/login')
+        request.session['came_from'] = request.resource_url(request.context,
+                                                            request.context.id,
+                                                            'claim')
+        return HTTPFound(location=request.route_url('login'))
 
     person = request.db.get_person_by_email(
                     authenticated_userid(request)).one()
