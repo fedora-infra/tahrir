@@ -89,7 +89,7 @@ def action(context, request):
     # Do the action
     context()
 
-    return HTTPFound(location='/')
+    return HTTPFound(location=request.route_url('home'))
 
 
 @view_config(context=m.Invitation, name='claim')
@@ -121,8 +121,7 @@ def invitation_claim(request):
                      datetime.now())
 
     # TODO -- return them to a page that auto-exports their badges.
-
-    return HTTPFound(location='/')
+    return HTTPFound(location=request.route_url('home'))
 
 @view_config(context=m.Invitation, name='qrcode')
 def invitation_qrcode(request):
@@ -211,6 +210,7 @@ def login(request):
     settings = request.registry.settings
     ident = "openid_identifier=" + settings.get('tahrir.openid_identifier')
     url = velruse.login_url(request, 'openid') + "?" + ident
+    # TODO: Can we remove the below?
     """
     login_url = request.resource_url(request.context, 'login')
     referrer = request.url
