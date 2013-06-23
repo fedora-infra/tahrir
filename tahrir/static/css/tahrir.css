@@ -200,3 +200,10 @@ div.gravatar img {
     text-decoration: none;
     text-shadow: 0 0 0.5em #444;
 }
+
+/* Applied to every form element on the admin view. */
+.admin-form {
+    padding: 4px;
+    margin-bottom: 20px;
+    border: 1px solid #AAA;
+}
