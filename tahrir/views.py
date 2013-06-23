@@ -184,6 +184,24 @@ def user(request):
             )
 
 
+@view_config(route_name='builder', renderer='builder.mak')
+def builder(request):
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                 authenticated_userid(request))
+    else:
+        awarded_assertions = None
+
+    # set came_from so we can get back home after openid auth.
+    request.session['came_from'] = request.route_url('builder')
+
+
+    return dict(
+        auth_principals=effective_principals(request),
+        awarded_assertions=awarded_assertions,
+    )
+
+
 @view_config(context=unicode)
 def html(context, request):
     return Response(context)
