@@ -1,4 +1,5 @@
 <%inherit file="master.mak"/>
+<script type="text/javascript" src="/static/js/builder.js"></script>
 <div class="page">
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-25">
@@ -23,10 +24,11 @@
 		<legend>Badge Builder</legend>
 		<table>
 		<tr><td><label for="badge-name">Badge Name</label></td>
-			<td><input name="badge-name" /></td></tr>
+			<td><input id="lol" name="badge-name" /></td></tr>
 		</table>
 		<h3>Preview</h3>
-		<textarea form="builder-form" readonly="readonly"
+		<textarea id="preview"
+				  form="builder-form" readonly="readonly"
 				  rows="25" cols="80"></textarea>
 	</form>
 	</div>
