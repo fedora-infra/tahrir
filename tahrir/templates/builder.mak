@@ -24,7 +24,11 @@
 		<legend>Badge Builder</legend>
 		<table>
 		<tr><td><label for="badge-name">Badge Name</label></td>
-			<td><input id="lol" name="badge-name" /></td></tr>
+			<td><input name="badge-name" /></td></tr>
+		<tr><td><label for="badge-description">Badge Description</label></td>
+			<td><input name="badge-description" /></td></tr>
+		<tr><td><label for="badge-creator">Badge Creator</label></td>
+			<td><input name="badge-creator" /></td></tr>
 		</table>
 		<h3>Preview</h3>
 		<textarea id="preview"
