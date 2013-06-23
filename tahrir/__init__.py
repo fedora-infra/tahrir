@@ -45,7 +45,7 @@ def main(global_config, **settings):
     except IOError:
         # TODO: There is a better way to log this message than print.
         print 'Failed to load secret.ini.'
-        return 0
+        exit(0)
     
     settings.update({
         'session.secret':
