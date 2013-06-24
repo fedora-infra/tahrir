@@ -8,7 +8,6 @@ $(document).ready(function() {
     var discussion = $('input[name=discussion]').val();
     var image = $('input[name=image]').val();
     var issuer = $('input[name=issuer]').val();
-    var trigger = $('input[name=trigger]').val();
     var triggerTopic = $('input[name=triggerTopic]').val();
     var criteria = $('input[name=criteria]').val();
 
@@ -33,7 +32,7 @@ $(document).ready(function() {
              + "\n"
              + "# We'll perform our more costly check (defined below)\n"
              + "# only when we receive messages that match this trigger.\n"
-             + "trigger:        " + trigger + "\n"
+             + "trigger:\n"
              + "  topic:        " + triggerTopic + "\n"
              + "\n"
              + "# Once the check has been triggered, this defines what we"
@@ -78,11 +77,6 @@ $(document).ready(function() {
 
     $('input[name=issuer]').keyup(function() {
         issuer = $(this).val();
-        updateTextarea();
-    });
-
-    $('input[name=trigger]').keyup(function() {
-        trigger = $(this).val();
         updateTextarea();
     });
 
