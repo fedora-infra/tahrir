@@ -32,7 +32,11 @@
 			<td><label for="image">Image URL</label></td>
 			<td><input name="image" tabindex="5" /></td></tr>
 		<tr><td><label for="badge-creator">Badge Creator</label></td>
-			<td><input name="badge-creator" tabindex="3" /></td>
+			<td><input name="badge-creator" tabindex="3"
+			% if default_creator:
+					   value="${default_creator}"
+			% endif
+				 /></td>
 			<td><label for="issuer">Issuer ID</label></td>
 			<td><input name="issuer" tabindex="6" /></td></tr>
 			<td><label for="triggerTopic">Trigger Topic</label></td>

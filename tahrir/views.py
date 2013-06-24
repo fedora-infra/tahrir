@@ -195,10 +195,16 @@ def builder(request):
     # set came_from so we can get back home after openid auth.
     request.session['came_from'] = request.route_url('builder')
 
+    # get default creator field
+    default_creator = None
+    user = request.db.get_person(person_email=authenticated_userid(request))
+    if user:
+        default_creator = user.nickname or user.email
 
     return dict(
         auth_principals=effective_principals(request),
         awarded_assertions=awarded_assertions,
+        default_creator=default_creator,
     )
 
 
