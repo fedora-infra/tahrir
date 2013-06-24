@@ -1,7 +1,7 @@
 var on_a_link = false;
 var speed = 50;
 $(document).ready(function() {
-    $("div.popup").hide();
+    var popup = $("div.popup").hide();
     $("li.popup").hover(
         // mouse-over
         function(event) {
@@ -11,12 +11,10 @@ $(document).ready(function() {
                     // The next line solves the problem of the popup
                     // persisting due to aggressive mouse movement.
                     if (! on_a_link) { return; }
-                    $("div.popup").show(speed);
-                    $("div.popup").animate({
+                    popup.html(html).show(speed).animate({
                         top: event.pageY-100,
                         left: 0,
                     }, speed);
-                    $("div.popup").html(html);
                 },
             });
         },
@@ -25,7 +23,7 @@ $(document).ready(function() {
             on_a_link = false;
             setTimeout(function(){
                 if (! on_a_link) {
-                    $("div.popup").hide(speed);
+                    popup.hide(speed);
                 }
             }, 500);
         }
