@@ -1,8 +1,7 @@
 <%inherit file="master.mak"/>
 <script type="text/javascript" src="/static/js/builder.js"></script>
 <div class="page">
-	<!-- COLUMN 1 (Left)-->
-	<div class="grid-25">
+	<div class="grid-100">
 	<p>Badges can be awarded automatically when certain critera
 		are met. This is done with data collected by
 		<a href="https://github.com/fedora-infra/datanommer">
@@ -18,15 +17,11 @@
 		consideration.
 	</p>
 	</div>
-	<!-- COLUMN 2 (Right)-->
-	<div class="grid-75">
-	% if badge_yaml:
-		<preformatted>
-		${badge_yaml}
-		</preformatted>
-	% endif
+	<div class="clear"></div>
+	<!-- COLUMN 1 (Left)-->
+	<div class="grid-50">
+	<h3>Badge Builder</h3>
 	<form id="builder-form" method="POST">
-		<legend>Badge Builder</legend>
 		<table>
 		<tr><td><label for="badge-name">Badge Name</label></td>
 			<td><input name="badge-name" tabindex="1" /></td>
@@ -53,10 +48,14 @@
 					value="Generate" /></td></tr>
 		</table>
 	</form>
+	</div>
+	<!-- COLUMN 2 (Right)-->
+	<div class="grid-50">
+	<!--- COMMENT OUT THE PREVIEW AREA FOR NOW
 	<h3>Preview</h3>
 	<p>Preview will work only if JavaScript is enabled.</p>
 	<form id="preview-options-form">
-		<table style="width: 300px;">
+		<table style="width: 500px;">
 		<tr><td>
 		<label for="read-only">Preview is read only?
 				<span class="sublabel">Any changes will be
@@ -69,6 +68,15 @@
 			  form="builder-form" readonly="readonly"
 			  rows="25" cols="80"></textarea>
 	</div>
+
+	END COMMENTING OUT PREVIEW AREA -->
+
+	<h3>Output</h3>
+	% if badge_yaml:
+		<textarea rows="30" cols="80">${badge_yaml}</textarea>
+	% else:
+		<textarea rows="30" cols="80">Badge YAML will appear here.</textarea>
+	% endif
     
 	<div class="clear spacer"></div>
 </div>
