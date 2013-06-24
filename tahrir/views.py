@@ -25,7 +25,7 @@ from pyramid.security import (
 from tahrir_api.dbapi import TahrirDatabase
 import tahrir_api.model as m
 
-from tahrir.utils import strip_tags
+from tahrir.utils import strip_tags, generate_badge_yaml
 import widgets
 
 
@@ -201,10 +201,15 @@ def builder(request):
     if user:
         default_creator = user.nickname or user.email
 
+    badge_yaml = None
+    if request.POST:
+        badge_yaml = generate_badge_yaml(request.POST)
+
     return dict(
         auth_principals=effective_principals(request),
         awarded_assertions=awarded_assertions,
         default_creator=default_creator,
+        badge_yaml=badge_yaml,
     )
 
 

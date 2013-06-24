@@ -20,7 +20,12 @@
 	</div>
 	<!-- COLUMN 2 (Right)-->
 	<div class="grid-75">
-	<form id="builder-form">
+	% if badge_yaml:
+		<preformatted>
+		${badge_yaml}
+		</preformatted>
+	% endif
+	<form id="builder-form" method="POST">
 		<legend>Badge Builder</legend>
 		<table>
 		<tr><td><label for="badge-name">Badge Name</label></td>
@@ -43,9 +48,13 @@
 			<td><input name="triggerTopic" tabindex="7" /></td>
 			<td><label for="criteria">Criteria</label></td>
 			<td><input name="criteria" tabindex="8" /></td></tr>
+			<tr><td colspan="4"><input name="generate"
+					type="submit" action="/builder"
+					value="Generate" /></td></tr>
 		</table>
 	</form>
 	<h3>Preview</h3>
+	<p>Preview will work only if JavaScript is enabled.</p>
 	<form id="preview-options-form">
 		<table style="width: 300px;">
 		<tr><td>
