@@ -25,7 +25,7 @@ from pyramid.security import (
 from tahrir_api.dbapi import TahrirDatabase
 import tahrir_api.model as m
 
-from tahrir.utils import strip_tags
+from tahrir.utils import strip_tags, generate_badge_yaml
 import widgets
 
 
@@ -182,6 +182,35 @@ def user(request):
             auth_principals=effective_principals(request),
             awarded_assertions=user.assertions,
             )
+
+
+@view_config(route_name='builder', renderer='builder.mak')
+def builder(request):
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                 authenticated_userid(request))
+    else:
+        awarded_assertions = None
+
+    # set came_from so we can get back home after openid auth.
+    request.session['came_from'] = request.route_url('builder')
+
+    # get default creator field
+    default_creator = None
+    user = request.db.get_person(person_email=authenticated_userid(request))
+    if user:
+        default_creator = user.nickname or user.email
+
+    badge_yaml = None
+    if request.POST:
+        badge_yaml = generate_badge_yaml(request.POST)
+
+    return dict(
+        auth_principals=effective_principals(request),
+        awarded_assertions=awarded_assertions,
+        default_creator=default_creator,
+        badge_yaml=badge_yaml,
+    )
 
 
 @view_config(context=unicode)

@@ -60,6 +60,7 @@
       % endif
 		<li>Explore</li>
 		<li>Users</li>
+		<li><a href="/builder">Builder</a></li>
 % if logged_in:
 	% if 'group:admins' in auth_principals:
 		<li><a href="/admin">Admin</a></li>
