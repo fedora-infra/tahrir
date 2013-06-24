@@ -1,5 +1,5 @@
 <%inherit file="master.mak"/>
-<script type="text/javascript" src="/static/js/builder.js"></script>
+<script type="text/javascript" src="${request.static_url('tahrir:static/js/builder.js')}"></script>
 <div class="page">
 	<div class="grid-100">
 	<p>Badges can be awarded automatically when certain critera
@@ -44,7 +44,7 @@
 			<td><label for="criteria">Criteria</label></td>
 			<td><input name="criteria" tabindex="8" /></td></tr>
 			<tr><td colspan="4"><input name="generate"
-					type="submit" action="/builder"
+					type="submit" action="${request.route_url('builder')}"
 					value="Generate" /></td></tr>
 		</table>
 	</form>

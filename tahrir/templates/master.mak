@@ -2,16 +2,16 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/static/css/tahrir.css" />
-    <link rel="stylesheet" href="/static/css/monokai.css" />
-	<link rel="stylesheet" media="mobile" href="/static/css/unsemantic-grid-mobile.css" />
-	<link rel="stylesheet" media="screen" href="/static/css/unsemantic-grid-responsive.css" />
-	<link rel="shortcut icon" href="/static/img/favicon.ico" />
+	<link rel="stylesheet" href="${request.static_url('tahrir:static/css/tahrir.css')}" />
+	<link rel="stylesheet" href="${request.static_url('tahrir:static/css/monokai.css')}" />
+	<link rel="stylesheet" media="mobile" href="${request.static_url('tahrir:static/css/unsemantic-grid-mobile.css')}" />
+	<link rel="stylesheet" media="screen" href="${request.static_url('tahrir:static/css/unsemantic-grid-responsive.css')}" />
+	<link rel="shortcut icon" href="${request.static_url('tahrir:static/img/favicon.ico')}" />
     <script
       type="text/javascript"
       src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
     </script>
-    <script type="text/javascript" src="/static/js/popup.js"></script>
+	<script type="text/javascript" src="${request.static_url('tahrir:static/js/popup.js')}"></script>
     % if logged_in and awarded_assertions:
       <script
         type="text/javascript"
@@ -47,7 +47,8 @@
   	<div class="grid-container">
     <div class="header grid-100">
 		<div><H1><a id="header-link" href="/"><img
-			src="/static/img/fedora_badges_small.png" alt="Fedora Badges logo"
+			src="${request.static_url('tahrir:static/img/fedora_badges_small.png')}"
+			alt="Fedora Badges logo"
 			class="logo-image"/></a></H1>
 		</div>
     </div>
@@ -56,18 +57,18 @@
 
 	<ul class="grid-100 navbar">
       % if logged_in:
-		<li><a href="/user/${logged_in_id}">Profile</a></li>
+	  <li><a href="${request.route_url('user', id=logged_in_id)}">Profile</a></li>
       % endif
 		<li>Explore</li>
 		<li>Users</li>
-		<li><a href="/builder">Builder</a></li>
+		<li><a href="${request.route_url('builder')}">Builder</a></li>
 % if logged_in:
 	% if 'group:admins' in auth_principals:
-		<li><a href="/admin">Admin</a></li>
+		<li><a href="${request.route_url('admin')}">Admin</a></li>
 	% endif
-		<li><a href="/logout">Logout</a></li>
+		<li><a href="${request.route_url('logout')}">Logout</a></li>
 % else:
-	<li><a href="/login">Login</a></li>
+	<li><a href="${request.route_url('login')}">Login</a></li>
 % endif
 	</ul>
 <!-- TODO: Move this somewhere better. -->

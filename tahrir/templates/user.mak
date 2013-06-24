@@ -31,11 +31,11 @@
 	<div class="grid-75">
 		<h3>Badges Earned</h3>
 		% for badge in user_badges:
-			<a href="/badge/${badge.id}"><img class="badge"
+			<a href="${request.route_url('badge', id=badge.id)}"><img class="badge"
 			% if badge.image.startswith("http"):
 				src="${badge.image}"
 			% else:
-				src="/pngs/${badge.image}"
+				src="${base_url}/pngs/${badge.image}"
 			% endif
 				alt="${badge.id} icon" /></a>
 		% endfor

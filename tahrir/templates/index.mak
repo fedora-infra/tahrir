@@ -7,16 +7,16 @@
 			<table>
 			% for assertion in latest_awards:
 			<tr>
-			<td><a href="/badge/${assertion.badge_id}">
+			<td><a href="${request.route_url('badge', id=assertion.badge_id)}">
 				<img class="badge"
 % if badge_images[assertion.badge_id].startswith("http"):
 					src="${badge_images[assertion.badge_id]}"
 % else:
-					src="/pngs/${badge_images[assertion.badge_id]}"
+					src="${base_url}/pngs/${badge_images[assertion.badge_id]}"
 % endif
 					alt="${assertion.badge_id} icon" /></a></td>
 			<td>${assertion.recipient[:6]} was awarded
-				<a href="/badge/${assertion.badge_id}">
+				<a href="${request.route_url('badge', id=assertion.badge_id)}">
 					${assertion.badge_id}</a>.
 				<span class="date">${assertion.issued_on.strftime("%Y-%m-%d")}</span></td>
 			% endfor
@@ -30,7 +30,7 @@
 		<div class="padded-content">
 			<table>
 			% for person in sorted(newest_persons, key=lambda x: x.id, reverse=True):
-				<tr><td><a href="/user/${person.id}">
+				<tr><td><a href="${request.route_url('user', id=person.id)}">
 						${person.email}</a>
 					is user ${person.id}.</td></tr>
 			% endfor
@@ -44,7 +44,7 @@
 		<div class="padded-content">
 			<table>
 			% for person in sorted(top_persons, key=top_persons.get, reverse=True):
-				<tr><td><a href="/user/${person.id}">
+				<tr><td><a href="${request.route_url('user', id=person.id)}">
 						${person.email}</a>
 						with <strong>${top_persons[person]}
 				</strong>
