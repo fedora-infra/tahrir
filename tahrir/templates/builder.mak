@@ -39,8 +39,8 @@
 				 /></td>
 			<td><label for="issuer">Issuer ID</label></td>
 			<td><input name="issuer" tabindex="6" /></td></tr>
-			<td><label for="triggerTopic">Trigger Topic</label></td>
-			<td><input name="triggerTopic" tabindex="7" /></td>
+			<td><label for="trigger-topic">Trigger Topic</label></td>
+			<td><input name="trigger-topic" tabindex="7" /></td>
 			<td><label for="criteria">Criteria</label></td>
 			<td><input name="criteria" tabindex="8" /></td></tr>
 			<tr><td colspan="4"><input name="generate"
