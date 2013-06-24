@@ -201,9 +201,14 @@ div.gravatar img {
     text-shadow: 0 0 0.5em #444;
 }
 
+.sublabel {
+    display: block;
+    font-size: 0.8em;
+    color: #666;
+}
+
 /* Applied to every form element on the admin view. */
-.admin-form {
+form {
     padding: 4px;
     margin-bottom: 20px;
-    border: 1px solid #AAA;
 }
