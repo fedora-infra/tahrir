@@ -99,6 +99,7 @@ def main(global_config, **settings):
     config.add_route('badge', '/badge/{id}')
     config.add_route('badges', '/badges')
     config.add_route('builder', '/builder')
+    config.add_route('leaderboard', '/leaderboard')
     config.add_route('user', '/user/{id}')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')

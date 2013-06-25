@@ -201,6 +201,30 @@ def invitation_qrcode(request):
     )
 
 
+@view_config(route_name='leaderboard', renderer='leaderboard.mak')
+def leaderboard(request):
+    """ Render a top users view. """
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                authenticated_userid(request))
+    else:
+        awarded_assertions = None
+    
+    # Get top persons.
+    persons_assertions = request.db.get_all_assertions().join(m.Person)
+    from collections import defaultdict
+    top_persons = defaultdict(int) # person: assertion count
+    for item in persons_assertions:
+        top_persons[item.person] += 1
+
+    return dict(
+            auth_principals=effective_principals(request),
+            awarded_assertions=awarded_assertions,
+            top_persons=top_persons,
+            )
+    
+
+
 @view_config(route_name='badge', renderer='badge.mak')
 def badge(request):
     """Render badge info page."""

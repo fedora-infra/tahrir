@@ -58,6 +58,7 @@
 		<li>Explore</li>
 		<li>Users</li>
 		<li><a href="${request.route_url('builder')}">Builder</a></li>
+		<li><a href="${request.route_url('leaderboard')}">Leaderboard</a></li>
 % if logged_in:
 	% if 'group:admins' in auth_principals:
 		<li><a href="${request.route_url('admin')}">Admin</a></li>
