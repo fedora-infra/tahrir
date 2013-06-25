@@ -7,7 +7,8 @@
 <legend>Add Person</legend>
 	<table>
 	<tr><td><label for="person-email">Email</label></td>
-	<td><input name="person-email" type="email" /></td></tr>
+	<td><input name="person-email" type="email"
+			   required="required" /></td></tr>
 	<tr><td><label for="person-nickname">Nickname</label></td>
 	<td><input name="person-nickname" /><td></tr>
 	<tr><td><label for="person-website">Website</label></td>

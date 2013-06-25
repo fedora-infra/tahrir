@@ -40,6 +40,21 @@ def admin(request):
     else:
         awarded_assertions = None
 
+    # Handle any admin actions. These are done through POSTS via the
+    # HTML forms on the admin panel.
+    if request.POST:
+        if request.POST.get('add-person'):
+            # Email is a required field on the HTML form.
+            # Add a person to the DB
+            if request.POST.get('person-nickname'):
+                request.db.add_person(request.POST.get('person-email'),
+                                      request.POST.get('person-nickname'))
+            else:
+                request.db.add_person(request.POST.get('person-email'))
+            # TODO: Add handling here and in Tahrir-API for adding
+            # a person with a website and a bio, as well.
+
+
     return dict(
         auth_principals=effective_principals(request),
         awarded_assertions=awarded_assertions,
