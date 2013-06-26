@@ -7,6 +7,19 @@
 	<div class="grid-25">
 		<h2 class="section-header">Your Rank</h2>
 		<div class="padded-content">
+		% if logged_in:
+			% if rank == 0:
+				You are not ranked yet. There are ${user_count}
+				ranked users.
+			% else:
+				You are ranked ${rank} out of ${user_count}
+				ranked users. You are in
+				the top ${percentile}%.
+			% endif
+		% else:
+			Log in to see your rank. There are ${user_count}
+			ranked users.
+		% endif
 		</div> <!-- End padded content. -->
 	</div>
 	<!-- COLUMN 2 (Right)-->
@@ -14,7 +27,7 @@
 		<div class="padded-content">
 		<h2 class="section-header">Leaderboard</h2>
 			<table>
-			% for person in sorted(top_persons, key=top_persons.get, reverse=True):
+	% for person in sorted(sorted(top_persons, key=top_persons.get, reverse=True), key=lambda person: person.id):
 				<tr><td><a href="${request.route_url('user', id=person.id)}">
 						${person.email}</a>
 						with <strong>${top_persons[person]}
