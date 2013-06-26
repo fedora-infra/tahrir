@@ -7,15 +7,15 @@ README = open(os.path.join(here, 'README.rst')).read()
 
 requires = [
     'pyramid',
-    'tahrir_api >= 0.1.4.0',
+    'tahrir_api >= 0.2.0',
     'SQLAlchemy',
     'transaction',
     'pyramid_tm',
     'zope.sqlalchemy',
     "weberror",
-    "tw2.sqla",
-    "formencode",  # For file uploads
     'velruse',
+    "qrcode",
+    "Pillow",
 
     # Optional -- used for scaling images to 256x256.
     # You also need "ImageMagick-devel" for this to build from pypi
@@ -23,10 +23,10 @@ requires = [
     ]
 
 setup(name='tahrir',
-      version='0.1.9',
+      version='0.2.0',
       description='A pyramid app for issuing your own Open Badges',
       long_description=README,
-      license="AGPLv3+",
+      license="AGPLv3+ with additional permission",
       classifiers=[
         "Programming Language :: Python",
         "Framework :: Pyramid",
@@ -36,8 +36,8 @@ setup(name='tahrir',
         ],
       author='Ralph Bean',
       author_email='rbean@redhat.com',
-      url='http://github.com/ralphbean/tahrir',
-      keywords='web wsgi bfg pylons pyramid',
+      url='http://github.com/fedora-infra/tahrir',
+      keywords='web wsgi bfg pylons pyramid badges open fedbadges',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,

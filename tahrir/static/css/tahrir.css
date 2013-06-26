@@ -1,77 +1,124 @@
-@import url(http://fonts.googleapis.com/css?family=Press+Start+2P);
-
 img.badge {
     width: 64px;
     height: 64px;
 }
 
 body {
-    font-family: 'Press Start 2P', cursive;
-    background-color: #1E1E1E;
+    background-color: white;
+    color: black;
+    font-size 12pt;
+    height: auto;
+    font-family: Cantarell, sans-serif;
+    width: 100%;
+    overflow-x: hidden !important;
 }
 
-.strong {
-    font-weight: bold;
-    text-decoration: underline;
+a, a:visited, a:active, a:link {
+    color: #3C6EB4;
+    text-decoration: none;
 }
 
-.header {
-    color: #C1C1C1;
+legend {
+    font-size: 1.2em;
+    padding-bottom: 10px;
 }
 
-.subheader a {
-    color: #D01A55;
+.page {
+    /* Without the below line, the page div is skewed
+     * right. */
+    margin-right: 15px;
 }
 
-.content a {
-    color: #D01A55;
+.date {
+    font-size: 0.8em;
+    color: #9B9B9B; /* Dark gray */
+    display: block;
+    padding-top: 10px;
 }
 
-.subheader {
-    padding: 20px;
-    color: #C1C1C1;
-    width: 700px;
-    margin-right: auto;
-    margin-left: auto;
-    text-align: right;
-    font-size: 90%;
+.navbar {
+    list-style-type: none;
+    background: #3158AF;
+    color: white;
+    width: 100%;
+    padding: 5px;
+    margin-left: -8px; /* There has to be a better way. */
+    margin-top: 20px;
 }
 
-.content {
-    background-color: #C1C1C1;
-    color: #1E1E1E !important;
-    width: 700px;
-    margin-right: auto;
-    margin-left: auto;
+.navbar li {
+    display: inline;
+    padding: 10px;
+}
 
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    border: 1px solid black;
+.navbar a {
+    color: white;
+    text-decoration: none;
 }
 
 table {
-    margin-right: auto;
-    margin-left: auto;
-    padding: 5px;
-}
-
-td {
-    padding: 5px;
-    word-wrap: break-word;
-}
-
-.issuer-table {
-    table-layout: fixed;
+    border-spacing: 0px;
     width: 100%;
 }
 
-.collapsed-row {
-    visibility: collapse;
+td {
+    padding: 10px;
 }
 
-.issuer-cell {
-    vertical-align: text-top;
-    padding-top: 25px;
+tr:nth-child(odd) { background: #E8EFF8; } /* "Clear day" */
+
+tr:nth-child(even) { background: white; }
+
+.logo-image {
+    margin-right: 10px;
+    margin-top: -10px;
+}
+
+#logo {
+    color: #9B9B9B; /* Dark gray */
+}
+
+#sublogo {
+    vertical-align: 35%;
+    padding-left: 15px;
+    font-size: 50%;
+}
+
+/* This is applied to the content of columns, but not to the header,
+ * so that the content is a bit less-wide than the header.
+ * (on suggestion of Jenn Kotler)
+ */
+.padded-content {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#header-link {
+    text-decoration: none;
+}
+
+.header {
+    color: #3158AF;
+    height: 50px;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+.section-header {
+    background: #3158AF;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+#footer {
+    color: #9B9B9B; /* Dark gray */
+    font-size: 10px;
+    text-align: center;
+} 
+
+.collapsed-row {
+    visibility: collapse;
 }
 
 .badge-name {
@@ -129,4 +176,57 @@ div.gravatar {
 div.gravatar img {
     max-width: 100%;
     max-height: 100%;
+}
+
+.ribbon {
+    background-color: #b5523c;
+    overflow: hidden;
+    position: absolute;
+    right: -3em;
+    top: 2.5em;
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -moz-box-shadow: 0 0 1em #888;
+    -webkit-box-shadow: 0 0 1em #888;
+}
+.ribbon a {
+    border: 1px solid #faa;
+    color: #fff;
+    display: block;
+    font: bold 81.25% 'Helvetiva Neue', Helvetica, Arial, sans-serif;
+    margin: 0.05em 0;
+    padding: 0.5em 3.5em;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 0 0.5em #444;
+}
+
+.sublabel {
+    display: block;
+    font-size: 0.8em;
+    color: #666;
+}
+
+/* Applied to every form element on the admin view. */
+form {
+    padding: 4px;
+    margin-bottom: 20px;
+}
+
+.avatar-96 {
+    width: 96px;
+}
+
+.avatar-64 {
+    width: 64px;
+}
+
+.avatar {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text-64 {
+    text-align: center;
+    margin-top: 18px;
 }
