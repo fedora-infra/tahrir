@@ -1,6 +1,16 @@
 import cgi
 from HTMLParser import HTMLParser
 
+import urllib
+from hashlib import md5
+
+libravatar = None
+try:
+    import libravatar
+except ImportError:
+    pass
+
+
 class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
@@ -61,3 +71,28 @@ def generate_badge_yaml(postdict):
          "criteria:       " + postdict.get('criteria',
                                             default="") + "\n"\
          "(This section is under construction.)"
+
+def make_avatar_method():
+
+    def avatar_method(self, size):
+        # This final fallback doesn't actually work.  Not too worried about it.
+        absolute_default = 'https://fedoraproject.org/static/images/' + \
+            'fedora_infinity_64x64.png'
+
+        query = urllib.urlencode({
+            's': size,
+            'd': absolute_default,
+        })
+
+        hash = md5(self.email).hexdigest()
+
+        gravatar_url = "http://www.gravatar.com/avatar/%s?%s" % (hash, query)
+
+        if libravatar:
+            return libravatar.libravatar_url(
+                email=self.email,
+                size=size,
+                default=gravatar_url,
+            )
+
+    return avatar_method

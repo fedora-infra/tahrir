@@ -7,13 +7,17 @@ from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
 
 from .app import get_root
+from .utils import make_avatar_method
 from tahrir_api.dbapi import TahrirDatabase
+import tahrir_api.model
 
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-    
+
+    tahrir_api.model.Person.avatar_url = make_avatar_method()
+
     def get_db(request):
         """ Database retrieval function to be added to the request for
             calling anywhere.
@@ -46,7 +50,7 @@ def main(global_config, **settings):
         # TODO: There is a better way to log this message than print.
         print 'Failed to load secret.ini.'
         exit(0)
-    
+
     settings.update({
         'session.secret':
                 secret_config['session.secret'],
