@@ -24,8 +24,8 @@
 	</div>
 	<!-- COLUMN 2 (Right)-->
 	<div class="grid-75">
-		<div class="padded-content">
 		<h2 class="section-header">Leaderboard</h2>
+		<div class="padded-content">
 			<table>
 	% for person in top_persons_sorted:
 				<tr><td>#${top_persons_sorted.index(person) + 1}.
