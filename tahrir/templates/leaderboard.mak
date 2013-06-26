@@ -9,16 +9,34 @@
 		<div class="padded-content">
 		% if logged_in:
 			% if rank == 0:
-				You are not ranked yet. There are ${user_count}
-				ranked users.
+				<p>You are not ranked yet. There are ${user_count}
+				ranked users.</p>
 			% else:
-				You are ranked #${rank} out of ${user_count}
-				ranked users. You are in
-				the top ${"{0:.1f}".format(percentile)}%.
+				<p>You are ranked #${rank} out of ${user_count}
+				ranked users.</p>
+				<p>You are in
+				the top ${"{0:.1f}".format(percentile)}%.</p>
+				<h3>Competitors</h3>
+				<table>
+				% for person in competitors:
+					% if person.email == logged_in:
+					<tr><td><strong>
+						#${top_persons_sorted.index(person)}</strong></td>
+						<td><strong>
+						<a href="${request.route_url('user',
+							id=person.id)}">${person.nickname}</a></strong>
+							</td></tr>
+					% else:
+					<tr><td>#${top_persons_sorted.index(person)}</td>
+						<td><a href="${request.route_url('user',
+							id=person.id)}">${person.nickname}</a></td></tr>
+					% endif
+				% endfor
+				</table>
 			% endif
 		% else:
-			Log in to see your rank. There are ${user_count}
-			ranked users.
+			<p>Log in to see your rank. There are ${user_count}
+			ranked users.</p>
 		% endif
 		</div> <!-- End padded content. -->
 	</div>
@@ -30,7 +48,7 @@
 	% for person in top_persons_sorted:
 				<tr><td>#${top_persons_sorted.index(person) + 1}.
 					<a href="${request.route_url('user', id=person.id)}">
-						${person.email}</a>
+						${person.nickname}</a>
 						with <strong>${top_persons[person]}
 				</strong>
 				% if top_persons[person] == 1:

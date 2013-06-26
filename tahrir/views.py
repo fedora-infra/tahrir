@@ -123,9 +123,10 @@ def index(request):
     for item in persons_assertions:
         top_persons[item.person] += 1
     
-    top_persons_sorted = sorted(sorted(top_persons, key=top_persons.get,
-                                reverse=True),
-                                key=lambda person: person.id)
+    top_persons_sorted = sorted(sorted(top_persons,
+                                key=lambda person: person.id),
+                                key=top_persons.get,
+                                reverse=True)
         
     # Get latest awards.
     latest_awards=request.db.get_all_assertions().order_by(
@@ -222,9 +223,10 @@ def leaderboard(request):
     for item in persons_assertions:
         top_persons[item.person] += 1
 
-    top_persons_sorted = sorted(sorted(top_persons, key=top_persons.get,
-                                reverse=True),
-                                key=lambda person: person.id)
+    top_persons_sorted = sorted(sorted(top_persons,
+                                key=lambda person: person.id),
+                                key=top_persons.get,
+                                reverse=True)
     
     # Get total user count.
     user_count = len(top_persons)
@@ -239,11 +241,16 @@ def leaderboard(request):
             rank = 0
         # Get percentile.
         percentile = (float(rank) / float(user_count)) * 100
+
+        # Get a list of nearby competetors (5 users above the current
+        # user and 5 users ranked below).
+        competitors = top_persons_sorted[max(rank-6, 0):\
+                                     min(rank+5, len(top_persons_sorted))]
+
     else:
         rank = None
         percentile = None
-
-
+        competitors = None
 
     return dict(
             auth_principals=effective_principals(request),
@@ -253,6 +260,7 @@ def leaderboard(request):
             rank=rank,
             user_count=user_count,
             percentile=percentile,
+            competitors=competitors,
             )
     
 
