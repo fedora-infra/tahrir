@@ -212,3 +212,21 @@ form {
     padding: 4px;
     margin-bottom: 20px;
 }
+
+.avatar-96 {
+    width: 96px;
+}
+
+.avatar-64 {
+    width: 64px;
+}
+
+.avatar {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text-64 {
+    text-align: center;
+    margin-top: 18px;
+}
