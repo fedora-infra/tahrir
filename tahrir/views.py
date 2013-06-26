@@ -122,6 +122,10 @@ def index(request):
     top_persons = defaultdict(int) # person: assertion count
     for item in persons_assertions:
         top_persons[item.person] += 1
+    
+    top_persons_sorted = sorted(sorted(top_persons, key=top_persons.get,
+                                reverse=True),
+                                key=lambda person: person.id)
         
     # Get latest awards.
     latest_awards=request.db.get_all_assertions().order_by(
@@ -139,6 +143,7 @@ def index(request):
         newest_persons=request.db.get_all_persons().order_by(
                         sa.asc(m.Person.id)).limit(10).all(),
         top_persons=top_persons,
+        top_persons_sorted=top_persons_sorted,
         badge_images=badge_images,
         awarded_assertions=awarded_assertions,
     )

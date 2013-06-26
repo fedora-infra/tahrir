@@ -53,7 +53,7 @@
 	<div class="grid-33">
 		<h2 class="section-header">Top Contributors</h2>
 		<div class="padded-content">
-			% for person in sorted(sorted(top_persons, key=top_persons.get, reverse=True), key=lambda person: person.id):
+			% for person in top_persons_sorted:
 				<div class="grid-container">
 					${avatar(person, 64, 33)}
 					<div class="grid-66 text-64">
