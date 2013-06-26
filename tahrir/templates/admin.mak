@@ -3,7 +3,7 @@
 <p>The admin panel is currently under reconstruction.</p>
 
 <div class="grid-50">
-<form class="admin-form">
+<form class="admin-form" method="POST">
 <legend>Add Person</legend>
 	<table>
 	<tr><td><label for="person-email">Email</label></td>
@@ -23,7 +23,7 @@
 </div>
 
 <div class="grid-50">
-<form class="admin-form">
+<form class="admin-form" method="POST">
 <legend>Add Issuer</legend>
 	<table>
 	<tr><td><label for="issuer-origin">Origin</label></td>
@@ -47,7 +47,7 @@
 <div class="clear"></div>
 
 <div class="grid-50">
-<form class="admin-form">
+<form class="admin-form" method="POST">
 <legend>Add Badge</legend>
 	<table>
 	<tr><td><label for="badge-name">Name</label></td>
@@ -75,7 +75,7 @@
 </div>
 
 <div class="grid-50">
-<form class="admin-form">
+<form class="admin-form" method="POST">
 <legend>Add Invitation</legend>
 	<table>
 	<tr><td><label for="invitation-created">Creation Date</label></td>
@@ -100,7 +100,7 @@
 <div class="clear"></div>
 
 <div class="grid-50">
-<form class="admin-form">
+<form class="admin-form" method="POST">
 <legend>Add Assertion</legend>
 	<table>
 	<tr><td><label for="assertion-badge-id">Badge ID</label></td>
