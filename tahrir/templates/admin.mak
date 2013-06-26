@@ -78,11 +78,13 @@
 <form class="admin-form" method="POST">
 <legend>Add Invitation</legend>
 	<table>
-	<tr><td><label for="invitation-created">Creation Date</label></td>
-	<td><input name="invitation-created" type="date"/></td>
+	<tr><td><label for="invitation-created">Creation Date
+			<span class="sublabel">YYYY-MM-DD HH:MM</span></label></td>
+	<td><input name="invitation-created" type="datetime"/></td>
 	</tr><tr>
-	<td><label for="invitation-expires">Expiration Date</label></td>
-	<td><input name="invitation-expires" type="date" /></td>
+	<td><label for="invitation-expires">Expiration Date
+			<span class="sublabel">YYYY-MM-DD HH:MM</span></label></td>
+	<td><input name="invitation-expires" type="datetime" /></td>
 	</tr><tr>
 	<td><label for="invitation-badge-id">Badge ID</label></td>
 	<td><input name="invitation-badge-id" /></td>
@@ -106,8 +108,12 @@
 	<tr><td><label for="assertion-badge-id">Badge ID</label></td>
 	<td><input name="assertion-badge-id" /></td>
 	</tr><tr>
-	<td><label for="assertion-person-id">Person ID</label></td>
-	<td><input name="assertion-person-id" /></td>
+	<td><label for="assertion-person-email">Person Email</label></td>
+	<td><input name="assertion-person-email" /></td>
+	</tr><tr>
+	<td><label for="assertion-issued-on">Issued On
+			<span class="sublabel">YYYY-MM-DD HH-MM</span></label></td>
+	<td><input name="assertion-issued-on" type="datetime" /></td>
 	</tr><tr>
 	<td colspan="2"><input name="add-assertion"
 		type="submit" value="Add" /></td>
