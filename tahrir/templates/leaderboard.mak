@@ -12,9 +12,9 @@
 				You are not ranked yet. There are ${user_count}
 				ranked users.
 			% else:
-				You are ranked ${rank} out of ${user_count}
+				You are ranked #${rank} out of ${user_count}
 				ranked users. You are in
-				the top ${percentile}%.
+				the top ${"{0:.1f}".format(percentile)}%.
 			% endif
 		% else:
 			Log in to see your rank. There are ${user_count}
