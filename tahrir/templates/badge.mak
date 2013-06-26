@@ -16,6 +16,7 @@
 			<tr><td>Created</td><td>${badge.created_on.strftime("%Y-%m-%d")}
 				</td></tr>
 			<tr><td>Issuer</td><td>${badge.issuer_id}</td></tr>
+			<tr><td>Tags</td><td>${badge.tags}</td></tr>
 		</table>
 	</div>
 	<!-- COLUMN 2 (Right)-->
