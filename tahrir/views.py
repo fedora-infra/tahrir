@@ -45,7 +45,7 @@ def admin(request):
     if request.POST:
         if request.POST.get('add-person'):
             # Email is a required field on the HTML form.
-            # Add a person to the DB
+            # Add a Badge to the DB.
             request.db.add_person(request.POST.get('person-email'),
                                   nickname=request.POST.get(
                                             'person-nickname'),
@@ -53,6 +53,14 @@ def admin(request):
                                             'person-website'),
                                   bio=request.POST.get(
                                             'person-bio'))
+        elif request.POST.get('add-badge'):
+            # Add a Badge to the DB.
+            request.db.add_badge(request.POST.get('badge-name'),
+                                 request.POST.get('badge-image'),
+                                 request.POST.get('badge-description'),
+                                 request.POST.get('badge-criteria'),
+                                 request.POST.get('badge-issuer'),
+                                 request.POST.get('badge-tags'))
 
     return dict(
         auth_principals=effective_principals(request),
