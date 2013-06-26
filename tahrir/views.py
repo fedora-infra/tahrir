@@ -46,14 +46,13 @@ def admin(request):
         if request.POST.get('add-person'):
             # Email is a required field on the HTML form.
             # Add a person to the DB
-            if request.POST.get('person-nickname'):
-                request.db.add_person(request.POST.get('person-email'),
-                                      request.POST.get('person-nickname'))
-            else:
-                request.db.add_person(request.POST.get('person-email'))
-            # TODO: Add handling here and in Tahrir-API for adding
-            # a person with a website and a bio, as well.
-
+            request.db.add_person(request.POST.get('person-email'),
+                                  nickname=request.POST.get(
+                                            'person-nickname'),
+                                  website=request.POST.get(
+                                            'person-website'),
+                                  bio=request.POST.get(
+                                            'person-bio'))
 
     return dict(
         auth_principals=effective_principals(request),
