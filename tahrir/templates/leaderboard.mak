@@ -27,8 +27,9 @@
 		<div class="padded-content">
 		<h2 class="section-header">Leaderboard</h2>
 			<table>
-	% for person in sorted(sorted(top_persons, key=top_persons.get, reverse=True), key=lambda person: person.id):
-				<tr><td><a href="${request.route_url('user', id=person.id)}">
+	% for person in top_persons_sorted:
+				<tr><td>#${top_persons_sorted.index(person) + 1}.
+					<a href="${request.route_url('user', id=person.id)}">
 						${person.email}</a>
 						with <strong>${top_persons[person]}
 				</strong>

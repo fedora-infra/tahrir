@@ -216,6 +216,10 @@ def leaderboard(request):
     top_persons = defaultdict(int) # person: assertion count
     for item in persons_assertions:
         top_persons[item.person] += 1
+
+    top_persons_sorted = sorted(sorted(top_persons, key=top_persons.get,
+                                reverse=True),
+                                key=lambda person: person.id)
     
     # Get total user count.
     user_count = len(top_persons)
@@ -223,9 +227,7 @@ def leaderboard(request):
     if authenticated_userid(request):
         # Get rank.
         try:
-            rank = sorted(sorted(top_persons, key=top_persons.get,
-                reverse=True),
-                key=lambda person: person.id).index(request.db.get_person(
+            rank = top_persons_sorted.index(request.db.get_person(
                               person_email=authenticated_userid(request)
                                 ))+ 1
         except ValueError:
@@ -242,6 +244,7 @@ def leaderboard(request):
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
             top_persons=top_persons,
+            top_persons_sorted=top_persons_sorted,
             rank=rank,
             user_count=user_count,
             percentile=percentile,
