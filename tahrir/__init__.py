@@ -1,4 +1,5 @@
 import os
+import ConfigParser
 
 from pyramid.config import Configurator
 
@@ -43,12 +44,16 @@ def main(global_config, **settings):
 
     # Load secret stuff from secret.ini.
     try:
-        from paste.deploy.loadwsgi import appconfig
-        secret_config = appconfig('config:secret.ini',
-                'tahrir', relative_to='.')
-    except IOError:
+        default_path = os.path.abspath("secret.ini")
+        secret_path = settings.get('secret_config_path', default_path)
         # TODO: There is a better way to log this message than print.
-        print 'Failed to load secret.ini.'
+        print "Reading secrets from %r" % secret_path
+        parser = ConfigParser.ConfigParser()
+        parser.read(secret_path)
+        secret_config = dict(parser.items("tahrir"))
+    except Exception as e:
+        # TODO: There is a better way to log this message than print.
+        print 'Failed to load secret.ini.  Reason: %r' % str(e)
         exit(0)
 
     settings.update({
