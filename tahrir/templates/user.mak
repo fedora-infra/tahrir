@@ -8,8 +8,9 @@
 
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-25">
-		<h3>${user.nickname}</h3>
 		<table>
+			<tr><td>${self.functions.avatar(user, 64, 33)}</td>
+			<td><strong>${user.nickname}</strong></td></tr>
 			<tr><td>Email</td><td>
 			% if user.email:
 				${user.email}
