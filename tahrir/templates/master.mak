@@ -56,7 +56,7 @@
 	<div class="clear"></div>
 
 	<ul class="grid-100 navbar">
-		<li>Explore</li>
+		<li><a href="${request.route_url('explore')}">Explore</a></li>
 		<li><a href="${request.route_url('leaderboard')}">Leaderboard</a></li>
 		<li><a href="${request.route_url('builder')}">Builder</a></li>
       % if logged_in:

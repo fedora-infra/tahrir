@@ -265,6 +265,32 @@ def leaderboard(request):
             percentile=percentile,
             competitors=competitors,
             )
+
+
+@view_config(route_name='explore', renderer='explore.mak')
+def explore(request):
+    
+    # Check if a search has been done, and if so, redirect to
+    # appropriate view.
+    if request.POST:
+        if request.POST.get('badge-search'):
+            return HTTPFound(location=request.route_url('badge',
+                                id=request.POST.get('badge-id')))
+        elif request.POST.get('person-search'):
+            return HTTPFound(location=request.route_url('user',
+                                id=request.POST.get('person-nickname')))
+
+    # Get awarded assertions.
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                authenticated_userid(request))
+    else:
+        awarded_assertions = None
+    
+    return dict(
+            auth_principals=effective_principals(request),
+            awarded_assertions=awarded_assertions,
+            )
     
 
 
