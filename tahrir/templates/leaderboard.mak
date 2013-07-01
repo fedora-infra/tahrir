@@ -21,13 +21,13 @@
 				% for person in competitors:
 					% if person.email == logged_in:
 					<tr><td><strong>
-						#${top_persons_sorted.index(person)}</strong></td>
+						#${top_persons_sorted.index(person) + 1}</strong></td>
 						<td><strong>
 						<a href="${request.route_url('user',
 							id=person.id)}">${person.nickname}</a></strong>
 							</td></tr>
 					% else:
-					<tr><td>#${top_persons_sorted.index(person)}</td>
+					<tr><td>#${top_persons_sorted.index(person) + 1}</td>
 						<td><a href="${request.route_url('user',
 							id=person.id)}">${person.nickname}</a></td></tr>
 					% endif
