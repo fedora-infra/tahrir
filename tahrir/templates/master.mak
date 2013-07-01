@@ -60,7 +60,6 @@
 	  <li><a href="${request.route_url('user', id=logged_in_id)}">Profile</a></li>
       % endif
 		<li>Explore</li>
-		<li>Users</li>
 		<li><a href="${request.route_url('builder')}">Builder</a></li>
 		<li><a href="${request.route_url('leaderboard')}">Leaderboard</a></li>
 % if logged_in:
