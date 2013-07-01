@@ -15,7 +15,11 @@ requires = [
     "weberror",
     'velruse',
     "qrcode",
-    "Pillow",
+
+    # For qrcode to work from PyPI, you also need Pillow.
+    # This is handled for us in Fedora because python-qrcode pulls in the
+    # correct underlying imaging library.
+    #"Pillow",
 
     # Optional -- used for scaling images to 256x256.
     # You also need "ImageMagick-devel" for this to build from pypi
