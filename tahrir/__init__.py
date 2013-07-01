@@ -51,17 +51,11 @@ def main(global_config, **settings):
         parser = ConfigParser.ConfigParser()
         parser.read(secret_path)
         secret_config = dict(parser.items("tahrir"))
+        settings.update(secret_config)
     except Exception as e:
         # TODO: There is a better way to log this message than print.
         print 'Failed to load secret.ini.  Reason: %r' % str(e)
-        exit(0)
 
-    settings.update({
-        'session.secret':
-                secret_config['session.secret'],
-        'authnsecret':
-                secret_config['authnsecret'],
-    })
 
     authn_policy = AuthTktAuthenticationPolicy(
         secret=settings['authnsecret'],
