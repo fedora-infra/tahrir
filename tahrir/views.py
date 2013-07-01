@@ -240,7 +240,10 @@ def leaderboard(request):
         except ValueError:
             rank = 0
         # Get percentile.
-        percentile = (float(rank) / float(user_count)) * 100
+        try:
+            percentile = (float(rank) / float(user_count)) * 100
+        except ZeroDivisionError:
+            percentile = 0
 
         # Get a list of nearby competetors (5 users above the current
         # user and 5 users ranked below).
