@@ -8,11 +8,11 @@
 
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-25">
-		<h3>${user.email}</h3>
+		<h3>${user.nickname}</h3>
 		<table>
-			<tr><td>Nickname</td><td>
-			% if user.nickname:
-				${user.nickname}
+			<tr><td>Email</td><td>
+			% if user.email:
+				${user.email}
 			% else:
 				<span class="weak">None.</span>
 			% endif
