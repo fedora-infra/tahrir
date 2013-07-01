@@ -5,7 +5,7 @@
 	</div>
 	<div class="clear"></div>
 	<div class="grid-25">
-		<h2 class="section-header">Your Rank</h2>
+		<h1 class="section-header">Your Rank</h1>
 		<div class="padded-content">
 		% if logged_in:
 			% if rank == 0:
@@ -42,7 +42,7 @@
 	</div>
 	<!-- COLUMN 2 (Right)-->
 	<div class="grid-75">
-		<h2 class="section-header">Leaderboard</h2>
+		<h1 class="section-header">Leaderboard</h1>
 		<div class="padded-content">
 			<table>
 	% for person in top_persons_sorted:

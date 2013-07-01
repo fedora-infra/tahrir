@@ -1,6 +1,11 @@
 <%inherit file="master.mak"/>
 <div class="page">
+<div class="grid-100">
+<h1 class="section-header">Administration Panel</h1>
 <p>The admin panel is currently under reconstruction.</p>
+</div>
+
+<div class="clear"></div>
 
 <div class="grid-50">
 <form class="admin-form" method="POST">

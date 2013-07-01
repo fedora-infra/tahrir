@@ -2,6 +2,7 @@
 <script type="text/javascript" src="${request.static_url('tahrir:static/js/builder.js')}"></script>
 <div class="page">
 	<div class="grid-100">
+	<h1 class="section-header">Badge Builder</h1>
 	<p>Badges can be awarded automatically when certain critera
 		are met. This is done with data collected by
 		<a href="https://github.com/fedora-infra/datanommer">

@@ -1,5 +1,11 @@
 <%inherit file="master.mak"/>
 <div class="page">
+	<div class="grid-100">
+		<h1 class="section-header">Profile</h1>
+	</div>
+
+	<div class="clear"></div>
+
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-25">
 		<h3>${user.email}</h3>
