@@ -27,16 +27,20 @@
 <legend>Add Issuer</legend>
 	<table>
 	<tr><td><label for="issuer-origin">Origin</label></td>
-	<td><input name="issuer-origin" /></td>
+	<td><input name="issuer-origin"
+			required="required" /></td>
 	</tr><tr>
 	<td><label for="issuer-name">Name</label></td>
-	<td><input name="issuer-name" /></td>
+	<td><input name="issuer-name"
+			required="required" /></td>
 	</tr><tr>
 	<td><label for="issuer-org">Organization</label></td>
-	<td><input name="issuer-org" /></td>
+	<td><input name="issuer-org" 
+			required="required" /></td>
 	</tr><tr>
 	<td><label for="issuer-contact">Contact</label></td>
-	<td><input name="issuer-contact" /></td>
+	<td><input name="issuer-contact"
+			required="required" /></td>
 	</tr><tr>
 	<td colspan="2"><input name="add-issuer" type="submit" value="Add" /></td>
 	</tr>
@@ -51,19 +55,24 @@
 <legend>Add Badge</legend>
 	<table>
 	<tr><td><label for="badge-name">Name</label></td>
-	<td><input name="badge-name" /></td>
+	<td><input name="badge-name"
+			required="required" /></td>
 	</tr><tr>
 	<td><label for="badge-image">Image</label></td>
-	<td><input name="badge-image" /></td>
+	<td><input name="badge-image"
+			required="required" /></td>
 	</tr><tr>
 	<td><label for="badge-description">Description</label></td>
-	<td><input name="badge-description" /></td>
+	<td><input name="badge-description"
+			required="required" /></td>
 	</tr><tr>
 	<td><label for="badge-criteria">Criteria</label></td>
-	<td><input name="badge-criteria" /></td>
+	<td><input name="badge-criteria"
+			required="required" /></td>
 	</tr><tr>
 	<td><label for="badge-issuer">Issuer ID</label></td>
-	<td><input name="badge-issuer" /></td>
+	<td><input name="badge-issuer"
+			required="required" /></td>
 	</tr><tr>
 	<td><label for="badge-tags">Tags</label></td>
 	<td><input name="badge-tags" /></td>
@@ -80,17 +89,19 @@
 	<table>
 	<tr><td><label for="invitation-created">Creation Date
 			<span class="sublabel">YYYY-MM-DD HH:MM</span></label></td>
-	<td><input name="invitation-created" type="datetime"/></td>
+	<td><input name="invitation-created" type="datetime" /></td>
 	</tr><tr>
 	<td><label for="invitation-expires">Expiration Date
 			<span class="sublabel">YYYY-MM-DD HH:MM</span></label></td>
 	<td><input name="invitation-expires" type="datetime" /></td>
 	</tr><tr>
 	<td><label for="invitation-badge-id">Badge ID</label></td>
-	<td><input name="invitation-badge-id" /></td>
+	<td><input name="invitation-badge-id"
+			required="required" /></td>
 	</tr><tr>
 	<td><label for="invitation-issuer-id">Issuer ID</label></td>
-	<td><input name="invitation-issuer-id" /></td>
+	<td><input name="invitation-issuer-id"
+			required="required" /></td>
 	</tr><tr>
 	<td colspan="2"><input name="add-invitation"
 		type="submit" value="Add" /></td>
@@ -106,10 +117,12 @@
 <legend>Add Assertion</legend>
 	<table>
 	<tr><td><label for="assertion-badge-id">Badge ID</label></td>
-	<td><input name="assertion-badge-id" /></td>
+	<td><input name="assertion-badge-id"
+			required="required" /></td>
 	</tr><tr>
 	<td><label for="assertion-person-email">Person Email</label></td>
-	<td><input name="assertion-person-email" /></td>
+	<td><input name="assertion-person-email" type="email"
+			required="required" /></td>
 	</tr><tr>
 	<td><label for="assertion-issued-on">Issued On
 			<span class="sublabel">YYYY-MM-DD HH-MM</span></label></td>
