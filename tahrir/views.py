@@ -317,6 +317,13 @@ def badge(request):
 @view_config(route_name='user', renderer='user.mak')
 def user(request):
     """Render user info page."""
+    
+    # Get awarded assertions.
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                authenticated_userid(request))
+    else:
+        awarded_assertions = None
 
     # So, here they can use their 'id' or their 'nickname'.
     # We'll try nickname first since we want to encourage that (or whatever)
@@ -334,7 +341,7 @@ def user(request):
             user=user,
             user_badges=[a.badge for a in user.assertions],
             auth_principals=effective_principals(request),
-            awarded_assertions=user.assertions,
+            awarded_assertions=awarded_assertions,
             )
 
 
