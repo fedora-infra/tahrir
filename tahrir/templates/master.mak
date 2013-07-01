@@ -1,3 +1,4 @@
+<%namespace name="functions" file="functions.mak" inheritable="True" />
 <!DOCTYPE html>
 <html>
   <head>

@@ -37,7 +37,7 @@
 		<div class="padded-content">
 			% for person in sorted(newest_persons, key=lambda x: x.id, reverse=True):
 				<div class="grid-container">
-					${avatar(person, 64, 33)}
+					${self.functions.avatar(person, 64, 33)}
 					<div class="grid-33">
 						<a href="${request.route_url('user', id=person.nickname or person.id)}">
 							${person.nickname or person.email}
@@ -55,7 +55,7 @@
 		<div class="padded-content">
 			% for person in top_persons_sorted:
 				<div class="grid-container">
-					${avatar(person, 64, 33)}
+					${self.functions.avatar(person, 64, 33)}
 					<div class="grid-66 text-64">
 						<a href="${request.route_url('user', id=person.nickname or person.id)}">
 							${person.nickname or person.email}
@@ -75,12 +75,3 @@
 	<div class="clear spacer"></div>
 </div>
 
-<%def name="avatar(person, size, cell_width)">
-	<div class="grid-${cell_width} avatar-container">
-		<div class="avatar avatar-${size}">
-			<a href="${request.route_url('user', id=person.nickname or person.id)}">
-				<img src="${person.avatar_url(size)}"/>
-			</a>
-		</div>
-	</div>
-</%def>
