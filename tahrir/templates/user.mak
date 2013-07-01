@@ -10,25 +10,25 @@
 	<div class="grid-25">
 		<h3>${user.email}</h3>
 		<table>
-			<tr><td>
+			<tr><td>Nickname</td><td>
 			% if user.nickname:
 				${user.nickname}
 			% else:
-				No nickname set.
+				<span class="weak">None.</span>
 			% endif
 			</td></tr>
-			<tr><td>
+			<tr><td>Website</td><td>
 			% if user.website:
 				${user.website}
 			% else:
-				No website set.
+				<span class="weak">None.</span>
 			% endif
 			</td></tr>
-			<tr><td>
+			<tr><td>Bio</td><td>
 			% if user.bio:
 				${user.bio}
 			% else:
-				No bio set.
+				<span class="weak">None.</span>
 			% endif
 			</td></tr>
 		</table>

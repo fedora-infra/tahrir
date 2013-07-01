@@ -201,6 +201,11 @@ div.gravatar img {
     text-shadow: 0 0 0.5em #444;
 }
 
+.weak {
+    color: #666;
+    font-style: italic;
+}
+
 .sublabel {
     display: block;
     font-size: 0.8em;
