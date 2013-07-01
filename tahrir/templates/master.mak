@@ -56,12 +56,12 @@
 	<div class="clear"></div>
 
 	<ul class="grid-100 navbar">
+		<li>Explore</li>
+		<li><a href="${request.route_url('leaderboard')}">Leaderboard</a></li>
+		<li><a href="${request.route_url('builder')}">Builder</a></li>
       % if logged_in:
 	  <li><a href="${request.route_url('user', id=logged_in_id)}">Profile</a></li>
       % endif
-		<li>Explore</li>
-		<li><a href="${request.route_url('builder')}">Builder</a></li>
-		<li><a href="${request.route_url('leaderboard')}">Leaderboard</a></li>
 % if logged_in:
 	% if 'group:admins' in auth_principals:
 		<li><a href="${request.route_url('admin')}">Admin</a></li>
