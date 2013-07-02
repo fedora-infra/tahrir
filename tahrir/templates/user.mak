@@ -10,7 +10,16 @@
 	<div class="grid-50">
 		<table>
 			<tr><td><strong>${user.nickname}</strong></td>
-			<td>${self.functions.avatar_thumbnail(user, 64, 33)}</td></tr>
+			<td>${self.functions.avatar_thumbnail(user, 64, 33)}
+			% if user.email == logged_in:
+				<!-- tried vertical-align, margins, and paddings of all sorts,
+					 but to no avail. the "change avatar" link will not
+					 behave. -->
+				<span style="">
+				<a href="https://www.libravatar.org/account/upload_photo/">
+					Change avatar.</a></span>
+			% endif
+			</td></tr>
 			<tr><td>Email</td><td>
 			% if user.email:
 				${user.email}
