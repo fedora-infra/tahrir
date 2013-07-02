@@ -109,6 +109,8 @@ def admin(request):
 
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
+    n = 5
+
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
                                  authenticated_userid(request))
@@ -130,7 +132,7 @@ def index(request):
         
     # Get latest awards.
     latest_awards=request.db.get_all_assertions().order_by(
-                    sa.asc(m.Assertion.issued_on)).limit(10).all()
+                    sa.asc(m.Assertion.issued_on)).limit(n - 1).all()
 
     # Get badge images and put them in a dict.
     badge_images = dict() # badge_id: image URL
@@ -142,7 +144,7 @@ def index(request):
         auth_principals=effective_principals(request),
         latest_awards=latest_awards,
         newest_persons=request.db.get_all_persons().order_by(
-                        sa.desc(m.Person.created_on)).limit(10).all(),
+                        sa.desc(m.Person.created_on)).limit(n).all(),
         top_persons=top_persons,
         top_persons_sorted=top_persons_sorted,
         badge_images=badge_images,
