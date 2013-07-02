@@ -35,7 +35,7 @@
 	<div class="grid-33">
 		<h1 class="section-header">New Contributors</h1>
 		<div class="padded-content">
-			% for person in sorted(newest_persons, key=lambda x: x.id):
+			% for person in sorted(newest_persons, key=lambda x: x.id, reverse=True):
 				<div class="grid-container">
 					${self.functions.avatar(person, 64, 33)}
 					<div class="grid-33">
