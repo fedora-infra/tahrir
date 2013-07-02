@@ -59,7 +59,6 @@
 	<ul class="grid-100 navbar">
 		<li><a href="${request.route_url('explore')}">Explore</a></li>
 		<li><a href="${request.route_url('leaderboard')}">Leaderboard</a></li>
-		<li><a href="${request.route_url('builder')}">Builder</a></li>
       % if logged_in:
 	  <li><a href="${request.route_url('user', id=logged_in_id)}">Profile</a></li>
       % endif
@@ -86,9 +85,12 @@
     <div class="clear"></div>
 	</div> <!-- End grid-container -->
 	<div id="footer">
-		You can report bugs and file issues with التحرير (Tahrir) on
+		<p>You can use the 
+		<a href="${request.route_url('builder')}">Badge Builder</a> to help
+		you create YAML files for new badges.</p>
+		<p>You can report bugs and file issues with التحرير (Tahrir) on
 		<a href="https://github.com/fedora-infra/tahrir/issues">
-		the GitHub issues tracker</a>.
+		the GitHub issues tracker</a>.</p>
 	</div>
   </body>
 </html>
