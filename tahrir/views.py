@@ -134,12 +134,6 @@ def index(request):
     latest_awards=request.db.get_all_assertions().order_by(
                     sa.desc(m.Assertion.issued_on)).limit(n - 1).all()
 
-    # Get badge images and put them in a dict.
-    badge_images = dict() # badge_id: image URL
-    for item in latest_awards:
-        badge_images[item.badge_id] = request.db.get_badge(
-                                            item.badge_id).image
-
     return dict(
         auth_principals=effective_principals(request),
         latest_awards=latest_awards,
@@ -147,7 +141,6 @@ def index(request):
                         sa.desc(m.Person.created_on)).limit(n).all(),
         top_persons=top_persons,
         top_persons_sorted=top_persons_sorted,
-        badge_images=badge_images,
         awarded_assertions=awarded_assertions,
     )
 

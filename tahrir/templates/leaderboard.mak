@@ -24,14 +24,14 @@
 					<td><strong>
 						#${top_persons_sorted.index(person) + 1}</strong></td>
 						</td>
-					<td>${self.functions.avatar(person, 64, 33)}</td>
+					<td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 						<td><strong>
 						<a href="${request.route_url('user',
 							id=person.id)}">${person.nickname}</a></strong>
 							</td>
 					% else:
 					<td>#${top_persons_sorted.index(person) + 1}</td>
-					<td>${self.functions.avatar(person, 64, 33)}</td>
+					<td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 						<td><a href="${request.route_url('user',
 							id=person.id)}">${person.nickname}</a></td>
 					% endif
@@ -52,7 +52,7 @@
 			<table>
 			% for person in top_persons_sorted:
 			<tr><td style="width: 20px;">#${top_persons_sorted.index(person) + 1}.</td>
-				<td style="width: 64px;">${self.functions.avatar(person, 64, 33)}</td>
+				<td style="width: 64px;">${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 					<td><a href="${request.route_url('user', id=person.id)}">
 						${person.nickname}</a>
 						with <strong>${top_persons[person]}

@@ -9,7 +9,7 @@
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-25">
 		<table>
-			<tr><td>${self.functions.avatar(user, 64, 33)}</td>
+			<tr><td>${self.functions.avatar_thumbnail(user, 64, 33)}</td>
 			<td><strong>${user.nickname}</strong></td></tr>
 			<tr><td>Email</td><td>
 			% if user.email:
