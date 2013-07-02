@@ -15,7 +15,7 @@
 				<!-- tried vertical-align, margins, and paddings of all sorts,
 					 but to no avail. the "change avatar" link will not
 					 behave. -->
-				<span style="">
+					 <span style="display: inline-block; margin-top: 25px;"> 
 				<a href="https://www.libravatar.org/account/upload_photo/">
 					Change avatar.</a></span>
 			% endif
