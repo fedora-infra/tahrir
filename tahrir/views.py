@@ -1,3 +1,4 @@
+import random
 import transaction
 import types
 import sqlalchemy as sa
@@ -281,12 +282,19 @@ def explore(request):
                                 authenticated_userid(request))
     else:
         awarded_assertions = None
+
+    # Get some random badges (for discovery).
+    random_badges = random.sample(request.db.get_all_badges().all(), 5)
+
+    # Get some random persons (for discovery).
+    random_persons = random.sample(request.db.get_all_persons().all(), 5)
     
     return dict(
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
+            random_badges=random_badges,
+            random_persons=random_persons,
             )
-    
 
 
 @view_config(route_name='badge', renderer='badge.mak')
