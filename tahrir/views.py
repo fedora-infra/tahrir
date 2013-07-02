@@ -132,7 +132,7 @@ def index(request):
         
     # Get latest awards.
     latest_awards=request.db.get_all_assertions().order_by(
-                    sa.asc(m.Assertion.issued_on)).limit(n - 1).all()
+                    sa.desc(m.Assertion.issued_on)).limit(n - 1).all()
 
     # Get badge images and put them in a dict.
     badge_images = dict() # badge_id: image URL
