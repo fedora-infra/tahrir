@@ -7,10 +7,10 @@
 	<div class="clear"></div>
 
 	<!-- COLUMN 1 (Left)-->
-	<div class="grid-25">
+	<div class="grid-50">
 		<table>
-			<tr><td>${self.functions.avatar_thumbnail(user, 64, 33)}</td>
-			<td><strong>${user.nickname}</strong></td></tr>
+			<tr><td><strong>${user.nickname}</strong></td>
+			<td>${self.functions.avatar_thumbnail(user, 64, 33)}</td></tr>
 			<tr><td>Email</td><td>
 			% if user.email:
 				${user.email}
@@ -35,7 +35,7 @@
 		</table>
 	</div>
 	<!-- COLUMN 2 (Right)-->
-	<div class="grid-75">
+	<div class="grid-50">
 		<h3>Badges Earned</h3>
 		<div class="grid-container">
 		% for i, badge in enumerate(user_badges):
