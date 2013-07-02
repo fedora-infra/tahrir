@@ -156,28 +156,6 @@ div.popup {
     background-color: rgba(30,30,30,0.75);
 }
 
-div.gravatar {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    padding: 2px;
-    margin: 1px;
-    background: white;
-    
-    -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.5);
-    -moz-box-shadow: 1px 1px 2px rgba(0,0,0,.5);
-
-    /* The next two lines are for IE.. silly IE */
-    zoom: 1;
-    filter: progid:DXImageTransform.Microsoft.Shadow(
-        color='#969696', Direction=135, Strength=3);
-}
-
-div.gravatar img {
-    max-width: 100%;
-    max-height: 100%;
-}
-
 .ribbon {
     background-color: #b5523c;
     overflow: hidden;
