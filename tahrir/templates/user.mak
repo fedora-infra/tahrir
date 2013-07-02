@@ -48,7 +48,7 @@
 		<h3>Badges Earned</h3>
 		<div class="grid-container">
 		% for i, badge in enumerate(user_badges):
-			% if i % 5 == 0:
+			% if i % 5 == 0 and i != 0:
 		</div>
 		<div class="grid-container">
 			% endif
