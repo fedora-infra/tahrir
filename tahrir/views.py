@@ -142,7 +142,7 @@ def index(request):
         auth_principals=effective_principals(request),
         latest_awards=latest_awards,
         newest_persons=request.db.get_all_persons().order_by(
-                        sa.asc(m.Person.id)).limit(10).all(),
+                        sa.desc(m.Person.created_on)).limit(10).all(),
         top_persons=top_persons,
         top_persons_sorted=top_persons_sorted,
         badge_images=badge_images,
