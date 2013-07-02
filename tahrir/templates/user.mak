@@ -35,15 +35,15 @@
 		</table>
 	</div>
 	<!-- COLUMN 2 (Right)-->
-	<div class="grid-50">
+	<div class="grid-75">
 		<h3>Badges Earned</h3>
 		<div class="grid-container">
 		% for i, badge in enumerate(user_badges):
-			% if i % 3 == 0:
+			% if i % 5 == 0:
 		</div>
 		<div class="grid-container">
 			% endif
-			${self.functions.badge_thumbnail(badge, 64, 25)}
+			${self.functions.badge_thumbnail(badge, 64, 20)}
 		% endfor
 		</div>
 	</div>
