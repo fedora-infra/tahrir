@@ -306,13 +306,17 @@ def explore(request):
 @view_config(route_name='badge', renderer='badge.mak')
 def badge(request):
     """Render badge info page."""
+    # Get the badge to render info about.
     badge_id = request.matchdict.get('id')
     badge = request.db.get_badge(badge_id)
+
+    # Get awarded assertions.
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
                                 authenticated_userid(request))
     else:
         awarded_assertions = None
+    
     if badge:
         return dict(
                 badge=badge,
