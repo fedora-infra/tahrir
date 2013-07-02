@@ -235,3 +235,26 @@ form {
     text-align: center;
     margin-top: 18px;
 }
+
+.tooltip {
+    /* Nothing, Lebowski. */
+}
+
+.tooltip::after {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 8px 8px 8px 0px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+    color: #FFF;
+    content: attr(data-tooltip); /* amazing */
+    margin-top: -24px;
+    opacity: 0; /* Our element is transparent... */
+    padding: 3px 7px;
+    position: absolute;
+    visibility: hidden; /* ...and hidden. */
+    transition: all 0.4s ease-in-out; /* To add some smoothness */
+}
+
+.tooltip:hover::after {
+    opacity: 1; /* Make it visible */
+    visibility: visible;
+}
