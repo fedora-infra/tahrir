@@ -196,17 +196,24 @@ form {
     margin-bottom: 20px;
 }
 
-.avatar-96 {
+.thumbnail-96 {
     width: 96px;
+    height: 96px;
 }
 
-.avatar-64 {
+.thumbnail-64 {
     width: 64px;
+    height: 64px;
 }
 
-.avatar {
+.thumbnail {
     margin-left: auto;
     margin-right: auto;
+}
+
+.thumbnail-container {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .text-64 {
@@ -224,10 +231,11 @@ form {
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
     color: #FFF;
     content: attr(data-tooltip); /* amazing */
-    margin-top: -24px;
+    margin-top: -96px;
     opacity: 0; /* Our element is transparent... */
     padding: 3px 7px;
     position: absolute;
+    margin-left: 64px;
     visibility: hidden; /* ...and hidden. */
     transition: all 0.4s ease-in-out; /* To add some smoothness */
 }
