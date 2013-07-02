@@ -316,12 +316,17 @@ def badge(request):
                                 authenticated_userid(request))
     else:
         awarded_assertions = None
+
+    # Get badge statistics.
+    times_awarded = len(request.db.get_assertions_by_badge(badge_id))
+    #last_awarded_time = request.db.get_assertions_by_badge(
     
     if badge:
         return dict(
                 badge=badge,
                 auth_principals=effective_principals(request),
                 awarded_assertions=awarded_assertions,
+                times_awarded=times_awarded,
                 )
     else:
         # TODO: Say that there was no badge found.

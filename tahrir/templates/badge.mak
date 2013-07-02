@@ -22,6 +22,11 @@
 	<!-- COLUMN 2 (Right)-->
 	<div class="grid-75">
 		<h3>Statistics</h3>
+		<ul>
+		<li>This badge has been awarded <strong>${times_awarded}</strong> times.</li>
+		<li></li>
+		<li></li>
+		</ul>
 	</div>
     
 	<div class="clear spacer"></div>
