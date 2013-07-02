@@ -319,14 +319,28 @@ def badge(request):
 
     # Get badge statistics.
     times_awarded = len(request.db.get_assertions_by_badge(badge_id))
-    #last_awarded_time = request.db.get_assertions_by_badge(
+    last_awarded = request.db.get_all_assertions().filter_by(
+            badge_id=badge_id).order_by(
+                    sa.desc(m.Assertion.issued_on)).limit(1).one()
+    last_awarded_person = request.db.get_person(
+            id=last_awarded.person_id)
     
+    first_awarded = request.db.get_all_assertions().filter_by(
+            badge_id=badge_id).order_by(
+                    sa.asc(m.Assertion.issued_on)).limit(1).one()
+    first_awarded_person = request.db.get_person(
+            id=first_awarded.person_id)
+
     if badge:
         return dict(
                 badge=badge,
                 auth_principals=effective_principals(request),
                 awarded_assertions=awarded_assertions,
                 times_awarded=times_awarded,
+                last_awarded=last_awarded,
+                last_awarded_person=last_awarded_person,
+                first_awarded=first_awarded,
+                first_awarded_person=first_awarded_person,
                 )
     else:
         # TODO: Say that there was no badge found.

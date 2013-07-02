@@ -23,9 +23,17 @@
 	<div class="grid-75">
 		<h3>Statistics</h3>
 		<ul>
-		<li>This badge has been awarded <strong>${times_awarded}</strong> times.</li>
-		<li></li>
-		<li></li>
+		<li>${badge.name} has been awarded <strong>${times_awarded}</strong> times.</li>
+		<li><a href="${request.route_url('user', id=first_awarded_person.id)}">
+				<strong>${first_awarded_person.nickname}</a></strong>
+				was the first to earn this badge,
+				on <strong>${first_awarded.issued_on.strftime("%Y-%m-%d")}
+				</strong>.</li>
+		<li>This badge was last awarded to <strong>
+			<a href="${request.route_url('user', id=last_awarded_person.id)}">
+				${last_awarded_person.nickname}</a></strong>
+				on <strong>${last_awarded.issued_on.strftime("%Y-%m-%d")}
+				</strong>.</li>
 		</ul>
 	</div>
     
