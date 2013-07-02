@@ -35,17 +35,17 @@
 		</table>
 	</div>
 	<!-- COLUMN 2 (Right)-->
-	<div class="grid-75">
+	<div class="grid-50">
 		<h3>Badges Earned</h3>
-		% for badge in user_badges:
-			<a href="${request.route_url('badge', id=badge.id)}"><img class="badge"
-			% if badge.image.startswith("http"):
-				src="${badge.image}"
-			% else:
-				src="${base_url}/pngs/${badge.image}"
+		<div class="grid-container">
+		% for i, badge in enumerate(user_badges):
+			% if i % 3 == 0:
+		</div>
+		<div class="grid-container">
 			% endif
-				alt="${badge.id} icon" /></a>
+			${self.functions.badge_thumbnail(badge, 64, 25)}
 		% endfor
+		</div>
 	</div>
     
 	<div class="clear spacer"></div>
