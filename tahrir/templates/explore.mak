@@ -16,6 +16,10 @@
 	<div class="grid-50">
 		<div class="padded-content">
 		<h2>Badges</h2>
+		<strong>Some random badges:</strong>
+		% for badge in random_badges:
+			${self.functions.badge_thumbnail(badge, 64, 25)}
+		% endfor
 		<form method="POST">
 			<table style="width: 400px">
 			<tr><td><label for="badge-id">Badge ID

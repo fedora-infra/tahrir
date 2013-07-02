@@ -284,10 +284,16 @@ def explore(request):
         awarded_assertions = None
 
     # Get some random badges (for discovery).
-    random_badges = random.sample(request.db.get_all_badges().all(), 5)
+    try:
+        random_badges = random.sample(request.db.get_all_badges().all(), 5)
+    except ValueError: # the sample is probably larger than the population
+        random_badges = request.db.get_all_badges().all()
 
     # Get some random persons (for discovery).
-    random_persons = random.sample(request.db.get_all_persons().all(), 5)
+    try:
+        random_persons = random.sample(request.db.get_all_persons().all(), 5)
+    except ValueError: # the sample is probably larger than the population
+        random_persons = request.db.get_all_persons().all()
     
     return dict(
             auth_principals=effective_principals(request),
