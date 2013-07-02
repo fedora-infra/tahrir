@@ -4,7 +4,7 @@
 	<div class="grid-100">
 	</div>
 	<div class="clear"></div>
-	<div class="grid-25">
+	<div class="grid-50">
 		<h1 class="section-header">Your Rank</h1>
 		<div class="padded-content">
 		% if logged_in:
@@ -46,7 +46,7 @@
 		</div> <!-- End padded content. -->
 	</div>
 	<!-- COLUMN 2 (Right)-->
-	<div class="grid-75">
+	<div class="grid-50">
 		<h1 class="section-header">Leaderboard</h1>
 		<div class="padded-content">
 			<table>
