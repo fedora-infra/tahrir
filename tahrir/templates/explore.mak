@@ -15,11 +15,12 @@
 
 	<div class="grid-50">
 		<div class="padded-content">
-		<h2>Badges</h2>
-		<strong>Some random badges:</strong>
+		<h2>Random Badges</h2>
 		% for badge in random_badges:
-			${self.functions.badge_thumbnail(badge, 64, 25)}
+			${self.functions.badge_thumbnail(badge, 64, 15)}
 		% endfor
+		<div class="clear"></div>
+		<h2>Badge Search</h2>
 		<form method="POST">
 			<table style="width: 400px">
 			<tr><td><label for="badge-id">Badge ID
@@ -36,7 +37,12 @@
 
 	<div class="grid-50">
 		<div class="padded-content">
-		<h2>People</h2>
+		<h2>Random People</h2>
+		% for person in random_persons:
+			${self.functions.avatar_thumbnail(person, 64, 15)}
+		% endfor
+		<div class="clear"></div>
+		<h2>People Search</h2>
 		<form method="POST">
 			<table style="width: 400px">
 			<tr><td><label for="person-nickname">Nickname</label></td>
