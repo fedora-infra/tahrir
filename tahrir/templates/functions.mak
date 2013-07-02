@@ -11,7 +11,7 @@
 </%def>
 
 <%def name="badge_thumbnail(badge, size, cell_width)">
-	<div class="grid-33 thumbnail-container">
+	<div class="grid-${cell_width} thumbnail-container">
 		<div class="thumbnail thumbnail-${size}">
 			<span class="tooltip" data-tooltip="${badge.name} -- ${badge.description}">
 				<a href="${request.route_url('badge', id=badge.id)}">
