@@ -12,18 +12,23 @@ except ImportError:
 
 
 class MLStripper(HTMLParser):
+
     def __init__(self):
         self.reset()
         self.fed = []
+
     def handle_data(self, d):
         self.fed.append(d)
+
     def get_data(self):
         return ''.join(self.fed)
+
 
 def _strip_tags(html):
     s = MLStripper()
     s.feed(html)
     return s.get_data()
+
 
 def strip_tags(_d):
     d = {}
@@ -38,6 +43,7 @@ def strip_tags(_d):
             d[k] = _strip_tags(v)
 
     return d
+
 
 def generate_badge_yaml(postdict):
     return "%YAML 1.2\n"\
@@ -71,6 +77,7 @@ def generate_badge_yaml(postdict):
          "criteria:       " + postdict.get('criteria',
                                             default="") + "\n"\
          "(This section is under construction.)"
+
 
 def make_avatar_method():
 

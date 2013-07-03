@@ -125,14 +125,14 @@ def index(request):
     top_persons = defaultdict(int) # person: assertion count
     for item in persons_assertions:
         top_persons[item.person] += 1
-    
+
     top_persons_sorted = sorted(sorted(top_persons,
                                 key=lambda person: person.id),
                                 key=top_persons.get,
                                 reverse=True)
-        
+
     # Get latest awards.
-    latest_awards=request.db.get_all_assertions().order_by(
+    latest_awards = request.db.get_all_assertions().order_by(
                     sa.desc(m.Assertion.issued_on)).limit(n - 1).all()
 
     return dict(
@@ -170,7 +170,7 @@ def invitation_claim(request):
 
     person = request.db.get_person_by_email(
                     authenticated_userid(request)).one()
-    
+
     # Check to see if the user already has the badge.
     if request.context.badge_id == request.db.get_assertions_by_email(
                         authenticated_userid(request)).filter_by(
@@ -185,6 +185,7 @@ def invitation_claim(request):
 
     # TODO -- return them to a page that auto-exports their badges.
     return HTTPFound(location=request.route_url('home'))
+
 
 @view_config(context=m.Invitation, name='qrcode')
 def invitation_qrcode(request):
@@ -211,7 +212,7 @@ def leaderboard(request):
                                 authenticated_userid(request))
     else:
         awarded_assertions = None
-    
+
     # Get top persons.
     persons_assertions = request.db.get_all_assertions().join(m.Person)
     from collections import defaultdict
@@ -223,7 +224,7 @@ def leaderboard(request):
                                 key=lambda person: person.id),
                                 key=top_persons.get,
                                 reverse=True)
-    
+
     # Get total user count.
     user_count = len(top_persons)
 
@@ -231,8 +232,8 @@ def leaderboard(request):
         # Get rank.
         try:
             rank = top_persons_sorted.index(request.db.get_person(
-                              person_email=authenticated_userid(request)
-                                ))+ 1
+                                person_email=authenticated_userid(
+                                             request))) + 1
         except ValueError:
             rank = 0
         # Get percentile.
@@ -243,8 +244,8 @@ def leaderboard(request):
 
         # Get a list of nearby competetors (5 users above the current
         # user and 5 users ranked below).
-        competitors = top_persons_sorted[max(rank-6, 0):\
-                                     min(rank+5, len(top_persons_sorted))]
+        competitors = top_persons_sorted[max(rank - 6, 0):\
+                                     min(rank + 5, len(top_persons_sorted))]
 
     else:
         rank = None
@@ -265,7 +266,7 @@ def leaderboard(request):
 
 @view_config(route_name='explore', renderer='explore.mak')
 def explore(request):
-    
+
     # Check if a search has been done, and if so, redirect to
     # appropriate view.
     if request.POST:
@@ -294,7 +295,7 @@ def explore(request):
         random_persons = random.sample(request.db.get_all_persons().all(), 5)
     except ValueError: # the sample is probably larger than the population
         random_persons = request.db.get_all_persons().all()
-    
+
     return dict(
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
@@ -329,7 +330,7 @@ def badge(request):
                         sa.desc(m.Assertion.issued_on)).limit(1).one()
         last_awarded_person = request.db.get_person(
                 id=last_awarded.person_id)
-        
+
         first_awarded = request.db.get_all_assertions().filter_by(
                 badge_id=badge_id).order_by(
                         sa.asc(m.Assertion.issued_on)).limit(1).one()
@@ -357,10 +358,11 @@ def badge(request):
         # TODO: Say that there was no badge found.
         return HTTPFound(location=request.route_url('home'))
 
+
 @view_config(route_name='user', renderer='user.mak')
 def user(request):
     """Render user info page."""
-    
+
     # Get awarded assertions.
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
@@ -426,12 +428,15 @@ def html(context, request):
 def json(context, request):
     return context.__json__()
 
+
 @view_config(context='pyramid.httpexceptions.HTTPNotFound', renderer='404.mak')
 def _404(request):
     request.response.status = 404
     return dict()
 
-@view_config(context='pyramid.httpexceptions.HTTPServerError', renderer='500.mak')
+
+@view_config(context='pyramid.httpexceptions.HTTPServerError',
+             renderer='500.mak')
 def _500(request):
     request.response.status = 500
     return dict()

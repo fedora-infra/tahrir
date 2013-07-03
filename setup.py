@@ -52,4 +52,3 @@ setup(name='tahrir',
       main = tahrir:main
       """,
       )
-
