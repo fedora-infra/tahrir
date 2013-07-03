@@ -322,18 +322,25 @@ def badge(request):
         awarded_assertions = None
 
     # Get badge statistics.
-    times_awarded = len(request.db.get_assertions_by_badge(badge_id))
-    last_awarded = request.db.get_all_assertions().filter_by(
-            badge_id=badge_id).order_by(
-                    sa.desc(m.Assertion.issued_on)).limit(1).one()
-    last_awarded_person = request.db.get_person(
-            id=last_awarded.person_id)
-    
-    first_awarded = request.db.get_all_assertions().filter_by(
-            badge_id=badge_id).order_by(
-                    sa.asc(m.Assertion.issued_on)).limit(1).one()
-    first_awarded_person = request.db.get_person(
-            id=first_awarded.person_id)
+    try:
+        times_awarded = len(request.db.get_assertions_by_badge(badge_id))
+        last_awarded = request.db.get_all_assertions().filter_by(
+                badge_id=badge_id).order_by(
+                        sa.desc(m.Assertion.issued_on)).limit(1).one()
+        last_awarded_person = request.db.get_person(
+                id=last_awarded.person_id)
+        
+        first_awarded = request.db.get_all_assertions().filter_by(
+                badge_id=badge_id).order_by(
+                        sa.asc(m.Assertion.issued_on)).limit(1).one()
+        first_awarded_person = request.db.get_person(
+                id=first_awarded.person_id)
+    except sa.orm.exc.NoResultFound: # This badge has never been awarded.
+        times_awarded = 0
+        last_awarded = None
+        last_awarded_person = None
+        first_awarded = None
+        first_awarded_person = None
 
     if badge:
         return dict(
