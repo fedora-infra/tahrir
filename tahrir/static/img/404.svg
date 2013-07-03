@@ -17,8 +17,11 @@
    height="600"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.2 r9819"
-   sodipodi:docname="404.svg">
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="404.svg"
+   inkscape:export-filename="/home/oddshocks/devel/tahrir/tahrir/static/img/404.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4">
     <linearGradient
@@ -3337,16 +3340,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.9899495"
-     inkscape:cx="-102.61047"
+     inkscape:cx="253.97338"
      inkscape:cy="306.92121"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1429"
-     inkscape:window-height="841"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
-     inkscape:window-maximized="1"
+     inkscape:window-width="506"
+     inkscape:window-height="435"
+     inkscape:window-x="488"
+     inkscape:window-y="356"
+     inkscape:window-maximized="0"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
@@ -3359,7 +3362,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -3377,7 +3380,7 @@
        sodipodi:rx="82.85714"
        sodipodi:ry="82.85714"
        d="m 365.71429,418.07648 c 0,45.76073 -37.09641,82.85714 -82.85714,82.85714 -45.76074,0 -82.85714,-37.09641 -82.85714,-82.85714 0,-45.76074 37.0964,-82.85714 82.85714,-82.85714 45.76073,0 82.85714,37.0964 82.85714,82.85714 z"
-       transform="matrix(3.4067907,0,0,3.4067907,-467.83108,-1218.8191)" />
+       transform="matrix(3.4067907,0,0,3.4067907,-468.1351,-1218.8616)" />
     <path
        inkscape:connector-curvature="0"
        d="m -319.43838,728.99756 h -75.54491 c -11.7919,0 -11.82986,16.63203 -0.0401,16.63203 h 76.28889 c -5.58415,-3.51381 -5.89541,-12.7278 -0.70385,-16.63203 z"
@@ -3385,15 +3388,15 @@
        style="fill:#ffffff;fill-rule:evenodd" />
     <text
        xml:space="preserve"
-       style="font-size:165.73576355000000149px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:VDS;-inkscape-font-specification:VDS"
-       x="257.55887"
-       y="298.70633"
+       style="font-size:279.94168091px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:VDS;-inkscape-font-specification:VDS"
+       x="243.71652"
+       y="297.70343"
        id="text10346"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan10348"
-         x="257.55887"
-         y="298.70633"
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:PressStart2P;-inkscape-font-specification:PressStart2P;fill:#ffffff;fill-opacity:1">404</tspan></text>
+         x="243.71652"
+         y="297.70343"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Liberation Mono;-inkscape-font-specification:Liberation Mono">404</tspan></text>
   </g>
 </svg>
