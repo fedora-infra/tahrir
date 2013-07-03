@@ -43,12 +43,6 @@
   </head>
   <body>
 
-	<div class="ribbon">
-	  <a href="http://github.com/fedora-infra/tahrir" rel="me">
-		  Get the Source!
-	  </a>
-	</div>
-
   	<div class="grid-container">
     <div class="header grid-100">
 		<div><H1><a id="header-link" href="/"><img
@@ -88,6 +82,9 @@
 		<p>You can report bugs and file issues with التحرير (Tahrir) on
 		<a href="https://github.com/fedora-infra/tahrir/issues">
 		the GitHub issues tracker</a>.</p>
+		<p>This project is free software; you can find the
+		<a href="http://github.com/fedora-infra/tahrir">source</a>
+		on GitHub.</p>
 	</div>
   </body>
 </html>
