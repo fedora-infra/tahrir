@@ -27,7 +27,7 @@ legend {
     vertical-align: middle;
     background: url(../img/badge_bullet.png) no-repeat left center;
     padding-left: 50px;
-    height: 50px;
+    line-height: 50px;
 }
 
 .page {
