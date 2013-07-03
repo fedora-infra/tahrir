@@ -130,6 +130,7 @@ def index(request):
                                 key=lambda person: person.id),
                                 key=top_persons.get,
                                 reverse=True)
+    top_persons_sorted = list(top_persons_sorted)[:n]
 
     # Get latest awards.
     latest_awards = request.db.get_all_assertions().order_by(
