@@ -190,6 +190,11 @@ form {
     margin-bottom: 20px;
 }
 
+.thumbnail-256 {
+    width: 256px;
+    height: 256px;
+}
+
 .thumbnail-96 {
     width: 96px;
     height: 96px;
@@ -258,4 +263,9 @@ img.badge-64 {
 img.badge-128 {
     width: 128px;
     height: 128px;
+}
+
+img.badge-256 {
+    width: 256px;
+    height: 256px;
 }
