@@ -1,8 +1,3 @@
-img.badge {
-    width: 64px;
-    height: 64px;
-}
-
 body {
     background-color: white;
     color: black;
@@ -236,11 +231,9 @@ form {
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
     color: #FFF;
     content: attr(data-tooltip); /* amazing */
-    margin-top: -96px;
     opacity: 0; /* Our element is transparent... */
     padding: 3px 7px;
     position: absolute;
-    margin-left: 64px;
     visibility: hidden; /* ...and hidden. */
     transition: all 0.4s ease-in-out; /* To add some smoothness */
 }
@@ -248,4 +241,27 @@ form {
 .tooltip:hover::after {
     opacity: 1; /* Make it visible */
     visibility: visible;
+}
+
+.tooltip-64:after {
+    margin-top: -96px;
+    margin-left: 64px;
+}
+
+.tooltip-128:after {
+    margin-top: -28px;
+}
+
+.tooltip-256:after {
+    margin-top: -28px;
+}
+
+img.badge-64 {
+    width: 64px;
+    height: 64px;
+}
+
+img.badge-128 {
+    width: 128px;
+    height: 128px;
 }

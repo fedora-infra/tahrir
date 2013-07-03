@@ -42,7 +42,7 @@
 	</div>
 
 	<!-- COLUMN 2 (Right)-->
-	<div class="grid-50 grid-parent">
+	<div class="grid-50 push-10 grid-parent">
 		<div class="grid-container">
 			<div class="grid-80 push-5">
 				<h2 class="header downshift">Badges Earned</h2>
@@ -53,7 +53,7 @@
 		</div>
 		<div class="grid-container">
 			% endif
-			${self.functions.badge_thumbnail(badge, 64, 33)}
+			${self.functions.badge_thumbnail(badge, 128, 33)}
 		% endfor
 		</div>
 	</div>
