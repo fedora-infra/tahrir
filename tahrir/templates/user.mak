@@ -1,58 +1,59 @@
 <%inherit file="master.mak"/>
 <div class="page">
-	<div class="grid-100">
-		<h1 class="section-header">Profile</h1>
-	</div>
-
-	<div class="clear"></div>
-
 	<!-- COLUMN 1 (Left)-->
-	<div class="grid-50">
-		<table>
-			<tr><td><strong>${user.nickname}</strong></td>
-			<td>${self.functions.avatar_thumbnail(user, 64, 33)}
-			% if user.email == logged_in:
+	<div class="grid-25 grid-parent">
+
+		<div class="grid-80 push-10">
+			<h2 class="header downshift">${user.nickname}</h2>
+		</div>
+
+		<div class="grid-100">
+			${self.functions.avatar_thumbnail(user, 256, 100)}
+		</div>
+
+		% if user.email == logged_in:
+			<div class ="grid-100">
 				<!-- tried vertical-align, margins, and paddings of all sorts,
 					 but to no avail. the "change avatar" link will not
 					 behave. -->
 					 <span style="display: inline-block; margin-top: 25px;"> 
 				<a href="https://www.libravatar.org/account/upload_photo/">
 					Change avatar.</a></span>
-			% endif
-			</td></tr>
-			<tr><td>Email</td><td>
-			% if user.email:
-				${user.email}
-			% else:
-				<span class="weak">None.</span>
-			% endif
-			</td></tr>
-			<tr><td>Website</td><td>
-			% if user.website:
-				${user.website}
-			% else:
-				<span class="weak">None.</span>
-			% endif
-			</td></tr>
-			<tr><td>Bio</td><td>
-			% if user.bio:
-				${user.bio}
-			% else:
-				<span class="weak">None.</span>
-			% endif
-			</td></tr>
-		</table>
+			</div>
+		% endif
+
+		% if user.email:
+			<div class="grid-95 push-5">
+				<strong>${user.email}</strong>
+			</div>
+		% endif
+
+		% if user.website:
+			<div class="grid-95 push-5">
+				<a href="${user.website}">${user.website}</a>
+			</div>
+		% endif
+
+		% if user.bio:
+			<div class="grid-95 push-5">
+				<p>${user.bio}</p>
+			</div>
+		% endif
 	</div>
+
 	<!-- COLUMN 2 (Right)-->
-	<div class="grid-50">
-		<h3>Badges Earned</h3>
+	<div class="grid-50 grid-parent">
 		<div class="grid-container">
+			<div class="grid-80 push-5">
+				<h2 class="header downshift">Badges Earned</h2>
+			</div>
+
 		% for i, badge in enumerate(user_badges):
-			% if i % 5 == 0 and i != 0:
+			% if i % 3 == 0 and i != 0:
 		</div>
 		<div class="grid-container">
 			% endif
-			${self.functions.badge_thumbnail(badge, 64, 20)}
+			${self.functions.badge_thumbnail(badge, 64, 33)}
 		% endfor
 		</div>
 	</div>

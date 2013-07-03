@@ -104,6 +104,11 @@ tr:nth-child(even) { background: white; }
     margin-bottom: 20px;
 }
 
+.downshift {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
 .section-header {
     background: #3158AF;
     color: white;
