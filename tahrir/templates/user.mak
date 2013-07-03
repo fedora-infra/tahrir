@@ -12,21 +12,22 @@
 		</div>
 
 		% if user.email == logged_in:
-			<div class ="grid-100">
+			<div class ="grid-95 push-5">
 				<!-- tried vertical-align, margins, and paddings of all sorts,
 					 but to no avail. the "change avatar" link will not
 					 behave. -->
-					 <span style="display: inline-block; margin-top: 25px;"> 
+					 <span style="display: inline-block; margin-top: -25px;"> 
 				<a href="https://www.libravatar.org/account/upload_photo/">
-					Change avatar.</a></span>
+					[change your avatar]</a></span>
 			</div>
+
+			% if user.email:
+				<div class="grid-95 push-5">
+					<strong>${user.email}</strong>
+				</div>
+			% endif
 		% endif
 
-		% if user.email:
-			<div class="grid-95 push-5">
-				<strong>${user.email}</strong>
-			</div>
-		% endif
 
 		% if user.website:
 			<div class="grid-95 push-5">
