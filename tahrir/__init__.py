@@ -121,3 +121,5 @@ def groupfinder(userid, request):
     )
     if userid in admins:
         return ['group:admins']
+    else:
+        return []
