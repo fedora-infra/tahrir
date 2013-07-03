@@ -22,7 +22,7 @@
 	<!-- COLUMN 2 (Right)-->
 	<div class="grid-50">
 		<h3>Statistics</h3>
-		<ul>
+		<ul class="pretty-list">
 		<li>${badge.name} has been awarded <strong>${times_awarded}</strong> times.</li>
 		<li><a href="${request.route_url('user', id=first_awarded_person.id)}">
 				<strong>${first_awarded_person.nickname}</a></strong>

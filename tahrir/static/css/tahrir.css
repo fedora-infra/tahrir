@@ -18,6 +18,19 @@ legend {
     padding-bottom: 10px;
 }
 
+.pretty-list {
+    list-style: none;
+    margin-left: -25px;
+}
+
+.pretty-list li {
+    display: table-cell;
+    vertical-align: middle;
+    background: url(../img/badge_bullet.png) no-repeat left center;
+    padding-left: 50px;
+    height: 40px;
+}
+
 .page {
     /* Without the below line, the page div is skewed
      * right. */
