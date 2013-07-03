@@ -449,15 +449,6 @@ def login(request):
     settings = request.registry.settings
     ident = "openid_identifier=" + settings.get('tahrir.openid_identifier')
     url = velruse.login_url(request, 'openid') + "?" + ident
-    # TODO: Can we remove the below?
-    """
-    login_url = request.resource_url(request.context, 'login')
-    referrer = request.url
-    if referrer is login_url:
-        referrer = '/' # never use login form as came_from
-    came_from = request.params.get('came_from', referrer)
-    request.session['came_from'] = came_from
-    """
     return HTTPFound(location=url)
 
 

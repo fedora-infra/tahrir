@@ -77,7 +77,7 @@ def main(global_config, **settings):
             authorization_policy=authz_policy)
 
     config.include('velruse.providers.openid')
-    config.add_openid_login(realm="http://localhost:6543/")
+    config.add_openid_login(realm=settings.get('tahrir.openid_realm'))
 
     config.add_request_method(get_db, 'db', reify=True)
 
