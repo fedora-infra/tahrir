@@ -71,13 +71,6 @@
 	<li><a href="${request.route_url('login')}">Login</a></li>
 % endif
 	</ul>
-<!-- TODO: Move this somewhere better. -->
-% if logged_in:
-	You have ${str(len(awarded_assertions))} badges from this site.
-	% if awarded_assertions:
-	  <a href="javascript:claim_badges();">Claim them.</a>
-	% endif
-% endif
 	<div class="grid-100">
     </div>
     <div class="clear"></div>

@@ -40,6 +40,19 @@
 				<p>${user.bio}</p>
 			</div>
 		% endif
+
+		% if logged_in == user.email:
+			% if awarded_assertions:
+			<div class="grid-70 push-10 downshift-20">
+			  <a href="javascript:claim_badges();">
+				  <div class="section-header">
+					  Export Badges
+				  </div>
+			  </a>
+			</div>
+			% endif
+		% endif
+
 	</div>
 
 	<!-- COLUMN 2 (Right)-->
