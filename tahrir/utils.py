@@ -94,5 +94,7 @@ def make_avatar_method():
                 size=size,
                 default=gravatar_url,
             )
+        else:
+            return gravatar_url
 
     return avatar_method

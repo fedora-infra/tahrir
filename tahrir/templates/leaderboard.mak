@@ -4,8 +4,8 @@
 	<div class="grid-100">
 	</div>
 	<div class="clear"></div>
-	<div class="grid-25">
-		<h2 class="section-header">Your Rank</h2>
+	<div class="grid-50">
+		<h1 class="section-header">Your Rank</h1>
 		<div class="padded-content">
 		% if logged_in:
 			% if rank == 0:
@@ -20,17 +20,22 @@
 				<table>
 				% for person in competitors:
 					% if person.email == logged_in:
-					<tr><td><strong>
-						#${top_persons_sorted.index(person)}</strong></td>
+					<tr>
+					<td><strong>
+						#${top_persons_sorted.index(person) + 1}</strong></td>
+						</td>
+					<td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 						<td><strong>
 						<a href="${request.route_url('user',
 							id=person.id)}">${person.nickname}</a></strong>
-							</td></tr>
+							</td>
 					% else:
-					<tr><td>#${top_persons_sorted.index(person)}</td>
+					<td>#${top_persons_sorted.index(person) + 1}</td>
+					<td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 						<td><a href="${request.route_url('user',
-							id=person.id)}">${person.nickname}</a></td></tr>
+							id=person.id)}">${person.nickname}</a></td>
 					% endif
+					</tr>
 				% endfor
 				</table>
 			% endif
@@ -41,13 +46,14 @@
 		</div> <!-- End padded content. -->
 	</div>
 	<!-- COLUMN 2 (Right)-->
-	<div class="grid-75">
-		<h2 class="section-header">Leaderboard</h2>
+	<div class="grid-50">
+		<h1 class="section-header">Leaderboard</h1>
 		<div class="padded-content">
 			<table>
-	% for person in top_persons_sorted:
-				<tr><td>#${top_persons_sorted.index(person) + 1}.
-					<a href="${request.route_url('user', id=person.id)}">
+			% for person in top_persons_sorted:
+			<tr><td style="width: 20px;">#${top_persons_sorted.index(person) + 1}.</td>
+				<td style="width: 64px;">${self.functions.avatar_thumbnail(person, 64, 33)}</td>
+					<td><a href="${request.route_url('user', id=person.id)}">
 						${person.nickname}</a>
 						with <strong>${top_persons[person]}
 				</strong>

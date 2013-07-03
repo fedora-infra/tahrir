@@ -15,7 +15,11 @@ requires = [
     "weberror",
     'velruse',
     "qrcode",
-    "Pillow",
+
+    # For qrcode to work from PyPI, you also need Pillow.
+    # This is handled for us in Fedora because python-qrcode pulls in the
+    # correct underlying imaging library.
+    #"Pillow",
 
     # Optional -- used for scaling images to 256x256.
     # You also need "ImageMagick-devel" for this to build from pypi
@@ -23,7 +27,7 @@ requires = [
     ]
 
 setup(name='tahrir',
-      version='0.2.0',
+      version='0.2.1',
       description='A pyramid app for issuing your own Open Badges',
       long_description=README,
       license="AGPLv3+ with additional permission",

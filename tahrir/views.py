@@ -1,3 +1,4 @@
+import random
 import transaction
 import types
 import sqlalchemy as sa
@@ -109,6 +110,8 @@ def admin(request):
 
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
+    n = 5
+
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
                                  authenticated_userid(request))
@@ -130,22 +133,15 @@ def index(request):
         
     # Get latest awards.
     latest_awards=request.db.get_all_assertions().order_by(
-                    sa.asc(m.Assertion.issued_on)).limit(10).all()
-
-    # Get badge images and put them in a dict.
-    badge_images = dict() # badge_id: image URL
-    for item in latest_awards:
-        badge_images[item.badge_id] = request.db.get_badge(
-                                            item.badge_id).image
+                    sa.desc(m.Assertion.issued_on)).limit(n - 1).all()
 
     return dict(
         auth_principals=effective_principals(request),
         latest_awards=latest_awards,
         newest_persons=request.db.get_all_persons().order_by(
-                        sa.asc(m.Person.id)).limit(10).all(),
+                        sa.desc(m.Person.created_on)).limit(n).all(),
         top_persons=top_persons,
         top_persons_sorted=top_persons_sorted,
-        badge_images=badge_images,
         awarded_assertions=awarded_assertions,
     )
 
@@ -240,7 +236,10 @@ def leaderboard(request):
         except ValueError:
             rank = 0
         # Get percentile.
-        percentile = (float(rank) / float(user_count)) * 100
+        try:
+            percentile = (float(rank) / float(user_count)) * 100
+        except ZeroDivisionError:
+            percentile = 0
 
         # Get a list of nearby competetors (5 users above the current
         # user and 5 users ranked below).
@@ -262,24 +261,86 @@ def leaderboard(request):
             percentile=percentile,
             competitors=competitors,
             )
+
+
+@view_config(route_name='explore', renderer='explore.mak')
+def explore(request):
     
+    # Check if a search has been done, and if so, redirect to
+    # appropriate view.
+    if request.POST:
+        if request.POST.get('badge-search'):
+            return HTTPFound(location=request.route_url('badge',
+                                id=request.POST.get('badge-id')))
+        elif request.POST.get('person-search'):
+            return HTTPFound(location=request.route_url('user',
+                                id=request.POST.get('person-nickname')))
 
-
-@view_config(route_name='badge', renderer='badge.mak')
-def badge(request):
-    """Render badge info page."""
-    badge_id = request.matchdict.get('id')
-    badge = request.db.get_badge(badge_id)
+    # Get awarded assertions.
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
                                 authenticated_userid(request))
     else:
         awarded_assertions = None
+
+    # Get some random badges (for discovery).
+    try:
+        random_badges = random.sample(request.db.get_all_badges().all(), 5)
+    except ValueError: # the sample is probably larger than the population
+        random_badges = request.db.get_all_badges().all()
+
+    # Get some random persons (for discovery).
+    try:
+        random_persons = random.sample(request.db.get_all_persons().all(), 5)
+    except ValueError: # the sample is probably larger than the population
+        random_persons = request.db.get_all_persons().all()
+    
+    return dict(
+            auth_principals=effective_principals(request),
+            awarded_assertions=awarded_assertions,
+            random_badges=random_badges,
+            random_persons=random_persons,
+            )
+
+
+@view_config(route_name='badge', renderer='badge.mak')
+def badge(request):
+    """Render badge info page."""
+    # Get the badge to render info about.
+    badge_id = request.matchdict.get('id')
+    badge = request.db.get_badge(badge_id)
+
+    # Get awarded assertions.
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                authenticated_userid(request))
+    else:
+        awarded_assertions = None
+
+    # Get badge statistics.
+    times_awarded = len(request.db.get_assertions_by_badge(badge_id))
+    last_awarded = request.db.get_all_assertions().filter_by(
+            badge_id=badge_id).order_by(
+                    sa.desc(m.Assertion.issued_on)).limit(1).one()
+    last_awarded_person = request.db.get_person(
+            id=last_awarded.person_id)
+    
+    first_awarded = request.db.get_all_assertions().filter_by(
+            badge_id=badge_id).order_by(
+                    sa.asc(m.Assertion.issued_on)).limit(1).one()
+    first_awarded_person = request.db.get_person(
+            id=first_awarded.person_id)
+
     if badge:
         return dict(
                 badge=badge,
                 auth_principals=effective_principals(request),
                 awarded_assertions=awarded_assertions,
+                times_awarded=times_awarded,
+                last_awarded=last_awarded,
+                last_awarded_person=last_awarded_person,
+                first_awarded=first_awarded,
+                first_awarded_person=first_awarded_person,
                 )
     else:
         # TODO: Say that there was no badge found.
@@ -288,6 +349,13 @@ def badge(request):
 @view_config(route_name='user', renderer='user.mak')
 def user(request):
     """Render user info page."""
+    
+    # Get awarded assertions.
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                authenticated_userid(request))
+    else:
+        awarded_assertions = None
 
     # So, here they can use their 'id' or their 'nickname'.
     # We'll try nickname first since we want to encourage that (or whatever)
@@ -305,7 +373,7 @@ def user(request):
             user=user,
             user_badges=[a.badge for a in user.assertions],
             auth_principals=effective_principals(request),
-            awarded_assertions=user.assertions,
+            awarded_assertions=awarded_assertions,
             )
 
 

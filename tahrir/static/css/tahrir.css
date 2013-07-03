@@ -1,8 +1,3 @@
-img.badge {
-    width: 64px;
-    height: 64px;
-}
-
 body {
     background-color: white;
     color: black;
@@ -21,6 +16,19 @@ a, a:visited, a:active, a:link {
 legend {
     font-size: 1.2em;
     padding-bottom: 10px;
+}
+
+.pretty-list {
+    list-style: none;
+    margin-left: -25px;
+}
+
+.pretty-list li {
+    display: table-cell;
+    vertical-align: middle;
+    background: url(../img/badge_bullet.png) no-repeat left center;
+    padding-left: 50px;
+    height: 40px;
 }
 
 .page {
@@ -104,6 +112,16 @@ tr:nth-child(even) { background: white; }
     margin-bottom: 20px;
 }
 
+.downshift {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.downshift-20 {
+    margin-top: 20px !important;
+    margin-bottom: 0px !important;
+}
+
 .section-header {
     background: #3158AF;
     color: white;
@@ -156,49 +174,9 @@ div.popup {
     background-color: rgba(30,30,30,0.75);
 }
 
-div.gravatar {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    padding: 2px;
-    margin: 1px;
-    background: white;
-    
-    -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.5);
-    -moz-box-shadow: 1px 1px 2px rgba(0,0,0,.5);
-
-    /* The next two lines are for IE.. silly IE */
-    zoom: 1;
-    filter: progid:DXImageTransform.Microsoft.Shadow(
-        color='#969696', Direction=135, Strength=3);
-}
-
-div.gravatar img {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.ribbon {
-    background-color: #b5523c;
-    overflow: hidden;
-    position: absolute;
-    right: -3em;
-    top: 2.5em;
-    -moz-transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-    -moz-box-shadow: 0 0 1em #888;
-    -webkit-box-shadow: 0 0 1em #888;
-}
-.ribbon a {
-    border: 1px solid #faa;
-    color: #fff;
-    display: block;
-    font: bold 81.25% 'Helvetiva Neue', Helvetica, Arial, sans-serif;
-    margin: 0.05em 0;
-    padding: 0.5em 3.5em;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: 0 0 0.5em #444;
+.weak {
+    color: #666;
+    font-style: italic;
 }
 
 .sublabel {
@@ -213,20 +191,72 @@ form {
     margin-bottom: 20px;
 }
 
-.avatar-96 {
+.thumbnail-96 {
     width: 96px;
+    height: 96px;
 }
 
-.avatar-64 {
+.thumbnail-64 {
     width: 64px;
+    height: 64px;
 }
 
-.avatar {
+.thumbnail {
     margin-left: auto;
     margin-right: auto;
+}
+
+.thumbnail-container {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .text-64 {
     text-align: center;
     margin-top: 18px;
+}
+
+.tooltip {
+    /* Nothing, Lebowski. */
+}
+
+.tooltip::after {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 8px 8px 8px 0px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+    color: #FFF;
+    content: attr(data-tooltip); /* amazing */
+    opacity: 0; /* Our element is transparent... */
+    padding: 3px 7px;
+    position: absolute;
+    visibility: hidden; /* ...and hidden. */
+    transition: all 0.4s ease-in-out; /* To add some smoothness */
+}
+
+.tooltip:hover::after {
+    opacity: 1; /* Make it visible */
+    visibility: visible;
+}
+
+.tooltip-64:after {
+    margin-top: -96px;
+    margin-left: 64px;
+}
+
+.tooltip-128:after {
+    margin-top: -28px;
+}
+
+.tooltip-256:after {
+    margin-top: -28px;
+}
+
+img.badge-64 {
+    width: 64px;
+    height: 64px;
+}
+
+img.badge-128 {
+    width: 128px;
+    height: 128px;
 }

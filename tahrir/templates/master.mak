@@ -1,7 +1,12 @@
+<%namespace name="functions" file="functions.mak" inheritable="True" />
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8">
+	<!-- VIEWPORT STUFF -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1,
+								   maximum-scale=1" />
+	<!-- end viewport stuff -->
 	<link rel="stylesheet" href="${request.static_url('tahrir:static/css/tahrir.css')}" />
 	<link rel="stylesheet" href="${request.static_url('tahrir:static/css/monokai.css')}" />
 	<link rel="stylesheet" media="mobile" href="${request.static_url('tahrir:static/css/unsemantic-grid-mobile.css')}" />
@@ -38,12 +43,6 @@
   </head>
   <body>
 
-	<div class="ribbon">
-	  <a href="http://github.com/fedora-infra/tahrir" rel="me">
-		  Get the Source!
-	  </a>
-	</div>
-
   	<div class="grid-container">
     <div class="header grid-100">
 		<div><H1><a id="header-link" href="/"><img
@@ -56,13 +55,11 @@
 	<div class="clear"></div>
 
 	<ul class="grid-100 navbar">
+		<li><a href="${request.route_url('explore')}">Explore</a></li>
+		<li><a href="${request.route_url('leaderboard')}">Leaderboard</a></li>
       % if logged_in:
 	  <li><a href="${request.route_url('user', id=logged_in_id)}">Profile</a></li>
       % endif
-		<li>Explore</li>
-		<li>Users</li>
-		<li><a href="${request.route_url('builder')}">Builder</a></li>
-		<li><a href="${request.route_url('leaderboard')}">Leaderboard</a></li>
 % if logged_in:
 	% if 'group:admins' in auth_principals:
 		<li><a href="${request.route_url('admin')}">Admin</a></li>
@@ -72,13 +69,6 @@
 	<li><a href="${request.route_url('login')}">Login</a></li>
 % endif
 	</ul>
-<!-- TODO: Move this somewhere better. -->
-% if logged_in:
-	You have ${str(len(awarded_assertions))} badges from this site.
-	% if awarded_assertions:
-	  <a href="javascript:claim_badges();">Claim them.</a>
-	% endif
-% endif
 	<div class="grid-100">
     </div>
     <div class="clear"></div>
@@ -86,9 +76,15 @@
     <div class="clear"></div>
 	</div> <!-- End grid-container -->
 	<div id="footer">
-		You can report bugs and file issues with التحرير (Tahrir) on
+		<p>You can use the 
+		<a href="${request.route_url('builder')}">Badge Builder</a> to help
+		you create YAML files for new badges.</p>
+		<p>You can report bugs and file issues with التحرير (Tahrir) on
 		<a href="https://github.com/fedora-infra/tahrir/issues">
-		the GitHub issues tracker</a>.
+		the GitHub issues tracker</a>.</p>
+		<p>This project is free software; you can find the
+		<a href="http://github.com/fedora-infra/tahrir">source</a>
+		on GitHub.</p>
 	</div>
   </body>
 </html>
