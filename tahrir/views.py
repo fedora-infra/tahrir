@@ -310,6 +310,10 @@ def badge(request):
     badge_id = request.matchdict.get('id')
     badge = request.db.get_badge(badge_id)
 
+    # if the badge isn't found, raise a 404
+    if not badge:
+        raise HTTPNotFound("No such badge %r" % badge_id)
+
     # Get awarded assertions.
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
