@@ -45,7 +45,7 @@
 
   	<div class="grid-container">
     <div class="header grid-100">
-		<div><H1><a id="header-link" href="/"><img
+		<div><H1><a id="header-link" href="${request.route_url('home')}"><img
 			src="${request.static_url('tahrir:static/img/fedora_badges_small.png')}"
 			alt="Fedora Badges logo"
 			class="logo-image"/></a></H1>
