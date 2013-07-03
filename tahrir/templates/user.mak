@@ -31,7 +31,12 @@
 
 		% if user.website:
 			<div class="grid-95 push-5">
-				<a href="${user.website}">${user.website}</a>
+				% if user.website.startswith('http'):
+					<a href="${user.website}">
+				% else:
+					<a href="http://${user.website}">
+				% endif
+					${user.website}</a>
 			</div>
 		% endif
 
