@@ -3,6 +3,10 @@
 <html>
   <head>
     <meta charset="UTF-8">
+	<!-- VIEWPORT STUFF -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1,
+								   maximum-scale=1" />
+	<!-- end viewport stuff -->
 	<link rel="stylesheet" href="${request.static_url('tahrir:static/css/tahrir.css')}" />
 	<link rel="stylesheet" href="${request.static_url('tahrir:static/css/monokai.css')}" />
 	<link rel="stylesheet" media="mobile" href="${request.static_url('tahrir:static/css/unsemantic-grid-mobile.css')}" />
