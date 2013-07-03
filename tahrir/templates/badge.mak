@@ -17,7 +17,13 @@
 	<div class="grid-50">
 		<h3>Statistics</h3>
 		<ul class="pretty-list">
-		<li>${badge.name} has been awarded <strong>${times_awarded}</strong> times.</li>
+		<li>${badge.name} has been awarded <strong>${times_awarded}</strong>
+			% if times_awarded != 1:
+				times.
+			% else:
+				time.
+			% endif
+		</li>
 		% if first_awarded and last_awarded:
 			<li><a href="${request.route_url('user', id=first_awarded_person.id)}">
 					<strong>${first_awarded_person.nickname}</a></strong>
