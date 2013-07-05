@@ -61,7 +61,7 @@ def main(global_config, **settings):
         secret=settings['authnsecret'],
         callback=groupfinder, # groupfinder callback checks for admin privs
         hashalg='sha512', # because md5 is deprecated
-        secure=settings['tahrir.secure_cookies'],
+        secure=asbool(settings['tahrir.secure_cookies']),
     )
     authz_policy = ACLAuthorizationPolicy()
     session_factory = UnencryptedCookieSessionFactoryConfig(
@@ -123,3 +123,8 @@ def groupfinder(userid, request):
         return ['group:admins']
     else:
         return []
+
+
+def asbool(value):
+    """ Handy-dandy converter from "False" to False.  """
+    return value.lower() not in ['false', 'no', 'f', 'n', '0']
