@@ -22,6 +22,7 @@ from pyramid.security import (
     remember,
     forget,
 )
+from pyramid.settings import asbool
 
 from tahrir_api.dbapi import TahrirDatabase
 import tahrir_api.model as m
@@ -459,7 +460,8 @@ def login_complete_view(request):
 
     nickname = context.profile['preferredUsername']
 
-    if context.profile['emails']:
+    if asbool(settings.get('tahrir.use_openid_email')) \
+       and context.profile['emails']:
         email = context.profile['emails'][0]
     else:
         ident = settings.get('tahrir.openid_identifier')
