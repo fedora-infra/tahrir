@@ -1,6 +1,8 @@
 import os
 import ConfigParser
 
+import dogpile.cache
+
 from pyramid.config import Configurator
 
 from pyramid.authentication import AuthTktAuthenticationPolicy
@@ -18,7 +20,8 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
 
-    tahrir_api.model.Person.avatar_url = make_avatar_method()
+    cache = dogpile.cache.make_region()
+    tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
 
     def get_db(request):
         """ Database retrieval function to be added to the request for
@@ -70,6 +73,9 @@ def main(global_config, **settings):
 
     # Instantiate the db.
     db = TahrirDatabase(settings['sqlalchemy.url'])
+
+    # Configure our cache that we instantiated earlier.
+    cache.configure_from_config(settings, 'dogpile.cache.')
 
     config = Configurator(
             settings=settings,

@@ -78,10 +78,10 @@ def generate_badge_yaml(postdict):
                                             default="") + "\n"\
          "(This section is under construction.)"
 
+def make_avatar_method(cache):
 
-def make_avatar_method():
-
-    def avatar_method(self, size):
+    @cache.cache_on_arguments()
+    def _avatar_function(email, size):
         # This final fallback doesn't actually work.  Not too worried about it.
         absolute_default = 'https://fedoraproject.org/static/images/' + \
             'fedora_infinity_64x64.png'
@@ -91,17 +91,21 @@ def make_avatar_method():
             'd': absolute_default,
         })
 
-        hash = md5(self.email).hexdigest()
+        hash = md5(email).hexdigest()
 
         gravatar_url = "http://www.gravatar.com/avatar/%s?%s" % (hash, query)
 
         if libravatar:
             return libravatar.libravatar_url(
-                email=self.email,
+                email=email,
                 size=size,
                 default=gravatar_url,
             )
         else:
             return gravatar_url
+
+    def avatar_method(self, size):
+        # Call the cached workhorse function
+        return _avatar_function(self.email, size)
 
     return avatar_method
