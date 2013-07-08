@@ -8,7 +8,7 @@
 			% for assertion in latest_awards:
 			<div class="grid-container">
 				${self.functions.avatar_thumbnail(assertion.person, 64, 33)}
-				<div class="grid-33">
+				<div class="grid-33 text-64">
 					was awarded
 					<span class="date">${assertion.issued_on.strftime("%Y-%m-%d")}</span>
 				</div>
@@ -26,7 +26,7 @@
 			% for person in sorted(newest_persons, key=lambda x: x.id, reverse=True):
 				<div class="grid-container">
 					${self.functions.avatar_thumbnail(person, 64, 33)}
-					<div class="grid-33">
+					<div class="grid-33 text-64">
 						<a href="${request.route_url('user', id=person.nickname or person.id)}">
 							${person.nickname or person.email}
 						</a>
