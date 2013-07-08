@@ -7,9 +7,7 @@
 			<h2 class="header downshift">${user.nickname}</h2>
 		</div>
 
-		<div class="grid-100">
-			${self.functions.avatar_thumbnail(user, 256, 100)}
-		</div>
+        ${self.functions.avatar_thumbnail(user, 256, 100)}
 
 		% if user.email == logged_in:
 			<div class ="grid-95 push-5">
