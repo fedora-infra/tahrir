@@ -465,7 +465,7 @@ def login_complete_view(request):
         email = context.profile['emails'][0]
     else:
         ident = settings.get('tahrir.openid_identifier')
-        domain = '.'.join(ident.split('.')[:-2])
+        domain = '.'.join(ident.split('.')[-2:])
         email = nickname + "@" + domain
 
     if not request.db.get_person(email):
