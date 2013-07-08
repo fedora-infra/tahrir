@@ -6,6 +6,7 @@ from pyramid.config import Configurator
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
+from pyramid.settings import asbool
 
 from .app import get_root
 from .utils import make_avatar_method
@@ -123,8 +124,3 @@ def groupfinder(userid, request):
         return ['group:admins']
     else:
         return []
-
-
-def asbool(value):
-    """ Handy-dandy converter from "False" to False.  """
-    return value.lower() not in ['false', 'no', 'f', 'n', '0']
