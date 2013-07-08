@@ -42,7 +42,7 @@
     <title>${title}</title>
   </head>
   <body>
-
+  <div class="page">
   	<div class="grid-container">
     <div class="header grid-100">
 		<div><H1><a id="header-link" href="${request.route_url('home')}"><img
@@ -71,11 +71,11 @@
 	</ul>
 	<div class="grid-100">
     </div>
-    <div class="clear"></div>
     ${self.body()}
-    <div class="clear"></div>
+	<div class="push"></div>
 	</div> <!-- End grid-container -->
-	<div id="footer">
+</div> <!-- End page -->
+	<footer class="footer">
 		<p>You can use the 
 		<a href="${request.route_url('builder')}">Badge Builder</a> to help
 		you create YAML files for new badges.</p>

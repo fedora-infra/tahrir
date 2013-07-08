@@ -1,8 +1,13 @@
+* {
+    margin: 0px;
+}
+html, body {
+    height: 100%;
+}
 body {
     background-color: white;
     color: black;
     font-size 12pt;
-    height: auto;
     font-family: Cantarell, sans-serif;
     width: 100%;
     overflow-x: hidden !important;
@@ -31,9 +36,15 @@ legend {
 }
 
 .page {
-    /* Without the below line, the page div is skewed
-     * right. */
-    margin-right: 15px;
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -3em;
+}
+
+.footer, .push {
+    height: -3em;
+    clear: both;
 }
 
 .date {
@@ -78,7 +89,8 @@ tr:nth-child(even) { background: white; }
 
 .logo-image {
     margin-right: 10px;
-    margin-top: -10px;
+    margin-left: 10px;
+    margin-top: 10px;
 }
 
 #logo {
@@ -96,7 +108,6 @@ tr:nth-child(even) { background: white; }
  * (on suggestion of Jenn Kotler)
  */
 .padded-content {
-    margin-top: -10px;
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 15px;
@@ -128,9 +139,10 @@ tr:nth-child(even) { background: white; }
     color: white;
     text-align: center;
     padding: 10px;
+    margin-top: 10px;
 }
 
-#footer {
+.footer {
     color: #9B9B9B; /* Dark gray */
     font-size: 10px;
     text-align: center;
