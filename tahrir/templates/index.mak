@@ -2,6 +2,7 @@
 <div class="page">
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-33">
+		<div class="shadow">
 		<h1 class="section-header">Latest Awards</h1>
 		<div class="padded-content">
 			% for assertion in latest_awards:
@@ -15,9 +16,11 @@
 			</div>
 			% endfor
 		</div> <!-- End padded content. -->
+		</div> <!-- End shadow -->
 	</div>
 	<!-- COLUMN 2 (Middle)-->
 	<div class="grid-33">
+		<div class="shadow">
 		<h1 class="section-header">New Contributors</h1>
 		<div class="padded-content">
 			% for person in sorted(newest_persons, key=lambda x: x.id, reverse=True):
@@ -32,10 +35,12 @@
 				</div> <!-- end grid-container -->
 			% endfor
 		</div> <!-- End padded content. -->
+		</div> <!-- End shadow -->
 
 	</div>
 	<!-- COLUMN 3 (Right)-->
 	<div class="grid-33">
+		<div class="shadow">
 		<h1 class="section-header">Top Contributors</h1>
 		<div class="padded-content">
 			% for person in top_persons_sorted:
@@ -55,6 +60,7 @@
 				</div> <!-- end grid-container -->
 			% endfor
 		</div> <!-- End padded content. -->
+		</div> <!-- End shadow -->
 	</div>
     
 	<div class="clear spacer"></div>
