@@ -229,7 +229,7 @@ form {
 
 .tooltip::after {
     background: rgba(0, 0, 0, 0.8);
-    border-radius: 8px 8px 8px 0px;
+    border-radius: 8px 0px 8px 8px;
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
     color: #FFF;
     content: attr(data-tooltip); /* amazing */
@@ -238,24 +238,12 @@ form {
     position: absolute;
     visibility: hidden; /* ...and hidden. */
     transition: all 0.4s ease-in-out; /* To add some smoothness */
+    margin-left: -40px;
 }
 
 .tooltip:hover::after {
     opacity: 1; /* Make it visible */
     visibility: visible;
-}
-
-.tooltip-64:after {
-    margin-top: -96px;
-    margin-left: 64px;
-}
-
-.tooltip-128:after {
-    margin-top: -28px;
-}
-
-.tooltip-256:after {
-    margin-top: -28px;
 }
 
 .thumbnail img {
