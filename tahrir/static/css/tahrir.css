@@ -107,9 +107,10 @@ tr:nth-child(even) { background: white; }
  * (on suggestion of Jenn Kotler)
  */
 .padded-content {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
     padding-bottom: 15px;
+    padding-top: 5px;
 }
 
 #header-link {
@@ -203,21 +204,6 @@ form {
     margin-bottom: 20px;
 }
 
-.thumbnail-256 {
-    width: 256px;
-    height: 256px;
-}
-
-.thumbnail-96 {
-    width: 96px;
-    height: 96px;
-}
-
-.thumbnail-64 {
-    width: 64px;
-    height: 64px;
-}
-
 .thumbnail {
     margin-left: auto;
     margin-right: auto;
@@ -272,17 +258,12 @@ form {
     margin-top: -28px;
 }
 
-img.badge-64 {
-    width: 64px;
-    height: 64px;
+.thumbnail img {
+    max-width: 100%;
+    width: auto/9;
+    height: auto;
+    vertical-align: middle;
+    border: 0;
+    -ms-interpolation-mode: bicubic;
 }
 
-img.badge-128 {
-    width: 128px;
-    height: 128px;
-}
-
-img.badge-256 {
-    width: 256px;
-    height: 256px;
-}
