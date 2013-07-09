@@ -5,6 +5,7 @@
 	</div>
 	<div class="clear"></div>
 	<div class="grid-50">
+		<div class="shadow">
 		<h1 class="section-header">Your Rank</h1>
 		<div class="padded-content">
 		% if logged_in:
@@ -46,9 +47,11 @@
 			ranked users.</p>
 		% endif
 		</div> <!-- End padded content. -->
+		</div> <!-- End shadow. -->
 	</div>
 	<!-- COLUMN 2 (Right)-->
 	<div class="grid-50">
+		<div class="shadow">
 		<h1 class="section-header">Leaderboard</h1>
 		<div class="padded-content">
 			<table>
@@ -70,6 +73,7 @@
 			% endfor
 			</table>
 		</div> <!-- End padded content. -->
+		</div> <!-- End shadow. -->
 
 	</div>
     
