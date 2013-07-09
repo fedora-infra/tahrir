@@ -17,12 +17,16 @@
 	<div class="grid-50">
 		<h3>Statistics</h3>
 		<ul class="pretty-list">
+		% if times_awarded == 0:
+		<li>${badge.name} has <strong>never been awarded!</strong>
+		% else:
 		<li>${badge.name} has been awarded <strong>${times_awarded}</strong>
 			% if times_awarded != 1:
 				times.
 			% else:
 				time.
 			% endif
+		% endif
 		</li>
 		% if first_awarded and last_awarded:
 			<li><a href="${request.route_url('user', id=first_awarded_person.id)}">
