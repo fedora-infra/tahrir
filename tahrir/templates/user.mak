@@ -47,6 +47,9 @@
 		<div class="grid-95 push-5">
 			<p>${user.nickname} first showed up on
 				${user.created_on.strftime('%Y-%m-%d')}.</p>
+		</div>
+
+		<div class="grid-95 push-5">
 			% if logged_in == user.email:
 				<form method="POST">
 					<input name="new-nickname" type="text"
