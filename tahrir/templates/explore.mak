@@ -3,12 +3,6 @@
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-100">
 		<h1 class="section-header">Explore</h1>
-		<div class="padded-content">
-		<p><strong>This is the latest addition to Tahrir!</strong>
-			From here,
-			you will be able to search for and discover
-			both people and badges.</p>
-		</div>
 	</div>
 
 	<div class="clear"></div>
@@ -20,12 +14,12 @@
 			${self.functions.badge_thumbnail(badge, 64, 15)}
 		% endfor
 		<div class="clear"></div>
-		<h2>Badge Search</h2>
+		<h2>View Badge</h2>
 		<form method="POST">
 			<table style="width: 400px">
 			<tr><td><label for="badge-id">Badge ID
 				<span class="sublabel">Substitute hyphens for spaces.
-					</label></td>
+					For now, badge name must be exact.</span></label></td>
 			<td><input name="badge-id" required="required" /></td></tr>
 			<tr><td>
 				<input name="badge-search" type="submit" value="Search" />
@@ -42,10 +36,12 @@
 			${self.functions.avatar_thumbnail(person, 64, 15)}
 		% endfor
 		<div class="clear"></div>
-		<h2>People Search</h2>
+		<h2>View Person</h2>
 		<form method="POST">
 			<table style="width: 400px">
-			<tr><td><label for="person-nickname">Nickname</label></td>
+			<tr><td><label for="person-nickname">Nickname
+				<span class="sublabel">For now, person name must
+					be exact.</span></label></td>
 			<td><input name="person-nickname" required="required" /></td>
 			</tr><tr><td>
 			<input name="person-search" type="submit" value="Search" /></td>
