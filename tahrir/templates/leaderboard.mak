@@ -22,16 +22,17 @@
 				% for person in competitors:
 					% if person.email == logged_in:
 					<tr>
-					<td><strong>
-						#${top_persons_sorted.index(person) + 1}</strong></td>
-						</td>
+					<td><span class="big-text"><strong>
+						#${top_persons_sorted.index(person) + 1}
+						</strong></span></td>
 					<td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 						<td><strong>
 						<a href="${request.route_url('user',
 							id=person.id)}">${person.nickname}</a></strong>
 							</td>
 					% else:
-					<td>#${top_persons_sorted.index(person) + 1}</td>
+					<td><span class="big-text">
+						#${top_persons_sorted.index(person) + 1}</span></td>
 					<td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 						<td><a href="${request.route_url('user',
 							id=person.id)}">${person.nickname}</a></td>
@@ -52,7 +53,9 @@
 		<div class="padded-content">
 			<table>
 			% for person in top_persons_sorted:
-			<tr><td style="width: 20px;">#${top_persons_sorted.index(person) + 1}.</td>
+			<tr><td style="width: 20px;">
+				<span class="big-text">
+				#${top_persons_sorted.index(person) + 1}</span></td>
 				<td style="width: 64px;">${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 					<td><a href="${request.route_url('user', id=person.id)}">
 						${person.nickname}</a>
