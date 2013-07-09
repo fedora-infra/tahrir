@@ -12,10 +12,11 @@
 				<p>You are not ranked yet. There are ${user_count}
 				ranked users.</p>
 			% else:
-				<p>You are ranked #${rank} out of ${user_count}
-				ranked users.</p>
+				<p>You are ranked <strong>#${rank}</strong>
+				out of ${user_count} ranked users.</p>
 				<p>You are in
-				the top ${"{0:.1f}".format(percentile)}%.</p>
+				the <strong>top ${"{0:.1f}".format(percentile)}%
+				</strong>.</p>
 				<h3>Competitors</h3>
 				<table>
 				% for person in competitors:

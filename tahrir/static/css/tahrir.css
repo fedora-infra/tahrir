@@ -23,6 +23,11 @@ legend {
     padding-bottom: 10px;
 }
 
+/* Applied to numbering, mainly (ex. #1, #2, etc.). */
+.big-text {
+    font-size: 2em;
+}
+
 .pretty-list {
     list-style: none;
     margin-left: -25px;
