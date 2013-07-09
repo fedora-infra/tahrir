@@ -44,6 +44,11 @@
 			</div>
 		% endif
 
+		<div class="grid-95 push-5">
+			<p>${user.nickname} first showed up on
+				${user.created_on.strftime('%Y-%m-%d')}.</p>
+		</div>
+
 		% if logged_in == user.email:
 			% if awarded_assertions:
 			<div class="grid-70 push-10 downshift-20">
