@@ -389,6 +389,16 @@ def user(request):
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
 
+    if request.POST:
+        if request.POST.get('change-nickname'):
+            new_nick = request.POST.get('new-nickname')
+            request.db.get_all_persons().filter_by(
+                    email=authenticated_userid(request)).update(dict(
+                            nickname=new_nick))
+
+            # The user's nickname has changed, so let's go to the new URL.
+            return HTTPFound(location=request.route_url('user', id=new_nick))
+
     return dict(
             user=user,
             user_badges=[a.badge for a in user.assertions],
