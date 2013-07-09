@@ -7,12 +7,12 @@
 		<div class="padded-content">
 			% for assertion in latest_awards:
 			<div class="grid-container">
-				${self.functions.avatar_thumbnail(assertion.person, 64, 33)}
-				<div class="grid-33 text-64">
+				${self.functions.avatar_thumbnail(assertion.person, 256, 33)}
+				<div class="grid-33 text-256">
 					was awarded
 					<span class="date">${assertion.issued_on.strftime("%Y-%m-%d")}</span>
 				</div>
-				${self.functions.badge_thumbnail(assertion.badge, 64, 33)}
+				${self.functions.badge_thumbnail(assertion.badge, 256, 33)}
 			</div>
 			% endfor
 		</div> <!-- End padded content. -->
@@ -25,8 +25,8 @@
 		<div class="padded-content">
 			% for person in sorted(newest_persons, key=lambda x: x.id, reverse=True):
 				<div class="grid-container">
-					${self.functions.avatar_thumbnail(person, 64, 33)}
-					<div class="grid-33 text-64">
+					${self.functions.avatar_thumbnail(person, 256, 33)}
+					<div class="grid-33 text-256">
 						<a href="${request.route_url('user', id=person.nickname or person.id)}">
 							${person.nickname or person.email}
 						</a>
@@ -45,8 +45,8 @@
 		<div class="padded-content">
 			% for person in top_persons_sorted:
 				<div class="grid-container">
-					${self.functions.avatar_thumbnail(person, 64, 33)}
-					<div class="grid-66 text-64">
+					${self.functions.avatar_thumbnail(person, 256, 33)}
+					<div class="grid-66 text-256">
 						<a href="${request.route_url('user', id=person.nickname or person.id)}">
 							${person.nickname or person.email}
 						</a>
