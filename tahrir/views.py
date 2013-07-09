@@ -473,7 +473,12 @@ def login_complete_view(request):
         domain = '.'.join(ident.split('.')[-2:])
         email = nickname + "@" + domain
 
-    if not request.db.get_person(email):
+    # Keep adding underscores until we get a default nickname
+    # that isn't already used.
+    while request.db.get_person(nickname=nickname):
+        nickname += '_'
+
+    if not request.db.get_person(person_email=email):
         request.db.add_person(email=email, nickname=nickname)
 
     headers = remember(request, email)
