@@ -71,7 +71,8 @@
 	<div class="push"></div>
 	</div> <!-- End grid-container -->
 </div> <!-- End page -->
-	<footer class="footer">
+
+	<footer>
 		<p>You can use the
 		<a href="${request.route_url('builder')}">Badge Builder</a> to help
 		you create YAML files for new badges.</p>
@@ -81,6 +82,7 @@
 		<p>This project is free software; you can find the
 		<a href="http://github.com/fedora-infra/tahrir">source</a>
 		on GitHub.</p>
-	</div>
+	</footer>
+
   </body>
 </html>
