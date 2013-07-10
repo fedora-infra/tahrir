@@ -67,10 +67,10 @@
 		<div class="shadow">
 		<h1 class="section-header">Badges Earned</h1>
 		<div class="padded-content">
-			<div>
+			<div class="grid-container">
 			% for i, badge in enumerate(user_badges):
 				% if i % 3 == 0 and i != 0:
-				</div><div>
+				</div><div class="grid-container">
 				% endif
 				${self.functions.badge_thumbnail(badge, 128, 33)}
 			% endfor
