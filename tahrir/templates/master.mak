@@ -41,7 +41,7 @@
     <title>${title}</title>
   </head>
   <body>
-  <div class="page">
+  <div class="page clearfix">
   	<div class="grid-container">
     <div class="header clearfix grid-100">
 		<h1><a href="${request.route_url('home')}"><img
