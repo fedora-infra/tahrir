@@ -68,7 +68,6 @@
 	<div class="grid-100">
     </div>
     ${self.body()}
-	<div class="push"></div>
 	</div> <!-- End grid-container -->
 </div> <!-- End page -->
 
