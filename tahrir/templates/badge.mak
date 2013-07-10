@@ -2,21 +2,28 @@
 <div class="page">
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-50">
-		<table>
-		<tr><td><strong>${badge.name}</strong></td><td>
+		<div class="shadow">
+		<h1 class="section-header">Badge Info</h1>
+		<div class="padded-content">
 		${self.functions.badge_thumbnail(badge, 256, 100)}
-		<tr><td>Description</td><td>${badge.description}</td></tr>
-			<tr><td>Criteria</td><td>${badge.criteria}</td></tr>
-			<tr><td>Created</td><td>${badge.created_on.strftime("%Y-%m-%d")}
-				</td></tr>
-			<tr><td>Issuer</td><td>${badge.issuer_id}</td></tr>
-			<tr><td>Tags</td><td>${badge.tags}</td></tr>
-		</table>
+		<p class="name">${badge.name}</p>
+		<p class="description">${badge.description}</p>
+		<div class="metadata">
+			<p>Tagged with: ${badge.tags}</p>
+			<p>Issued by: ${badge.issuer_id}</p>
+			<p>Criteria: ${badge.criteria}</p>
+		</div>
+		</div> <!-- End padded content. -->
+		</div> <!-- End shadow. -->
 	</div>
 	<!-- COLUMN 2 (Right)-->
 	<div class="grid-50">
-		<h3>Statistics</h3>
+		<div class="shadow">
+		<h1 class="section-header">Badge Statistics</h1>
+		<div class="padded-content">
 		<ul class="pretty-list">
+		<li>The ${badge.name} badge was created on
+			${badge.created_on.strftime("%Y-%m-%d")}.</li>
 		% if times_awarded == 0:
 		<li>${badge.name} has <strong>never been awarded!</strong>
 		% else:
@@ -42,6 +49,8 @@
 				</strong>.</li>
 		% endif
 		</ul>
+		</div> <!-- End padded content. -->
+		</div> <!-- End shadow. -->
 	</div>
     
 	<div class="clear spacer"></div>
