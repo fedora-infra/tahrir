@@ -82,9 +82,8 @@ def make_avatar_method(cache):
 
     @cache.cache_on_arguments()
     def _avatar_function(email, size):
-        # This final fallback doesn't actually work.  Not too worried about it.
         absolute_default = 'https://fedoraproject.org/static/images/' + \
-            'fedora_infinity_64x64.png'
+            'fedora_infinity_140x140.png'
 
         query = urllib.urlencode({
             's': size,
