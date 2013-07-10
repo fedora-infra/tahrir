@@ -70,6 +70,9 @@
     ${self.body()}
 	</div> <!-- End grid-container -->
 
+  <div class='push'></div>
+
+</div> <!-- End page -->
 
   <footer>
     <p>You can use the
@@ -83,7 +86,6 @@
     on GitHub.</p>
   </footer>
 
-</div> <!-- End page -->
 
   </body>
 </html>

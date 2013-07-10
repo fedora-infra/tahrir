@@ -54,20 +54,18 @@ legend {
 }
 
 .page {
-    min-height: 100%;
-    height: auto;
     height: 100%;
-    padding-bottom: 3em;
+    min-height: 100%;
+    margin-bottom: -3em;
 }
 
 /* Footer Styles */
 
-footer {
-    position: absolute;
-    bottom: 0;
-    display: block;
-    width: 100%;
+footer, .push {
     height: 3em;
+    clear: both;
+}
+footer {
     color: #9B9B9B;
     font-size: 10px;
     text-align: center;
