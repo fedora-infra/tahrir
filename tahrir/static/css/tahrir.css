@@ -26,20 +26,14 @@ legend {
 }
 
 
-/* Logo Patch */
+/* Header Styles */
 .header {
     color: #3158AF;
     height: 75px;
-/*    margin-top: -10px;
-    margin-bottom: 20px;*/
 }
 .header a {
     text-decoration: none;
 }
-
-
-
-
 
 
 /* Applied to numbering, mainly (ex. #1, #2, etc.). */
