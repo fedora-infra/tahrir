@@ -259,6 +259,12 @@ form {
     height: 64px;
 }
 
+.thumbnail img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .thumbnail {
     margin-left: auto;
     margin-right: auto;
