@@ -8,15 +8,14 @@
 
         ${self.functions.avatar_thumbnail(user, 256, 100)}
 
-		<span class="name">${user.nickname}</span>
-		<span style="font-style: italic; color: #666;">
-			arrived on ${user.created_on.strftime('%Y-%m-%d')}</span>
+		<p class="name">${user.nickname}</p>
 		
 		% if user.bio:
 			<p class="description">${user.bio}</p>
 		% endif
 
 		<div class="metadata">
+			<p>Arrived on ${user.created_on.strftime('%Y-%m-%d')}</p>
 			% if user.email == logged_in:
 				<p>Email: ${user.email}</p>
 			% endif
