@@ -42,7 +42,7 @@
   </head>
   <body>
   <div class="page clearfix">
-  	<div class="grid-container">
+  	<div class="page-content grid-container">
     <div class="header clearfix grid-100">
 		<h1><a href="${request.route_url('home')}"><img
 			src="${request.static_url('tahrir:static/img/fedora_badges_small.png')}"
@@ -69,8 +69,6 @@
     </div>
     ${self.body()}
 	</div> <!-- End grid-container -->
-
-  <div class='push'></div>
 
 </div> <!-- End page -->
 
