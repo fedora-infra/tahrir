@@ -43,7 +43,7 @@ legend {
 
 .pretty-list {
     list-style: none;
-    margin-left: -25px;
+    margin-left: 10px;
 }
 
 .pretty-list li {
@@ -260,19 +260,25 @@ form {
     -ms-interpolation-mode: bicubic;
 }
 
-.thumbnail-256 {
+.thumbnail-256, .thumbnail-256 img {
     width: 256px;
     height: 256px;
 }
 
-.thumbnail-96 {
+.thumbnail-96, .thumbnail-96 img {
     width: 96px;
     height: 96px;
 }
 
-.thumbnail-64 {
+.thumbnail-64, .thumbnail-64 img {
     width: 64px;
     height: 64px;
+}
+
+.thumbnail img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .thumbnail {
