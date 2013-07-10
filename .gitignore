@@ -13,3 +13,4 @@ production-for-realsies.ini
 tahrir.ini
 secret.ini
 *.dbm*
+.DS_STORE
