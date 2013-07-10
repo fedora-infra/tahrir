@@ -12,18 +12,23 @@ except ImportError:
 
 
 class MLStripper(HTMLParser):
+
     def __init__(self):
         self.reset()
         self.fed = []
+
     def handle_data(self, d):
         self.fed.append(d)
+
     def get_data(self):
         return ''.join(self.fed)
+
 
 def _strip_tags(html):
     s = MLStripper()
     s.feed(html)
     return s.get_data()
+
 
 def strip_tags(_d):
     d = {}
@@ -38,6 +43,7 @@ def strip_tags(_d):
             d[k] = _strip_tags(v)
 
     return d
+
 
 def generate_badge_yaml(postdict):
     return "%YAML 1.2\n"\
@@ -72,29 +78,33 @@ def generate_badge_yaml(postdict):
                                             default="") + "\n"\
          "(This section is under construction.)"
 
-def make_avatar_method():
+def make_avatar_method(cache):
 
-    def avatar_method(self, size):
-        # This final fallback doesn't actually work.  Not too worried about it.
+    @cache.cache_on_arguments()
+    def _avatar_function(email, size):
         absolute_default = 'https://fedoraproject.org/static/images/' + \
-            'fedora_infinity_64x64.png'
+            'fedora_infinity_140x140.png'
 
         query = urllib.urlencode({
             's': size,
             'd': absolute_default,
         })
 
-        hash = md5(self.email).hexdigest()
+        hash = md5(email).hexdigest()
 
         gravatar_url = "http://www.gravatar.com/avatar/%s?%s" % (hash, query)
 
         if libravatar:
             return libravatar.libravatar_url(
-                email=self.email,
+                email=email,
                 size=size,
                 default=gravatar_url,
             )
         else:
             return gravatar_url
+
+    def avatar_method(self, size):
+        # Call the cached workhorse function
+        return _avatar_function(self.email, size)
 
     return avatar_method

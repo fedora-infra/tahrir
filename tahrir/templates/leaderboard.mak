@@ -5,6 +5,7 @@
 	</div>
 	<div class="clear"></div>
 	<div class="grid-50">
+		<div class="shadow">
 		<h1 class="section-header">Your Rank</h1>
 		<div class="padded-content">
 		% if logged_in:
@@ -12,25 +13,27 @@
 				<p>You are not ranked yet. There are ${user_count}
 				ranked users.</p>
 			% else:
-				<p>You are ranked #${rank} out of ${user_count}
-				ranked users.</p>
+				<p>You are ranked <strong>#${rank}</strong>
+				out of ${user_count} ranked users.</p>
 				<p>You are in
-				the top ${"{0:.1f}".format(percentile)}%.</p>
+				the <strong>top ${"{0:.1f}".format(percentile)}%
+				</strong>.</p>
 				<h3>Competitors</h3>
 				<table>
 				% for person in competitors:
 					% if person.email == logged_in:
 					<tr>
-					<td><strong>
-						#${top_persons_sorted.index(person) + 1}</strong></td>
-						</td>
+					<td><span class="big-text"><strong>
+						#${top_persons_sorted.index(person) + 1}
+						</strong></span></td>
 					<td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 						<td><strong>
 						<a href="${request.route_url('user',
 							id=person.id)}">${person.nickname}</a></strong>
 							</td>
 					% else:
-					<td>#${top_persons_sorted.index(person) + 1}</td>
+					<td><span class="big-text">
+						#${top_persons_sorted.index(person) + 1}</span></td>
 					<td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 						<td><a href="${request.route_url('user',
 							id=person.id)}">${person.nickname}</a></td>
@@ -44,14 +47,18 @@
 			ranked users.</p>
 		% endif
 		</div> <!-- End padded content. -->
+		</div> <!-- End shadow. -->
 	</div>
 	<!-- COLUMN 2 (Right)-->
 	<div class="grid-50">
+		<div class="shadow">
 		<h1 class="section-header">Leaderboard</h1>
 		<div class="padded-content">
 			<table>
 			% for person in top_persons_sorted:
-			<tr><td style="width: 20px;">#${top_persons_sorted.index(person) + 1}.</td>
+			<tr><td style="width: 20px;">
+				<span class="big-text">
+				#${top_persons_sorted.index(person) + 1}</span></td>
 				<td style="width: 64px;">${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 					<td><a href="${request.route_url('user', id=person.id)}">
 						${person.nickname}</a>
@@ -66,6 +73,7 @@
 			% endfor
 			</table>
 		</div> <!-- End padded content. -->
+		</div> <!-- End shadow. -->
 
 	</div>
     

@@ -15,6 +15,7 @@ requires = [
     "weberror",
     'velruse',
     "qrcode",
+    "dogpile.cache",
 
     # For qrcode to work from PyPI, you also need Pillow.
     # This is handled for us in Fedora because python-qrcode pulls in the
@@ -27,7 +28,7 @@ requires = [
     ]
 
 setup(name='tahrir',
-      version='0.2.1',
+      version='0.2.2',
       description='A pyramid app for issuing your own Open Badges',
       long_description=README,
       license="AGPLv3+ with additional permission",
@@ -52,4 +53,3 @@ setup(name='tahrir',
       main = tahrir:main
       """,
       )
-

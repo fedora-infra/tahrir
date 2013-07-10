@@ -17,7 +17,7 @@
 	<tr><td><label for="person-nickname">Nickname</label></td>
 	<td><input name="person-nickname" /><td></tr>
 	<tr><td><label for="person-website">Website</label></td>
-	<td><input name="person-website" /><td></tr>
+	<td><input name="person-website" /></td></tr>
 	<tr><td><label for="person-bio">Bio</label></td>
 	<td><input name="person-bio" /><td></tr>
 	<tr><td colspan="2">

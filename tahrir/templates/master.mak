@@ -16,7 +16,6 @@
       type="text/javascript"
       src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
     </script>
-	<script type="text/javascript" src="${request.static_url('tahrir:static/js/popup.js')}"></script>
     % if logged_in and awarded_assertions:
       <script
         type="text/javascript"
@@ -42,17 +41,14 @@
     <title>${title}</title>
   </head>
   <body>
-
-  	<div class="grid-container">
-    <div class="header grid-100">
-		<div><H1><a id="header-link" href="/"><img
+  <div class="page clearfix">
+  	<div class="page-content grid-container">
+    <div class="header clearfix grid-100">
+		<h1><a href="${request.route_url('home')}"><img
 			src="${request.static_url('tahrir:static/img/fedora_badges_small.png')}"
 			alt="Fedora Badges logo"
-			class="logo-image"/></a></H1>
-		</div>
+			class="logo-image"/></a></h1>
     </div>
-
-	<div class="clear"></div>
 
 	<ul class="grid-100 navbar">
 		<li><a href="${request.route_url('explore')}">Explore</a></li>
@@ -71,20 +67,23 @@
 	</ul>
 	<div class="grid-100">
     </div>
-    <div class="clear"></div>
     ${self.body()}
-    <div class="clear"></div>
 	</div> <!-- End grid-container -->
-	<div id="footer">
-		<p>You can use the 
-		<a href="${request.route_url('builder')}">Badge Builder</a> to help
-		you create YAML files for new badges.</p>
-		<p>You can report bugs and file issues with التحرير (Tahrir) on
-		<a href="https://github.com/fedora-infra/tahrir/issues">
-		the GitHub issues tracker</a>.</p>
-		<p>This project is free software; you can find the
-		<a href="http://github.com/fedora-infra/tahrir">source</a>
-		on GitHub.</p>
-	</div>
+
+</div> <!-- End page -->
+
+  <footer>
+    <p>You can use the
+    <a href="${request.route_url('builder')}">Badge Builder</a> to help
+    you create YAML files for new badges.</p>
+    <p>You can report bugs and file issues with التحرير (Tahrir) on
+    <a href="https://github.com/fedora-infra/tahrir/issues">
+    the GitHub issues tracker</a>.</p>
+    <p>This project is free software; you can find the
+    <a href="http://github.com/fedora-infra/tahrir">source</a>
+    on GitHub.</p>
+  </footer>
+
+
   </body>
 </html>

@@ -22,6 +22,7 @@ from pyramid.security import (
     remember,
     forget,
 )
+from pyramid.settings import asbool
 
 from tahrir_api.dbapi import TahrirDatabase
 import tahrir_api.model as m
@@ -125,14 +126,15 @@ def index(request):
     top_persons = defaultdict(int) # person: assertion count
     for item in persons_assertions:
         top_persons[item.person] += 1
-    
+
     top_persons_sorted = sorted(sorted(top_persons,
                                 key=lambda person: person.id),
                                 key=top_persons.get,
                                 reverse=True)
-        
+    top_persons_sorted = list(top_persons_sorted)[:n]
+
     # Get latest awards.
-    latest_awards=request.db.get_all_assertions().order_by(
+    latest_awards = request.db.get_all_assertions().order_by(
                     sa.desc(m.Assertion.issued_on)).limit(n - 1).all()
 
     return dict(
@@ -170,7 +172,7 @@ def invitation_claim(request):
 
     person = request.db.get_person_by_email(
                     authenticated_userid(request)).one()
-    
+
     # Check to see if the user already has the badge.
     if request.context.badge_id == request.db.get_assertions_by_email(
                         authenticated_userid(request)).filter_by(
@@ -185,6 +187,7 @@ def invitation_claim(request):
 
     # TODO -- return them to a page that auto-exports their badges.
     return HTTPFound(location=request.route_url('home'))
+
 
 @view_config(context=m.Invitation, name='qrcode')
 def invitation_qrcode(request):
@@ -211,7 +214,7 @@ def leaderboard(request):
                                 authenticated_userid(request))
     else:
         awarded_assertions = None
-    
+
     # Get top persons.
     persons_assertions = request.db.get_all_assertions().join(m.Person)
     from collections import defaultdict
@@ -223,7 +226,7 @@ def leaderboard(request):
                                 key=lambda person: person.id),
                                 key=top_persons.get,
                                 reverse=True)
-    
+
     # Get total user count.
     user_count = len(top_persons)
 
@@ -231,8 +234,8 @@ def leaderboard(request):
         # Get rank.
         try:
             rank = top_persons_sorted.index(request.db.get_person(
-                              person_email=authenticated_userid(request)
-                                ))+ 1
+                                person_email=authenticated_userid(
+                                             request))) + 1
         except ValueError:
             rank = 0
         # Get percentile.
@@ -243,8 +246,8 @@ def leaderboard(request):
 
         # Get a list of nearby competetors (5 users above the current
         # user and 5 users ranked below).
-        competitors = top_persons_sorted[max(rank-6, 0):\
-                                     min(rank+5, len(top_persons_sorted))]
+        competitors = top_persons_sorted[max(rank - 6, 0):\
+                                     min(rank + 5, len(top_persons_sorted))]
 
     else:
         rank = None
@@ -265,7 +268,7 @@ def leaderboard(request):
 
 @view_config(route_name='explore', renderer='explore.mak')
 def explore(request):
-    
+
     # Check if a search has been done, and if so, redirect to
     # appropriate view.
     if request.POST:
@@ -294,7 +297,7 @@ def explore(request):
         random_persons = random.sample(request.db.get_all_persons().all(), 5)
     except ValueError: # the sample is probably larger than the population
         random_persons = request.db.get_all_persons().all()
-    
+
     return dict(
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
@@ -310,6 +313,10 @@ def badge(request):
     badge_id = request.matchdict.get('id')
     badge = request.db.get_badge(badge_id)
 
+    # if the badge isn't found, raise a 404
+    if not badge:
+        raise HTTPNotFound("No such badge %r" % badge_id)
+
     # Get awarded assertions.
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
@@ -318,18 +325,29 @@ def badge(request):
         awarded_assertions = None
 
     # Get badge statistics.
-    times_awarded = len(request.db.get_assertions_by_badge(badge_id))
-    last_awarded = request.db.get_all_assertions().filter_by(
-            badge_id=badge_id).order_by(
-                    sa.desc(m.Assertion.issued_on)).limit(1).one()
-    last_awarded_person = request.db.get_person(
-            id=last_awarded.person_id)
-    
-    first_awarded = request.db.get_all_assertions().filter_by(
-            badge_id=badge_id).order_by(
-                    sa.asc(m.Assertion.issued_on)).limit(1).one()
-    first_awarded_person = request.db.get_person(
-            id=first_awarded.person_id)
+    try:
+        times_awarded = len(request.db.get_assertions_by_badge(badge_id))
+        last_awarded = request.db.get_all_assertions().filter_by(
+                badge_id=badge_id).order_by(
+                        sa.desc(m.Assertion.issued_on)).limit(1).one()
+        last_awarded_person = request.db.get_person(
+                id=last_awarded.person_id)
+
+        first_awarded = request.db.get_all_assertions().filter_by(
+                badge_id=badge_id).order_by(
+                        sa.asc(m.Assertion.issued_on)).limit(1).one()
+        first_awarded_person = request.db.get_person(
+                id=first_awarded.person_id)
+        percent_earned = float(times_awarded) / \
+                         float(len(request.db.get_all_persons().all()))
+    except sa.orm.exc.NoResultFound: # This badge has never been awarded.
+        times_awarded = 0
+        last_awarded = None
+        last_awarded_person = None
+        first_awarded = None
+        first_awarded_person = None
+        percent_earned = 0
+    # Percent of people who have earned this badge
 
     if badge:
         return dict(
@@ -341,15 +359,17 @@ def badge(request):
                 last_awarded_person=last_awarded_person,
                 first_awarded=first_awarded,
                 first_awarded_person=first_awarded_person,
+                percent_earned=percent_earned,
                 )
     else:
         # TODO: Say that there was no badge found.
         return HTTPFound(location=request.route_url('home'))
 
+
 @view_config(route_name='user', renderer='user.mak')
 def user(request):
     """Render user info page."""
-    
+
     # Get awarded assertions.
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
@@ -368,6 +388,16 @@ def user(request):
 
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
+
+    if request.POST:
+        if request.POST.get('change-nickname'):
+            new_nick = request.POST.get('new-nickname')
+            request.db.get_all_persons().filter_by(
+                    email=authenticated_userid(request)).update(dict(
+                            nickname=new_nick))
+
+            # The user's nickname has changed, so let's go to the new URL.
+            return HTTPFound(location=request.route_url('user', id=new_nick))
 
     return dict(
             user=user,
@@ -415,12 +445,15 @@ def html(context, request):
 def json(context, request):
     return context.__json__()
 
+
 @view_config(context='pyramid.httpexceptions.HTTPNotFound', renderer='404.mak')
 def _404(request):
     request.response.status = 404
     return dict()
 
-@view_config(context='pyramid.httpexceptions.HTTPServerError', renderer='500.mak')
+
+@view_config(context='pyramid.httpexceptions.HTTPServerError',
+             renderer='500.mak')
 def _500(request):
     request.response.status = 500
     return dict()
@@ -432,15 +465,6 @@ def login(request):
     settings = request.registry.settings
     ident = "openid_identifier=" + settings.get('tahrir.openid_identifier')
     url = velruse.login_url(request, 'openid') + "?" + ident
-    # TODO: Can we remove the below?
-    """
-    login_url = request.resource_url(request.context, 'login')
-    referrer = request.url
-    if referrer is login_url:
-        referrer = '/' # never use login form as came_from
-    came_from = request.params.get('came_from', referrer)
-    request.session['came_from'] = came_from
-    """
     return HTTPFound(location=url)
 
 
@@ -451,14 +475,20 @@ def login_complete_view(request):
 
     nickname = context.profile['preferredUsername']
 
-    if context.profile['emails']:
+    if asbool(settings.get('tahrir.use_openid_email')) \
+       and context.profile['emails']:
         email = context.profile['emails'][0]
     else:
         ident = settings.get('tahrir.openid_identifier')
-        domain = '.'.join(ident.split('.')[:-2])
+        domain = '.'.join(ident.split('.')[-2:])
         email = nickname + "@" + domain
 
-    if not request.db.get_person(email):
+    # Keep adding underscores until we get a default nickname
+    # that isn't already used.
+    while request.db.get_person(nickname=nickname):
+        nickname += '_'
+
+    if not request.db.get_person(person_email=email):
         request.db.add_person(email=email, nickname=nickname)
 
     headers = remember(request, email)

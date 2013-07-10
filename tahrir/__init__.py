@@ -1,11 +1,14 @@
 import os
 import ConfigParser
 
+import dogpile.cache
+
 from pyramid.config import Configurator
 
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
+from pyramid.settings import asbool
 
 from .app import get_root
 from .utils import make_avatar_method
@@ -17,7 +20,8 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
 
-    tahrir_api.model.Person.avatar_url = make_avatar_method()
+    cache = dogpile.cache.make_region()
+    tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
 
     def get_db(request):
         """ Database retrieval function to be added to the request for
@@ -61,6 +65,7 @@ def main(global_config, **settings):
         secret=settings['authnsecret'],
         callback=groupfinder, # groupfinder callback checks for admin privs
         hashalg='sha512', # because md5 is deprecated
+        secure=asbool(settings['tahrir.secure_cookies']),
     )
     authz_policy = ACLAuthorizationPolicy()
     session_factory = UnencryptedCookieSessionFactoryConfig(
@@ -68,6 +73,9 @@ def main(global_config, **settings):
 
     # Instantiate the db.
     db = TahrirDatabase(settings['sqlalchemy.url'])
+
+    # Configure our cache that we instantiated earlier.
+    cache.configure_from_config(settings, 'dogpile.cache.')
 
     config = Configurator(
             settings=settings,
@@ -77,7 +85,7 @@ def main(global_config, **settings):
             authorization_policy=authz_policy)
 
     config.include('velruse.providers.openid')
-    config.add_openid_login(realm="http://localhost:6543/")
+    config.add_openid_login(realm=settings.get('tahrir.openid_realm'))
 
     config.add_request_method(get_db, 'db', reify=True)
 
@@ -120,3 +128,5 @@ def groupfinder(userid, request):
     )
     if userid in admins:
         return ['group:admins']
+    else:
+        return []
