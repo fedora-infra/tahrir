@@ -227,6 +227,20 @@ form {
     margin-bottom: 20px;
 }
 
+.thumbnail-responsive {
+    width: 100%;
+    height: 100%;
+}
+
+.thumbnail-responsive img {
+    max-width: 100%;
+    width: auto/9;
+    height: auto;
+    vertical-align: middle;
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+}
+
 .thumbnail-256 {
     width: 256px;
     height: 256px;

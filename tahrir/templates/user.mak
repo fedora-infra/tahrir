@@ -6,7 +6,7 @@
 		<h1 class="section-header">User Info</h1>
 		<div class="padded-content">
 
-        ${self.functions.avatar_thumbnail(user, 256, 100)}
+        ${self.functions.avatar_thumbnail(user, 'responsive', 100)}
 
 		<p class="name">${user.nickname}</p>
 		
