@@ -50,6 +50,13 @@ legend {
 .footer, .push {
     height: -3em;
     clear: both;
+    display: none;
+}
+
+@media all and (min-width: 768px) {
+    .footer {
+        display: block;
+    }
 }
 
 .date {
