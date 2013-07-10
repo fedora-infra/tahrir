@@ -70,20 +70,20 @@
     ${self.body()}
 	</div> <!-- End grid-container -->
 
-  <div class="push"></div>
-</div> <!-- End page -->
 
-	<footer>
-		<p>You can use the
-		<a href="${request.route_url('builder')}">Badge Builder</a> to help
-		you create YAML files for new badges.</p>
-		<p>You can report bugs and file issues with التحرير (Tahrir) on
-		<a href="https://github.com/fedora-infra/tahrir/issues">
-		the GitHub issues tracker</a>.</p>
-		<p>This project is free software; you can find the
-		<a href="http://github.com/fedora-infra/tahrir">source</a>
-		on GitHub.</p>
-	</footer>
+  <footer>
+    <p>You can use the
+    <a href="${request.route_url('builder')}">Badge Builder</a> to help
+    you create YAML files for new badges.</p>
+    <p>You can report bugs and file issues with التحرير (Tahrir) on
+    <a href="https://github.com/fedora-infra/tahrir/issues">
+    the GitHub issues tracker</a>.</p>
+    <p>This project is free software; you can find the
+    <a href="http://github.com/fedora-infra/tahrir">source</a>
+    on GitHub.</p>
+  </footer>
+
+</div> <!-- End page -->
 
   </body>
 </html>
