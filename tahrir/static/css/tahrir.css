@@ -247,8 +247,7 @@ form {
 }
 
 form table {
-    width: 400px;
-    max-width: 95%;
+    width: 95%;
 }
 
 .thumbnail-responsive {
