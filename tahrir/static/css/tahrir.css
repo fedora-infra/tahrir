@@ -57,16 +57,14 @@ legend {
     min-height: 100%;
     height: auto;
     height: 100%;
-    margin-bottom: -3em;
+    padding-bottom: 3em;
 }
 
 /* Footer Styles */
 
-footer, .push {
-    height: 3em;
-    clear: both;
-}
 footer {
+    position: absolute;
+    height: 3em;
     color: #9B9B9B;
     font-size: 10px;
     text-align: center;
