@@ -1,13 +1,9 @@
 <%inherit file="master.mak"/>
 <div class="page">
 	<!-- COLUMN 1 (Left)-->
-	<div class="grid-100">
-		<h1 class="section-header">Explore</h1>
-	</div>
-
-	<div class="clear"></div>
-
 	<div class="grid-50">
+		<div class="shadow">
+		<h1 class="section-header">Explore Badges</h2>
 		<div class="padded-content">
 		<h2>Random Badges</h2>
 		% for badge in random_badges:
@@ -26,10 +22,13 @@
 				</td></tr>
 			</table>
 		</form>
-		</div>
+		</div> <!-- End padded content. -->
+		</div> <!-- End shadow. -->
 	</div>
 
 	<div class="grid-50">
+		<div class="shadow">
+		<h1 class="section-header">Explore People</h2>
 		<div class="padded-content">
 		<h2>Random People</h2>
 		% for person in random_persons:
@@ -49,6 +48,7 @@
 			</table>
 		</form>
 		</div> <!-- End padded content -->
+		</div> <!-- End shadow. -->
 	</div> <!-- End grid-50 -->
 
 	<div class="clear spacer"></div>
