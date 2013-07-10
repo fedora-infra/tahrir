@@ -41,8 +41,8 @@
     <title>${title}</title>
   </head>
   <body>
-  <div class="page">
-  	<div class="grid-container">
+  <div class="page clearfix">
+  	<div class="page-content grid-container">
     <div class="header clearfix grid-100">
 		<h1><a href="${request.route_url('home')}"><img
 			src="${request.static_url('tahrir:static/img/fedora_badges_small.png')}"
@@ -68,19 +68,22 @@
 	<div class="grid-100">
     </div>
     ${self.body()}
-	<div class="push"></div>
 	</div> <!-- End grid-container -->
+
 </div> <!-- End page -->
-	<footer class="footer">
-		<p>You can use the
-		<a href="${request.route_url('builder')}">Badge Builder</a> to help
-		you create YAML files for new badges.</p>
-		<p>You can report bugs and file issues with التحرير (Tahrir) on
-		<a href="https://github.com/fedora-infra/tahrir/issues">
-		the GitHub issues tracker</a>.</p>
-		<p>This project is free software; you can find the
-		<a href="http://github.com/fedora-infra/tahrir">source</a>
-		on GitHub.</p>
-	</div>
+
+  <footer>
+    <p>You can use the
+    <a href="${request.route_url('builder')}">Badge Builder</a> to help
+    you create YAML files for new badges.</p>
+    <p>You can report bugs and file issues with التحرير (Tahrir) on
+    <a href="https://github.com/fedora-infra/tahrir/issues">
+    the GitHub issues tracker</a>.</p>
+    <p>This project is free software; you can find the
+    <a href="http://github.com/fedora-infra/tahrir">source</a>
+    on GitHub.</p>
+  </footer>
+
+
   </body>
 </html>

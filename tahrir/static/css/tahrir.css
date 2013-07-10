@@ -55,9 +55,29 @@ legend {
 
 .page {
     min-height: 100%;
-    height: auto;
-    height: 100%;
-    margin: 0 auto -3em;
+}
+.page-content {
+    overflow: auto;
+    padding-bottom: 3em;
+}
+
+/* Footer Styles */
+
+footer {
+    position: relative;
+    margin-top: -3em;
+    height: 3em;
+    clear: both;
+    color: #9B9B9B;
+    font-size: 10px;
+    text-align: center;
+}
+
+/*
+.footer {
+    color: #9B9B9B; /* Dark gray *
+    font-size: 10px;
+    text-align: center;
 }
 
 .footer, .push {
@@ -71,6 +91,8 @@ legend {
         display: block;
     }
 }
+*/
+
 
 .date {
     font-size: 0.8em;
@@ -177,12 +199,6 @@ tr:nth-child(even) { background: white; }
     margin-bottom: 10px;
 }
 
-.footer {
-    color: #9B9B9B; /* Dark gray */
-    font-size: 10px;
-    text-align: center;
-}
-
 .collapsed-row {
     visibility: collapse;
 }
@@ -239,6 +255,9 @@ tr:nth-child(even) { background: white; }
 form {
     padding: 4px;
     margin-bottom: 20px;
+}
+form table {
+    max-width: 95%;
 }
 
 .thumbnail-responsive {
