@@ -1,16 +1,18 @@
 * {
-    margin: 0px;
+    margin: 0;
+    padding: 0;
 }
+
 html, body {
     height: 100%;
 }
+
 body {
     background-color: white;
     color: black;
-    font-size 12pt;
-    font-family: Cantarell, sans-serif;
+    font-size: 12pt;
+    font-family: "Cantarell", sans-serif;
     width: 100%;
-    overflow-x: hidden !important;
 }
 
 a, a:visited, a:active, a:link {
@@ -21,6 +23,13 @@ a, a:visited, a:active, a:link {
 legend {
     font-size: 1.2em;
     padding-bottom: 10px;
+}
+
+
+/* Logo Patch */
+.header h1 {
+    width: 100%;
+    height: 75px;
 }
 
 /* Applied to numbering, mainly (ex. #1, #2, etc.). */
@@ -42,7 +51,7 @@ legend {
 
 .page {
     min-height: 100%;
-    height: auto !important;
+    height: auto;
     height: 100%;
     margin: 0 auto -3em;
 }
@@ -63,7 +72,7 @@ legend {
     background: #3158AF;
     color: white;
     width: 100%;
-    padding: 5px;
+    /*padding: 5px;*/
     margin-left: -8px; /* There has to be a better way. */
     margin-top: 20px;
 }
@@ -79,7 +88,7 @@ legend {
 }
 
 table {
-    border-spacing: 0px;
+    border-spacing: 0;
     width: 100%;
 }
 
@@ -160,7 +169,7 @@ tr:nth-child(even) { background: white; }
     color: #9B9B9B; /* Dark gray */
     font-size: 10px;
     text-align: center;
-} 
+}
 
 .collapsed-row {
     visibility: collapse;
@@ -302,4 +311,15 @@ img.badge-128 {
 img.badge-256 {
     width: 256px;
     height: 256px;
+}
+
+
+
+/* Clearfix */
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
 }

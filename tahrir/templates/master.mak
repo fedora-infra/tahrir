@@ -44,11 +44,10 @@
   <div class="page">
   	<div class="grid-container">
     <div class="header grid-100">
-		<div><H1><a id="header-link" href="${request.route_url('home')}"><img
+		<h1 class='clearfix'><a id="header-link" href="${request.route_url('home')}"><img
 			src="${request.static_url('tahrir:static/img/fedora_badges_small.png')}"
 			alt="Fedora Badges logo"
-			class="logo-image"/></a></H1>
-		</div>
+			class="logo-image"/></a></h1>
     </div>
 
 	<div class="clear"></div>
@@ -75,7 +74,7 @@
 	</div> <!-- End grid-container -->
 </div> <!-- End page -->
 	<footer class="footer">
-		<p>You can use the 
+		<p>You can use the
 		<a href="${request.route_url('builder')}">Badge Builder</a> to help
 		you create YAML files for new badges.</p>
 		<p>You can report bugs and file issues with التحرير (Tahrir) on
