@@ -12,7 +12,7 @@
 		<div class="clear"></div>
 		<h2>View Badge</h2>
 		<form method="POST">
-			<table style="width: 400px">
+			<table>
 			<tr><td><label for="badge-id">Badge ID
 				<span class="sublabel">Substitute hyphens for spaces.
 					For now, badge name must be exact.</span></label></td>
@@ -37,7 +37,7 @@
 		<div class="clear"></div>
 		<h2>View Person</h2>
 		<form method="POST">
-			<table style="width: 400px">
+			<table>
 			<tr><td><label for="person-nickname">Nickname
 				<span class="sublabel">For now, person name must
 					be exact.</span></label></td>

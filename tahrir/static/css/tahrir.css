@@ -256,8 +256,10 @@ form {
     padding: 4px;
     margin-bottom: 20px;
 }
+
 form table {
-    max-width: 95%;
+    width: 95%;
+    max-width: 400px;
 }
 
 .thumbnail-responsive {
