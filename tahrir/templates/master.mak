@@ -65,10 +65,13 @@
 	<li><a href="${request.route_url('login')}">Login</a></li>
 % endif
 	</ul>
+
 	<div class="grid-100">
     </div>
     ${self.body()}
 	</div> <!-- End grid-container -->
+
+  <div class="push"></div>
 </div> <!-- End page -->
 
 	<footer>
