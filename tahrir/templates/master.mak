@@ -43,14 +43,12 @@
   <body>
   <div class="page">
   	<div class="grid-container">
-    <div class="header grid-100">
-		<h1 class='clearfix'><a id="header-link" href="${request.route_url('home')}"><img
+    <div class="header clearfix grid-100">
+		<h1><a id="header-link" href="${request.route_url('home')}"><img
 			src="${request.static_url('tahrir:static/img/fedora_badges_small.png')}"
 			alt="Fedora Badges logo"
 			class="logo-image"/></a></h1>
     </div>
-
-	<div class="clear"></div>
 
 	<ul class="grid-100 navbar">
 		<li><a href="${request.route_url('explore')}">Explore</a></li>

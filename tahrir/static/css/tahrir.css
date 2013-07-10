@@ -27,10 +27,20 @@ legend {
 
 
 /* Logo Patch */
-.header h1 {
-    width: 100%;
+.header {
+    color: #3158AF;
     height: 75px;
+/*    margin-top: -10px;
+    margin-bottom: 20px;*/
 }
+.header a {
+    text-decoration: none;
+}
+
+
+
+
+
 
 /* Applied to numbering, mainly (ex. #1, #2, etc.). */
 .big-text {
@@ -72,7 +82,7 @@ legend {
     background: #3158AF;
     color: white;
     width: 100%;
-    /*padding: 5px;*/
+    padding: 5px 0;
     margin-left: -8px; /* There has to be a better way. */
     margin-top: 20px;
 }
@@ -126,16 +136,6 @@ tr:nth-child(even) { background: white; }
     padding-bottom: 15px;
 }
 
-#header-link {
-    text-decoration: none;
-}
-
-.header {
-    color: #3158AF;
-    height: 50px;
-    margin-top: -10px;
-    margin-bottom: 20px;
-}
 
 .downshift {
     margin-top: 0px !important;
