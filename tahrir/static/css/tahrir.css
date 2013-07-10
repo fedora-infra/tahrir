@@ -245,7 +245,9 @@ form {
     padding: 4px;
     margin-bottom: 20px;
 }
+
 form table {
+    width: 400px;
     max-width: 95%;
 }
 
