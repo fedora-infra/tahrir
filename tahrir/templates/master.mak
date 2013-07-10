@@ -42,8 +42,8 @@
   </head>
   <body>
   <div class="page clearfix">
-  	<div class="grid-container">
-    <div class="header clearfix grid-100">
+  	<div class="clearfix grid-container">
+    <div class="header grid-100">
 		<h1><a href="${request.route_url('home')}"><img
 			src="${request.static_url('tahrir:static/img/fedora_badges_small.png')}"
 			alt="Fedora Badges logo"
