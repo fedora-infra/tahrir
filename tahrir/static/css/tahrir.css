@@ -59,6 +59,7 @@ legend {
     height: 100%;
     /*margin: 0 auto -3em;*/
     margin-bottom: -3em;
+    overflow: scroll;
 }
 
 /* Footer Styles */
