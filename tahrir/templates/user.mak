@@ -15,7 +15,7 @@
 		% endif
 
 		<div class="metadata">
-			<p>Arrived on ${user.created_on.strftime('%Y-%m-%d')}</p>
+			<p>Arrived on ${user.created_on.strftime('%Y-%m-%d')}.</p>
 			% if user.email == logged_in:
 				<p>Email: ${user.email}</p>
 			% endif
