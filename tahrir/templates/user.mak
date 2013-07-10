@@ -8,15 +8,6 @@
 
         ${self.functions.avatar_thumbnail(user, 256, 100)}
 
-		% if user.email == logged_in:
-			 <span style="display: inline-block; margin-top: -25px;"> 
-				<a href="https://www.libravatar.org/account/upload_photo/">
-				[change your avatar]</a></span>
-			% if user.email:
-					<strong>${user.email}</strong>
-			% endif
-		% endif
-		
 		<span class="name">${user.nickname}</span>
 		<span style="font-style: italic; color: #666;">
 			arrived on ${user.created_on.strftime('%Y-%m-%d')}</span>
@@ -26,6 +17,10 @@
 		% endif
 
 		<div class="metadata">
+			% if user.email == logged_in:
+				<p>Email: ${user.email}</p>
+			% endif
+
 			% if user.website:
 				<p>Website: 
 				% if user.website.startswith('http'):
@@ -50,12 +45,18 @@
 		% if logged_in == user.email:
 			% if awarded_assertions:
 			  <a href="javascript:claim_badges();">
-				  <div class="section-header">
+				  <div class="pretty-button">
 					  Export Badges
 				  </div>
 			  </a>
 			% endif
+			<a href="https://www.libravatar.org/account/upload_photo/">
+				<div class="pretty-button">Change Avatar</div></a>
 		% endif
+		
+		% if user.email == logged_in:
+		% endif
+		
 		
 		</div> <!-- End shadow. -->
 		</div> <!-- End padded content. -->

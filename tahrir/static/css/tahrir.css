@@ -138,6 +138,15 @@ tr:nth-child(even) { background: white; }
     margin-bottom: 0px !important;
 }
 
+.pretty-button {
+    background: #3158AF;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .section-header {
     background: #3158AF;
     color: white;
