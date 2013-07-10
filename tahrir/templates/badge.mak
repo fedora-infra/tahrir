@@ -5,16 +5,14 @@
 		<div class="shadow">
 		<h1 class="section-header">Badge Info</h1>
 		<div class="padded-content">
-		<table>
-		<tr><td><strong>${badge.name}</strong></td><td>
 		${self.functions.badge_thumbnail(badge, 256, 100)}
-		<tr><td>Description</td><td>${badge.description}</td></tr>
-			<tr><td>Criteria</td><td>${badge.criteria}</td></tr>
-			<tr><td>Created</td><td>${badge.created_on.strftime("%Y-%m-%d")}
-				</td></tr>
-			<tr><td>Issuer</td><td>${badge.issuer_id}</td></tr>
-			<tr><td>Tags</td><td>${badge.tags}</td></tr>
-		</table>
+		<p class="badge-name">${badge.name}</p>
+		<p class="badge-description">${badge.description}</p>
+		<div class="badge-metadata">
+			<p>Tagged with: ${badge.tags}</p>
+			<p>Issued by: ${badge.issuer_id}</p>
+			<p>Criteria: ${badge.criteria}</p>
+		</div>
 		</div> <!-- End shadow. -->
 		</div> <!-- End padded content. -->
 	</div>
@@ -24,6 +22,8 @@
 		<h1 class="section-header">Badge Statistics</h1>
 		<div class="padded-content">
 		<ul class="pretty-list">
+		<li>The ${badge.name} badge was created on
+			${badge.created_on.strftime("%Y-%m-%d")}.</li>
 		% if times_awarded == 0:
 		<li>${badge.name} has <strong>never been awarded!</strong>
 		% else:

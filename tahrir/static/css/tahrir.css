@@ -158,7 +158,21 @@ tr:nth-child(even) { background: white; }
 }
 
 .badge-name {
-    width: 50%;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 20px;
+}
+
+.badge-description {
+    font-style: italic;
+    font-size: 1.2em;
+    margin: 20px;
+}
+
+.badge-metadata {
+    font-size: 0.8em;
+    color: #666;
+    margin: 20px;
 }
 
 .badge-image {
