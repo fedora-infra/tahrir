@@ -6,15 +6,15 @@
 		<h1 class="section-header">Badge Info</h1>
 		<div class="padded-content">
 		${self.functions.badge_thumbnail(badge, 256, 100)}
-		<p class="badge-name">${badge.name}</p>
-		<p class="badge-description">${badge.description}</p>
-		<div class="badge-metadata">
+		<p class="name">${badge.name}</p>
+		<p class="description">${badge.description}</p>
+		<div class="metadata">
 			<p>Tagged with: ${badge.tags}</p>
 			<p>Issued by: ${badge.issuer_id}</p>
 			<p>Criteria: ${badge.criteria}</p>
 		</div>
-		</div> <!-- End shadow. -->
 		</div> <!-- End padded content. -->
+		</div> <!-- End shadow. -->
 	</div>
 	<!-- COLUMN 2 (Right)-->
 	<div class="grid-50">
@@ -49,8 +49,8 @@
 				</strong>.</li>
 		% endif
 		</ul>
-		</div> <!-- End shadow. -->
 		</div> <!-- End padded content. -->
+		</div> <!-- End shadow. -->
 	</div>
     
 	<div class="clear spacer"></div>

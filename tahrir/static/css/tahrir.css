@@ -157,19 +157,19 @@ tr:nth-child(even) { background: white; }
     visibility: collapse;
 }
 
-.badge-name {
+.name {
     font-size: 1.4em;
     font-weight: bold;
     margin: 20px;
 }
 
-.badge-description {
+.description {
     font-style: italic;
     font-size: 1.2em;
     margin: 20px;
 }
 
-.badge-metadata {
+.metadata {
     font-size: 0.8em;
     color: #666;
     margin: 20px;
