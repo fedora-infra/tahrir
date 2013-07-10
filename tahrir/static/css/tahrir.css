@@ -64,8 +64,8 @@ legend {
 
 footer {
     position: absolute;
-    left: 50%;
-    margin-top: -3em;
+    display: block;
+    width: 100%;
     height: 3em;
     color: #9B9B9B;
     font-size: 10px;
