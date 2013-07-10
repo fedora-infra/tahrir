@@ -11,7 +11,7 @@
 		<div class="metadata">
 			<p>Tagged with: ${badge.tags}</p>
 			<p>Issued by: ${badge.issuer_id}</p>
-			<p>Criteria: ${badge.criteria}</p>
+			<p>Criteria: <a href="${badge.criteria}">${badge.criteria}</a></p>
 		</div>
 		</div> <!-- End padded content. -->
 		</div> <!-- End shadow. -->
