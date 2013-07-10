@@ -2,6 +2,9 @@
 <div class="page">
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-50">
+		<div class="shadow">
+		<h1 class="section-header">Badge Info</h1>
+		<div class="padded-content">
 		<table>
 		<tr><td><strong>${badge.name}</strong></td><td>
 		${self.functions.badge_thumbnail(badge, 256, 100)}
@@ -12,10 +15,14 @@
 			<tr><td>Issuer</td><td>${badge.issuer_id}</td></tr>
 			<tr><td>Tags</td><td>${badge.tags}</td></tr>
 		</table>
+		</div> <!-- End shadow. -->
+		</div> <!-- End padded content. -->
 	</div>
 	<!-- COLUMN 2 (Right)-->
 	<div class="grid-50">
-		<h3>Statistics</h3>
+		<div class="shadow">
+		<h1 class="section-header">Badge Statistics</h1>
+		<div class="padded-content">
 		<ul class="pretty-list">
 		% if times_awarded == 0:
 		<li>${badge.name} has <strong>never been awarded!</strong>
@@ -42,6 +49,8 @@
 				</strong>.</li>
 		% endif
 		</ul>
+		</div> <!-- End shadow. -->
+		</div> <!-- End padded content. -->
 	</div>
     
 	<div class="clear spacer"></div>
