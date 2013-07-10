@@ -58,7 +58,7 @@
 		<h3>Preview</h3>
 		<p>Preview will work only if JavaScript is enabled.</p>
 		<form id="preview-options-form">
-			<table style="width: 500px;">
+			<table>
 			<tr><td>
 			<label for="read-only">Preview is read only?
 					<span class="sublabel">Any changes will be
@@ -81,6 +81,6 @@
 	% else:
 		<textarea rows="30" cols="80">Badge YAML will appear here.</textarea>
 	% endif
-    
+
 	<div class="clear spacer"></div>
 </div>
