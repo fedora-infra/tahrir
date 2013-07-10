@@ -148,6 +148,7 @@ tr:nth-child(even) { background: white; }
     margin-bottom: 0px !important;
 }
 
+/* Applied to <a href>s which are "buttons". */
 .pretty-button {
     background: #3158AF;
     color: white;
@@ -155,6 +156,16 @@ tr:nth-child(even) { background: white; }
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+/* Applied to actual submit buttons (on forms). */
+.pretty-submit {
+    background: #3158AF;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    height: 50px;
+    margin: 10px;
 }
 
 .section-header {

@@ -31,16 +31,6 @@
 			% endif
 		</div>
 
-		<!-- Change nickname button. -->
-		% if logged_in == user.email:
-			<form method="POST">
-				<input name="new-nickname" type="text"
-					   required="required" />
-				<input name="change-nickname" type="submit"
-					   value="Change Nickname" />
-			</form>
-		% endif
-
 		% if logged_in == user.email:
 			% if awarded_assertions:
 			  <a href="javascript:claim_badges();">
@@ -51,6 +41,21 @@
 			% endif
 			<a href="https://www.libravatar.org/account/upload_photo/">
 				<div class="pretty-button">Change Avatar</div></a>
+		% endif
+
+		<!-- Change nickname button. -->
+		% if logged_in == user.email:
+			<form method="POST">
+				<input name="new-nickname"
+					   placeholder="New nickname"
+					   type="text"
+					   required="required" />
+				<input class="pretty-submit"
+					   style="height: 50px;"
+					   name="change-nickname"
+					   type="submit"
+					   value="Change" />
+			</form>
 		% endif
 		
 		% if user.email == logged_in:
