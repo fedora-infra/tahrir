@@ -406,9 +406,23 @@ def user(request):
             # The user's nickname has changed, so let's go to the new URL.
             return HTTPFound(location=request.route_url('user', id=new_nick))
 
+    # Get user badges.
+    user_badges = [a.badge for a in user.assertions]
+
+    # Get total number of unique badges in the system.
+    count_total_badges = len(request.db.get_all_badges().all())
+
+    # Get percentage of badges earned.
+    try:
+        percent_earned = (float(len(user_badges)) / \
+                          float(count_total_badges)) * 100
+    except ZeroDivisionError:
+        percent_earned = 0
+
     return dict(
             user=user,
-            user_badges=[a.badge for a in user.assertions],
+            user_badges=user_badges,
+            percent_earned=percent_earned,
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
             )
