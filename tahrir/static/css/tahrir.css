@@ -210,7 +210,6 @@ tr:nth-child(even) { background: white; }
 }
 
 .description {
-    font-style: italic;
     font-size: 1.2em;
     margin: 20px;
 }
