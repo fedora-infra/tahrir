@@ -27,7 +27,7 @@ def main(global_config, **settings):
         """ Database retrieval function to be added to the request for
             calling anywhere.
         """
-        return db
+        return TahrirDatabase(settings['sqlalchemy.url'])
 
     required_keys = [
         'tahrir.pngs.uri',
@@ -70,9 +70,6 @@ def main(global_config, **settings):
     authz_policy = ACLAuthorizationPolicy()
     session_factory = UnencryptedCookieSessionFactoryConfig(
             settings['session.secret'])
-
-    # Instantiate the db.
-    db = TahrirDatabase(settings['sqlalchemy.url'])
 
     # Configure our cache that we instantiated earlier.
     cache.configure_from_config(settings, 'dogpile.cache.')
