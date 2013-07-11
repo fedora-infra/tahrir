@@ -85,10 +85,16 @@ def make_avatar_method(cache):
         absolute_default = 'https://fedoraproject.org/static/images/' + \
             'fedora_infinity_140x140.png'
 
-        query = urllib.urlencode({
+        query = {
             's': size,
             'd': absolute_default,
-        })
+        }
+
+        if size == 'responsive':
+            del query['s']
+
+        query = urllib.urlencode(query)
+
 
         hash = md5(email).hexdigest()
 
