@@ -6,6 +6,7 @@ import velruse
 import json as _json
 import StringIO
 import qrcode as qrcode_module
+import docutils.examples
 from datetime import datetime
 
 from mako.template import Template as t
@@ -349,9 +350,15 @@ def badge(request):
         percent_earned = 0
     # Percent of people who have earned this badge
 
+    # Get badge description HTML from RST.
+    # Note: this html_body function wraps the output
+    # in a <divclass="document">.
+    badge_description_html = docutils.examples.html_body(badge.description)
+
     if badge:
         return dict(
                 badge=badge,
+                badge_description_html=badge_description_html,
                 auth_principals=effective_principals(request),
                 awarded_assertions=awarded_assertions,
                 times_awarded=times_awarded,

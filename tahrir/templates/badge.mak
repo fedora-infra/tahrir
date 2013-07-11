@@ -7,7 +7,7 @@
 		<div class="padded-content">
 		${self.functions.badge_thumbnail(badge, 256, 100)}
 		<p class="name">${badge.name}</p>
-		<p class="description">${badge.description}</p>
+		<p class="description">${badge_description_html | n}</p>
 		<div class="metadata">
 			<p>Tagged with: ${badge.tags}</p>
 			<p>Issued by: ${badge.issuer_id}</p>
