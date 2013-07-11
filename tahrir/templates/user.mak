@@ -79,6 +79,15 @@
 				% endif
 				${self.functions.badge_thumbnail(badge, 128, 33)}
 			% endfor
+			% if len(user_badges) < 1:
+				<div style="text-align: center; font-size: 1.2em;">
+				% if user.email == logged_in:
+					<p>You have not earned any badges yet!</p>
+				% else:
+					<p>${user.nickname} has not earned any badges yet!</p>
+				% endif
+				</div>
+			% endif
 			</div>
 		</div>
 
