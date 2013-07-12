@@ -37,7 +37,7 @@ def main(global_config, **settings):
             calling anywhere.
         """
         session = session_cls()
-        return TahrirDatabase(session=session)
+        return TahrirDatabase(session=session, autocommit=False)
 
     required_keys = [
         'tahrir.pngs.uri',
