@@ -15,6 +15,10 @@ from .utils import make_avatar_method
 from tahrir_api.dbapi import TahrirDatabase
 import tahrir_api.model
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
+from zope.sqlalchemy import ZopeTransactionExtension
+
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
@@ -23,11 +27,17 @@ def main(global_config, **settings):
     cache = dogpile.cache.make_region()
     tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
 
+    session_cls = scoped_session(sessionmaker(
+        extension=ZopeTransactionExtension(),
+        bind=create_engine(settings['sqlalchemy.url']),
+    ))
+
     def get_db(request):
         """ Database retrieval function to be added to the request for
             calling anywhere.
         """
-        return TahrirDatabase(settings['sqlalchemy.url'])
+        session = session_cls()
+        return TahrirDatabase(session=session)
 
     required_keys = [
         'tahrir.pngs.uri',
