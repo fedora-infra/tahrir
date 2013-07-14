@@ -336,19 +336,21 @@ def badge(request):
         awarded_assertions = None
 
     # Get badge statistics.
+    # TODO: Perhaps abstract these statistics methods away somewhere?
     try:
         times_awarded = len(request.db.get_assertions_by_badge(badge_id))
-        last_awarded = request.db.get_all_assertions().filter_by(
-                badge_id=badge_id).order_by(
+        last_awarded = request.db.get_all_assertions().filter(
+                sa.func.lower(m.Assertion.badge_id) == sa.func.lower(badge_id)).order_by(
                         sa.desc(m.Assertion.issued_on)).limit(1).one()
         last_awarded_person = request.db.get_person(
                 id=last_awarded.person_id)
 
-        first_awarded = request.db.get_all_assertions().filter_by(
-                badge_id=badge_id).order_by(
+        first_awarded = request.db.get_all_assertions().filter(
+                sa.func.lower(m.Assertion.badge_id) == sa.func.lower(badge_id)).order_by(
                         sa.asc(m.Assertion.issued_on)).limit(1).one()
         first_awarded_person = request.db.get_person(
                 id=first_awarded.person_id)
+
         percent_earned = float(times_awarded) / \
                          float(len(request.db.get_all_persons().all()))
     except sa.orm.exc.NoResultFound: # This badge has never been awarded.
