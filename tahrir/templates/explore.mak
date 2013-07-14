@@ -28,12 +28,12 @@
 			${self.functions.badge_thumbnail(badge, 64, 15)}
 		% endfor
 		<div class="clear"></div>
-		<h2>View Badge</h2>
+		<h2>Person Search</h2>
 		<form method="POST">
 			<table>
-			<tr><td><label for="badge-query">Badge ID
-				<span class="sublabel">Substitute hyphens for spaces.
-					For now, badge name must be exact.</span></label></td>
+			<tr><td><label for="badge-query">Keyword
+				<span class="sublabel">Search through badge names,
+					descriptions, and tags.</span></label></td>
 			<td><input name="badge-query" required="required" /></td></tr>
 			<tr><td>
 				<input name="badge-search" type="submit" value="Search" />
@@ -53,12 +53,12 @@
 			${self.functions.avatar_thumbnail(person, 64, 15)}
 		% endfor
 		<div class="clear"></div>
-		<h2>View Person</h2>
+		<h2>Person Search</h2>
 		<form method="POST">
 			<table>
-			<tr><td><label for="person-query">Nickname
-				<span class="sublabel">For now, person name must
-					be exact.</span></label></td>
+			<tr><td><label for="person-query">Keyword
+				<span class="sublabel">Search through person names
+					and bios.</span></label></td>
 			<td><input name="person-query" required="required" /></td>
 			</tr><tr><td>
 			<input name="person-search" type="submit" value="Search" /></td>
