@@ -276,17 +276,18 @@ def explore(request):
     if request.POST:
         if request.POST.get('badge-search'):
             matching_results = request.db.get_all_badges().filter(
-                    (m.Badge.name.like('%' + request.POST.get('badge-id')
+                    (m.Badge.name.like('%' + request.POST.get('badge-query')
                                     + '%')) |
                                     (m.Badge.description.like('%' +
-                                    request.POST.get('badge-id') + '%'))).all()
+                                    request.POST.get('badge-query') +
+                                    '%'))).all()
             for r in matching_results:
                 search_results[r.name] = request.route_url('badge',
                         id=r.name.lower())
         elif request.POST.get('person-search'):
             matching_results = request.db.get_all_persons().filter(
                     m.Person.nickname.like('%' + request.POST.get(
-                            'person-nickname') + '%')).all()
+                            'person-query') + '%')).all()
             for r in matching_results:
                 search_results[r.nickname] = request.route_url(
                         'user', id=r.nickname)

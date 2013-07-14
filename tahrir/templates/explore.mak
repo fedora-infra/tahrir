@@ -29,10 +29,10 @@
 		<h2>View Badge</h2>
 		<form method="POST">
 			<table>
-			<tr><td><label for="badge-id">Badge ID
+			<tr><td><label for="badge-query">Badge ID
 				<span class="sublabel">Substitute hyphens for spaces.
 					For now, badge name must be exact.</span></label></td>
-			<td><input name="badge-id" required="required" /></td></tr>
+			<td><input name="badge-query" required="required" /></td></tr>
 			<tr><td>
 				<input name="badge-search" type="submit" value="Search" />
 				</td></tr>
@@ -54,10 +54,10 @@
 		<h2>View Person</h2>
 		<form method="POST">
 			<table>
-			<tr><td><label for="person-nickname">Nickname
+			<tr><td><label for="person-query">Nickname
 				<span class="sublabel">For now, person name must
 					be exact.</span></label></td>
-			<td><input name="person-nickname" required="required" /></td>
+			<td><input name="person-query" required="required" /></td>
 			</tr><tr><td>
 			<input name="person-search" type="submit" value="Search" /></td>
 			</tr>
