@@ -1,5 +1,21 @@
 <%inherit file="master.mak"/>
 <div class="page">
+
+	% if len(search_results) > 0:
+		<div class="grid-100">
+		<h1 class="section-header">Search Results</h1>
+		<div class="padded-content">
+		<ul class="pretty-list">
+		% for r in search_results:
+			<li><a href="${search_results[r]}">${r}</a></li>
+		% endfor
+		</ul>
+		</div> <!-- End padded-content. -->
+		</div> <!-- End grid-100. -->
+	% endif
+
+	<div class="clear spacer"></div>
+
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-50">
 		<div class="shadow">
