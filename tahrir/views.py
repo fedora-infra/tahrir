@@ -275,22 +275,26 @@ def explore(request):
     search_results = dict() # name: link
     if request.POST:
         if request.POST.get('badge-search'):
+            # badge-query is a required field on the template form.
+            badge_query = request.POST.get('badge-query')
             matching_results = request.db.get_all_badges().filter(
-                    (m.Badge.name.like('%' + request.POST.get('badge-query')
+                    (m.Badge.name.like('%' + badge_query
                                     + '%')) |
                                     (m.Badge.description.like('%' +
-                                    request.POST.get('badge-query') +
+                                    badge_query +
                                     '%')) |
                                     (m.Badge.tags.like('%' +
-                                    request.POST.get('badge-query')
+                                    badge_query
                                     + '%'))).all()
             for r in matching_results:
                 search_results[r.name] = request.route_url('badge',
                         id=r.name.lower())
         elif request.POST.get('person-search'):
+            # person-query is a required field on the template form.
+            person_query = request.POST.get('person-query')
             matching_results = request.db.get_all_persons().filter(
-                    m.Person.nickname.like('%' + request.POST.get(
-                            'person-query') + '%')).all()
+                    m.Person.nickname.like('%' + person_query
+                            + '%')).all()
             for r in matching_results:
                 search_results[r.nickname] = request.route_url(
                         'user', id=r.nickname)
