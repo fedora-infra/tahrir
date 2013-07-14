@@ -293,8 +293,10 @@ def explore(request):
             # person-query is a required field on the template form.
             person_query = request.POST.get('person-query')
             matching_results = request.db.get_all_persons().filter(
-                    m.Person.nickname.like('%' + person_query
-                            + '%')).all()
+                    (m.Person.nickname.like('%' + person_query
+                            + '%')) |
+                    (m.Person.bio.like('%' + person_query
+                            + '%'))).all()
             for r in matching_results:
                 search_results[r.nickname] = request.route_url(
                         'user', id=r.nickname)
