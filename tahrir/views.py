@@ -270,15 +270,24 @@ def leaderboard(request):
 @view_config(route_name='explore', renderer='explore.mak')
 def explore(request):
 
-    # Check if a search has been done, and if so, redirect to
-    # appropriate view.
+    # Check if a search has been done, and if so, show
+    # search results.
+    search_results = dict() # name: link
     if request.POST:
         if request.POST.get('badge-search'):
-            return HTTPFound(location=request.route_url('badge',
-                                id=request.POST.get('badge-id')))
+            matching_results = request.db.get_all_badges().filter(
+                    m.Badge.name.like('%' + request.POST.get('badge-id')
+                                    + '%')).all()
+            for r in matching_results:
+                search_results[r.name] = request.route_url('badge',
+                        id=r.name.lower())
         elif request.POST.get('person-search'):
-            return HTTPFound(location=request.route_url('user',
-                                id=request.POST.get('person-nickname')))
+            matching_results = request.db.get_all_persons().filter(
+                    m.Person.nickname.like('%' + request.POST.get(
+                            'person-nickname') + '%')).all()
+            for r in matching_results:
+                search_results[r.nickname] = request.route_url(
+                        'user', id=r.nickname)
 
     # Get awarded assertions.
     if authenticated_userid(request):
@@ -304,6 +313,7 @@ def explore(request):
             awarded_assertions=awarded_assertions,
             random_badges=random_badges,
             random_persons=random_persons,
+            search_results=search_results,
             )
 
 
