@@ -280,7 +280,10 @@ def explore(request):
                                     + '%')) |
                                     (m.Badge.description.like('%' +
                                     request.POST.get('badge-query') +
-                                    '%'))).all()
+                                    '%')) |
+                                    (m.Badge.tags.like('%' +
+                                    request.POST.get('badge-query')
+                                    + '%'))).all()
             for r in matching_results:
                 search_results[r.name] = request.route_url('badge',
                         id=r.name.lower())
