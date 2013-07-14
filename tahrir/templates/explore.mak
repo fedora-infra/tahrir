@@ -3,6 +3,7 @@
 
 	% if len(search_results) > 0:
 		<div class="grid-100">
+		<div class="shadow">
 		<h1 class="section-header">Search Results</h1>
 		<div class="padded-content">
 		<ul class="pretty-list">
@@ -11,6 +12,7 @@
 		% endfor
 		</ul>
 		</div> <!-- End padded-content. -->
+		</div> <!-- End shadow. -->
 		</div> <!-- End grid-100. -->
 	% endif
 
