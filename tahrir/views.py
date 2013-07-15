@@ -445,9 +445,13 @@ def user(request):
     except ZeroDivisionError:
         percent_earned = 0
 
+    # Get invitations the user has created.
+    invitations = request.db.get_invitations(user.id)
+
     return dict(
             user=user,
             user_badges=user_badges,
+            invitations=invitations,
             percent_earned=percent_earned,
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
