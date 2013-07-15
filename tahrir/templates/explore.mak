@@ -28,7 +28,7 @@
 			${self.functions.badge_thumbnail(badge, 64, 15)}
 		% endfor
 		<div class="clear"></div>
-		<h2>Person Search</h2>
+		<h2>Badge Search</h2>
 		<form method="POST">
 			<table>
 			<tr><td><label for="badge-query">Keyword
