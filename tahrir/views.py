@@ -494,6 +494,28 @@ def builder(request):
     )
 
 
+@view_config(route_name='tags', renderer='tags.mak')
+def tag(request):
+    """Render tag page."""
+
+    # Get awarded assertions.
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                authenticated_userid(request))
+    else:
+        awarded_assertions = None
+
+    # Get badges matching tag.
+    tags = [t.strip() for t in request.matchdict.get('tags').split(',')]
+    #badges = request.db.get_badges_from_tags(tags)
+
+    return dict(
+            tags=tags,
+            auth_principals=effective_principals(request),
+            awarded_assertions=awarded_assertions,
+            )
+
+
 @view_config(context=unicode)
 def html(context, request):
     return Response(context)
