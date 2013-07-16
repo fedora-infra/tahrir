@@ -22,18 +22,22 @@
         src="http://beta.openbadges.org/issuer.js">
       </script>
       <script type="text/javascript">
+         function htmlDecode(value) {return $("<div>").html(value).text();}
+         function badge_urls() {
+          var urls = [
+          % for a in awarded_assertions:
+            htmlDecode("${base_url}/assertions/${a.badge_id}/${a.recipient}"),
+          % endfor
+          ];
+          return urls;
+        }
         function claim_badges() {
           var callback = function(errors, successes) {
             // Do nothing.
             //console.log(errors);
             //console.log(successes);
           };
-          var _ = encodeURIComponent
-          var urls = [
-          % for a in awarded_assertions:
-            "http://${base_url}/assertions/"+_("${a.badge_id}/${a.recipient}"),
-          % endfor
-          ];
+          var urls = badge_urls();
           OpenBadges.issue(urls, callback);
         }
       </script>
