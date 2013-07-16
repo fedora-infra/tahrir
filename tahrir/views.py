@@ -387,22 +387,18 @@ def badge(request):
     # in a <divclass="document">.
     badge_description_html = docutils.examples.html_body(badge.description)
 
-    if badge:
-        return dict(
-                badge=badge,
-                badge_description_html=badge_description_html,
-                auth_principals=effective_principals(request),
-                awarded_assertions=awarded_assertions,
-                times_awarded=times_awarded,
-                last_awarded=last_awarded,
-                last_awarded_person=last_awarded_person,
-                first_awarded=first_awarded,
-                first_awarded_person=first_awarded_person,
-                percent_earned=percent_earned,
-                )
-    else:
-        # TODO: Say that there was no badge found.
-        return HTTPFound(location=request.route_url('home'))
+    return dict(
+            badge=badge,
+            badge_description_html=badge_description_html,
+            auth_principals=effective_principals(request),
+            awarded_assertions=awarded_assertions,
+            times_awarded=times_awarded,
+            last_awarded=last_awarded,
+            last_awarded_person=last_awarded_person,
+            first_awarded=first_awarded,
+            first_awarded_person=first_awarded_person,
+            percent_earned=percent_earned,
+            )
 
 
 @view_config(route_name='user', renderer='user.mak')
