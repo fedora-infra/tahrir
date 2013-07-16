@@ -31,7 +31,7 @@
           var _ = encodeURIComponent
           var urls = [
           % for a in awarded_assertions:
-            "http://${base_url}/assertions/"+_("${a.badge_id}/${a.recipient}"),
+            "${base_url}/assertions/"+_("${a.badge_id}/${a.recipient}"),
           % endfor
           ];
           OpenBadges.issue(urls, callback);
