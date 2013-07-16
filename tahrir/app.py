@@ -10,22 +10,23 @@ class AssertionApp(object):
         self.badge = badge
 
     def __getitem__(self, key):
-        resource = m.Assertion.query.filter_by(
-            recipient=key,
-            badge=self.badge,
-        ).one()
-        resource.__parent__ = self
-        resource.__name__ = resource.id
-        return resource
+        for assertion in self.badge.assertions:
+            if assertion.recipient == key:
+                assertion.__parent__ = self
+                assertion.__name__ = assertion.recipient
+                return assertion
+        else:
+            raise KeyError("Assertion %r not found." % key)
 
 
 class InvitationApp(object):
     __name__ = 'invitations'
 
+    def __init__(self, request):
+        self.request = request
+
     def __getitem__(self, key):
-        resource = m.Invitation.query.filter(
-            m.Invitation.id==key,
-        ).one()
+        resource = self.request.db.get_invitation(key)
         resource.__parent__ = self
         resource.__name__ = resource.id
         return resource
@@ -36,28 +37,30 @@ class RootApp(object):
     __parent__ = None
 
     __acl__ = [
-            (Allow, 'group:admins', 'admin'),
-            ]
-    
+        (Allow, 'group:admins', 'admin'),
+    ]
+
+    def __init__(self, request):
+        self.request = request
+
     def __getitem__(self, key):
         if key == 'assertions':
             return self
 
         if key == 'invitations':
-            resource = InvitationApp()
+            resource = InvitationApp(request=request)
             resource.__parent__ = self
             return resource
 
         # else
 
-        try:
-            badge = m.Badge.query.filter_by(id=key).one()
-            resource = AssertionApp(badge=badge)
-            resource.__parent__ = self
-            return resource
-        except:
-            return self
+        badge = self.request.db.get_badge(key)
+        if not badge:
+            raise KeyError("No such badge %r" % key)
+        resource = AssertionApp(badge=badge)
+        resource.__parent__ = self
+        return resource
 
 
 def get_root(request):
-    return RootApp()
+    return RootApp(request=request)
