@@ -22,11 +22,11 @@
         src="http://beta.openbadges.org/issuer.js">
       </script>
       <script type="text/javascript">
+         function htmlDecode(value) {return $("<div>").html(value).text();}
          function badge_urls() {
-          var _ = encodeURIComponent
           var urls = [
           % for a in awarded_assertions:
-            "${base_url}/assertions/"+_("${a.badge_id}/${a.recipient}"),
+            htmlDecode("${base_url}/assertions/${a.badge_id}/${a.recipient}"),
           % endfor
           ];
           return urls;
