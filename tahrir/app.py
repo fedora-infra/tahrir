@@ -1,7 +1,5 @@
 from pyramid.security import Allow, Deny, Everyone
 
-import tahrir_api.model as m
-
 
 class AssertionApp(object):
     __name__ = 'assertions'
