@@ -50,6 +50,7 @@
 					${i.id[:7]}...</a>
 					<a href="${"/invitations/" + i.id + "/qrcode"}">
 					[QR code]</a>
+					<br />
 				% endfor
 			% endif
 		% endif
