@@ -2,6 +2,7 @@ import os
 import ConfigParser
 
 import dogpile.cache
+import dogpile.cache.util
 
 from pyramid.config import Configurator
 
@@ -24,7 +25,8 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
 
-    cache = dogpile.cache.make_region()
+    cache = dogpile.cache.make_region(
+        key_mangler=dogpile.cache.util.sha1_mangle_key)
     tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
 
     session_cls = scoped_session(sessionmaker(
