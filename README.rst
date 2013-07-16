@@ -9,6 +9,8 @@ your own `Open Badges <https://wiki.mozilla.org/Badges>`_.
 
 The name is total overkill.
 
+You can see a deployed staging instance of it `here <https://apps.stg.fedoraproject.org/badges>`_.
+
 Deploying for reals
 -------------------
 

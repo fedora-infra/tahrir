@@ -6,6 +6,7 @@ import velruse
 import json as _json
 import StringIO
 import qrcode as qrcode_module
+import docutils.examples
 from datetime import datetime
 
 from mako.template import Template as t
@@ -15,7 +16,13 @@ from pyramid.view import (
 )
 
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPFound, HTTPGone, HTTPNotFound
+from pyramid.httpexceptions import (
+    HTTPFound,
+    HTTPGone,
+    HTTPNotFound,
+    HTTPForbidden,
+)
+
 from pyramid.security import (
     authenticated_userid,
     effective_principals,
@@ -269,15 +276,36 @@ def leaderboard(request):
 @view_config(route_name='explore', renderer='explore.mak')
 def explore(request):
 
-    # Check if a search has been done, and if so, redirect to
-    # appropriate view.
+    # Check if a search has been done, and if so, show
+    # search results.
+    search_results = dict() # name: link
     if request.POST:
         if request.POST.get('badge-search'):
-            return HTTPFound(location=request.route_url('badge',
-                                id=request.POST.get('badge-id')))
+            # badge-query is a required field on the template form.
+            badge_query = request.POST.get('badge-query')
+            matching_results = request.db.get_all_badges().filter(
+                    (m.Badge.name.like('%' + badge_query
+                                    + '%')) |
+                                    (m.Badge.description.like('%' +
+                                    badge_query +
+                                    '%')) |
+                                    (m.Badge.tags.like('%' +
+                                    badge_query
+                                    + '%'))).all()
+            for r in matching_results:
+                search_results[r.name] = request.route_url('badge',
+                        id=r.name.lower().replace(' ', '-'))
         elif request.POST.get('person-search'):
-            return HTTPFound(location=request.route_url('user',
-                                id=request.POST.get('person-nickname')))
+            # person-query is a required field on the template form.
+            person_query = request.POST.get('person-query')
+            matching_results = request.db.get_all_persons().filter(
+                    (m.Person.nickname.like('%' + person_query
+                            + '%')) |
+                    (m.Person.bio.like('%' + person_query
+                            + '%'))).all()
+            for r in matching_results:
+                search_results[r.nickname] = request.route_url(
+                        'user', id=r.nickname)
 
     # Get awarded assertions.
     if authenticated_userid(request):
@@ -303,6 +331,7 @@ def explore(request):
             awarded_assertions=awarded_assertions,
             random_badges=random_badges,
             random_persons=random_persons,
+            search_results=search_results,
             )
 
 
@@ -325,19 +354,23 @@ def badge(request):
         awarded_assertions = None
 
     # Get badge statistics.
+    # TODO: Perhaps abstract these statistics methods away somewhere?
     try:
         times_awarded = len(request.db.get_assertions_by_badge(badge_id))
-        last_awarded = request.db.get_all_assertions().filter_by(
-                badge_id=badge_id).order_by(
-                        sa.desc(m.Assertion.issued_on)).limit(1).one()
+        last_awarded = request.db.get_all_assertions().filter(
+                sa.func.lower(m.Assertion.badge_id) == \
+                        sa.func.lower(badge_id)).order_by(
+                                sa.desc(m.Assertion.issued_on)).limit(1).one()
         last_awarded_person = request.db.get_person(
                 id=last_awarded.person_id)
 
-        first_awarded = request.db.get_all_assertions().filter_by(
-                badge_id=badge_id).order_by(
-                        sa.asc(m.Assertion.issued_on)).limit(1).one()
+        first_awarded = request.db.get_all_assertions().filter(
+                sa.func.lower(m.Assertion.badge_id) == \
+                        sa.func.lower(badge_id)).order_by(
+                                sa.asc(m.Assertion.issued_on)).limit(1).one()
         first_awarded_person = request.db.get_person(
                 id=first_awarded.person_id)
+
         percent_earned = float(times_awarded) / \
                          float(len(request.db.get_all_persons().all()))
     except sa.orm.exc.NoResultFound: # This badge has never been awarded.
@@ -349,9 +382,15 @@ def badge(request):
         percent_earned = 0
     # Percent of people who have earned this badge
 
+    # Get badge description HTML from RST.
+    # Note: this html_body function wraps the output
+    # in a <divclass="document">.
+    badge_description_html = docutils.examples.html_body(badge.description)
+
     if badge:
         return dict(
                 badge=badge,
+                badge_description_html=badge_description_html,
                 auth_principals=effective_principals(request),
                 awarded_assertions=awarded_assertions,
                 times_awarded=times_awarded,
@@ -390,18 +429,37 @@ def user(request):
         raise HTTPNotFound("No such user %r" % user_id)
 
     if request.POST:
+
+        # Authz check
+        if authenticated_userid(request) != user.email:
+            raise HTTPForbidden("Unauthorized")
+
         if request.POST.get('change-nickname'):
             new_nick = request.POST.get('new-nickname')
-            request.db.get_all_persons().filter_by(
-                    email=authenticated_userid(request)).update(dict(
-                            nickname=new_nick))
+            person = request.db.get_all_persons().filter_by(
+                    email=authenticated_userid(request)).one()
+            person.nickname = new_nick
 
             # The user's nickname has changed, so let's go to the new URL.
             return HTTPFound(location=request.route_url('user', id=new_nick))
 
+    # Get user badges.
+    user_badges = [a.badge for a in user.assertions]
+
+    # Get total number of unique badges in the system.
+    count_total_badges = len(request.db.get_all_badges().all())
+
+    # Get percentage of badges earned.
+    try:
+        percent_earned = (float(len(user_badges)) / \
+                          float(count_total_badges)) * 100
+    except ZeroDivisionError:
+        percent_earned = 0
+
     return dict(
             user=user,
-            user_badges=[a.badge for a in user.assertions],
+            user_badges=user_badges,
+            percent_earned=percent_earned,
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
             )

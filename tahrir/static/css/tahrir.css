@@ -50,7 +50,8 @@ legend {
     vertical-align: middle;
     background: url(../img/badge_bullet.png) no-repeat left center;
     padding-left: 50px;
-    line-height: 50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .page {
@@ -210,7 +211,6 @@ tr:nth-child(even) { background: white; }
 }
 
 .description {
-    font-style: italic;
     font-size: 1.2em;
     margin: 20px;
 }
@@ -256,8 +256,10 @@ form {
     padding: 4px;
     margin-bottom: 20px;
 }
+
 form table {
-    max-width: 95%;
+    width: 95%;
+    max-width: 400px;
 }
 
 .thumbnail-responsive {
