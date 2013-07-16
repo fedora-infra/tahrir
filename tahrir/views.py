@@ -16,7 +16,13 @@ from pyramid.view import (
 )
 
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPFound, HTTPGone, HTTPNotFound
+from pyramid.httpexceptions import (
+    HTTPFound,
+    HTTPGone,
+    HTTPNotFound,
+    HTTPForbidden,
+)
+
 from pyramid.security import (
     authenticated_userid,
     effective_principals,
@@ -423,11 +429,16 @@ def user(request):
         raise HTTPNotFound("No such user %r" % user_id)
 
     if request.POST:
+
+        # Authz check
+        if authenticated_userid(request) != user.email:
+            raise HTTPForbidden("Unauthorized")
+
         if request.POST.get('change-nickname'):
             new_nick = request.POST.get('new-nickname')
-            request.db.get_all_persons().filter_by(
-                    email=authenticated_userid(request)).update(dict(
-                            nickname=new_nick))
+            person = request.db.get_all_persons().filter_by(
+                    email=authenticated_userid(request)).one()
+            person.nickname = new_nick
 
             # The user's nickname has changed, so let's go to the new URL.
             return HTTPFound(location=request.route_url('user', id=new_nick))
