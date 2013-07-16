@@ -453,7 +453,8 @@ def user(request):
         percent_earned = 0
 
     # Get invitations the user has created.
-    invitations = request.db.get_invitations(user.id)
+    invitations = [i for i in request.db.get_invitations(user.id)\
+                   if i.expires_on > datetime.now()]
 
     return dict(
             user=user,
