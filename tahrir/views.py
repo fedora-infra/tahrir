@@ -37,7 +37,7 @@ import tahrir_api.model as m
 from tahrir.utils import strip_tags, generate_badge_yaml
 import widgets
 
-from moksha.wsgi.widgets.api import get_moksha_socket
+from moksha.wsgi.widgets.api import get_moksha_socket, LiveWidget
 
 
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
@@ -159,6 +159,9 @@ def index(request):
     # Get latest awards.
     latest_awards = request.db.get_all_assertions().order_by(
                     sa.desc(m.Assertion.issued_on)).limit(n).all()
+
+    # Register our websocket handler callback
+    WebsocketHandler.display()
 
     return dict(
         auth_principals=effective_principals(request),
@@ -589,3 +592,19 @@ def logout(request):
     headers = forget(request)
     return HTTPFound(location=request.resource_url(request.context),
                      headers=headers)
+
+
+class WebsocketHandler(LiveWidget):
+    topic = "*"
+    onmessage = """
+    (function(json){
+        // TODO -- put the DOM manipulation stuff here.
+        console.log(json.topic);
+        console.log(json);
+    })(json);
+    """
+    backend = "websocket"
+
+    # Don't actually produce anything when you call .display() on this widget.
+    inline_engine_name = "mako"
+    template = ""
