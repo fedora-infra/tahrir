@@ -119,7 +119,8 @@ def admin(request):
 
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
-    n = 5
+
+    n = 5 # n is the number of items displayed in each column.
 
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
@@ -143,7 +144,7 @@ def index(request):
 
     # Get latest awards.
     latest_awards = request.db.get_all_assertions().order_by(
-                    sa.desc(m.Assertion.issued_on)).limit(n - 1).all()
+                    sa.desc(m.Assertion.issued_on)).limit(n).all()
 
     return dict(
         auth_principals=effective_principals(request),
