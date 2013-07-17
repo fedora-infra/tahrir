@@ -4,7 +4,7 @@
 	<div class="grid-33">
 		<div class="shadow">
 		<h1 class="section-header">Latest Awards</h1>
-		<div class="padded-content">
+		<div id="latest-awards" class="padded-content">
 			% for assertion in latest_awards:
 			<div class="grid-container">
 				${self.functions.avatar_thumbnail(assertion.person, 64, 33)}
