@@ -176,14 +176,10 @@ def invitation_claim(request):
         request.session['came_from'] = request.resource_url(request.context, 'claim')
         return HTTPFound(location=request.route_url('login'))
 
-    person = request.db.get_person_by_email(
-                    authenticated_userid(request)).one()
+    person = request.db.get_person(person_email=authenticated_userid(request))
 
     # Check to see if the user already has the badge.
-    if request.context.badge_id == request.db.get_assertions_by_email(
-                        authenticated_userid(request)).filter_by(
-                        person_id=person.id,
-                        badge_id=request.context.badge_id).one().badge_id:
+    if request.context.badge in [a.badge for a in person.assertions]:
         # TODO: Flash a message explaining that they already have the badge
         return HTTPFound(location='/')
 
