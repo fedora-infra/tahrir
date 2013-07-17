@@ -188,6 +188,8 @@ def invitation_claim(request):
                      datetime.now())
 
     # TODO -- return them to a page that auto-exports their badges.
+    # TODO -- flash and tell them they got the badge
+    # TODO -- emit a fedmsg message showing they got the badge
     return HTTPFound(location=request.route_url('home'))
 
 
