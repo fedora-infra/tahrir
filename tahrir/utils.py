@@ -92,7 +92,7 @@ def make_avatar_method(cache):
 
         if size == 'responsive':
             # Make it big so we can downscale it as we please
-            query['s'] = 512
+            query['s'] = 312
 
         query = urllib.urlencode(query)
 
