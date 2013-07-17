@@ -37,6 +37,8 @@ import tahrir_api.model as m
 from tahrir.utils import strip_tags, generate_badge_yaml
 import widgets
 
+from moksha.wsgi.widgets.api import get_moksha_socket
+
 
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
@@ -153,6 +155,7 @@ def index(request):
         top_persons=top_persons,
         top_persons_sorted=top_persons_sorted,
         awarded_assertions=awarded_assertions,
+        moksha_socket=get_moksha_socket(request.registry.settings),
     )
 
 
