@@ -173,9 +173,7 @@ def invitation_claim(request):
         return HTTPGone("That invitation is expired.")
 
     if not authenticated_userid(request):
-        request.session['came_from'] = request.resource_url(request.context,
-                                                            request.context.id,
-                                                            'claim')
+        request.session['came_from'] = request.resource_url(request.context, 'claim')
         return HTTPFound(location=request.route_url('login'))
 
     person = request.db.get_person_by_email(
