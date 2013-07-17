@@ -183,9 +183,9 @@ def invitation_claim(request):
         # TODO: Flash a message explaining that they already have the badge
         return HTTPFound(location=request.route_url('home'))
 
-    request.db.add_assertion(request.context.badge_id,
-                     person.id,
-                     datetime.now())
+    result = request.db.add_assertion(request.context.badge_id,
+                                      person.email,
+                                      datetime.now())
 
     # TODO -- return them to a page that auto-exports their badges.
     # TODO -- flash and tell them they got the badge
