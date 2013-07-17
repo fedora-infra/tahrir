@@ -140,7 +140,19 @@ def index(request):
                                 key=lambda person: person.id),
                                 key=top_persons.get,
                                 reverse=True)
-    top_persons_sorted = list(top_persons_sorted)[:n]
+    # Limit the sorted top persons to the top 10% and then take
+    # a random sample of 5 persons from that pool.
+    num_users_at_top = max(int(len(top_persons_sorted) * 0.1),
+                           min(len(top_persons_sorted), 5))
+    # This is not actually a sample yet, but it's about to be...
+    top_persons_sample = top_persons_sorted[:num_users_at_top]
+    try:
+        top_persons_sample = random.sample(top_persons_sample, 5)
+    except ValueError:
+        # The sample is probably larger than the num of top users,
+        # so let's just take all the users in the top 10%, in a
+        # random order.
+        random.shuffle(top_persons_sample)
 
     # Get latest awards.
     latest_awards = request.db.get_all_assertions().order_by(
@@ -152,7 +164,7 @@ def index(request):
         newest_persons=request.db.get_all_persons().order_by(
                         sa.desc(m.Person.created_on)).limit(n).all(),
         top_persons=top_persons,
-        top_persons_sorted=top_persons_sorted,
+        top_persons_sample=top_persons_sample,
         awarded_assertions=awarded_assertions,
     )
 
