@@ -10,7 +10,7 @@
 				${self.functions.avatar_thumbnail(assertion.person, 64, 33)}
 				<div class="grid-33 text-64">
 					was awarded
-					<span class="date">${assertion.issued_on.strftime("%Y-%m-%d")}</span>
+					<span class="date">${assertion.issued_on_rel}</span>
 				</div>
 				${self.functions.badge_thumbnail(assertion.badge, 64, 33)}
 			</div>
@@ -30,7 +30,7 @@
 						<a href="${request.route_url('user', id=person.nickname or person.id)}">
 							${person.nickname or person.email}
 						</a>
-						<span class="date">${person.created_on.strftime("%Y-%m-%d")}</span>
+						<span class="date">${person.created_on_rel}</span>
 					</div>
 				</div> <!-- end grid-container -->
 			% endfor

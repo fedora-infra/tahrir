@@ -12,7 +12,7 @@ from pyramid.session import UnencryptedCookieSessionFactoryConfig
 from pyramid.settings import asbool
 
 from .app import get_root
-from .utils import make_avatar_method
+from .utils import make_avatar_method, make_relative_time_property
 from tahrir_api.dbapi import TahrirDatabase
 import tahrir_api.model
 
@@ -28,6 +28,12 @@ def main(global_config, **settings):
     cache = dogpile.cache.make_region(
         key_mangler=dogpile.cache.util.sha1_mangle_key)
     tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
+    tahrir_api.model.Person.created_on_rel =\
+            make_relative_time_property('created_on')
+    tahrir_api.model.Assertion.created_on_rel =\
+            make_relative_time_property('created_on')
+    tahrir_api.model.Assertion.issued_on_rel =\
+            make_relative_time_property('issued_on')
 
     session_cls = scoped_session(sessionmaker(
         extension=ZopeTransactionExtension(),

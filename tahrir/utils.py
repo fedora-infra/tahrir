@@ -1,6 +1,10 @@
 import cgi
 from HTMLParser import HTMLParser
 
+import math
+import time
+import datetime
+import dateutil.relativedelta
 import urllib
 from hashlib import md5
 
@@ -119,3 +123,31 @@ def make_avatar_method(cache):
         return _avatar_function(self.email, size)
 
     return avatar_method
+
+
+def make_relative_time_property(attr):
+
+    @property
+    def relative_time_method(self):
+        then_in_seconds = time.mktime(getattr(self, attr).timetuple())
+        now_in_seconds = time.mktime(datetime.datetime.now().timetuple())
+        delta = now_in_seconds - then_in_seconds
+
+        if delta > 0:
+            suffix = "ago"
+        else:
+            suffix = "from now"
+
+        time_strings = []
+        rd = dateutil.relativedelta.relativedelta(seconds=math.fabs(delta))
+        denominations = [
+            'years', 'months', 'days', 'hours',
+            'minutes', 'seconds', 'microseconds']
+        for denomination in denominations:
+            value = getattr(rd, denomination, 0)
+            if value:
+                return "%d %s %s" % (value, denomination, suffix)
+
+        raise ValueError("No denomination found")
+
+    return relative_time_method
