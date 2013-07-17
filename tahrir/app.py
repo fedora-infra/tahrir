@@ -46,7 +46,7 @@ class RootApp(object):
             return self
 
         if key == 'invitations':
-            resource = InvitationApp(request=request)
+            resource = InvitationApp(request=self.request)
             resource.__parent__ = self
             return resource
 

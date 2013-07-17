@@ -39,8 +39,20 @@
 				  </div>
 			  </a>
 			% endif
+
 			<a href="https://www.libravatar.org/account/upload_photo/">
 				<div class="pretty-button">Change Avatar</div></a>
+
+			% if len(invitations) > 0:
+				<h3>Active Invitations</h3>
+				% for i in invitations:
+				<a href="${"/invitations/" + i.id + "/claim"}">
+					${i.id[:7]}...</a>
+					<a href="${"/invitations/" + i.id + "/qrcode"}">
+					[QR code]</a>
+					<br />
+				% endfor
+			% endif
 		% endif
 
 		<!-- Change nickname button. -->

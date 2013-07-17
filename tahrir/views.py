@@ -85,10 +85,11 @@ def admin(request):
                                 '%Y-%m-%d %H:%M')
             except ValueError:
                 expires_on = None # Will default to datettime.now()
+
             request.db.add_invitation(
                     request.POST.get('invitation-badge-id'),
-                    created_on=request.POST.get('invitation-created'),
-                    expires_on=request.POST.get('invitation-expires'),
+                    created_on=created_on,
+                    expires_on=expires_on,
                     created_by=request.POST.get('invitation-issuer-id'))
         elif request.POST.get('add-issuer'):
             # Add an Issuer to the DB.
@@ -172,27 +173,23 @@ def invitation_claim(request):
         return HTTPGone("That invitation is expired.")
 
     if not authenticated_userid(request):
-        request.session['came_from'] = request.resource_url(request.context,
-                                                            request.context.id,
-                                                            'claim')
+        request.session['came_from'] = request.resource_url(request.context, 'claim')
         return HTTPFound(location=request.route_url('login'))
 
-    person = request.db.get_person_by_email(
-                    authenticated_userid(request)).one()
+    person = request.db.get_person(person_email=authenticated_userid(request))
 
     # Check to see if the user already has the badge.
-    if request.context.badge_id == request.db.get_assertions_by_email(
-                        authenticated_userid(request)).filter_by(
-                        person_id=person.id,
-                        badge_id=request.context.badge_id).one().badge_id:
+    if request.context.badge in [a.badge for a in person.assertions]:
         # TODO: Flash a message explaining that they already have the badge
-        return HTTPFound(location='/')
+        return HTTPFound(location=request.route_url('home'))
 
     request.db.add_assertion(request.context.badge_id,
                      person.id,
                      datetime.now())
 
     # TODO -- return them to a page that auto-exports their badges.
+    # TODO -- flash and tell them they got the badge
+    # TODO -- emit a fedmsg message showing they got the badge
     return HTTPFound(location=request.route_url('home'))
 
 
@@ -387,22 +384,18 @@ def badge(request):
     # in a <divclass="document">.
     badge_description_html = docutils.examples.html_body(badge.description)
 
-    if badge:
-        return dict(
-                badge=badge,
-                badge_description_html=badge_description_html,
-                auth_principals=effective_principals(request),
-                awarded_assertions=awarded_assertions,
-                times_awarded=times_awarded,
-                last_awarded=last_awarded,
-                last_awarded_person=last_awarded_person,
-                first_awarded=first_awarded,
-                first_awarded_person=first_awarded_person,
-                percent_earned=percent_earned,
-                )
-    else:
-        # TODO: Say that there was no badge found.
-        return HTTPFound(location=request.route_url('home'))
+    return dict(
+            badge=badge,
+            badge_description_html=badge_description_html,
+            auth_principals=effective_principals(request),
+            awarded_assertions=awarded_assertions,
+            times_awarded=times_awarded,
+            last_awarded=last_awarded,
+            last_awarded_person=last_awarded_person,
+            first_awarded=first_awarded,
+            first_awarded_person=first_awarded_person,
+            percent_earned=percent_earned,
+            )
 
 
 @view_config(route_name='user', renderer='user.mak')
@@ -456,9 +449,14 @@ def user(request):
     except ZeroDivisionError:
         percent_earned = 0
 
+    # Get invitations the user has created.
+    invitations = [i for i in request.db.get_invitations(user.id)\
+                   if i.expires_on > datetime.now()]
+
     return dict(
             user=user,
             user_badges=user_badges,
+            invitations=invitations,
             percent_earned=percent_earned,
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
