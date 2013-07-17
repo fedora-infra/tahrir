@@ -264,7 +264,7 @@ def leaderboard(request):
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
             top_persons=top_persons,
-            top_persons_sorted=top_persons_sorted,
+            top_persons_sorted=top_persons_sorted[:25],
             rank=rank,
             user_count=user_count,
             percentile=percentile,
