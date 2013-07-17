@@ -85,10 +85,11 @@ def admin(request):
                                 '%Y-%m-%d %H:%M')
             except ValueError:
                 expires_on = None # Will default to datettime.now()
+
             request.db.add_invitation(
                     request.POST.get('invitation-badge-id'),
-                    created_on=request.POST.get('invitation-created'),
-                    expires_on=request.POST.get('invitation-expires'),
+                    created_on=created_on,
+                    expires_on=expires_on,
                     created_by=request.POST.get('invitation-issuer-id'))
         elif request.POST.get('add-issuer'):
             # Add an Issuer to the DB.
