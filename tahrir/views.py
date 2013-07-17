@@ -595,7 +595,7 @@ def logout(request):
 
 
 class WebsocketHandler(LiveWidget):
-    topic = "*"
+    topic = "org.fedoraproject.stg.fedbadges.badge.award"
     onmessage = """
     (function(json){
         // TODO -- put the DOM manipulation stuff here.
