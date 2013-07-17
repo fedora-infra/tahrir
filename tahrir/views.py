@@ -181,7 +181,7 @@ def invitation_claim(request):
     # Check to see if the user already has the badge.
     if request.context.badge in [a.badge for a in person.assertions]:
         # TODO: Flash a message explaining that they already have the badge
-        return HTTPFound(location='/')
+        return HTTPFound(location=request.route_url('home'))
 
     request.db.add_assertion(request.context.badge_id,
                      person.id,
