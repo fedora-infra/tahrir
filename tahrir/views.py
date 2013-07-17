@@ -413,11 +413,19 @@ def user(request):
     # We'll try nickname first since we want to encourage that (or whatever)
     # and fall back to id if that fails.  If both fail, raise a 404.
     user_id = request.matchdict.get('id')
+
     user = request.db.get_person(nickname=user_id)
 
     if not user:
-        user = request.db.get_person(id=user_id)
+        try:
+            # We cast user_id to an integer so that Postgres doesn't
+            # get upset about comparing what is potentially a string
+            # to an integer column.
+            user = request.db.get_person(id=int(user_id))
+        except TypeError:
+            raise HTTPNotFound("No such user %r" % user_id)
 
+    # If we still haven't found anything, just give up.
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
 
