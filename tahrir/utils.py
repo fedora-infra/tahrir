@@ -1,6 +1,10 @@
 import cgi
 from HTMLParser import HTMLParser
 
+import math
+import time
+import datetime
+import dateutil.relativedelta
 import urllib
 from hashlib import md5
 
@@ -78,6 +82,7 @@ def generate_badge_yaml(postdict):
                                             default="") + "\n"\
          "(This section is under construction.)"
 
+
 def make_avatar_method(cache):
 
     @cache.cache_on_arguments()
@@ -91,12 +96,17 @@ def make_avatar_method(cache):
         }
 
         if size == 'responsive':
-            del query['s']
+            # Make it big so we can downscale it as we please
+            query['s'] = 312
 
         query = urllib.urlencode(query)
 
-
         hash = md5(email).hexdigest()
+
+        # TODO This next line is temporary and can be removed.  We do
+        # libravatar ourselves here by hand to avoid pyDNS issues on epel6.
+        # Once those are resolved we can use pylibravatar again.
+        return "http://cdn.libravatar.org/avatar/%s?%s" % (hash, query)
 
         gravatar_url = "http://www.gravatar.com/avatar/%s?%s" % (hash, query)
 
@@ -114,3 +124,42 @@ def make_avatar_method(cache):
         return _avatar_function(self.email, size)
 
     return avatar_method
+
+
+def make_relative_time_property(attr):
+
+    SHORT_DENOMINATIONS = {
+            'years': 'yrs',
+            'months': 'mons',
+            'days': 'days',
+            'hours': 'hrs',
+            'minutes': 'mins',
+            'seconds': 'secs',
+            'microseconds': 'ms',
+    }
+
+    @property
+    def relative_time_method(self):
+        then_in_seconds = time.mktime(getattr(self, attr).timetuple())
+        now_in_seconds = time.mktime(datetime.datetime.now().timetuple())
+        delta = now_in_seconds - then_in_seconds
+
+        if delta > 0:
+            suffix = "ago"
+        else:
+            suffix = "from now"
+
+        time_strings = []
+        rd = dateutil.relativedelta.relativedelta(seconds=math.fabs(delta))
+        denominations = [
+            'years', 'months', 'days', 'hours',
+            'minutes', 'seconds', 'microseconds']
+        for denomination in denominations:
+            value = getattr(rd, denomination, 0)
+            if value:
+                return "%d %s %s" % (value,
+                        SHORT_DENOMINATIONS[denomination], suffix)
+
+        return "just now"
+
+    return relative_time_method

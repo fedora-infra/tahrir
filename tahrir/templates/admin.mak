@@ -104,7 +104,7 @@
 	<td><input name="invitation-badge-id"
 			required="required" /></td>
 	</tr><tr>
-	<td><label for="invitation-issuer-id">Issuer ID</label></td>
+	<td><label for="invitation-issuer-id">Person ID</label></td>
 	<td><input name="invitation-issuer-id"
 			required="required" /></td>
 	</tr><tr>
