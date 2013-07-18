@@ -121,7 +121,8 @@ def admin(request):
 
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
-    n = 5
+
+    n = 5 # n is the number of items displayed in each column.
 
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
@@ -141,11 +142,28 @@ def index(request):
                                 key=lambda person: person.id),
                                 key=top_persons.get,
                                 reverse=True)
-    top_persons_sorted = list(top_persons_sorted)[:n]
+    # Limit the sorted top persons to the top 10% and then take
+    # a random sample of 5 persons from that pool.
+    num_users_at_top = max(int(len(top_persons_sorted) * 0.1),
+                           min(len(top_persons_sorted), 5))
+    # This is not actually a sample yet, but it's about to be...
+    top_persons_sample = top_persons_sorted[:num_users_at_top]
+    try:
+        top_persons_sample = random.sample(top_persons_sample, 5)
+    except ValueError:
+        # The sample is probably larger than the num of top users,
+        # so let's just take all the users in the top 10%, in a
+        # random order.
+        random.shuffle(top_persons_sample)
 
     # Get latest awards.
     latest_awards = request.db.get_all_assertions().order_by(
-                    sa.desc(m.Assertion.issued_on)).limit(n - 1).all()
+                    sa.desc(m.Assertion.issued_on)).limit(n).all()
+
+    # Register our websocket handler callback
+    if asbool(request.registry.settings['tahrir.use_websockets']):
+        socket = make_websocket_handler(request.registry.settings)
+        socket.display()
 
     # Register our websocket handler callback
     if asbool(request.registry.settings['tahrir.use_websockets']):
@@ -158,7 +176,7 @@ def index(request):
         newest_persons=request.db.get_all_persons().order_by(
                         sa.desc(m.Person.created_on)).limit(n).all(),
         top_persons=top_persons,
-        top_persons_sorted=top_persons_sorted,
+        top_persons_sample=top_persons_sample,
         awarded_assertions=awarded_assertions,
         moksha_socket=get_moksha_socket(request.registry.settings),
     )
@@ -181,7 +199,8 @@ def invitation_claim(request):
         return HTTPGone("That invitation is expired.")
 
     if not authenticated_userid(request):
-        request.session['came_from'] = request.resource_url(request.context, 'claim')
+        request.session['came_from'] = request.resource_url(
+                request.context, 'claim')
         return HTTPFound(location=request.route_url('login'))
 
     person = request.db.get_person(person_email=authenticated_userid(request))
@@ -270,7 +289,7 @@ def leaderboard(request):
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
             top_persons=top_persons,
-            top_persons_sorted=top_persons_sorted,
+            top_persons_sorted=top_persons_sorted[:25],
             rank=rank,
             user_count=user_count,
             percentile=percentile,
@@ -421,11 +440,19 @@ def user(request):
     # We'll try nickname first since we want to encourage that (or whatever)
     # and fall back to id if that fails.  If both fail, raise a 404.
     user_id = request.matchdict.get('id')
+
     user = request.db.get_person(nickname=user_id)
 
     if not user:
-        user = request.db.get_person(id=user_id)
+        try:
+            # We cast user_id to an integer so that Postgres doesn't
+            # get upset about comparing what is potentially a string
+            # to an integer column.
+            user = request.db.get_person(id=int(user_id))
+        except TypeError:
+            raise HTTPNotFound("No such user %r" % user_id)
 
+    # If we still haven't found anything, just give up.
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
 

@@ -21,7 +21,7 @@
 	<!-- COLUMN 2 (Middle)-->
 	<div class="grid-33">
 		<div class="shadow">
-		<h1 class="section-header">New Contributors</h1>
+		<h1 class="section-header">Newcomers</h1>
 		<div class="padded-content">
 			% for person in sorted(newest_persons, key=lambda x: x.id, reverse=True):
 				<div class="grid-container">
@@ -41,9 +41,9 @@
 	<!-- COLUMN 3 (Right)-->
 	<div class="grid-33">
 		<div class="shadow">
-		<h1 class="section-header">Top Contributors</h1>
+		<h1 class="section-header">Awesome People</h1>
 		<div class="padded-content">
-			% for person in top_persons_sorted:
+			% for person in top_persons_sample:
 				<div class="grid-container">
 					${self.functions.avatar_thumbnail(person, 64, 33)}
 					<div class="grid-66 text-64">
