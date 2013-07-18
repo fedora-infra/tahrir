@@ -10,6 +10,9 @@
 			<li>${t}</li>
 			% endfor
 			</ul>
+			% for badge in badges:
+				<p>Badges are ${badge.name}</p>
+			% endfor
 		</div> <!-- End shadow. -->
 		</div> <!-- End padded content. -->
 
