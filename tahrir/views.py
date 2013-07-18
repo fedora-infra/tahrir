@@ -37,6 +37,8 @@ import tahrir_api.model as m
 from tahrir.utils import strip_tags, generate_badge_yaml
 import widgets
 
+from moksha.wsgi.widgets.api import get_moksha_socket, LiveWidget
+
 
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
@@ -85,10 +87,11 @@ def admin(request):
                                 '%Y-%m-%d %H:%M')
             except ValueError:
                 expires_on = None # Will default to datettime.now()
+
             request.db.add_invitation(
                     request.POST.get('invitation-badge-id'),
-                    created_on=request.POST.get('invitation-created'),
-                    expires_on=request.POST.get('invitation-expires'),
+                    created_on=created_on,
+                    expires_on=expires_on,
                     created_by=request.POST.get('invitation-issuer-id'))
         elif request.POST.get('add-issuer'):
             # Add an Issuer to the DB.
@@ -144,6 +147,11 @@ def index(request):
     latest_awards = request.db.get_all_assertions().order_by(
                     sa.desc(m.Assertion.issued_on)).limit(n - 1).all()
 
+    # Register our websocket handler callback
+    if asbool(request.registry.settings['tahrir.use_websockets']):
+        socket = make_websocket_handler(request.registry.settings)
+        socket.display()
+
     return dict(
         auth_principals=effective_principals(request),
         latest_awards=latest_awards,
@@ -152,6 +160,7 @@ def index(request):
         top_persons=top_persons,
         top_persons_sorted=top_persons_sorted,
         awarded_assertions=awarded_assertions,
+        moksha_socket=get_moksha_socket(request.registry.settings),
     )
 
 
@@ -172,27 +181,23 @@ def invitation_claim(request):
         return HTTPGone("That invitation is expired.")
 
     if not authenticated_userid(request):
-        request.session['came_from'] = request.resource_url(request.context,
-                                                            request.context.id,
-                                                            'claim')
+        request.session['came_from'] = request.resource_url(request.context, 'claim')
         return HTTPFound(location=request.route_url('login'))
 
-    person = request.db.get_person_by_email(
-                    authenticated_userid(request)).one()
+    person = request.db.get_person(person_email=authenticated_userid(request))
 
     # Check to see if the user already has the badge.
-    if request.context.badge_id == request.db.get_assertions_by_email(
-                        authenticated_userid(request)).filter_by(
-                        person_id=person.id,
-                        badge_id=request.context.badge_id).one().badge_id:
+    if request.context.badge in [a.badge for a in person.assertions]:
         # TODO: Flash a message explaining that they already have the badge
-        return HTTPFound(location='/')
+        return HTTPFound(location=request.route_url('home'))
 
-    request.db.add_assertion(request.context.badge_id,
-                     person.id,
-                     datetime.now())
+    result = request.db.add_assertion(request.context.badge_id,
+                                      person.email,
+                                      datetime.now())
 
     # TODO -- return them to a page that auto-exports their badges.
+    # TODO -- flash and tell them they got the badge
+    # TODO -- emit a fedmsg message showing they got the badge
     return HTTPFound(location=request.route_url('home'))
 
 
@@ -387,22 +392,18 @@ def badge(request):
     # in a <divclass="document">.
     badge_description_html = docutils.examples.html_body(badge.description)
 
-    if badge:
-        return dict(
-                badge=badge,
-                badge_description_html=badge_description_html,
-                auth_principals=effective_principals(request),
-                awarded_assertions=awarded_assertions,
-                times_awarded=times_awarded,
-                last_awarded=last_awarded,
-                last_awarded_person=last_awarded_person,
-                first_awarded=first_awarded,
-                first_awarded_person=first_awarded_person,
-                percent_earned=percent_earned,
-                )
-    else:
-        # TODO: Say that there was no badge found.
-        return HTTPFound(location=request.route_url('home'))
+    return dict(
+            badge=badge,
+            badge_description_html=badge_description_html,
+            auth_principals=effective_principals(request),
+            awarded_assertions=awarded_assertions,
+            times_awarded=times_awarded,
+            last_awarded=last_awarded,
+            last_awarded_person=last_awarded_person,
+            first_awarded=first_awarded,
+            first_awarded_person=first_awarded_person,
+            percent_earned=percent_earned,
+            )
 
 
 @view_config(route_name='user', renderer='user.mak')
@@ -456,9 +457,14 @@ def user(request):
     except ZeroDivisionError:
         percent_earned = 0
 
+    # Get invitations the user has created.
+    invitations = [i for i in request.db.get_invitations(user.id)\
+                   if i.expires_on > datetime.now()]
+
     return dict(
             user=user,
             user_badges=user_badges,
+            invitations=invitations,
             percent_earned=percent_earned,
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
@@ -566,3 +572,58 @@ def logout(request):
     headers = forget(request)
     return HTTPFound(location=request.resource_url(request.context),
                      headers=headers)
+
+
+@view_config(route_name='assertion_widget',
+             renderer='assertion_widget.mak')
+def assertion_widget(request):
+    person_id = request.matchdict.get('person')
+    badge_id = request.matchdict.get('badge')
+    user = request.db.get_person(id=person_id)
+    if not user:
+        raise HTTPNotFound("No such person %r" % person_id)
+
+    def get_assertion():
+        for assertion in user.assertions:
+            if assertion.badge.id == badge_id:
+                return assertion
+        raise HTTPNotFound("User does not have that badge")
+
+    assertion = get_assertion()
+    return dict(assertion=assertion)
+
+
+def make_websocket_handler(settings):
+    """ Add a js snippet that listens over websockets to fedmsg.
+
+    It animates the "latest awards" pane on the frontpage.
+    """
+
+    class WebsocketHandler(LiveWidget):
+        topic = settings.get("tahrir.websocket.topic")
+        onmessage = """
+        (function(json){
+            // TODO -- put the DOM manipulation stuff here.
+            var user = json.msg.user.badges_user_id;
+            var badge = json.msg.badge.badge_id;
+            $.ajax({
+                url: "%s/_w/assertion/" + user + "/" + badge,
+                dataType: "html",
+                success: function (html) {
+                    $("#latest-awards").prepend(html);
+                    $("#latest-awards > div:first-child").hide();
+                    $("#latest-awards > div:first-child").slideDown("slow");
+                    $("#latest-awards > div:last-child").slideUp('slow', complete=function() {
+                        $("#latest-awards > div:last-child").remove();
+                    });
+                }
+            });
+        })(json);
+        """ % settings['tahrir.base_url']
+        backend = "websocket"
+
+        # Don't actually produce anything when you call .display() on this widget.
+        inline_engine_name = "mako"
+        template = ""
+
+    return WebsocketHandler

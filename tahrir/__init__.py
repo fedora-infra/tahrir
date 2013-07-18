@@ -2,6 +2,7 @@ import os
 import ConfigParser
 
 import dogpile.cache
+import dogpile.cache.util
 
 from pyramid.config import Configurator
 
@@ -11,7 +12,7 @@ from pyramid.session import UnencryptedCookieSessionFactoryConfig
 from pyramid.settings import asbool
 
 from .app import get_root
-from .utils import make_avatar_method
+from .utils import make_avatar_method, make_relative_time_property
 from tahrir_api.dbapi import TahrirDatabase
 import tahrir_api.model
 
@@ -24,8 +25,15 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
 
-    cache = dogpile.cache.make_region()
+    cache = dogpile.cache.make_region(
+        key_mangler=dogpile.cache.util.sha1_mangle_key)
     tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
+    tahrir_api.model.Person.created_on_rel =\
+            make_relative_time_property('created_on')
+    tahrir_api.model.Assertion.created_on_rel =\
+            make_relative_time_property('created_on')
+    tahrir_api.model.Assertion.issued_on_rel =\
+            make_relative_time_property('issued_on')
 
     session_cls = scoped_session(sessionmaker(
         extension=ZopeTransactionExtension(),
@@ -117,6 +125,9 @@ def main(global_config, **settings):
     config.add_route('user', '/user/{id}')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
+
+    # Used to grab a "was awarded" html snippet asynchronously
+    config.add_route('assertion_widget', '/_w/assertion/{person}/{badge}')
 
     config.scan()
 
