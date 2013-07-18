@@ -37,6 +37,8 @@ import tahrir_api.model as m
 from tahrir.utils import strip_tags, generate_badge_yaml
 import widgets
 
+from moksha.wsgi.widgets.api import get_moksha_socket, LiveWidget
+
 
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
@@ -145,6 +147,10 @@ def index(request):
     latest_awards = request.db.get_all_assertions().order_by(
                     sa.desc(m.Assertion.issued_on)).limit(n - 1).all()
 
+    # Register our websocket handler callback
+    socket = make_websocket_handler(request.registry.settings)
+    socket.display()
+
     return dict(
         auth_principals=effective_principals(request),
         latest_awards=latest_awards,
@@ -153,6 +159,7 @@ def index(request):
         top_persons=top_persons,
         top_persons_sorted=top_persons_sorted,
         awarded_assertions=awarded_assertions,
+        moksha_socket=get_moksha_socket(request.registry.settings),
     )
 
 
@@ -564,3 +571,58 @@ def logout(request):
     headers = forget(request)
     return HTTPFound(location=request.resource_url(request.context),
                      headers=headers)
+
+
+@view_config(route_name='assertion_widget',
+             renderer='assertion_widget.mak')
+def assertion_widget(request):
+    person_id = request.matchdict.get('person')
+    badge_id = request.matchdict.get('badge')
+    user = request.db.get_person(id=person_id)
+    if not user:
+        raise HTTPNotFound("No such person %r" % person_id)
+
+    def get_assertion():
+        for assertion in user.assertions:
+            if assertion.badge.id == badge_id:
+                return assertion
+        raise HTTPNotFound("User does not have that badge")
+
+    assertion = get_assertion()
+    return dict(assertion=assertion)
+
+
+def make_websocket_handler(settings):
+    """ Add a js snippet that listens over websockets to fedmsg.
+
+    It animates the "latest awards" pane on the frontpage.
+    """
+
+    class WebsocketHandler(LiveWidget):
+        topic = settings.get("tahrir.websocket.topic")
+        onmessage = """
+        (function(json){
+            // TODO -- put the DOM manipulation stuff here.
+            var user = json.msg.user.badges_user_id;
+            var badge = json.msg.badge.badge_id;
+            $.ajax({
+                url: "%s/_w/assertion/" + user + "/" + badge,
+                dataType: "html",
+                success: function (html) {
+                    $("#latest-awards").prepend(html);
+                    $("#latest-awards > div:first-child").hide();
+                    $("#latest-awards > div:first-child").slideDown("slow");
+                    $("#latest-awards > div:last-child").slideUp('slow', complete=function() {
+                        $("#latest-awards > div:last-child").remove();
+                    });
+                }
+            });
+        })(json);
+        """ % settings['tahrir.base_url']
+        backend = "websocket"
+
+        # Don't actually produce anything when you call .display() on this widget.
+        inline_engine_name = "mako"
+        template = ""
+
+    return WebsocketHandler

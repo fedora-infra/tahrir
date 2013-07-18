@@ -18,6 +18,7 @@ requires = [
     "dogpile.cache",
     'docutils',
     "dateutils",
+    "moksha.wsgi>=1.2.1",
 
     # For qrcode to work from PyPI, you also need Pillow.
     # This is handled for us in Fedora because python-qrcode pulls in the
