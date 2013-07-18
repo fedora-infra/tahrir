@@ -535,10 +535,11 @@ def tag(request):
 
     # Get badges matching tag.
     tags = [t.strip() for t in request.matchdict.get('tags').split(',')]
-    #badges = request.db.get_badges_from_tags(tags)
+    badges = request.db.get_badges_from_tags(tags)
 
     return dict(
             tags=tags,
+            badges=badges,
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
             )
