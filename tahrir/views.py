@@ -161,8 +161,9 @@ def index(request):
                     sa.desc(m.Assertion.issued_on)).limit(n).all()
 
     # Register our websocket handler callback
-    socket = make_websocket_handler(request.registry.settings)
-    socket.display()
+    if asbool(request.registry.settings['tahrir.use_websockets']):
+        socket = make_websocket_handler(request.registry.settings)
+        socket.display()
 
     return dict(
         auth_principals=effective_principals(request),
