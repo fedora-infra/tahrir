@@ -9,7 +9,7 @@
 			<div class="grid-container">
 				${self.functions.avatar_thumbnail(assertion.person, 64, 33)}
 				<div class="grid-33 text-64">
-					was awarded
+					earned
 					<span class="date">${assertion.issued_on_rel}</span>
 				</div>
 				${self.functions.badge_thumbnail(assertion.badge, 64, 33)}

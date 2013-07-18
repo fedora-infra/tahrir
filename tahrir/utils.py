@@ -82,6 +82,7 @@ def generate_badge_yaml(postdict):
                                             default="") + "\n"\
          "(This section is under construction.)"
 
+
 def make_avatar_method(cache):
 
     @cache.cache_on_arguments()
@@ -127,6 +128,16 @@ def make_avatar_method(cache):
 
 def make_relative_time_property(attr):
 
+    SHORT_DENOMINATIONS = {
+            'years': 'yrs',
+            'months': 'mons',
+            'days': 'days',
+            'hours': 'hrs',
+            'minutes': 'mins',
+            'seconds': 'secs',
+            'microseconds': 'ms',
+    }
+
     @property
     def relative_time_method(self):
         then_in_seconds = time.mktime(getattr(self, attr).timetuple())
@@ -146,7 +157,8 @@ def make_relative_time_property(attr):
         for denomination in denominations:
             value = getattr(rd, denomination, 0)
             if value:
-                return "%d %s %s" % (value, denomination, suffix)
+                return "%d %s %s" % (value,
+                        SHORT_DENOMINATIONS[denomination], suffix)
 
         return "just now"
 
