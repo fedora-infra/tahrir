@@ -595,6 +595,25 @@ def logout(request):
                      headers=headers)
 
 
+@view_config(route_name='assertion_widget',
+             renderer='assertion_widget.mak')
+def assertion_widget(request):
+    person_id = request.matchdict.get('person')
+    badge_id = request.matchdict.get('badge')
+    user = request.db.get_person(id=person_id)
+    if not user:
+        raise HTTPNotFound("No such person %r" % person_id)
+
+    def get_assertion():
+        for assertion in user.assertions:
+            if assertion.badge.id == badge_id:
+                return assertion
+        raise HTTPNotFound("User does not have that badge")
+
+    assertion = get_assertion()
+    return dict(assertion=assertion)
+
+
 def make_websocket_handler(settings):
 
     class WebsocketHandler(LiveWidget):

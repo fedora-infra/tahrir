@@ -126,6 +126,9 @@ def main(global_config, **settings):
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
 
+    # Used to grab a "was awarded" html snippet asynchronously
+    config.add_route('assertion_widget', '/_w/assertion/{person}/{badge}')
+
     config.scan()
 
     return config.make_wsgi_app()
