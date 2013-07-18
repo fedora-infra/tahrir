@@ -161,7 +161,8 @@ def index(request):
                     sa.desc(m.Assertion.issued_on)).limit(n).all()
 
     # Register our websocket handler callback
-    WebsocketHandler.display()
+    socket = make_websocket_handler(request.registry.settings)
+    socket.display()
 
     return dict(
         auth_principals=effective_principals(request),
@@ -594,17 +595,21 @@ def logout(request):
                      headers=headers)
 
 
-class WebsocketHandler(LiveWidget):
-    topic = "org.fedoraproject.stg.fedbadges.badge.award"
-    onmessage = """
-    (function(json){
-        // TODO -- put the DOM manipulation stuff here.
-        console.log(json.topic);
-        console.log(json);
-    })(json);
-    """
-    backend = "websocket"
+def make_websocket_handler(settings):
 
-    # Don't actually produce anything when you call .display() on this widget.
-    inline_engine_name = "mako"
-    template = ""
+    class WebsocketHandler(LiveWidget):
+        topic = settings.get("tahrir.websocket.topic")
+        onmessage = """
+        (function(json){
+            // TODO -- put the DOM manipulation stuff here.
+            console.log(json.topic);
+            console.log(json);
+        })(json);
+        """
+        backend = "websocket"
+
+        # Don't actually produce anything when you call .display() on this widget.
+        inline_engine_name = "mako"
+        template = ""
+
+    return WebsocketHandler
