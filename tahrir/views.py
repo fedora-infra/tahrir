@@ -615,16 +615,32 @@ def assertion_widget(request):
 
 
 def make_websocket_handler(settings):
+    """ Add a js snippet that listens over websockets to fedmsg.
+
+    It animates the "latest awards" pane on the frontpage.
+    """
 
     class WebsocketHandler(LiveWidget):
         topic = settings.get("tahrir.websocket.topic")
         onmessage = """
         (function(json){
             // TODO -- put the DOM manipulation stuff here.
-            console.log(json.topic);
-            console.log(json);
+            var user = json.msg.user.badges_user_id;
+            var badge = json.msg.badge.badge_id;
+            $.ajax({
+                url: "%s/_w/assertion/" + user + "/" + badge,
+                dataType: "html",
+                success: function (html) {
+                    $("#latest-awards").prepend(html);
+                    $("#latest-awards > div:first-child").hide();
+                    $("#latest-awards > div:first-child").slideDown("slow");
+                    $("#latest-awards > div:last-child").slideUp('slow', complete=function() {
+                        $("#latest-awards > div:last-child").remove();
+                    });
+                }
+            });
         })(json);
-        """
+        """ % settings['tahrir.base_url']
         backend = "websocket"
 
         # Don't actually produce anything when you call .display() on this widget.
