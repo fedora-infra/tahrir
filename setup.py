@@ -17,7 +17,8 @@ requires = [
     "qrcode",
     "dogpile.cache",
     'docutils',
-    "dateutil",
+    #"dateutil", # commenting this out for now since it's causing issues
+    # ... just pip install it for now
     "moksha.wsgi>=1.2.1",
 
     # For qrcode to work from PyPI, you also need Pillow.
