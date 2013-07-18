@@ -148,6 +148,6 @@ def make_relative_time_property(attr):
             if value:
                 return "%d %s %s" % (value, denomination, suffix)
 
-        raise ValueError("No denomination found")
+        return "just now"
 
     return relative_time_method
