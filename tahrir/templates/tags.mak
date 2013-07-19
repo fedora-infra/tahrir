@@ -4,15 +4,21 @@
 		<div class="shadow">
 		<h1 class="section-header">Tag Info</h1>
 		<div class="padded-content">
-			<p>You searched for the following tags:</p>
-			<ul style="margin-left: 25px;">
+			<p>You searched for 
 			% for t in tags:
-			<li>${t}</li>
+				<strong>
+				% if tags.index(t) == len(tags) - 1:
+					${t}</strong>
+				% else:
+					${t}</strong>,
+				% endif
+			% endfor
+			</p>
+			<ul class="pretty-list">
+			% for badge in badges:
+				<li><a href="${request.route_url('badge', id=badge.name)}">${badge.name}</li>
 			% endfor
 			</ul>
-			% for badge in badges:
-				<p>Badges are ${badge.name}</p>
-			% endfor
 		</div> <!-- End shadow. -->
 		</div> <!-- End padded content. -->
 
