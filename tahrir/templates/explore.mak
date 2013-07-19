@@ -35,7 +35,7 @@
 				<span class="sublabel">Search through badge names,
 					descriptions, and tags.</span></label></td>
 			<td><input name="badge-query" required="required" /></td></tr>
-			<tr><td>
+			<tr><td colspan="2">
 				<input name="badge-search" type="submit" value="Search" />
 				</td></tr>
 			</table>
@@ -60,7 +60,7 @@
 				<span class="sublabel">Search through person names
 					and bios.</span></label></td>
 			<td><input name="person-query" required="required" /></td>
-			</tr><tr><td>
+			</tr><tr><td colspan="2">
 			<input name="person-search" type="submit" value="Search" /></td>
 			</tr>
 			</table>
