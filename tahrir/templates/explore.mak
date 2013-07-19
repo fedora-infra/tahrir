@@ -70,4 +70,29 @@
 	</div> <!-- End grid-50 -->
 
 	<div class="clear spacer"></div>
+	
+	<div class="grid-50">
+		<div class="shadow">
+		<h1 class="section-header">Explore Tags</h2>
+		<div class="padded-content">
+		<h2>View Tags</h2>
+		<form method="POST">
+			<table>
+			<tr><td><label for="tag-query">Tags
+				<span class="sublabel">Separate tags with commas.
+					</span></label></td>
+			<td><input name="tag-query" required="required" /></td>
+			</tr>
+			<tr><td><label for="tag-match-all">Match all tags?
+				<span class="sublabel">Otherwise, match any tags.
+					</span></label></td>
+			<td><input name="tag-match-all" type="checkbox" /></td>
+			</tr><tr><td colspan="2">
+			<input name="tag-search" type="submit" value="Search" /></td>
+			</tr>
+			</table>
+		</form>
+		</div> <!-- End padded content. -->
+		</div> <!-- End shadow. -->
+	</div> <!-- End grid-50. -->
 </div>
