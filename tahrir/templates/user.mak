@@ -55,17 +55,21 @@
 			% endif
 
 			% if user.opt_out:
-			  <a href="">
-				  <div class="pretty-button">
-					  Reactivate Account
-				  </div>
-			  </a>
+				<form method="POST">
+					<input class="pretty-submit"
+						   style="height: 50px; width: 100%;"
+						   name="Reactivate-account"
+						   type="submit"
+						   value="Reactivate Account" />
+				</form>
 			% else:
-			  <a href="">
-				  <div class="pretty-button">
-					  Deactivate Account
-				  </div>
-			  </a>
+				<form method="POST">
+					<input class="pretty-submit"
+						   style="height: 50px;"
+						   name="deactivate-account"
+						   type="submit"
+						   value="Deactivate Account" />
+				</form>
 			% endif
 
 		% endif
@@ -76,12 +80,13 @@
 				<input name="new-nickname"
 					   placeholder="New nickname"
 					   type="text"
+					   style="width: 100%;"
 					   required="required" />
 				<input class="pretty-submit"
 					   style="height: 50px;"
 					   name="change-nickname"
 					   type="submit"
-					   value="Change" />
+					   value="Change Nickname" />
 			</form>
 		% endif
 		

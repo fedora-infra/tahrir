@@ -186,9 +186,8 @@ tr:nth-child(even) { background: white; }
     background: #3158AF;
     color: white;
     text-align: center;
-    padding: 10px;
     height: 50px;
-    margin: 10px;
+    width: 100%;
 }
 
 .section-header {
