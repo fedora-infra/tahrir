@@ -132,7 +132,9 @@ def index(request):
     # set came_from so we can get back home after openid auth.
     request.session['came_from'] = request.route_url('home')
 
-    persons_assertions = request.db.get_all_assertions().join(m.Person)
+    persons_assertions = request.db.get_all_assertions().join(
+                            m.Person).filter(
+                            m.Person.opt_out == False)
     from collections import defaultdict
     top_persons = defaultdict(int) # person: assertion count
     for item in persons_assertions:
@@ -168,7 +170,8 @@ def index(request):
     return dict(
         auth_principals=effective_principals(request),
         latest_awards=latest_awards,
-        newest_persons=request.db.get_all_persons().order_by(
+        newest_persons=request.db.get_all_persons().filter(
+                        m.Person.opt_out == False).order_by(
                         sa.desc(m.Person.created_on)).limit(n).all(),
         top_persons=top_persons,
         top_persons_sample=top_persons_sample,
