@@ -332,15 +332,14 @@ def explore(request):
                         'user', id=r.nickname)
         elif request.POST.get('tag-search'):
             # tag-query is a required field on the template form.
-            person_query = request.POST.get('person-query')
-            matching_results = request.db.get_all_persons().filter(
-                    (m.Person.nickname.like('%' + person_query
-                            + '%')) |
-                    (m.Person.bio.like('%' + person_query
-                            + '%'))).all()
-            for r in matching_results:
-                search_results[r.nickname] = request.route_url(
-                        'user', id=r.nickname)
+            tag_query = request.POST.get('tag-query')
+            if request.POST.get('tag-match-all'):
+                return HTTPFound(location=request.route_url(
+                                 'tags', tags=tag_query, match='all'))
+            else:
+                return HTTPFound(location=request.route_url(
+                                 'tags', tags=tag_query, match='any'))
+
 
     # Get awarded assertions.
     if authenticated_userid(request):
@@ -539,7 +538,7 @@ def builder(request):
 
 
 @view_config(route_name='tags', renderer='tags.mak')
-def tag(request):
+def tags(request):
     """Render tag page."""
 
     # Get awarded assertions.
@@ -551,7 +550,10 @@ def tag(request):
 
     # Get badges matching tag.
     tags = [t.strip() for t in request.matchdict.get('tags').split(',')]
-    badges = request.db.get_badges_from_tags(tags)
+    if request.matchdict.get('match') == 'all':
+        badges = request.db.get_badges_from_tags(tags, match_all=True)
+    else:
+        badges = request.db.get_badges_from_tags(tags, match_all=False)
 
     return dict(
             tags=tags,
