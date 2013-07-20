@@ -471,15 +471,20 @@ def user(request):
         # Authz check
         if authenticated_userid(request) != user.email:
             raise HTTPForbidden("Unauthorized")
+            
+        person = request.db.get_all_persons().filter_by(
+                    email=authenticated_userid(request)).one()
 
         if request.POST.get('change-nickname'):
             new_nick = request.POST.get('new-nickname')
-            person = request.db.get_all_persons().filter_by(
-                    email=authenticated_userid(request)).one()
             person.nickname = new_nick
 
             # The user's nickname has changed, so let's go to the new URL.
             return HTTPFound(location=request.route_url('user', id=new_nick))
+        elif request.POST.get('deactivate-account'):
+            person.opt_out = True
+        elif request.POST.get('reactivate-account'):
+            person.opt_out = False
 
     # Get user badges.
     user_badges = [a.badge for a in user.assertions]

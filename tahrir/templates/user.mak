@@ -58,7 +58,7 @@
 				<form method="POST">
 					<input class="pretty-submit"
 						   style="height: 50px; width: 100%;"
-						   name="Reactivate-account"
+						   name="reactivate-account"
 						   type="submit"
 						   value="Reactivate Account" />
 				</form>
