@@ -357,9 +357,11 @@ def explore(request):
 
     # Get some random persons (for discovery).
     try:
-        random_persons = random.sample(request.db.get_all_persons().all(), 5)
+        random_persons = random.sample(request.db.get_all_persons().filter(
+                m.Person.opt_out == False).all(), 5)
     except ValueError: # the sample is probably larger than the population
-        random_persons = request.db.get_all_persons().all()
+        random_persons = request.db.get_all_persons().filter(
+                m.Person.opt_out == False).all()
 
     return dict(
             auth_principals=effective_principals(request),
