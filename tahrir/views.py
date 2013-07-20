@@ -325,6 +325,16 @@ def explore(request):
             for r in matching_results:
                 search_results[r.nickname] = request.route_url(
                         'user', id=r.nickname)
+        elif request.POST.get('tag-search'):
+            # tag-query is a required field on the template form.
+            tag_query = request.POST.get('tag-query')
+            if request.POST.get('tag-match-all'):
+                return HTTPFound(location=request.route_url(
+                                 'tags', tags=tag_query, match='all'))
+            else:
+                return HTTPFound(location=request.route_url(
+                                 'tags', tags=tag_query, match='any'))
+
 
     # Get awarded assertions.
     if authenticated_userid(request):
@@ -520,6 +530,32 @@ def builder(request):
         default_creator=default_creator,
         badge_yaml=badge_yaml,
     )
+
+
+@view_config(route_name='tags', renderer='tags.mak')
+def tags(request):
+    """Render tag page."""
+
+    # Get awarded assertions.
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                authenticated_userid(request))
+    else:
+        awarded_assertions = None
+
+    # Get badges matching tag.
+    tags = [t.strip() for t in request.matchdict.get('tags').split(',')]
+    if request.matchdict.get('match') == 'all':
+        badges = request.db.get_badges_from_tags(tags, match_all=True)
+    else:
+        badges = request.db.get_badges_from_tags(tags, match_all=False)
+
+    return dict(
+            tags=tags,
+            badges=badges,
+            auth_principals=effective_principals(request),
+            awarded_assertions=awarded_assertions,
+            )
 
 
 @view_config(context=unicode)
