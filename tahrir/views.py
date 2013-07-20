@@ -157,7 +157,7 @@ def index(request):
         random.shuffle(top_persons_sample)
 
     # Get latest awards.
-    latest_awards = request.db.get_all_assertions().order_by(
+    latest_awards = persons_assertions.order_by(
                     sa.desc(m.Assertion.issued_on)).limit(n).all()
 
     # Register our websocket handler callback
