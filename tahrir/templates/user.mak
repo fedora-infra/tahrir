@@ -53,6 +53,21 @@
 					<br />
 				% endfor
 			% endif
+
+			% if user.opt_out:
+			  <a href="">
+				  <div class="pretty-button">
+					  Reactivate Account
+				  </div>
+			  </a>
+			% else:
+			  <a href="">
+				  <div class="pretty-button">
+					  Deactivate Account
+				  </div>
+			  </a>
+			% endif
+
 		% endif
 
 		<!-- Change nickname button. -->
