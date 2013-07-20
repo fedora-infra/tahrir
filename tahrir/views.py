@@ -467,6 +467,9 @@ def user(request):
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
 
+    if user.opt_out == True and user.email != authenticated_userid(request):
+        raise HTTPNotFound("User %r has opted out." % user_id)
+
     if request.POST:
 
         # Authz check
