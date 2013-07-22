@@ -126,6 +126,13 @@ def make_avatar_method(cache):
     return avatar_method
 
 
+def singularize(term, value):
+    """ Strip the 's' off of plural words to dumbly singularize them. """
+    if value == 1:
+        return term[:-1]
+    else:
+        return term
+
 def make_relative_time_property(attr):
 
     SHORT_DENOMINATIONS = {
@@ -135,7 +142,6 @@ def make_relative_time_property(attr):
             'hours': 'hrs',
             'minutes': 'mins',
             'seconds': 'secs',
-            'microseconds': 'ms',
     }
 
     @property
@@ -153,12 +159,15 @@ def make_relative_time_property(attr):
         rd = dateutil.relativedelta.relativedelta(seconds=math.fabs(delta))
         denominations = [
             'years', 'months', 'days', 'hours',
-            'minutes', 'seconds', 'microseconds']
+            'minutes', 'seconds']
         for denomination in denominations:
             value = getattr(rd, denomination, 0)
             if value:
-                return "%d %s %s" % (value,
-                        SHORT_DENOMINATIONS[denomination], suffix)
+                return "%d %s %s" % (
+                    value,
+                    singularize(SHORT_DENOMINATIONS[denomination], value),
+                    suffix
+                )
 
         return "just now"
 
