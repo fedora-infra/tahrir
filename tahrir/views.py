@@ -637,7 +637,7 @@ def login_complete_view(request):
         request.db.add_person(email=email, nickname=nickname)
 
     headers = remember(request, email)
-    response = HTTPFound(location=request.session['came_from'])
+    response = HTTPFound(location=request.session.get('came_from', '/'))
     response.headerlist.extend(headers)
     return response
 
