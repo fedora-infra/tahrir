@@ -16,7 +16,7 @@
 			</p>
 			<ul class="pretty-list">
 			% for badge in badges:
-				<li><a href="${request.route_url('badge', id=badge.name)}">${badge.name}</li>
+				<li><a href="${request.route_url('badge', id=badge.id)}">${badge.name}</li>
 			% endfor
 			</ul>
 		</div> <!-- End shadow. -->
