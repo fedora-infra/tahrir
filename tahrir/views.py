@@ -256,6 +256,7 @@ def leaderboard(request):
     for item in persons_assertions:
         top_persons[item.person] += 1
 
+    # top_persons and top_persons_sorted contain all persons, ordered
     top_persons_sorted = sorted(sorted(top_persons,
                                 key=lambda person: person.id),
                                 key=top_persons.get,
