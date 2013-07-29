@@ -55,7 +55,7 @@
 		<h1 class="section-header">Leaderboard</h1>
 		<div class="padded-content">
 			<table>
-			% for person in top_persons_sorted:
+			% for person in top_persons_sorted[:25]:
 			<tr><td style="width: 20px;">
 				<span class="big-text">
 				#${top_persons_sorted.index(person) + 1}</span></td>
