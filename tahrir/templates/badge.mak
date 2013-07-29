@@ -9,11 +9,15 @@
 		<p class="name">${badge.name}</p>
 		<div class="description">${badge_description_html | n}</div>
 		<div class="metadata">
+		% if badge.tags:
 			<p>Tagged with:
-				% for tag in badge.tags.split(',')[:-1]: # Remove last entry as it is empty.
+			% for tag in badge.tags[:-1].split(','):
 				<a href="${request.route_url('tags', tags=tag.strip(), match='any')}">${tag}</a>, 
 				% endfor
 				</p>
+		% else:
+			<p>This badge has not been tagged.</p>
+		% endif
 			<p>Issued by: ${badge.issuer_id}</p>
 			<p>Criteria: <a href="${badge.criteria}">${badge.criteria}</a></p>
 		</div>
