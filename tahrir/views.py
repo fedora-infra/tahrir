@@ -494,6 +494,9 @@ def user(request):
     # Get user badges.
     user_badges = [a.badge for a in user.assertions]
 
+    # Sort user badges by id.
+    user_badges = sorted(user_badges, key=lambda badge: badge.id)
+
     # Get total number of unique badges in the system.
     count_total_badges = len(request.db.get_all_badges().all())
 
