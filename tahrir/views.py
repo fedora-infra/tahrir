@@ -167,6 +167,11 @@ def index(request):
         socket = make_websocket_handler(request.registry.settings)
         socket.display()
 
+    # Register our websocket handler callback
+    if asbool(request.registry.settings['tahrir.use_websockets']):
+        socket = make_websocket_handler(request.registry.settings)
+        socket.display()
+
     return dict(
         auth_principals=effective_principals(request),
         latest_awards=latest_awards,
