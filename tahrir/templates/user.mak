@@ -81,7 +81,7 @@
 		% endif
 
 		<!-- Change nickname button. -->
-		% if logged_in == user.email:
+		% if logged_in == user.email and allow_changenick:
 			<form method="POST">
 				<input name="new-nickname"
 					   placeholder="New nickname"

@@ -446,6 +446,10 @@ def badge(request):
 def user(request):
     """Render user info page."""
 
+    # Grab a boolean out of the config
+    settings = request.registry.settings
+    allow_changenick = asbool(settings.get('tahrir.allow_changenick', True))
+
     # Get awarded assertions.
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
@@ -485,7 +489,7 @@ def user(request):
         person = request.db.get_all_persons().filter_by(
                     email=authenticated_userid(request)).one()
 
-        if request.POST.get('change-nickname'):
+        if request.POST.get('change-nickname') and allow_changenick:
             new_nick = request.POST.get('new-nickname')
             person.nickname = new_nick
 
@@ -523,6 +527,7 @@ def user(request):
             percent_earned=percent_earned,
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
+            allow_changenick=allow_changenick,
             )
 
 
