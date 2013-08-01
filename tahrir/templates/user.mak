@@ -40,8 +40,14 @@
 			  </a>
 			% endif
 
-			<a href="https://www.libravatar.org/account/upload_photo/">
-				<div class="pretty-button">Change Avatar</div></a>
+            <form method="POST" action="https://www.libravatar.org/openid/login/">
+                <input type="hidden" name="openid_identifier" value="${user.openid_identifier}"/>
+                <input class="pretty-submit"
+                       style="height: 50px; width: 100%;"
+                       name="change-avatar"
+                       type="submit"
+                       value="Change Avatar" />
+            </form>
 
 			% if len(invitations) > 0:
 				<h3>Active Invitations</h3>

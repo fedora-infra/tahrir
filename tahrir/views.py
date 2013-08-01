@@ -481,7 +481,7 @@ def user(request):
         # Authz check
         if authenticated_userid(request) != user.email:
             raise HTTPForbidden("Unauthorized")
-            
+
         person = request.db.get_all_persons().filter_by(
                     email=authenticated_userid(request)).one()
 

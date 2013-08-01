@@ -173,3 +173,13 @@ def make_relative_time_property(attr):
         return "just now"
 
     return relative_time_method
+
+
+def make_openid_identifier_property(identifier):
+
+    @property
+    def openid_identifier(self):
+        prefix, domain = identifier.split("://")
+        return "http://%s.%s" % (self.nickname, domain)
+
+    return openid_identifier
