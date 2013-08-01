@@ -11,10 +11,15 @@
 		<div class="metadata">
 		% if badge.tags:
 			<p>Tagged with:
-			% for tag in badge.tags[:-1].split(','):
-				<a href="${request.route_url('tags', tags=tag.strip(), match='any')}">${tag}</a>, 
-				% endfor
-				</p>
+			<% tag_list = badge.tags[:-1].split(',') %>
+			% for tag in tag_list:
+				% if tag_list.index(tag) == len(tag_list) - 1:
+					<a href="${request.route_url('tags', tags=tag.strip(), match='any')}">${tag}</a>
+				% else:
+					<a href="${request.route_url('tags', tags=tag.strip(), match='any')}">${tag}</a>,
+				% endif
+			% endfor
+			</p>
 		% else:
 			<p>This badge has not been tagged.</p>
 		% endif
