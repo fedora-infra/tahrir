@@ -626,6 +626,8 @@ def login_complete_view(request):
     else:
         ident = settings.get('tahrir.openid_identifier')
         domain = '.'.join(ident.split('.')[-2:])
+        if domain.endswith('/'):
+            domain = domain[:-1]
         email = nickname + "@" + domain
 
     # Keep adding underscores until we get a default nickname
