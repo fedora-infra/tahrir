@@ -281,8 +281,8 @@ def leaderboard(request):
 
         # Get a list of nearby competetors (5 users above the current
         # user and 5 users ranked below).
-        competitors = top_persons_sorted[max(rank - 6, 0):\
-                                     min(rank + 5, len(top_persons_sorted))]
+        competitors = top_persons_sorted[max(rank - 3, 0):\
+                                     min(rank + 2, len(top_persons_sorted))]
 
     else:
         rank = None
