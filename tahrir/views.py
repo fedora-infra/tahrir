@@ -644,8 +644,9 @@ def login_complete_view(request):
 
 @view_config(context='velruse.AuthenticationDenied', renderer='json')
 def login_denied_view(request):
-    # TODO -- this can be made fancier, yes?
-    return {'result': 'denied'}
+    # HAAACK -- if login fails, just try again.
+    return HTTPFound(location=request.route_url('login'))
+
 
 
 @view_config(route_name='logout')
