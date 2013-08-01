@@ -481,7 +481,7 @@ def user(request):
         # Authz check
         if authenticated_userid(request) != user.email:
             raise HTTPForbidden("Unauthorized")
-            
+
         person = request.db.get_all_persons().filter_by(
                     email=authenticated_userid(request)).one()
 
@@ -644,8 +644,9 @@ def login_complete_view(request):
 
 @view_config(context='velruse.AuthenticationDenied', renderer='json')
 def login_denied_view(request):
-    # TODO -- this can be made fancier, yes?
-    return {'result': 'denied'}
+    # HAAACK -- if login fails, just try again.
+    return HTTPFound(location=request.route_url('login'))
+
 
 
 @view_config(route_name='logout')

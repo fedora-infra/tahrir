@@ -17,7 +17,7 @@ requires = [
     "qrcode",
     "dogpile.cache",
     'docutils',
-    "dateutils",
+    "python-dateutil",
     "moksha.wsgi>=1.2.1",
 
     # For qrcode to work from PyPI, you also need Pillow.
@@ -31,7 +31,7 @@ requires = [
     ]
 
 setup(name='tahrir',
-      version='0.2.6',
+      version='0.2.7',
       description='A pyramid app for issuing your own Open Badges',
       long_description=README,
       license="AGPLv3+ with additional permission",
