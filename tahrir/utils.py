@@ -121,7 +121,8 @@ def make_avatar_method(cache):
 
     def avatar_method(self, size):
         # Call the cached workhorse function
-        return _avatar_function(self.email, size)
+        selector = "http://%s.id.fedoraproject.org" % self.nickname
+        return _avatar_function(selector, size)
 
     return avatar_method
 
