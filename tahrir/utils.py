@@ -6,7 +6,7 @@ import time
 import datetime
 import dateutil.relativedelta
 import urllib
-from hashlib import md5
+from hashlib import md5, sha256
 
 libravatar = None
 try:
@@ -101,7 +101,10 @@ def make_avatar_method(cache):
 
         query = urllib.urlencode(query)
 
-        hash = md5(email).hexdigest()
+        # Use md5 for emails, and sha256 for openids.
+        # We're really using openids, so...
+        #hash = md5(email).hexdigest()
+        hash = sha256(email).hexdigest()
 
         # TODO This next line is temporary and can be removed.  We do
         # libravatar ourselves here by hand to avoid pyDNS issues on epel6.
@@ -121,8 +124,7 @@ def make_avatar_method(cache):
 
     def avatar_method(self, size):
         # Call the cached workhorse function
-        selector = "http://%s.id.fedoraproject.org" % self.nickname
-        return _avatar_function(selector, size)
+        return _avatar_function(self.openid_identifier, size)
 
     return avatar_method
 
