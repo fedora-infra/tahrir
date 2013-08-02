@@ -39,9 +39,19 @@ import widgets
 
 from moksha.wsgi.widgets.api import get_moksha_socket, LiveWidget
 
+# Optional.  Emit messages to the fedmsg bus.
+fedmsg = None
+try:
+    import fedmsg
+except ImportError:
+    pass
+
 
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
+
+    settings = request.registry.settings
+
     # TODO: Check if I even need this anymore... leaving for now.
     request.session['came_from'] = request.route_url('admin')
 
@@ -112,6 +122,25 @@ def admin(request):
                     request.POST.get('assertion-badge-id'),
                     request.POST.get('assertion-person-email'),
                     issued_on)
+
+            if fedmsg and settings.get('tahrir.use_fedmsg', False):
+                person = request.db.get_person(
+                    person_email=request.POST.get('assertion-person-email'))
+                badge = request.db.get_badge(
+                    badge_id=request.POST.get('assertion-badge-id'))
+                fedmsg.publish(
+                    modname="fedbadges", topic="badge.award",
+                    msg=dict(
+                        badge=dict(
+                            name=badge.name,
+                            description=badge.description,
+                            image_url=badge.image,
+                        ),
+                        user=dict(
+                            username=person.nickname,
+                            badges_user_id=person.id
+                        ),
+                    ))
 
     return dict(
         auth_principals=effective_principals(request),
@@ -198,6 +227,8 @@ def action(context, request):
 def invitation_claim(request):
     """ Action that awards a person a badge after scanning a qrcode. """
 
+    settings = request.registry.settings
+
     if request.context.expires_on < datetime.now():
         return HTTPGone("That invitation is expired.")
 
@@ -217,9 +248,23 @@ def invitation_claim(request):
                                       person.email,
                                       datetime.now())
 
+    if fedmsg and settings.get('tahrir.use_fedmsg', False):
+        fedmsg.publish(
+            modname="fedbadges", topic="badge.award",
+            msg=dict(
+                badge=dict(
+                    name=badge.name,
+                    description=badge.description,
+                    image_url=badge.image,
+                ),
+                user=dict(
+                    username=person.nickname,
+                    badges_user_id=person.id
+                ),
+            ))
+
     # TODO -- return them to a page that auto-exports their badges.
     # TODO -- flash and tell them they got the badge
-    # TODO -- emit a fedmsg message showing they got the badge
     return HTTPFound(location=request.route_url('home'))
 
 
