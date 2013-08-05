@@ -249,6 +249,7 @@ def invitation_claim(request):
                                       datetime.now())
 
     if fedmsg and settings.get('tahrir.use_fedmsg', False):
+        badge = request.context.badge
         fedmsg.publish(
             modname="fedbadges", topic="badge.award",
             msg=dict(
