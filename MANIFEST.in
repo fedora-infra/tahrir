@@ -1,5 +1,6 @@
 include *.txt *.ini *.cfg *.rst
 recursive-include tahrir *.ico *.png *.css *.gif *.jpg *.pt *.txt *.mak *.mako *.js *.html *.xml
+recursive-include fedmsg.d *.py
 include LICENSE
 
 graft apache
