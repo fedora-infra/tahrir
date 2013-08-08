@@ -129,6 +129,7 @@ def main(global_config, **settings):
     config.add_route('admin', '/admin')
     config.add_route('qrcode', '/qrcode')
     config.add_route('badge', '/badge/{id}')
+    config.add_route('badge_json', '/badge/{id}/json')
     config.add_route('builder', '/builder')
     config.add_route('explore', '/explore')
     config.add_route('leaderboard', '/leaderboard')
