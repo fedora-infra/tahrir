@@ -491,7 +491,8 @@ def badge_json(request):
 
     # if the badge isn't found, raise a 404
     if not badge:
-        raise HTTPNotFound(json.dumps({"error": "No such badge exists."}))
+        request.response.status = '404 Not Found'
+        return {"error": "No such badge exists."}
 
     # Get awarded assertions.
     if authenticated_userid(request):
