@@ -703,6 +703,7 @@ def user_json(request):
 
     return {
         'user': user.nickname,
+        'avatar': user.avatar_url(int(request.GET.get('size', 100))),
         'percent_earned': percent_earned,
         'assertions': assertions
     }
