@@ -129,11 +129,13 @@ def main(global_config, **settings):
     config.add_route('admin', '/admin')
     config.add_route('qrcode', '/qrcode')
     config.add_route('badge', '/badge/{id}')
+    config.add_route('badge_json', '/badge/{id}/json')
     config.add_route('builder', '/builder')
     config.add_route('explore', '/explore')
     config.add_route('leaderboard', '/leaderboard')
     config.add_route('tags', '/tags/{tags}/{match}')
     config.add_route('user', '/user/{id}')
+    config.add_route('user_json', '/user/{id}/json')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
 

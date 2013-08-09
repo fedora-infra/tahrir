@@ -482,6 +482,79 @@ def badge(request):
             percent_earned=percent_earned,
             )
 
+def _badge_json_generator(request, badge_id, badge):
+    try:
+        times_awarded = len(request.db.get_assertions_by_badge(badge_id))
+
+        last_awarded = request.db.get_all_assertions().filter(
+            sa.func.lower(m.Assertion.badge_id) == \
+                sa.func.lower(badge_id)).order_by(
+                    sa.desc(m.Assertion.issued_on)).limit(1).one()
+
+        last_awarded_person = request.db.get_person(
+            id=last_awarded.person_id)
+
+        first_awarded = request.db.get_all_assertions().filter(
+            sa.func.lower(m.Assertion.badge_id) == \
+                sa.func.lower(badge_id)).order_by(
+                    sa.asc(m.Assertion.issued_on)).limit(1).one()
+
+        first_awarded_person = request.db.get_person(
+            id=first_awarded.person_id)
+
+        percent_earned = float(times_awarded) / \
+                         float(len(request.db.get_all_persons().all()))
+
+    except sa.orm.exc.NoResultFound: # This badge has never been awarded.
+        times_awarded = 0
+        last_awarded = None
+        last_awarded_person = None
+        first_awarded = None
+        first_awarded_person = None
+        percent_earned = 0
+
+    if last_awarded:
+        last_awarded = float(last_awarded.issued_on.strftime('%s'))
+
+    if last_awarded_person:
+        last_awarded_person = last_awarded_person.nickname
+
+    if first_awarded:
+        first_awarded = float(first_awarded.issued_on.strftime('%s'))
+
+    if first_awarded_person:
+        first_awarded_person = first_awarded_person.nickname
+
+    if percent_earned:
+        percent_earned *= 100
+
+    return {
+        'id': badge.id,
+        'name': badge.name,
+        'description': badge.description,
+        'times_awarded': times_awarded,
+        'last_awarded': last_awarded,
+        'last_awarded_person': last_awarded_person,
+        'first_awarded': first_awarded,
+        'first_awarded_person': first_awarded_person,
+        'percent_earned': percent_earned,
+        'image': badge.image
+    }
+
+@view_config(route_name='badge_json', renderer='json')
+def badge_json(request):
+    """Render badge JSON dump."""
+    # Get the badge to render info about.
+    badge_id = request.matchdict.get('id')
+    badge = request.db.get_badge(badge_id)
+
+    # if the badge isn't found, raise a 404
+    if not badge:
+        request.response.status = '404 Not Found'
+        return {"error": "No such badge exists."}
+
+    return _badge_json_generator(request, badge_id, badge)
+
 
 @view_config(route_name='user', renderer='user.mak')
 def user(request):
@@ -571,6 +644,69 @@ def user(request):
             allow_changenick=allow_changenick,
             )
 
+
+@view_config(route_name='user_json', renderer='json')
+def user_json(request):
+    """Render user info JSON dump."""
+
+    # So, here they can use their 'id' or their 'nickname'.
+    # We'll try nickname first since we want to encourage that (or whatever)
+    # and fall back to id if that fails.  If both fail, raise a 404.
+    user_id = request.matchdict.get('id')
+
+    user = request.db.get_person(nickname=user_id)
+
+    if not user:
+        try:
+            # We cast user_id to an integer so that Postgres doesn't
+            # get upset about comparing what is potentially a string
+            # to an integer column.
+            user = request.db.get_person(id=int(user_id))
+        except TypeError:
+            request.response.status = '404 Not Found'
+            return {"error": "No such user exists."}
+
+    # If we still haven't found anything, just give up.
+    if not user:
+        request.response.status = '404 Not Found'
+        return {"error": "No such user exists."}
+
+    if user.opt_out == True and user.email != authenticated_userid(request):
+        request.response.status = '404 Not Found'
+        return {"error": "User has opted out."}
+
+    awarded_assertions = request.db.get_assertions_by_email(user.email)
+
+    # Get user badges.
+    user_badges = [a.badge for a in user.assertions]
+
+    # Sort user badges by id.
+    user_badges = sorted(user_badges, key=lambda badge: badge.id)
+
+    # Get total number of unique badges in the system.
+    count_total_badges = len(request.db.get_all_badges().all())
+
+    # Get percentage of badges earned.
+    try:
+        percent_earned = (float(len(user_badges)) / \
+                          float(count_total_badges)) * 100
+    except ZeroDivisionError:
+        percent_earned = 0
+
+
+    assertions = []
+    for assertion in awarded_assertions:
+        assertions.append(
+            dict(
+                {'issued': float(assertion.issued_on.strftime('%s'))}.items() + \
+                _badge_json_generator(request, assertion.badge.id, assertion.badge).items()))
+
+    return {
+        'user': user.nickname,
+        'avatar': user.avatar_url(int(request.GET.get('size', 100))),
+        'percent_earned': percent_earned,
+        'assertions': assertions
+    }
 
 @view_config(route_name='builder', renderer='builder.mak')
 def builder(request):
