@@ -32,6 +32,18 @@
 		</div>
 
 		% if logged_in == user.email:
+
+			% if len(invitations) > 0:
+				<h3>Active Invitations</h3>
+				% for i in invitations:
+				<a href="${"/invitations/" + i.id + "/claim"}">
+					${i.id[:7]}...</a>
+					<a href="${"/invitations/" + i.id + "/qrcode"}">
+					[QR code]</a>
+					<br />
+				% endfor
+			% endif
+
 			% if awarded_assertions:
 			  <a href="javascript:claim_badges();">
 				  <div class="pretty-button">
@@ -48,17 +60,6 @@
                        type="submit"
                        value="Change Avatar" />
             </form>
-
-			% if len(invitations) > 0:
-				<h3>Active Invitations</h3>
-				% for i in invitations:
-				<a href="${"/invitations/" + i.id + "/claim"}">
-					${i.id[:7]}...</a>
-					<a href="${"/invitations/" + i.id + "/qrcode"}">
-					[QR code]</a>
-					<br />
-				% endfor
-			% endif
 
 			% if user.opt_out:
 				<form method="POST">
