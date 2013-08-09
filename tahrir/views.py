@@ -355,14 +355,14 @@ def explore(request):
             # badge-query is a required field on the template form.
             badge_query = request.POST.get('badge-query')
             matching_results = request.db.get_all_badges().filter(
-                    (m.Badge.name.like('%' + badge_query
-                                    + '%')) |
-                                    (m.Badge.description.like('%' +
+                    sa.func.lower((m.Badge.name.like('%' + badge_query
+                                    + '%'))) |
+                    sa.func.lower((m.Badge.description.like('%' +
                                     badge_query +
-                                    '%')) |
-                                    (m.Badge.tags.like('%' +
+                                    '%'))) |
+                    sa.func.lower((m.Badge.tags.like('%' +
                                     badge_query
-                                    + '%'))).all()
+                                    + '%')))).all()
             for r in matching_results:
                 search_results[r.name] = request.route_url('badge',
                         id=r.name.lower().replace(' ', '-'))
