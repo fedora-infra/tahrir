@@ -25,6 +25,8 @@
 		% endif
 			<p>Issued by: ${badge.issuer_id}</p>
 			<p>Criteria: <a href="${badge.criteria}">${badge.criteria}</a></p>
+			<p>View badge as: <a href="${request.route_url('badge_json', id=badge.id)}">
+								JSON</a></p>
 		</div>
 		</div> <!-- End padded content. -->
 		</div> <!-- End shadow. -->
@@ -36,7 +38,7 @@
 		<div class="padded-content">
 		<ul class="pretty-list">
 		<li>The ${badge.name} badge was created on
-			${badge.created_on.strftime("%Y-%m-%d")}.</li>
+			<strong>${badge.created_on.strftime("%Y-%m-%d")}</strong>.</li>
 		% if times_awarded == 0:
 		<li>${badge.name} has <strong>never been awarded!</strong>
 		% else:
@@ -47,7 +49,8 @@
 				time.
 			% endif
 		% endif
-		<li>${"{0:.1f}".format(percent_earned * 100)}% of people have earned this badge.</li>
+		<li><strong>${"{0:.1f}".format(percent_earned * 100)}%</strong>
+			of people have earned this badge.</li>
 		% if first_awarded and last_awarded:
 			<li><a href="${request.route_url('user', id=first_awarded_person.id)}">
 					<strong>${first_awarded_person.nickname}</a></strong>

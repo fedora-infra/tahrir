@@ -32,6 +32,18 @@
 		</div>
 
 		% if logged_in == user.email:
+
+			% if len(invitations) > 0:
+				<h3>Active Invitations</h3>
+				% for i in invitations:
+				<a href="${"/invitations/" + i.id + "/claim"}">
+					${i.id[:7]}...</a>
+					<a href="${"/invitations/" + i.id + "/qrcode"}">
+					[QR code]</a>
+					<br />
+				% endfor
+			% endif
+
 			% if awarded_assertions:
 			  <a href="javascript:claim_badges();">
 				  <div class="pretty-button">
@@ -48,17 +60,6 @@
                        type="submit"
                        value="Change Avatar" />
             </form>
-
-			% if len(invitations) > 0:
-				<h3>Active Invitations</h3>
-				% for i in invitations:
-				<a href="${"/invitations/" + i.id + "/claim"}">
-					${i.id[:7]}...</a>
-					<a href="${"/invitations/" + i.id + "/qrcode"}">
-					[QR code]</a>
-					<br />
-				% endfor
-			% endif
 
 			% if user.opt_out:
 				<form method="POST">
@@ -124,13 +125,13 @@
 				% else:
 					<p>${user.nickname} has earned
 				% endif
-				${len(user_badges)}
+				<strong>${len(user_badges)}</strong>
 				% if len(user_badges) == 1:
 					badge
 				% else:
 					badges
 				% endif
-				(${"{0:.1f}".format(percent_earned)}%).
+				(<strong>${"{0:.1f}".format(percent_earned)}%</strong> of total).
 			% endif
 			</div>
 			% for i, badge in enumerate(user_badges):
