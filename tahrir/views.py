@@ -118,6 +118,7 @@ def admin(request):
                                 '%Y-%m-%d %H:%M')
             except ValueError:
                 issued_on = None # Will default to datetime.now()
+
             request.db.add_assertion(
                     request.POST.get('assertion-badge-id'),
                     request.POST.get('assertion-person-email'),
@@ -128,6 +129,7 @@ def admin(request):
                     person_email=request.POST.get('assertion-person-email'))
                 badge = request.db.get_badge(
                     badge_id=request.POST.get('assertion-badge-id'))
+
                 fedmsg.publish(
                     modname="fedbadges", topic="badge.award",
                     msg=dict(
@@ -487,20 +489,20 @@ def _badge_json_generator(request, badge_id, badge):
         times_awarded = len(request.db.get_assertions_by_badge(badge_id))
 
         last_awarded = request.db.get_all_assertions().filter(
-            sa.func.lower(m.Assertion.badge_id) == \
-                sa.func.lower(badge_id)).order_by(
-                    sa.desc(m.Assertion.issued_on)).limit(1).one()
+                sa.func.lower(m.Assertion.badge_id) == \
+                    sa.func.lower(badge_id)).order_by(
+                        sa.desc(m.Assertion.issued_on)).limit(1).one()
 
         last_awarded_person = request.db.get_person(
-            id=last_awarded.person_id)
+                id=last_awarded.person_id)
 
         first_awarded = request.db.get_all_assertions().filter(
-            sa.func.lower(m.Assertion.badge_id) == \
-                sa.func.lower(badge_id)).order_by(
-                    sa.asc(m.Assertion.issued_on)).limit(1).one()
+                sa.func.lower(m.Assertion.badge_id) == \
+                    sa.func.lower(badge_id)).order_by(
+                        sa.asc(m.Assertion.issued_on)).limit(1).one()
 
         first_awarded_person = request.db.get_person(
-            id=first_awarded.person_id)
+                id=first_awarded.person_id)
 
         percent_earned = float(times_awarded) / \
                          float(len(request.db.get_all_persons().all()))
