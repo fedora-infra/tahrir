@@ -9,7 +9,8 @@ your own `Open Badges <https://wiki.mozilla.org/Badges>`_.
 
 The name is total overkill.
 
-You can see a deployed staging instance of it `here
+You can see Tahrir deployed in production `here
+<https://badges.fedoraproject.org/>`_. The staging instance lives `here
 <https://badges.stg.fedoraproject.org/>`_.
 
 Installing... just to try it out
