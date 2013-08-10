@@ -134,7 +134,7 @@ def main(global_config, **settings):
     config.add_route('explore', '/explore')
     config.add_route('leaderboard', '/leaderboard')
     config.add_route('leaderboard_json', '/leaderboard/json')
-    #config.add_route('rank_json', '/leaderboard/{id}/json')
+    config.add_route('rank_json', '/leaderboard/{id}/json')
     config.add_route('tags', '/tags/{tags}/{match}')
     config.add_route('user', '/user/{id}')
     config.add_route('user_json', '/user/{id}/json')
