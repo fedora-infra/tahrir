@@ -343,6 +343,30 @@ def leaderboard(request):
             competitors=competitors,
             )
 
+@view_config(route_name='leaderboard_json', renderer='json')
+def leaderboard_json(request):
+    """ Render a top-users JSON dump. """
+
+    # Get top persons.
+    persons_assertions = request.db.get_all_assertions().join(m.Person)
+    from collections import defaultdict
+    top_persons = defaultdict(int) # person: assertion count
+    for item in persons_assertions:
+        top_persons[item.person] += 1
+
+    # top_persons and top_persons_sorted contain all persons, ordered
+    top_persons_sorted = sorted(sorted(top_persons,
+                                key=lambda person: person.id),
+                                key=top_persons.get,
+                                reverse=True)
+
+    # Get total user count.
+    user_count = len(top_persons)
+
+    return dict(
+        top_persons_sorted=[_user_json_generator(request, user) for user in top_persons_sorted],
+        user_count=user_count,
+    )
 
 @view_config(route_name='explore', renderer='explore.mak')
 def explore(request):
@@ -646,37 +670,7 @@ def user(request):
             allow_changenick=allow_changenick,
             )
 
-
-@view_config(route_name='user_json', renderer='json')
-def user_json(request):
-    """Render user info JSON dump."""
-
-    # So, here they can use their 'id' or their 'nickname'.
-    # We'll try nickname first since we want to encourage that (or whatever)
-    # and fall back to id if that fails.  If both fail, raise a 404.
-    user_id = request.matchdict.get('id')
-
-    user = request.db.get_person(nickname=user_id)
-
-    if not user:
-        try:
-            # We cast user_id to an integer so that Postgres doesn't
-            # get upset about comparing what is potentially a string
-            # to an integer column.
-            user = request.db.get_person(id=int(user_id))
-        except TypeError:
-            request.response.status = '404 Not Found'
-            return {"error": "No such user exists."}
-
-    # If we still haven't found anything, just give up.
-    if not user:
-        request.response.status = '404 Not Found'
-        return {"error": "No such user exists."}
-
-    if user.opt_out == True and user.email != authenticated_userid(request):
-        request.response.status = '404 Not Found'
-        return {"error": "User has opted out."}
-
+def _user_json_generator(request, user):
     awarded_assertions = request.db.get_assertions_by_email(user.email)
 
     # Get user badges.
@@ -709,6 +703,38 @@ def user_json(request):
         'percent_earned': percent_earned,
         'assertions': assertions
     }
+
+@view_config(route_name='user_json', renderer='json')
+def user_json(request):
+    """Render user info JSON dump."""
+
+    # So, here they can use their 'id' or their 'nickname'.
+    # We'll try nickname first since we want to encourage that (or whatever)
+    # and fall back to id if that fails.  If both fail, raise a 404.
+    user_id = request.matchdict.get('id')
+
+    user = request.db.get_person(nickname=user_id)
+
+    if not user:
+        try:
+            # We cast user_id to an integer so that Postgres doesn't
+            # get upset about comparing what is potentially a string
+            # to an integer column.
+            user = request.db.get_person(id=int(user_id))
+        except TypeError:
+            request.response.status = '404 Not Found'
+            return {"error": "No such user exists."}
+
+    # If we still haven't found anything, just give up.
+    if not user:
+        request.response.status = '404 Not Found'
+        return {"error": "No such user exists."}
+
+    if user.opt_out == True and user.email != authenticated_userid(request):
+        request.response.status = '404 Not Found'
+        return {"error": "User has opted out."}
+
+    return _user_json_generator(request, user)
 
 @view_config(route_name='builder', renderer='builder.mak')
 def builder(request):
