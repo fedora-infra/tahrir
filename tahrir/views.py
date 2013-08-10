@@ -350,7 +350,7 @@ def leaderboard_json(request):
 
     # Get top persons.
     persons_assertions = request.db.get_all_assertions().join(m.Person).filter(
-        m.Person.opt_out == False)
+        m.Person.opt_out == False)[:25]
     from collections import defaultdict
     top_persons = defaultdict(int) # person: assertion count
     for item in persons_assertions:
