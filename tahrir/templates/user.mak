@@ -29,6 +29,9 @@
 				% endif
 					${user.website}</a></p>
 			% endif
+
+			<p>View user as: <a href="${request.route_url('user_json', id=user.nickname)}">
+								JSON</a></p>
 		</div>
 
 		% if logged_in == user.email:
