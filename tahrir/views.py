@@ -364,8 +364,7 @@ def explore(request):
                                     badge_query
                                     + '%')).all()
             for r in matching_results:
-                search_results[r.name] = request.route_url('badge',
-                        id=r.name.lower().replace(' ', '-'))
+                search_results[r.name] = request.route_url('badge', id=r.id)
         elif request.POST.get('person-search'):
             # person-query is a required field on the template form.
             person_query = request.POST.get('person-query')
