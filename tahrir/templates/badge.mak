@@ -52,9 +52,9 @@
 		<li><strong>${"{0:.1f}".format(percent_earned * 100)}%</strong>
 			of people have earned this badge.</li>
 		% if first_awarded and last_awarded:
-			<li><a href="${request.route_url('user', id=first_awarded_person.id)}">
-					First earned by
-					<strong>${first_awarded_person.nickname}</a></strong>
+			<li>First earned by
+				<strong><a href="${request.route_url('user', id=first_awarded_person.id)}">
+					${first_awarded_person.nickname}</a></strong>
 					on <strong>${first_awarded.issued_on.strftime("%Y-%m-%d")}
 					</strong>.</li>
 		<li>Last awarded to <strong>
