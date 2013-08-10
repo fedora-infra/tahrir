@@ -349,7 +349,8 @@ def leaderboard_json(request):
     """ Render a top-users JSON dump. """
 
     # Get top persons.
-    persons_assertions = request.db.get_all_assertions().join(m.Person)
+    persons_assertions = request.db.get_all_assertions().join(m.Person).filter(
+        m.Person.opt_out == False)
     from collections import defaultdict
     top_persons = defaultdict(int) # person: assertion count
     for item in persons_assertions:
