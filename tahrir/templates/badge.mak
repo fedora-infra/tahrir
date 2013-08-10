@@ -37,7 +37,7 @@
 		<h1 class="section-header">Badge Statistics</h1>
 		<div class="padded-content">
 		<ul class="pretty-list">
-		<li>This badge was created on
+		<li>Created on
 			<strong>${badge.created_on.strftime("%Y-%m-%d")}</strong>.</li>
 		% if times_awarded == 0:
 		<li>This badge has <strong>never been awarded!</strong>
@@ -53,11 +53,11 @@
 			of people have earned this badge.</li>
 		% if first_awarded and last_awarded:
 			<li><a href="${request.route_url('user', id=first_awarded_person.id)}">
+					First earned by
 					<strong>${first_awarded_person.nickname}</a></strong>
-					was the first to earn this badge,
 					on <strong>${first_awarded.issued_on.strftime("%Y-%m-%d")}
 					</strong>.</li>
-		<li>This badge was last awarded to <strong>
+		<li>Last awarded to <strong>
 			<a href="${request.route_url('user', id=last_awarded_person.id)}">
 				${last_awarded_person.nickname}</a></strong>
 				on <strong>${last_awarded.issued_on.strftime("%Y-%m-%d")}
