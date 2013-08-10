@@ -37,12 +37,12 @@
 		<h1 class="section-header">Badge Statistics</h1>
 		<div class="padded-content">
 		<ul class="pretty-list">
-		<li>The ${badge.name} badge was created on
+		<li>This badge was created on
 			<strong>${badge.created_on.strftime("%Y-%m-%d")}</strong>.</li>
 		% if times_awarded == 0:
-		<li>${badge.name} has <strong>never been awarded!</strong>
+		<li>This badge has <strong>never been awarded!</strong>
 		% else:
-		<li>${badge.name} has been awarded <strong>${times_awarded}</strong>
+		<li>Awarded <strong>${times_awarded}</strong>
 			% if times_awarded != 1:
 				times.
 			% else:
