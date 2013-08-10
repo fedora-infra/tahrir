@@ -46,6 +46,21 @@ try:
 except ImportError:
     pass
 
+def _get_user(request, id_or_nickname):
+    '''Attempt to get a user by their id or nickname, returning None if
+       we fail.'''
+    user = request.db.get_person(nickname=id_or_nickname)
+
+    if user:
+        return user
+    else:
+        try:
+            # We cast user_id to an integer so that Postgres doesn't
+            # get upset about comparing what is potentially a string
+            # to an integer column.
+            return request.db.get_person(id=int(id_or_nickname))
+        except TypeError:
+            return None
 
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
@@ -345,8 +360,11 @@ def leaderboard(request):
             )
 
 @view_config(route_name='leaderboard_json', renderer='json')
+@view_config(route_name='rank_json', renderer='json')
 def leaderboard_json(request):
     """ Render a top-users JSON dump. """
+
+    user = _get_user(request, request.matchdict.get('id'))
 
     # Get top persons.
     persons_assertions = request.db.get_all_assertions().join(m.Person).filter(
@@ -362,13 +380,29 @@ def leaderboard_json(request):
                                 key=top_persons.get,
                                 reverse=True)
 
-    # Get total user count.
-    user_count = len(top_persons)
+    if user:
+        idx = top_persons_sorted.index(user)
+        top_persons_sorted = top_persons_sorted[(idx - 2):(idx + 2)]
+        rank = idx
+    else:
+        rank = None
 
-    return dict(
+    # Get total user count.
+    user_count = len(top_persons_sorted)
+
+    ret = dict(
         top_persons_sorted=[_user_json_generator(request, user) for user in top_persons_sorted],
         user_count=user_count,
     )
+
+    # Rather than sending `rank: null` when we're showing the global
+    # leaderboard (as opposed to a user's rank), just omit the field.
+    # But if the field exists, it means we looked up (and found) a user, and we
+    # can include it in the result.
+    if rank:
+        ret['rank'] = rank
+
+    return ret
 
 @view_config(route_name='explore', renderer='explore.mak')
 def explore(request):
@@ -598,23 +632,8 @@ def user(request):
     else:
         awarded_assertions = None
 
-    # So, here they can use their 'id' or their 'nickname'.
-    # We'll try nickname first since we want to encourage that (or whatever)
-    # and fall back to id if that fails.  If both fail, raise a 404.
-    user_id = request.matchdict.get('id')
+    user = _get_user(request, request.matchdict.get('id'))
 
-    user = request.db.get_person(nickname=user_id)
-
-    if not user:
-        try:
-            # We cast user_id to an integer so that Postgres doesn't
-            # get upset about comparing what is potentially a string
-            # to an integer column.
-            user = request.db.get_person(id=int(user_id))
-        except TypeError:
-            raise HTTPNotFound("No such user %r" % user_id)
-
-    # If we still haven't found anything, just give up.
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
 
@@ -712,21 +731,8 @@ def user_json(request):
     # So, here they can use their 'id' or their 'nickname'.
     # We'll try nickname first since we want to encourage that (or whatever)
     # and fall back to id if that fails.  If both fail, raise a 404.
-    user_id = request.matchdict.get('id')
+    user = _get_user(request, request.matchdict.get('id'))
 
-    user = request.db.get_person(nickname=user_id)
-
-    if not user:
-        try:
-            # We cast user_id to an integer so that Postgres doesn't
-            # get upset about comparing what is potentially a string
-            # to an integer column.
-            user = request.db.get_person(id=int(user_id))
-        except TypeError:
-            request.response.status = '404 Not Found'
-            return {"error": "No such user exists."}
-
-    # If we still haven't found anything, just give up.
     if not user:
         request.response.status = '404 Not Found'
         return {"error": "No such user exists."}
