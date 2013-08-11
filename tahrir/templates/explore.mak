@@ -22,6 +22,11 @@
 	<div class="grid-50">
 		<div class="shadow">
 		<h1 class="section-header">Explore Badges</h1>
+		<p style="margin-left: 20px;">
+		Visit the <a href="${request.route_url('explore_badges')}">badge index</a>
+		to see a <strong>every badge</strong>,
+		as well as the <strong>newest badges</strong>.</p>
+		<div class="clear"></div>
 		<div class="padded-content">
 		<h2>Random Badges</h2>
 		% for badge in random_badges:
