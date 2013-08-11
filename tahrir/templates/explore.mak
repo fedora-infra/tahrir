@@ -21,7 +21,7 @@
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-50">
 		<div class="shadow">
-		<h1 class="section-header">Explore Badges</h2>
+		<h1 class="section-header">Explore Badges</h1>
 		<div class="padded-content">
 		<h2>Random Badges</h2>
 		% for badge in random_badges:
@@ -46,7 +46,7 @@
 
 	<div class="grid-50">
 		<div class="shadow">
-		<h1 class="section-header">Explore People</h2>
+		<h1 class="section-header">Explore People</h1>
 		<div class="padded-content">
 		<h2>Random People</h2>
 		% for person in random_persons:
@@ -73,7 +73,7 @@
 	
 	<div class="grid-50">
 		<div class="shadow">
-		<h1 class="section-header">Explore Tags</h2>
+		<h1 class="section-header">Explore Tags</h1>
 		<div class="padded-content">
 		<h2>View Tags</h2>
 		<form method="POST">
