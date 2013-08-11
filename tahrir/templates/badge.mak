@@ -37,12 +37,12 @@
 		<h1 class="section-header">Badge Statistics</h1>
 		<div class="padded-content">
 		<ul class="pretty-list">
-		<li>The ${badge.name} badge was created on
+		<li>Created on
 			<strong>${badge.created_on.strftime("%Y-%m-%d")}</strong>.</li>
 		% if times_awarded == 0:
-		<li>${badge.name} has <strong>never been awarded!</strong>
+		<li>This badge has <strong>never been awarded!</strong>
 		% else:
-		<li>${badge.name} has been awarded <strong>${times_awarded}</strong>
+		<li>Awarded <strong>${times_awarded}</strong>
 			% if times_awarded != 1:
 				times.
 			% else:
@@ -52,12 +52,12 @@
 		<li><strong>${"{0:.1f}".format(percent_earned * 100)}%</strong>
 			of people have earned this badge.</li>
 		% if first_awarded and last_awarded:
-			<li><a href="${request.route_url('user', id=first_awarded_person.id)}">
-					<strong>${first_awarded_person.nickname}</a></strong>
-					was the first to earn this badge,
+			<li>First earned by
+				<strong><a href="${request.route_url('user', id=first_awarded_person.id)}">
+					${first_awarded_person.nickname}</a></strong>
 					on <strong>${first_awarded.issued_on.strftime("%Y-%m-%d")}
 					</strong>.</li>
-		<li>This badge was last awarded to <strong>
+		<li>Last awarded to <strong>
 			<a href="${request.route_url('user', id=last_awarded_person.id)}">
 				${last_awarded_person.nickname}</a></strong>
 				on <strong>${last_awarded.issued_on.strftime("%Y-%m-%d")}

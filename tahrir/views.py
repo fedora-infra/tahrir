@@ -46,6 +46,21 @@ try:
 except ImportError:
     pass
 
+def _get_user(request, id_or_nickname):
+    '''Attempt to get a user by their id or nickname, returning None if
+       we fail.'''
+    user = request.db.get_person(nickname=id_or_nickname)
+
+    if user:
+        return user
+    else:
+        try:
+            # We cast user_id to an integer so that Postgres doesn't
+            # get upset about comparing what is potentially a string
+            # to an integer column.
+            return request.db.get_person(id=int(id_or_nickname))
+        except TypeError:
+            return None
 
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
@@ -293,7 +308,8 @@ def leaderboard(request):
         awarded_assertions = None
 
     # Get top persons.
-    persons_assertions = request.db.get_all_assertions().join(m.Person)
+    persons_assertions = request.db.get_all_assertions().join(m.Person).filter(
+        m.Person.opt_out == False)
     from collections import defaultdict
     top_persons = defaultdict(int) # person: assertion count
     for item in persons_assertions:
@@ -343,6 +359,50 @@ def leaderboard(request):
             competitors=competitors,
             )
 
+@view_config(route_name='leaderboard_json', renderer='json')
+@view_config(route_name='rank_json', renderer='json')
+def leaderboard_json(request):
+    """ Render a top-users JSON dump. """
+
+    user = _get_user(request, request.matchdict.get('id'))
+
+    # Get top persons.
+    persons_assertions = request.db.get_all_assertions().join(m.Person).filter(
+        m.Person.opt_out == False)[:25]
+    from collections import defaultdict
+    top_persons = defaultdict(int) # person: assertion count
+    for item in persons_assertions:
+        top_persons[item.person] += 1
+
+    # top_persons and top_persons_sorted contain all persons, ordered
+    top_persons_sorted = sorted(sorted(top_persons,
+                                key=lambda person: person.id),
+                                key=top_persons.get,
+                                reverse=True)
+
+    if user:
+        idx = top_persons_sorted.index(user)
+        top_persons_sorted = top_persons_sorted[(idx - 2):(idx + 2)]
+        rank = idx
+    else:
+        rank = None
+
+    # Get total user count.
+    user_count = len(top_persons_sorted)
+
+    ret = dict(
+        top_persons_sorted=[_user_json_generator(request, user) for user in top_persons_sorted],
+        user_count=user_count,
+    )
+
+    # Rather than sending `rank: null` when we're showing the global
+    # leaderboard (as opposed to a user's rank), just omit the field.
+    # But if the field exists, it means we looked up (and found) a user, and we
+    # can include it in the result.
+    if rank:
+        ret['rank'] = rank
+
+    return ret
 
 @view_config(route_name='explore', renderer='explore.mak')
 def explore(request):
@@ -355,17 +415,16 @@ def explore(request):
             # badge-query is a required field on the template form.
             badge_query = request.POST.get('badge-query')
             matching_results = request.db.get_all_badges().filter(
-                    sa.func.lower((m.Badge.name.like('%' + badge_query
-                                    + '%'))) |
-                    sa.func.lower((m.Badge.description.like('%' +
+                    sa.func.lower(m.Badge.name).like('%' + badge_query
+                                    + '%') |
+                    sa.func.lower(m.Badge.description).like('%' +
                                     badge_query +
-                                    '%'))) |
-                    sa.func.lower((m.Badge.tags.like('%' +
+                                    '%') |
+                    sa.func.lower(m.Badge.tags).like('%' +
                                     badge_query
-                                    + '%')))).all()
+                                    + '%')).all()
             for r in matching_results:
-                search_results[r.name] = request.route_url('badge',
-                        id=r.name.lower().replace(' ', '-'))
+                search_results[r.name] = request.route_url('badge', id=r.id)
         elif request.POST.get('person-search'):
             # person-query is a required field on the template form.
             person_query = request.POST.get('person-query')
@@ -573,23 +632,8 @@ def user(request):
     else:
         awarded_assertions = None
 
-    # So, here they can use their 'id' or their 'nickname'.
-    # We'll try nickname first since we want to encourage that (or whatever)
-    # and fall back to id if that fails.  If both fail, raise a 404.
-    user_id = request.matchdict.get('id')
+    user = _get_user(request, request.matchdict.get('id'))
 
-    user = request.db.get_person(nickname=user_id)
-
-    if not user:
-        try:
-            # We cast user_id to an integer so that Postgres doesn't
-            # get upset about comparing what is potentially a string
-            # to an integer column.
-            user = request.db.get_person(id=int(user_id))
-        except TypeError:
-            raise HTTPNotFound("No such user %r" % user_id)
-
-    # If we still haven't found anything, just give up.
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
 
@@ -646,37 +690,7 @@ def user(request):
             allow_changenick=allow_changenick,
             )
 
-
-@view_config(route_name='user_json', renderer='json')
-def user_json(request):
-    """Render user info JSON dump."""
-
-    # So, here they can use their 'id' or their 'nickname'.
-    # We'll try nickname first since we want to encourage that (or whatever)
-    # and fall back to id if that fails.  If both fail, raise a 404.
-    user_id = request.matchdict.get('id')
-
-    user = request.db.get_person(nickname=user_id)
-
-    if not user:
-        try:
-            # We cast user_id to an integer so that Postgres doesn't
-            # get upset about comparing what is potentially a string
-            # to an integer column.
-            user = request.db.get_person(id=int(user_id))
-        except TypeError:
-            request.response.status = '404 Not Found'
-            return {"error": "No such user exists."}
-
-    # If we still haven't found anything, just give up.
-    if not user:
-        request.response.status = '404 Not Found'
-        return {"error": "No such user exists."}
-
-    if user.opt_out == True and user.email != authenticated_userid(request):
-        request.response.status = '404 Not Found'
-        return {"error": "User has opted out."}
-
+def _user_json_generator(request, user):
     awarded_assertions = request.db.get_assertions_by_email(user.email)
 
     # Get user badges.
@@ -709,6 +723,25 @@ def user_json(request):
         'percent_earned': percent_earned,
         'assertions': assertions
     }
+
+@view_config(route_name='user_json', renderer='json')
+def user_json(request):
+    """Render user info JSON dump."""
+
+    # So, here they can use their 'id' or their 'nickname'.
+    # We'll try nickname first since we want to encourage that (or whatever)
+    # and fall back to id if that fails.  If both fail, raise a 404.
+    user = _get_user(request, request.matchdict.get('id'))
+
+    if not user:
+        request.response.status = '404 Not Found'
+        return {"error": "No such user exists."}
+
+    if user.opt_out == True and user.email != authenticated_userid(request):
+        request.response.status = '404 Not Found'
+        return {"error": "User has opted out."}
+
+    return _user_json_generator(request, user)
 
 @view_config(route_name='builder', renderer='builder.mak')
 def builder(request):
