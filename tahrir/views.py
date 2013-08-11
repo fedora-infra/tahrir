@@ -481,7 +481,11 @@ def explore(request):
 @view_config(route_name='explore_badges', renderer='explore_badges.mak')
 def explore_badges(request):
 
-    all_badges = request.db.get_all_badges.all()
+    all_badges = request.db.get_all_badges().all()
+
+    newest_badges = sorted(request.db.get_all_badges().all(),
+                           key=lambda badge: badge.created_on,
+                           reverse=True)[:10]
 
     # Get awarded assertions.
     if authenticated_userid(request):
@@ -492,6 +496,7 @@ def explore_badges(request):
 
     return dict(
             all_badges=all_badges,
+            newest_badges=newest_badges,
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
             )

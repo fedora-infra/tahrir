@@ -20,7 +20,7 @@
 		<h1 class="section-header">Newest Badges</h1>
 		<div class="padded-content">
 		% for badge in newest_badges:
-			${self.functions.avatar_thumbnail(person, 64, 15)}
+			${self.functions.badge_thumbnail(badge, 64, 15)}
 		% endfor
 		</div> <!-- End padded content -->
 		</div> <!-- End shadow. -->
