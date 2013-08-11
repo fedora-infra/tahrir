@@ -1,16 +1,23 @@
 <%inherit file="master.mak"/>
 <div class="page">
 
-	% if len(search_results) > 0:
+	% if search_query:
 		<div class="grid-100">
 		<div class="shadow">
 		<h1 class="section-header">Search Results</h1>
 		<div class="padded-content">
-		<ul class="pretty-list">
-		% for r in search_results:
-			<li><a href="${search_results[r]}">${r}</a></li>
-		% endfor
-		</ul>
+		% if len(search_results) > 0:
+			<p>Your search for <strong>${search_query}</strong>
+				returned the following results:</p>
+			<ul class="pretty-list">
+			% for r in search_results:
+				<li><a href="${search_results[r]}">${r}</a></li>
+			% endfor
+			</ul>
+		% else:
+			<p>Your search for <strong>${search_query}</strong>
+				returned no results.</p>
+		% endif
 		</div> <!-- End padded-content. -->
 		</div> <!-- End shadow. -->
 		</div> <!-- End grid-100. -->

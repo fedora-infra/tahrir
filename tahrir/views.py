@@ -409,29 +409,30 @@ def explore(request):
 
     # Check if a search has been done, and if so, show
     # search results.
+    search_query = None
     search_results = dict() # name: link
     if request.POST:
         if request.POST.get('badge-search'):
             # badge-query is a required field on the template form.
-            badge_query = request.POST.get('badge-query')
+            search_query = request.POST.get('badge-query')
             matching_results = request.db.get_all_badges().filter(
-                    sa.func.lower(m.Badge.name).like('%' + badge_query
+                    sa.func.lower(m.Badge.name).like('%' + search_query
                                     + '%') |
                     sa.func.lower(m.Badge.description).like('%' +
-                                    badge_query +
+                                    search_query +
                                     '%') |
                     sa.func.lower(m.Badge.tags).like('%' +
-                                    badge_query
+                                    search_query
                                     + '%')).all()
             for r in matching_results:
                 search_results[r.name] = request.route_url('badge', id=r.id)
         elif request.POST.get('person-search'):
             # person-query is a required field on the template form.
-            person_query = request.POST.get('person-query')
+            search_query = request.POST.get('person-query')
             matching_results = request.db.get_all_persons().filter(
-                    ((m.Person.nickname.like('%' + person_query
+                    ((m.Person.nickname.like('%' + search_query
                             + '%')) |
-                    (m.Person.bio.like('%' + person_query
+                    (m.Person.bio.like('%' + search_query
                             + '%'))) &
                     (m.Person.opt_out == False)).all()
             for r in matching_results:
@@ -439,13 +440,13 @@ def explore(request):
                         'user', id=r.nickname)
         elif request.POST.get('tag-search'):
             # tag-query is a required field on the template form.
-            tag_query = request.POST.get('tag-query')
+            search_query = request.POST.get('tag-query')
             if request.POST.get('tag-match-all'):
                 return HTTPFound(location=request.route_url(
-                                 'tags', tags=tag_query, match='all'))
+                                 'tags', tags=search_query, match='all'))
             else:
                 return HTTPFound(location=request.route_url(
-                                 'tags', tags=tag_query, match='any'))
+                                 'tags', tags=search_query, match='any'))
 
 
     # Get awarded assertions.
@@ -475,6 +476,7 @@ def explore(request):
             random_badges=random_badges,
             random_persons=random_persons,
             search_results=search_results,
+            search_query=search_query,
             )
 
 
