@@ -485,7 +485,7 @@ def explore_badges(request):
 
     newest_badges = sorted(request.db.get_all_badges().all(),
                            key=lambda badge: badge.created_on,
-                           reverse=True)[:10]
+                           reverse=True)[:20]
 
     # Get awarded assertions.
     if authenticated_userid(request):
