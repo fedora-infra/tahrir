@@ -478,6 +478,24 @@ def explore(request):
             )
 
 
+@view_config(route_name='explore_badges', renderer='explore_badges.mak')
+def explore_badges(request):
+
+    all_badges = request.db.get_all_badges.all()
+
+    # Get awarded assertions.
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                authenticated_userid(request))
+    else:
+        awarded_assertions = None
+
+    return dict(
+            all_badges=all_badges,
+            auth_principals=effective_principals(request),
+            awarded_assertions=awarded_assertions,
+            )
+
 @view_config(route_name='badge', renderer='badge.mak')
 def badge(request):
     """Render badge info page."""
