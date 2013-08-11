@@ -45,11 +45,11 @@
 			% endif
 
 			% if awarded_assertions:
-			  <a href="javascript:claim_badges();">
-				  <div class="pretty-button">
+			  <button class="pretty-button" onClick="javascript:claim_badges();">
+
 					  Export Badges
-				  </div>
-			  </a>
+
+			  </button>
 			% endif
 
             <form method="POST" action="https://www.libravatar.org/openid/login/">
