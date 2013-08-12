@@ -368,9 +368,25 @@ def leaderboard_json(request):
 
     user = _get_user(request, request.matchdict.get('id'))
 
-    # Get top persons.
-    persons_assertions = request.db.get_all_assertions().options(
-        joinedload('person')).filter(m.Person.opt_out == False)[:25]
+    # TODO: We should prefer to always do the lazy load. Unfortunately, we
+    # don't know the rank of the person immediately, which means we have to
+    # do some querying up front to find that out.
+    #
+    # Ideally, this would look something like: if user, do everything,
+    # including lazy load, but filter the query properly, so we only try to
+    # obtain the results we care about (rank-2 -> rank+2). For now, we
+    # keep this occurance of the N+1 problem because it's quicker than pulling
+    # the ENTIRE user's table in and only using 4 results. This creates 5
+    # queries instead of an ideal 1.
+    #
+    # In the case of a user *not* being passed, we can just limit to 25
+    # results and avoid this issue -- and only issue 1 query.
+    if user:
+        persons_assertions = request.db.get_all_assertions().filter(
+            m.Person.opt_out == False)
+    else:
+        persons_assertions = request.db.get_all_assertions().options(
+            joinedload('person')).filter(m.Person.opt_out == False)[:25]
 
     from collections import defaultdict
     top_persons = defaultdict(int) # person: assertion count
