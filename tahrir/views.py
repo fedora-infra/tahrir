@@ -365,6 +365,7 @@ def leaderboard(request):
 @view_config(route_name='rank_json', renderer='json')
 def leaderboard_json(request):
     """ Render a top-users JSON dump. """
+
     user = _get_user(request, request.matchdict.get('id'))
 
     # TODO: We should prefer to always do the lazy load. Unfortunately, we
@@ -559,12 +560,17 @@ def badge(request):
 
         percent_earned = float(times_awarded) / \
                          float(len(request.db.get_all_persons().all()))
+
+        # This is a list of assertions for this badge.
+        badge_assertions = request.db.get_all_assertions().filter(
+                m.Assertion.badge_id == badge.id).all()
     except sa.orm.exc.NoResultFound: # This badge has never been awarded.
         times_awarded = 0
         last_awarded = None
         last_awarded_person = None
         first_awarded = None
         first_awarded_person = None
+        badge_assertions = None
         percent_earned = 0
     # Percent of people who have earned this badge
 
@@ -583,6 +589,7 @@ def badge(request):
             last_awarded_person=last_awarded_person,
             first_awarded=first_awarded,
             first_awarded_person=first_awarded_person,
+            badge_assertions=badge_assertions,
             percent_earned=percent_earned,
             )
 
@@ -723,6 +730,27 @@ def user(request):
     invitations = [i for i in request.db.get_invitations(user.id)\
                    if i.expires_on > datetime.now()]
 
+    # Get rank. (same code found in leaderboard view function)
+    persons_assertions = request.db.get_all_assertions().join(m.Person).filter(
+        m.Person.opt_out == False)
+    from collections import defaultdict
+    top_persons = defaultdict(int) # person: assertion count
+    for item in persons_assertions:
+        top_persons[item.person] += 1
+    top_persons_sorted = sorted(sorted(top_persons,
+                                key=lambda person: person.id),
+                                key=top_persons.get,
+                                reverse=True)
+    user_count = len(top_persons)
+    try:
+        rank = top_persons_sorted.index(user) + 1
+    except ValueError:
+        rank = 0
+    try:
+        percentile = (float(rank) / float(user_count)) * 100
+    except ZeroDivisionError:
+        percentile = 0
+
     return dict(
             user=user,
             user_badges=user_badges,
@@ -731,6 +759,9 @@ def user(request):
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
             allow_changenick=allow_changenick,
+            rank=rank,
+            percentile=percentile,
+            user_count=user_count,
             )
 
 def _user_json_generator(request, user):

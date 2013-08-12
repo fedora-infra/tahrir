@@ -9,7 +9,7 @@
         ${self.functions.avatar_thumbnail(user, 'responsive', 100)}
 
 		<p class="name">${user.nickname}</p>
-		
+
 		% if user.bio:
 			<p class="description">${user.bio}</p>
 		% endif
@@ -18,6 +18,13 @@
 			<p>Arrived on ${user.created_on.strftime('%Y-%m-%d')}.</p>
 			% if user.email == logged_in:
 				<p>Email: ${user.email}</p>
+			% endif
+
+			% if rank != 0:
+				<p>Ranked ${rank} out of ${user_count} ranked users
+					(top ${percentile}%).</p>
+			% else:
+				<p>Not ranked yet.</p>
 			% endif
 
 			% if user.website:
