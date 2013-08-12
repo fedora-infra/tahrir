@@ -39,6 +39,8 @@ import widgets
 
 from moksha.wsgi.widgets.api import get_moksha_socket, LiveWidget
 
+from sqlalchemy.orm import joinedload
+
 # Optional.  Emit messages to the fedmsg bus.
 fedmsg = None
 try:
@@ -367,8 +369,9 @@ def leaderboard_json(request):
     user = _get_user(request, request.matchdict.get('id'))
 
     # Get top persons.
-    persons_assertions = request.db.get_all_assertions().join(m.Person).filter(
-        m.Person.opt_out == False)[:25]
+    persons_assertions = request.db.get_all_assertions().options(
+        joinedload('person')).filter(m.Person.opt_out == False)[:25]
+
     from collections import defaultdict
     top_persons = defaultdict(int) # person: assertion count
     for item in persons_assertions:
