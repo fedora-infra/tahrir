@@ -757,6 +757,49 @@ def user(request):
             )
 
 
+@view_config(route_name='user_edit', renderer='user_edit.mak')
+def user_edit(request):
+    """Render user edit page."""
+
+    # Grab a boolean out of the config
+    settings = request.registry.settings
+    allow_changenick = asbool(settings.get('tahrir.allow_changenick', True))
+
+    # Get awarded assertions.
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                authenticated_userid(request))
+    else:
+        awarded_assertions = None
+
+    user = _get_user(request, request.matchdict.get('id'))
+
+    if request.POST:
+
+        # Authz check
+        if authenticated_userid(request) != user.email:
+            raise HTTPForbidden("Unauthorized")
+
+        person = request.db.get_all_persons().filter_by(
+                    email=authenticated_userid(request)).one()
+
+        if request.POST.get('change-nickname') and allow_changenick:
+            new_nick = request.POST.get('new-nickname')
+            person.nickname = new_nick
+            return HTTPFound(location=request.route_url('user', id=new_nick))
+        elif request.POST.get('deactivate-account'):
+            person.opt_out = True
+        elif request.POST.get('reactivate-account'):
+            person.opt_out = False
+
+    return dict(
+            user=user,
+            auth_principals=effective_principals(request),
+            awarded_assertions=awarded_assertions,
+            allow_changenick=allow_changenick,
+            )
+
+
 def _user_json_generator(request, user):
     awarded_assertions = request.db.get_assertions_by_email(user.email)
 
