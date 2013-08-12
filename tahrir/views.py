@@ -48,6 +48,7 @@ try:
 except ImportError:
     pass
 
+
 def _get_user(request, id_or_nickname):
     '''Attempt to get a user by their id or nickname, returning None if
        we fail.'''
@@ -63,6 +64,7 @@ def _get_user(request, id_or_nickname):
             return request.db.get_person(id=int(id_or_nickname))
         except TypeError:
             return None
+
 
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
@@ -361,6 +363,7 @@ def leaderboard(request):
             competitors=competitors,
             )
 
+
 @view_config(route_name='leaderboard_json', renderer='json')
 @view_config(route_name='rank_json', renderer='json')
 def leaderboard_json(request):
@@ -394,7 +397,8 @@ def leaderboard_json(request):
     user_count = len(top_persons_sorted)
 
     ret = dict(
-        top_persons_sorted=[_user_json_generator(request, user) for user in top_persons_sorted],
+        top_persons_sorted=[_user_json_generator(request, user) \
+                for user in top_persons_sorted],
         user_count=user_count,
     )
 
@@ -406,6 +410,7 @@ def leaderboard_json(request):
         ret['rank'] = rank
 
     return ret
+
 
 @view_config(route_name='explore', renderer='explore.mak')
 def explore(request):
@@ -506,6 +511,7 @@ def explore_badges(request):
             awarded_assertions=awarded_assertions,
             )
 
+
 @view_config(route_name='badge', renderer='badge.mak')
 def badge(request):
     """Render badge info page."""
@@ -577,6 +583,7 @@ def badge(request):
             percent_earned=percent_earned,
             )
 
+
 def _badge_json_generator(request, badge_id, badge):
     try:
         times_awarded = len(request.db.get_assertions_by_badge(badge_id))
@@ -633,8 +640,9 @@ def _badge_json_generator(request, badge_id, badge):
         'first_awarded': first_awarded,
         'first_awarded_person': first_awarded_person,
         'percent_earned': percent_earned,
-        'image': badge.image
+        'image': badge.image,
     }
+
 
 @view_config(route_name='badge_json', renderer='json')
 def badge_json(request):
@@ -748,6 +756,7 @@ def user(request):
             user_count=user_count,
             )
 
+
 def _user_json_generator(request, user):
     awarded_assertions = request.db.get_assertions_by_email(user.email)
 
@@ -772,15 +781,19 @@ def _user_json_generator(request, user):
     for assertion in awarded_assertions:
         assertions.append(
             dict(
-                {'issued': float(assertion.issued_on.strftime('%s'))}.items() + \
-                _badge_json_generator(request, assertion.badge.id, assertion.badge).items()))
+                {'issued': float(assertion.issued_on.strftime(
+                                    '%s'))}.items() + \
+                _badge_json_generator(request,
+                                        assertion.badge.id,
+                                        assertion.badge).items()))
 
     return {
         'user': user.nickname,
         'avatar': user.avatar_url(int(request.GET.get('size', 100))),
         'percent_earned': percent_earned,
-        'assertions': assertions
+        'assertions': assertions,
     }
+
 
 @view_config(route_name='user_json', renderer='json')
 def user_json(request):
@@ -800,6 +813,7 @@ def user_json(request):
         return {"error": "User has opted out."}
 
     return _user_json_generator(request, user)
+
 
 @view_config(route_name='builder', renderer='builder.mak')
 def builder(request):
@@ -923,7 +937,6 @@ def login_complete_view(request):
 def login_denied_view(request):
     # HAAACK -- if login fails, just try again.
     return HTTPFound(location=request.route_url('login'))
-
 
 
 @view_config(route_name='logout')
