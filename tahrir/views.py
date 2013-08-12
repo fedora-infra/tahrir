@@ -40,6 +40,7 @@ import widgets
 from moksha.wsgi.widgets.api import get_moksha_socket, LiveWidget
 
 from sqlalchemy.orm import joinedload
+from sqlalchemy.sql.expression import func
 
 # Optional.  Emit messages to the fedmsg bus.
 fedmsg = None
@@ -368,58 +369,36 @@ def leaderboard_json(request):
 
     user = _get_user(request, request.matchdict.get('id'))
 
-    # TODO: We should prefer to always do the lazy load. Unfortunately, we
-    # don't know the rank of the person immediately, which means we have to
-    # do some querying up front to find that out.
-    #
-    # Ideally, this would look something like: if user, do everything,
-    # including lazy load, but filter the query properly, so we only try to
-    # obtain the results we care about (rank-2 -> rank+2). For now, we
-    # keep this occurance of the N+1 problem because it's quicker than pulling
-    # the ENTIRE user's table in and only using 4 results. This creates 5
-    # queries instead of an ideal 1.
-    #
-    # In the case of a user *not* being passed, we can just limit to 25
-    # results and avoid this issue -- and only issue 1 query.
-    if user:
-        persons_assertions = request.db.get_all_assertions().join(
-            m.Person).filter(m.Person.opt_out == False)
-    else:
-        persons_assertions = request.db.get_all_assertions().join(
-            m.Person).filter(m.Person.opt_out == False)[:25]
+    leaderboard = request.db.session.query(m.Person, func.count(
+        m.Person.assertions)).join(m.Assertion).order_by(
+            'count_1 desc').filter(m.Person.opt_out == False).group_by(
+                m.Person.id).all()
 
-    from collections import defaultdict
-    top_persons = defaultdict(int) # person: assertion count
-    for item in persons_assertions:
-        top_persons[item.person] += 1
-
-    # top_persons and top_persons_sorted contain all persons, ordered
-    top_persons_sorted = sorted(sorted(top_persons,
-                                key=lambda person: person.id),
-                                key=top_persons.get,
-                                reverse=True)
-
-    if user:
-        idx = top_persons_sorted.index(user)
-        top_persons_sorted = top_persons_sorted[(idx - 2):(idx + 2)]
-        rank = idx
-    else:
-        rank = None
-
-    # Get total user count.
-    user_count = len(top_persons_sorted)
-
-    ret = dict(
-        top_persons_sorted=[_user_json_generator(request, user) for user in top_persons_sorted],
-        user_count=user_count,
+    # Hackishly, but relatively cheaply get the rank of all users.
+    user_to_rank = dict(
+        [
+            [
+                i[1][0],
+                {
+                    'badges': i[1][1],
+                    'rank': i[0] + 1
+                }
+            ] for i in enumerate(leaderboard)
+        ]
     )
 
-    # Rather than sending `rank: null` when we're showing the global
-    # leaderboard (as opposed to a user's rank), just omit the field.
-    # But if the field exists, it means we looked up (and found) a user, and we
-    # can include it in the result.
-    if rank:
-        ret['rank'] = rank
+    if user:
+        idx = [i[0] for i in leaderboard].index(user)
+        # Handle the case of leaderboard[-2:2] which will be [] always.
+        if idx < 2:
+            idx = 2
+        leaderboard = leaderboard[(idx - 2):(idx + 3)]
+    else:
+        leaderboard = leaderboard[:25]
+
+    ret = [
+        dict(user_to_rank[p[0]].items() + {'nickname': p[0].nickname}.items())
+        for p in leaderboard]
 
     return ret
 
