@@ -365,7 +365,6 @@ def leaderboard(request):
 @view_config(route_name='rank_json', renderer='json')
 def leaderboard_json(request):
     """ Render a top-users JSON dump. """
-
     user = _get_user(request, request.matchdict.get('id'))
 
     # TODO: We should prefer to always do the lazy load. Unfortunately, we
@@ -382,8 +381,8 @@ def leaderboard_json(request):
     # In the case of a user *not* being passed, we can just limit to 25
     # results and avoid this issue -- and only issue 1 query.
     if user:
-        persons_assertions = request.db.get_all_assertions().filter(
-            m.Person.opt_out == False)
+        persons_assertions = request.db.get_all_assertions().join(
+            m.Person).filter(m.Person.opt_out == False)
     else:
         persons_assertions = request.db.get_all_assertions().options(
             joinedload('person')).filter(m.Person.opt_out == False)[:25]
