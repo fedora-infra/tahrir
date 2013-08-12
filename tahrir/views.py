@@ -541,12 +541,17 @@ def badge(request):
 
         percent_earned = float(times_awarded) / \
                          float(len(request.db.get_all_persons().all()))
+
+        # This is a list of assertions for this badge.
+        badge_assertions = request.db.get_all_assertions().filter(
+                m.Assertion.badge_id == badge.id).all()
     except sa.orm.exc.NoResultFound: # This badge has never been awarded.
         times_awarded = 0
         last_awarded = None
         last_awarded_person = None
         first_awarded = None
         first_awarded_person = None
+        badge_assertions = None
         percent_earned = 0
     # Percent of people who have earned this badge
 
@@ -565,6 +570,7 @@ def badge(request):
             last_awarded_person=last_awarded_person,
             first_awarded=first_awarded,
             first_awarded_person=first_awarded_person,
+            badge_assertions=badge_assertions,
             percent_earned=percent_earned,
             )
 

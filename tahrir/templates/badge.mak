@@ -69,4 +69,31 @@
 	</div>
     
 	<div class="clear spacer"></div>
+	
+	<!-- Display linked names of all the people who have earned the badge. -->
+	<div class="grid-100">
+		<div class="shadow">
+		<h1 class="section-header">Badge Holders</h1>
+		<div class="padded-content">
+			% if badge_assertions:
+				<p>
+				% for assertion in badge_assertions:
+					<%
+						person = request.db.get_person(id=assertion.person_id)
+					%>
+					<a href=${request.route_url('user', id=person.nickname)}>
+					${request.db.get_person(nickname=person.nickname).nickname}</a>
+					% if badge_assertions.index(assertion) + 1 != len(badge_assertions):
+					,
+					% endif
+				% endfor
+				</p>
+			% else:
+				<p>No one has earned this badge yet!</p>
+			% endif
+		</div> <!-- End padded content. -->
+		</div> <!-- End shadow. -->
+	</div>
+    
+	<div class="clear spacer"></div>
 </div>
