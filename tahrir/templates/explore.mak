@@ -1,16 +1,23 @@
 <%inherit file="master.mak"/>
 <div class="page">
 
-	% if len(search_results) > 0:
+	% if search_query:
 		<div class="grid-100">
 		<div class="shadow">
 		<h1 class="section-header">Search Results</h1>
 		<div class="padded-content">
-		<ul class="pretty-list">
-		% for r in search_results:
-			<li><a href="${search_results[r]}">${r}</a></li>
-		% endfor
-		</ul>
+		% if len(search_results) > 0:
+			<p>Your search for <strong>${search_query}</strong>
+				returned the following results:</p>
+			<ul class="pretty-list">
+			% for r in search_results:
+				<li><a href="${search_results[r]}">${r}</a></li>
+			% endfor
+			</ul>
+		% else:
+			<p>Your search for <strong>${search_query}</strong>
+				returned no results.</p>
+		% endif
 		</div> <!-- End padded-content. -->
 		</div> <!-- End shadow. -->
 		</div> <!-- End grid-100. -->
@@ -21,7 +28,12 @@
 	<!-- COLUMN 1 (Left)-->
 	<div class="grid-50">
 		<div class="shadow">
-		<h1 class="section-header">Explore Badges</h2>
+		<h1 class="section-header">Explore Badges</h1>
+		<p style="margin-left: 20px;">
+		Visit the <a href="${request.route_url('explore_badges')}">badge index</a>
+		to see a <strong>every badge</strong>,
+		as well as the <strong>newest badges</strong>.</p>
+		<div class="clear"></div>
 		<div class="padded-content">
 		<h2>Random Badges</h2>
 		% for badge in random_badges:
@@ -46,7 +58,7 @@
 
 	<div class="grid-50">
 		<div class="shadow">
-		<h1 class="section-header">Explore People</h2>
+		<h1 class="section-header">Explore People</h1>
 		<div class="padded-content">
 		<h2>Random People</h2>
 		% for person in random_persons:
@@ -73,7 +85,7 @@
 	
 	<div class="grid-50">
 		<div class="shadow">
-		<h1 class="section-header">Explore Tags</h2>
+		<h1 class="section-header">Explore Tags</h1>
 		<div class="padded-content">
 		<h2>View Tags</h2>
 		<form method="POST">
