@@ -39,6 +39,9 @@ import widgets
 
 from moksha.wsgi.widgets.api import get_moksha_socket, LiveWidget
 
+from sqlalchemy.orm import joinedload
+from sqlalchemy.sql.expression import func
+
 # Optional.  Emit messages to the fedmsg bus.
 fedmsg = None
 try:
@@ -59,7 +62,7 @@ def _get_user(request, id_or_nickname):
             # get upset about comparing what is potentially a string
             # to an integer column.
             return request.db.get_person(id=int(id_or_nickname))
-        except TypeError:
+        except ValueError:
             return None
 
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
@@ -307,41 +310,50 @@ def leaderboard(request):
     else:
         awarded_assertions = None
 
-    # Get top persons.
-    persons_assertions = request.db.get_all_assertions().join(m.Person).filter(
-        m.Person.opt_out == False)
-    from collections import defaultdict
-    top_persons = defaultdict(int) # person: assertion count
-    for item in persons_assertions:
-        top_persons[item.person] += 1
+    leaderboard = request.db.session.query(m.Person, func.count(
+        m.Person.assertions)).join(m.Assertion).order_by(
+            'count_1 desc').filter(m.Person.opt_out == False).group_by(
+                m.Person.id).all()
 
-    # top_persons and top_persons_sorted contain all persons, ordered
-    top_persons_sorted = sorted(sorted(top_persons,
-                                key=lambda person: person.id),
-                                key=top_persons.get,
-                                reverse=True)
+    # Hackishly, but relatively cheaply get the rank of all users.
+    # This is:
+    # { <person object>:
+    #   {
+    #     'badges': <number of badges they have>,
+    #     'rank': <their global rank>
+    #   }
+    # }
+    user_to_rank = dict(
+        [
+            [
+                data[0],
+                {
+                    'badges': data[1],
+                    'rank': idx + 1
+                }
+            ] for idx, data in enumerate(leaderboard)
+        ]
+    )
 
     # Get total user count.
-    user_count = len(top_persons)
+    user_count = len(leaderboard)
 
     if authenticated_userid(request):
+        user = request.db.get_person(
+            person_email=authenticated_userid(request))
+
         # Get rank.
+        idx = [i[0] for i in leaderboard].index(user)
+        rank = idx + 1
+        # Handle the case of leaderboard[-2:2] which will be [] always.
+        if idx < 2:
+            idx = 2
+        competitors = [c[0] for c in leaderboard[(idx - 2):(idx + 3)]]
+
         try:
-            rank = top_persons_sorted.index(request.db.get_person(
-                                person_email=authenticated_userid(
-                                             request))) + 1
-        except ValueError:
-            rank = 0
-        # Get percentile.
-        try:
-            percentile = (float(rank) / float(user_count)) * 100
+            percentile = (float(user_to_rank[user]['rank']) / float(user_count)) * 100
         except ZeroDivisionError:
             percentile = 0
-
-        # Get a list of nearby competetors (5 users above the current
-        # user and 5 users ranked below).
-        competitors = top_persons_sorted[max(rank - 3, 0):\
-                                     min(rank + 2, len(top_persons_sorted))]
 
     else:
         rank = None
@@ -351,12 +363,12 @@ def leaderboard(request):
     return dict(
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
-            top_persons=top_persons,
-            top_persons_sorted=top_persons_sorted,
+            top_persons_sorted=[x[0] for x in leaderboard],
             rank=rank,
             user_count=user_count,
             percentile=percentile,
             competitors=competitors,
+            user_to_rank=user_to_rank,
             )
 
 @view_config(route_name='leaderboard_json', renderer='json')
@@ -366,43 +378,45 @@ def leaderboard_json(request):
 
     user = _get_user(request, request.matchdict.get('id'))
 
-    # Get top persons.
-    persons_assertions = request.db.get_all_assertions().join(m.Person).filter(
-        m.Person.opt_out == False)[:25]
-    from collections import defaultdict
-    top_persons = defaultdict(int) # person: assertion count
-    for item in persons_assertions:
-        top_persons[item.person] += 1
+    leaderboard = request.db.session.query(m.Person, func.count(
+        m.Person.assertions)).join(m.Assertion).order_by(
+            'count_1 desc').filter(m.Person.opt_out == False).group_by(
+                m.Person.id).all()
 
-    # top_persons and top_persons_sorted contain all persons, ordered
-    top_persons_sorted = sorted(sorted(top_persons,
-                                key=lambda person: person.id),
-                                key=top_persons.get,
-                                reverse=True)
-
-    if user:
-        idx = top_persons_sorted.index(user)
-        top_persons_sorted = top_persons_sorted[(idx - 2):(idx + 2)]
-        rank = idx
-    else:
-        rank = None
-
-    # Get total user count.
-    user_count = len(top_persons_sorted)
-
-    ret = dict(
-        top_persons_sorted=[_user_json_generator(request, user) for user in top_persons_sorted],
-        user_count=user_count,
+    # Hackishly, but relatively cheaply get the rank of all users.
+    # This is:
+    # { <person object>:
+    #   {
+    #     'badges': <number of badges they have>,
+    #     'rank': <their global rank>
+    #   }
+    # }
+    user_to_rank = dict(
+        [
+            [
+                data[0],
+                {
+                    'badges': data[1],
+                    'rank': idx + 1
+                }
+            ] for idx, data in enumerate(leaderboard)
+        ]
     )
 
-    # Rather than sending `rank: null` when we're showing the global
-    # leaderboard (as opposed to a user's rank), just omit the field.
-    # But if the field exists, it means we looked up (and found) a user, and we
-    # can include it in the result.
-    if rank:
-        ret['rank'] = rank
+    if user:
+        idx = [i[0] for i in leaderboard].index(user)
+        # Handle the case of leaderboard[-2:2] which will be [] always.
+        if idx < 2:
+            idx = 2
+        leaderboard = leaderboard[(idx - 2):(idx + 3)]
+    else:
+        leaderboard = leaderboard[:25]
 
-    return ret
+    ret = [
+        dict(user_to_rank[p[0]].items() + {'nickname': p[0].nickname}.items())
+        for p in leaderboard]
+
+    return { 'leaderboard': ret }
 
 @view_config(route_name='explore', renderer='explore.mak')
 def explore(request):
@@ -541,12 +555,17 @@ def badge(request):
 
         percent_earned = float(times_awarded) / \
                          float(len(request.db.get_all_persons().all()))
+
+        # This is a list of assertions for this badge.
+        badge_assertions = request.db.get_all_assertions().filter(
+                m.Assertion.badge_id == badge.id).all()
     except sa.orm.exc.NoResultFound: # This badge has never been awarded.
         times_awarded = 0
         last_awarded = None
         last_awarded_person = None
         first_awarded = None
         first_awarded_person = None
+        badge_assertions = None
         percent_earned = 0
     # Percent of people who have earned this badge
 
@@ -565,6 +584,7 @@ def badge(request):
             last_awarded_person=last_awarded_person,
             first_awarded=first_awarded,
             first_awarded_person=first_awarded_person,
+            badge_assertions=badge_assertions,
             percent_earned=percent_earned,
             )
 
@@ -657,7 +677,8 @@ def user(request):
     else:
         awarded_assertions = None
 
-    user = _get_user(request, request.matchdict.get('id'))
+    user_id = request.matchdict.get('id')
+    user = _get_user(request, user_id)
 
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
@@ -705,6 +726,27 @@ def user(request):
     invitations = [i for i in request.db.get_invitations(user.id)\
                    if i.expires_on > datetime.now()]
 
+    # Get rank. (same code found in leaderboard view function)
+    persons_assertions = request.db.get_all_assertions().join(m.Person).filter(
+        m.Person.opt_out == False)
+    from collections import defaultdict
+    top_persons = defaultdict(int) # person: assertion count
+    for item in persons_assertions:
+        top_persons[item.person] += 1
+    top_persons_sorted = sorted(sorted(top_persons,
+                                key=lambda person: person.id),
+                                key=top_persons.get,
+                                reverse=True)
+    user_count = len(top_persons)
+    try:
+        rank = top_persons_sorted.index(user) + 1
+    except ValueError:
+        rank = 0
+    try:
+        percentile = (float(rank) / float(user_count)) * 100
+    except ZeroDivisionError:
+        percentile = 0
+
     return dict(
             user=user,
             user_badges=user_badges,
@@ -713,6 +755,9 @@ def user(request):
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
             allow_changenick=allow_changenick,
+            rank=rank,
+            percentile=percentile,
+            user_count=user_count,
             )
 
 def _user_json_generator(request, user):

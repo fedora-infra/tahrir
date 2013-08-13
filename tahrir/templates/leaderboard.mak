@@ -24,7 +24,7 @@
 					% if person.email == logged_in:
 					<tr>
 					<td><span class="big-text"><strong>
-						#${top_persons_sorted.index(person) + 1}
+						#${user_to_rank[person]['rank']}
 						</strong></span></td>
 					<td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 						<td><strong>
@@ -33,7 +33,7 @@
 							</td>
 					% else:
 					<td><span class="big-text">
-						#${top_persons_sorted.index(person) + 1}</span></td>
+						#${user_to_rank[person]['rank']}</span></td>
 					<td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 						<td><a href="${request.route_url('user',
 							id=person.id)}">${person.nickname}</a></td>
@@ -58,13 +58,13 @@
 			% for person in top_persons_sorted[:25]:
 			<tr><td style="width: 20px;">
 				<span class="big-text">
-				#${top_persons_sorted.index(person) + 1}</span></td>
+				#${user_to_rank[person]['rank']}</span></td>
 				<td style="width: 64px;">${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 					<td><a href="${request.route_url('user', id=person.id)}">
 						${person.nickname}</a>
-						with <strong>${top_persons[person]}
+						with <strong>${user_to_rank[person]['badges']}
 				</strong>
-				% if top_persons[person] == 1:
+				% if user_to_rank[person]['badges'] == 1:
 					badge.
 				% else:
 					badges.
