@@ -61,7 +61,7 @@ def _get_user(request, id_or_nickname):
             # get upset about comparing what is potentially a string
             # to an integer column.
             return request.db.get_person(id=int(id_or_nickname))
-        except TypeError:
+        except ValueError:
             return None
 
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
@@ -682,7 +682,8 @@ def user(request):
     else:
         awarded_assertions = None
 
-    user = _get_user(request, request.matchdict.get('id'))
+    user_id = request.matchdict.get('id')
+    user = _get_user(request, user_id)
 
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
