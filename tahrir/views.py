@@ -376,7 +376,10 @@ def leaderboard(request):
 def leaderboard_json(request):
     """ Render a top-users JSON dump. """
 
-    user = _get_user(request, request.matchdict.get('id'))
+    user_id = request.matchdict.get('id')
+    user = None
+    if user_id:
+        user = _get_user(request, user_id)
 
     leaderboard = request.db.session.query(m.Person, func.count(
         m.Person.assertions)).join(m.Assertion).order_by(
