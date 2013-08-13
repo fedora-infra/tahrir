@@ -1,12 +1,15 @@
 import random
 import transaction
 import types
+import codecs
+import os
 import sqlalchemy as sa
 import velruse
 import json as _json
 import StringIO
 import qrcode as qrcode_module
 import docutils.examples
+import markupsafe
 from datetime import datetime
 
 from mako.template import Template as t
@@ -417,6 +420,12 @@ def leaderboard_json(request):
         for p in leaderboard]
 
     return { 'leaderboard': ret }
+
+
+@view_config(route_name='about', renderer='about.mak')
+def about(request):
+    return dict(content=load_docs(request, 'about'))
+
 
 @view_config(route_name='explore', renderer='explore.mak')
 def explore(request):
@@ -998,3 +1007,76 @@ def make_websocket_handler(settings):
         template = ""
 
     return WebsocketHandler
+
+
+def modify_rst(rst):
+    """ Downgrade some of our rst directives if docutils is too old. """
+
+    try:
+        # The rst features we need were introduced in this version
+        minimum = [0, 9]
+        version = map(int, docutils.__version__.split('.'))
+
+        # If we're at or later than that version, no need to downgrade
+        if version >= minimum:
+            return rst
+    except Exception:
+        # If there was some error parsing or comparing versions, run the
+        # substitutions just to be safe.
+        pass
+
+    # Otherwise, make code-blocks into just literal blocks.
+    substitutions = {
+        '.. code-block:: javascript': '::',
+    }
+    for old, new in substitutions.items():
+        rst = rst.replace(old, new)
+
+    return rst
+
+
+def modify_html(html):
+    """ Perform style substitutions where docutils doesn't do what we want.
+    """
+
+    substitutions = {
+        '<tt class="docutils literal">': '<code>',
+        '</tt>': '</code>',
+    }
+    for old, new in substitutions.items():
+        html = html.replace(old, new)
+
+    return html
+
+
+def _load_docs(endpoint):
+    """ Utility to load an RST file and turn it into fancy HTML. """
+
+    here = os.path.dirname(os.path.abspath(__file__))
+    fname = os.path.join(here, 'docs', endpoint + '.rst')
+    with codecs.open(fname, 'r', 'utf-8') as f:
+        rst = f.read()
+
+    rst = modify_rst(rst)
+
+    api_docs = docutils.examples.html_body(rst)
+
+    api_docs = modify_html(api_docs)
+
+    api_docs = markupsafe.Markup(api_docs)
+    return api_docs
+
+
+htmldocs = {}
+def load_docs(request, key):
+    possible_keys = ['about']
+
+    # Load from disk only once on first request.
+    if not htmldocs:
+        for k in possible_keys:
+            htmldocs[k] = _load_docs(k)
+
+    if key not in htmldocs:
+        raise KeyError("%r is not permitted." % key)
+
+    return htmldocs[key]
