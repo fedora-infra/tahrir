@@ -313,7 +313,7 @@ def leaderboard(request):
     leaderboard = request.db.session.query(m.Person, func.count(
         m.Person.assertions)).join(m.Assertion).order_by(
             'count_1 desc').filter(m.Person.opt_out == False).group_by(
-                m.Person.id).all()
+                m.Person).all()
 
     # Hackishly, but relatively cheaply get the rank of all users.
     # This is:
@@ -381,7 +381,7 @@ def leaderboard_json(request):
     leaderboard = request.db.session.query(m.Person, func.count(
         m.Person.assertions)).join(m.Assertion).order_by(
             'count_1 desc').filter(m.Person.opt_out == False).group_by(
-                m.Person.id).all()
+                m.Person).all()
 
     # Hackishly, but relatively cheaply get the rank of all users.
     # This is:
