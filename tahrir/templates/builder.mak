@@ -41,7 +41,7 @@
 				% endif
 					 /></td>
 				<td><label for="issuer">Issuer ID</label></td>
-				<td><input name="issuer" tabindex="6" /></td></tr>
+				<td><input name="issuer" tabindex="6" value="${request.registry.settings.get('tahrir.default_issuer', '')}" /></td></tr>
 				<td><label for="trigger-topic">Trigger Topic</label></td>
 				<td><input name="trigger-topic" tabindex="7" /></td>
 				<td><label for="criteria">Criteria</label></td>
