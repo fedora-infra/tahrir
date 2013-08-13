@@ -310,41 +310,43 @@ def leaderboard(request):
     else:
         awarded_assertions = None
 
-    # Get top persons.
-    persons_assertions = request.db.get_all_assertions().join(m.Person).filter(
-        m.Person.opt_out == False)
-    from collections import defaultdict
-    top_persons = defaultdict(int) # person: assertion count
-    for item in persons_assertions:
-        top_persons[item.person] += 1
+    leaderboard = request.db.session.query(m.Person, func.count(
+        m.Person.assertions)).join(m.Assertion).order_by(
+            'count_1 desc').filter(m.Person.opt_out == False).group_by(
+                m.Person.id).all()
 
-    # top_persons and top_persons_sorted contain all persons, ordered
-    top_persons_sorted = sorted(sorted(top_persons,
-                                key=lambda person: person.id),
-                                key=top_persons.get,
-                                reverse=True)
+    # Hackishly, but relatively cheaply get the rank of all users.
+    user_to_rank = dict(
+        [
+            [
+                i[1][0],
+                {
+                    'badges': i[1][1],
+                    'rank': i[0] + 1
+                }
+            ] for i in enumerate(leaderboard)
+        ]
+    )
 
     # Get total user count.
-    user_count = len(top_persons)
+    user_count = len(leaderboard)
 
     if authenticated_userid(request):
+        user = request.db.get_person(
+            person_email=authenticated_userid(request))
+
         # Get rank.
+        idx = [i[0] for i in leaderboard].index(user)
+        rank = idx + 1
+        # Handle the case of leaderboard[-2:2] which will be [] always.
+        if idx < 2:
+            idx = 2
+        competitors = [c[0] for c in leaderboard[(idx - 2):(idx + 3)]]
+
         try:
-            rank = top_persons_sorted.index(request.db.get_person(
-                                person_email=authenticated_userid(
-                                             request))) + 1
-        except ValueError:
-            rank = 0
-        # Get percentile.
-        try:
-            percentile = (float(rank) / float(user_count)) * 100
+            percentile = (float(user_to_rank[user]['rank']) / float(user_count)) * 100
         except ZeroDivisionError:
             percentile = 0
-
-        # Get a list of nearby competetors (5 users above the current
-        # user and 5 users ranked below).
-        competitors = top_persons_sorted[max(rank - 3, 0):\
-                                     min(rank + 2, len(top_persons_sorted))]
 
     else:
         rank = None
@@ -354,12 +356,12 @@ def leaderboard(request):
     return dict(
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
-            top_persons=top_persons,
-            top_persons_sorted=top_persons_sorted,
+            top_persons_sorted=[x[0] for x in leaderboard],
             rank=rank,
             user_count=user_count,
             percentile=percentile,
             competitors=competitors,
+            user_to_rank=user_to_rank,
             )
 
 @view_config(route_name='leaderboard_json', renderer='json')
