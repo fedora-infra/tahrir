@@ -402,7 +402,7 @@ def leaderboard_json(request):
         dict(user_to_rank[p[0]].items() + {'nickname': p[0].nickname}.items())
         for p in leaderboard]
 
-    return ret
+    return { 'leaderboard': ret }
 
 @view_config(route_name='explore', renderer='explore.mak')
 def explore(request):
