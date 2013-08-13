@@ -316,15 +316,22 @@ def leaderboard(request):
                 m.Person.id).all()
 
     # Hackishly, but relatively cheaply get the rank of all users.
+    # This is:
+    # { <person object>:
+    #   {
+    #     'badges': <number of badges they have>,
+    #     'rank': <their global rank>
+    #   }
+    # }
     user_to_rank = dict(
         [
             [
-                i[1][0],
+                data[0],
                 {
-                    'badges': i[1][1],
-                    'rank': i[0] + 1
+                    'badges': data[1],
+                    'rank': idx + 1
                 }
-            ] for i in enumerate(leaderboard)
+            ] for idx, data in enumerate(leaderboard)
         ]
     )
 
@@ -377,15 +384,22 @@ def leaderboard_json(request):
                 m.Person.id).all()
 
     # Hackishly, but relatively cheaply get the rank of all users.
+    # This is:
+    # { <person object>:
+    #   {
+    #     'badges': <number of badges they have>,
+    #     'rank': <their global rank>
+    #   }
+    # }
     user_to_rank = dict(
         [
             [
-                i[1][0],
+                data[0],
                 {
-                    'badges': i[1][1],
-                    'rank': i[0] + 1
+                    'badges': data[1],
+                    'rank': idx + 1
                 }
-            ] for i in enumerate(leaderboard)
+            ] for idx, data in enumerate(leaderboard)
         ]
     )
 
