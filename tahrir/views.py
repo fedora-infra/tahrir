@@ -1049,7 +1049,7 @@ def modify_html(html):
     return html
 
 
-def _load_docs(endpoint):
+def _load_docs(directory, endpoint):
     """ Utility to load an RST file and turn it into fancy HTML. """
 
     here = os.path.dirname(os.path.abspath(__file__))
@@ -1073,8 +1073,11 @@ def load_docs(request, key):
 
     # Load from disk only once on first request.
     if not htmldocs:
+        here = os.path.dirname(os.path.abspath(__file__))
+        dflt = os.path.join(here, 'docs')
+        directory = request.registry.settings.get('tahrir.sitedocs_dir', dflt)
         for k in possible_keys:
-            htmldocs[k] = _load_docs(k)
+            htmldocs[k] = _load_docs(directory, k)
 
     if key not in htmldocs:
         raise KeyError("%r is not permitted." % key)
