@@ -1052,8 +1052,7 @@ def modify_html(html):
 def _load_docs(directory, endpoint):
     """ Utility to load an RST file and turn it into fancy HTML. """
 
-    here = os.path.dirname(os.path.abspath(__file__))
-    fname = os.path.join(here, 'docs', endpoint + '.rst')
+    fname = os.path.join(directory, endpoint + '.rst')
     with codecs.open(fname, 'r', 'utf-8') as f:
         rst = f.read()
 
@@ -1074,7 +1073,7 @@ def load_docs(request, key):
     # Load from disk only once on first request.
     if not htmldocs:
         here = os.path.dirname(os.path.abspath(__file__))
-        dflt = os.path.join(here, 'docs')
+        dflt = os.path.join(here, 'sitedocs')
         directory = request.registry.settings.get('tahrir.sitedocs_dir', dflt)
         for k in possible_keys:
             htmldocs[k] = _load_docs(directory, k)
