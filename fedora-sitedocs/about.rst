@@ -16,8 +16,6 @@ we intentionally didn't spell it all out exactly. Part of the fun is figuring it
 
 Another cool thing: the Badges site is mobile-optimized, so you can easily keep track of your badges on the go!
 
-Some badges you qualify for won't pop up until you perform one task in that area after signing up for Badges - we're working on fixing that, too.
-
 Why don't I have all the Badges I should?
 -----------------------------------------
 
