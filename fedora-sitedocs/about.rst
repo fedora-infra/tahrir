@@ -1,7 +1,7 @@
 Fedora Badges
 =============
 
-`Fedora Badges <https://badges.fedoraproject.org>`_ is a fun website built to recognize contributors to the Fedora Project, help new and existing Fedora contributors find different ways to get involved, and encourage the improvement of Fedora's infrastructure.
+`Fedora Badges <https://badges.fedoraproject.org>`_ is a fun website built to recognize contributors to the `Fedora Project <https://fedoraproject.org>`_, help new and existing Fedora contributors find different ways to get involved, and encourage the improvement of Fedora's infrastructure.
 
 .. image:: http://oddshocks.com/presentations/fedora_badges/badges_fan.png
    :alt: Fedora Badges
