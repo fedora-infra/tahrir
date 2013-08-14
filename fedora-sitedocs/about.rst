@@ -19,7 +19,7 @@ Another cool thing: the Badges site is mobile-optimized, so you can easily keep 
 Why don't I have all the Badges I should?
 -----------------------------------------
 
-There are a few reasons why unfortunately you might not get some badges you would expect to receive. First of all, the infrastructure that underlies Badges has only been running since late 2012 (and some pieces since early 2013), and so for many Badges, we can't take contributions from before those dates into account. We're really sorry. We wish we could. We've filed a ticket requesting someone build us a time machine; logically speaking, though, if it was going to be closed, it would've been closed immediately...
+There are a few reasons why unfortunately you might not get some badges you would expect to receive. First of all, the infrastructure that underlies Badges has only been running since late 2012 (and some pieces since early 2013), and so for many Badges, we can't take contributions from before those dates into account. We're really sorry. We wish we could. We've filed a ticket requesting someone build us a time machine; logically speaking, though, if it was going to be closed, `it would've been closed immediately <http://boardgamegeek.com/boardgame/2297/us-patent-number-1>`_...
 
 Secondly, in the case of some badges, you need to perform one action after signing up for Badges, to sort of 'prime the pump' (this is not really how it works. No pumps are involved. We've checked.) The `Curious Penguin (Ask Fedora II) <https://badges.fedoraproject.org/badge/curious-penguin-ask-fedora-ii>`_ Badge, for instance, requires you to ask or answer ten questions at `Ask Fedora <https://ask.fedoraproject.org>`_. When you first join Badges, even if you've already done this, you won't see the badge - but as soon as you ask or answer just one more question, you'll get it.
 
@@ -54,7 +54,7 @@ Once more, with feeling: How does Badges work?
 
 If you mean how does it WORK work, it's pretty cool! Fedora Badges takes advantage of `fedmsg <http://fedmsg.com>`_ (Fedora Infrastructure's Message Bus) and `datanommer <https://apps.fedoraproject.org/datagrepper>`_ to determine what kinds of contributions a person is making.
 
-The badge awarding backend daemon, `fedbadges <https://github.com/fedora-infra/fedbadges>`_, wakes up when it receives a fedmsg event. It compares that message and the history in datanommer against a series of rules. If a contributor matches the criteria described in one of those rules, then they are **awarded a badge** in real time.
+The badge awarding backend daemon, `fedbadges <https://github.com/fedora-infra/fedbadges>`_, wakes up when it receives a fedmsg event. It compares that message and the history in datanommer against a series of `rules <https://git.fedorahosted.org/cgit/badges.git>`_. If a contributor matches the criteria described in one of those rules, then they are **awarded a badge** in real time.
 
 The frontend that you're looking at now is a web application called `tahrir <https://github.com/fedora-infra/tahrir>`_. We tried as much as we could to keep Tahrir "brand agnostic", so you can install it, run it on your own platform, and issue badges to your friends! Some assembly required.
 
