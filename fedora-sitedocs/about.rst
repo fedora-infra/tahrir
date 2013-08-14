@@ -8,7 +8,7 @@ different ways new people can get involved.
 .. image:: http://oddshocks.com/presentations/fedora_badges/badges_fan.png
    :alt: Fedora Badges
 
-*Fun Fact* - Your achievements aren't jailed in a silo. -- Fedora Badges was
+*Fun Fact* - Your achievements aren't jailed in a silo -- Fedora Badges was
 built to interface with Mozilla's `Open Badges Infrastructure
 <https://openbadges.org>`_.  Check out the "Export Badges" button on your
 Profile page.
