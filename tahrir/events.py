@@ -7,6 +7,8 @@ from pyramid.security import (
     authenticated_userid,
 )
 
+import tw2.jquery
+
 
 @subscriber(BeforeRender)
 def inject_globals(event):
@@ -26,3 +28,6 @@ def inject_globals(event):
     event['logged_in'] = authenticated_userid(request)
     person = request.db.get_person(event['logged_in'])
     event['logged_in_id'] = getattr(person, 'id', None)
+
+    # Cause jquery.js to be injected into the page.
+    tw2.jquery.jquery_js.display()
