@@ -365,8 +365,6 @@ img.badge-256 {
     height: 256px;
 }
 
-
-
 /* Clearfix */
 .clearfix:after {
     content: ".";
@@ -374,4 +372,17 @@ img.badge-256 {
     height: 0;
     clear: both;
     visibility: hidden;
+}
+
+/* Center the badges fan on the about page */
+.document img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.document p {
+    margin: 12px;
+}
+.document h2 {
+    font-size: 130%;
 }
