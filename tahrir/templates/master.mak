@@ -14,12 +14,12 @@
 	<link rel="shortcut icon" href="${request.static_url('tahrir:static/img/favicon.ico')}" />
     <script
       type="text/javascript"
-      src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
+      src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
     </script>
     % if logged_in and awarded_assertions:
       <script
         type="text/javascript"
-        src="http://beta.openbadges.org/issuer.js">
+        src="//beta.openbadges.org/issuer.js">
       </script>
       <script type="text/javascript">
          function htmlDecode(value) {return $("<div>").html(value).text();}
