@@ -380,21 +380,32 @@ img.badge-256 {
 }
 
 .document {
-    margin: 12px;
+    padding: 20px;
 }
-/* Stop weirdness from occurring.
-.document li {
-    margin-left: 30px;
-}
+
 /* Center the badges fan on the about page */
 .document img {
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
+
 .document p {
     margin: 12px;
 }
+
+.document h1 {
+    border-bottom: 1px solid #cccccc;
+}
+
+.document h1, .document h2 {
+    margin: 10px 0;
+}
+
 .document h2 {
     font-size: 130%;
+}
+
+.document li {
+    margin-left: 30px;
 }
