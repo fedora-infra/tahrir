@@ -53,7 +53,7 @@
         </foaf>
 
         <foaf:Person rdf:about="${request.url}">
-           <foaf:nick>${user.nickname}</foaf:nick>
+           <foaf:nick rdf:resource="${user.nickname}"/>
            <foaf:mbox rdf:resource="mailto:${user.email_md5}"/>
            <foaf:img rdf:resource="${user.avatar_url(512)}"/>
             % if user.website:
