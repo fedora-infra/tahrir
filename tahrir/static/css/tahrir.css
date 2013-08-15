@@ -208,7 +208,8 @@ tr:nth-child(even) { background: white; }
 .name {
     font-size: 1.4em;
     font-weight: bold;
-    margin: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .description {
@@ -219,7 +220,8 @@ tr:nth-child(even) { background: white; }
 .metadata {
     font-size: 0.8em;
     color: #666;
-    margin: 20px;
+    margin: 0px;
+    margin-bottom:   15px;
 }
 
 .badge-image {
