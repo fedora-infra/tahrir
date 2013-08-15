@@ -8,7 +8,7 @@ README = open(os.path.join(here, 'README.rst')).read()
 requires = [
     'pyramid',
     'tahrir_api >= 0.2.0',
-    'SQLAlchemy',
+    'SQLAlchemy >= 0.8.0',
     'transaction',
     'pyramid_tm',
     'zope.sqlalchemy',
