@@ -29,14 +29,14 @@
 					<td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 						<td><strong>
 						<a href="${request.route_url('user',
-							id=person.id)}">${person.nickname}</a></strong>
+							id=person.nickname or person.id)}">${person.nickname}</a></strong>
 							</td>
 					% else:
 					<td><span class="big-text">
 						#${user_to_rank[person]['rank']}</span></td>
 					<td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
 						<td><a href="${request.route_url('user',
-							id=person.id)}">${person.nickname}</a></td>
+							id=person.nickname or person.id)}">${person.nickname}</a></td>
 					% endif
 					</tr>
 				% endfor
@@ -60,7 +60,7 @@
 				<span class="big-text">
 				#${user_to_rank[person]['rank']}</span></td>
 				<td style="width: 64px;">${self.functions.avatar_thumbnail(person, 64, 33)}</td>
-					<td><a href="${request.route_url('user', id=person.id)}">
+					<td><a href="${request.route_url('user', id=person.nickname or person.id)}">
 						${person.nickname}</a>
 						with <strong>${user_to_rank[person]['badges']}
 				</strong>
