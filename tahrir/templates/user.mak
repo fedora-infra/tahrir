@@ -44,7 +44,7 @@
 								JSON</a></p>
 		</div>
         <div class="social grid-30 pull-5">
-        % if logged_in:
+        % if logged_in == user.email:
         <div id="social-activate">
             <button id="share" class="pretty-button" onClick="javascript:activate_social_links();">
                 &laquo;Share&raquo;
@@ -131,10 +131,6 @@
 					   value="Change Nickname" />
 			</form>
 		% endif
-		
-		% if user.email == logged_in:
-		% endif
-		
 		
 		</div> <!-- End shadow. -->
 		</div> <!-- End padded content. -->
