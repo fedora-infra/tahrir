@@ -43,8 +43,8 @@
 			<p>View user as: <a href="${request.route_url('user_json', id=user.nickname)}">
 								JSON</a></p>
 		</div>
-        <div class="social grid-30 pull-5">
         % if logged_in == user.email:
+        <div class="social grid-30 pull-5">
         <div id="social-activate">
             <button id="share" class="pretty-button" onClick="javascript:activate_social_links();">
                 &laquo;Share&raquo;
@@ -63,9 +63,8 @@
             data-hashtags="${twitter_user_hash}" data-dnt="true">Tweet</a>
         </div>
         % endif
-        % endif
         </div> <!-- End social grid -->
-
+        % endif
 		% if logged_in == user.email:
 
 			% if len(invitations) > 0:
