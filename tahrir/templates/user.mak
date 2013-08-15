@@ -47,7 +47,7 @@
         % if logged_in:
         <div id="social-activate">
             <button id="share" class="pretty-button" onClick="javascript:activate_social_links();">
-                Share!
+                «Share»
             </button>
         </div>
         % if gplus:
