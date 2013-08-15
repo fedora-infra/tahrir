@@ -427,7 +427,9 @@ def leaderboard_json(request):
 
 @view_config(route_name='about', renderer='about.mak')
 def about(request):
-    return dict(content=load_docs(request, 'about'))
+    return dict(
+        content=load_docs(request, 'about'),
+        auth_principals=effective_principals(request))
 
 
 @view_config(route_name='explore', renderer='explore.mak')

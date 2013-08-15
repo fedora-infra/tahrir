@@ -379,6 +379,13 @@ img.badge-256 {
     visibility: hidden;
 }
 
+.document {
+    margin: 12px;
+}
+/* Stop weirdness from occurring.
+.document li {
+    margin-left: 30px;
+}
 /* Center the badges fan on the about page */
 .document img {
     display: block;
