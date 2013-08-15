@@ -40,11 +40,11 @@ Can I help work on the technologies that underlie Badges?
 
 Absolutely! Please join us! Starting at the bottom of the stack:
 
-- `fedmsg <https://github.com/fedora-infra/fedmsg>`_ is the Fedora message bus that most badges ultimately rely on
-- `datanommer <https://github.com/fedora-infra/datanommer>`_ pulls every fedmsg message into a database
-- `fedbadges <https://github.com/fedora-infra/fedbadges>`_ is the actual badge awarder
-- `tahrir <https://github.com/fedora-infra/tahrir>`_ is the frontend you're looking at right now
-- `tahrir-api <https://github.com/fedora-infra/tahrir-api>`_ is the API for tahrir
+- `fedmsg`_ is the Fedora message bus that most badges ultimately rely on
+- `datanommer`_ pulls every fedmsg message into a database
+- `fedbadges`_ is the actual badge awarder
+- `tahrir`_ is the frontend you're looking at right now
+- `tahrir-api`_ is the API for tahrir
 
 Technical Questions and Details
 ===============================
@@ -52,11 +52,11 @@ Technical Questions and Details
 Once more, with feeling: How does Badges work?
 ----------------------------------------------
 
-If you mean how does it WORK work, it's pretty cool! Fedora Badges takes advantage of `fedmsg <http://fedmsg.com>`_ (Fedora Infrastructure's Message Bus) and `datanommer <https://apps.fedoraproject.org/datagrepper>`_ to determine what kinds of contributions a person is making.
+If you mean how does it WORK work, it's pretty cool! Fedora Badges takes advantage of `fedmsg`_ (Fedora Infrastructure's Message Bus) and `datanommer`_ to determine what kinds of contributions a person is making.
 
-The badge awarding backend daemon, `fedbadges <https://github.com/fedora-infra/fedbadges>`_, wakes up when it receives a fedmsg event. It compares that message and the history in datanommer against a series of `rules <https://git.fedorahosted.org/cgit/badges.git>`_. If a contributor matches the criteria described in one of those rules, then they are **awarded a badge** in real time.
+The badge awarding backend daemon, `fedbadges`_, wakes up when it receives a fedmsg event. It compares that message and the history in datanommer against a series of `rules <https://git.fedorahosted.org/cgit/badges.git>`_. If a contributor matches the criteria described in one of those rules, then they are **awarded a badge** in real time.
 
-The frontend that you're looking at now is a web application called `tahrir <https://github.com/fedora-infra/tahrir>`_. We tried as much as we could to keep Tahrir "brand agnostic", so you can install it, run it on your own platform, and issue badges to your friends! Some assembly required.
+The frontend that you're looking at now is a web application called `tahrir`_. We tried as much as we could to keep Tahrir "brand agnostic", so you can install it, run it on your own platform, and issue badges to your friends! Some assembly required.
 
 How long has the badge awarder been running?
 --------------------------------------------
@@ -72,7 +72,7 @@ Since October 16th, 2012 `[1]
 Why exactly can't badges for events be automatically awarded retrospectively?
 -----------------------------------------------------------------------------
 
-First, remember that the badge awarding daemon wakes up in response to new `fedmsg <http://fedmsg.com>`_ events and that it checks the `history of fedmsg <https://apps.fedoraproject.org/datagrepper>`_ in order to make determinations
+First, remember that the badge awarding daemon wakes up in response to new `fedmsg`_ events and that it checks the `history of fedmsg <https://apps.fedoraproject.org/datagrepper>`_ in order to make determinations
 about who gets what badge at that moment.
 
 To award that Proven Packager badge, the awarder waits for `a message <http://www.fedmsg.com/en/latest/topics/#fas-group-member-sponsor>`_ from the `Fedora Account System (FAS) <https://admin.fedoraproject.org/accounts>`_ indicating that a user has been added to that group. When we receive it, we wake up, verify it, and award the badge.
@@ -84,3 +84,9 @@ Of course, we can't use a simple script to retroactively award badges based on l
 <http://threebean.org/blog/datanommer-and-fedmsg-activity/>`_. Koji events didn't come until much later, until January 2013. So Fedora Badges only knows about your builds since then. Don't be disheartened! There's so much more to hack and do.
 
 There's a tentative plan to write a bigger script that will go back over old Koji logs and so on, generate appropriate fedmsg messages but (of course!) not actually broadcast them, and instead feed them straight into datanommer. That should let us catch up on a lot of old activity.
+
+.. _fedmsg: http://fedmsg.com/
+.. _datanommer: https://apps.fedoraproject.org/datagrepper
+.. _fedbadges: https://github.com/fedora-infra/fedbadges
+.. _tahrir: https://github.com/fedora-infra/tahrir
+.. _tahrir-api: https://github.com/fedora-infra/tahrir-api
