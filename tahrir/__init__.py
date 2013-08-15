@@ -1,4 +1,5 @@
 import os
+import hashlib
 import ConfigParser
 
 import dogpile.cache
@@ -33,6 +34,8 @@ def main(global_config, **settings):
     cache = dogpile.cache.make_region(
         key_mangler=dogpile.cache.util.sha1_mangle_key)
     tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
+    tahrir_api.model.Person.email_md5 = property(
+        lambda self: hashlib.md5(self.email).hexdigest())
 
     identifier = settings.get('tahrir.openid_identifier')
     tahrir_api.model.Person.openid_identifier =\
