@@ -7,6 +7,8 @@ from pyramid.security import (
     authenticated_userid,
 )
 
+from pyramid.settings import asbool
+
 import tw2.jquery
 
 import tahrir.views
@@ -34,6 +36,13 @@ def inject_globals(event):
     event['logged_in_id'] = getattr(person, 'id', None)
 
     event['footer'] = tahrir.views.load_docs(request, 'footer')
+
+    event['twitter'] = asbool(settings.get('tahrir.social.twitter'))
+    event['twitter_user_text'] = settings.get(
+        'tahrir.social.twitter_user_text')
+    event['twitter_user_hash'] = settings.get(
+        'tahrir.social.twitter_user_hash')
+    event['gplus'] = asbool(settings.get('tahrir.social.gplus'))
 
     # Cause jquery.js to be injected into the page.
     tw2.jquery.jquery_js.display()

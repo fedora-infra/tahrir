@@ -7,17 +7,20 @@
 		<div class="padded-content">
 
         ${self.functions.avatar_thumbnail(user, 'responsive', 100)}
-
-		<p class="name">${user.nickname}</p>
+        <div class="grid-100">
+        <p class="name">${user.nickname}</p>
+        </div>
 
 		% if user.bio:
+        <div class="grid-100">
 			<p class="description">${user.bio}</p>
+        </div>
 		% endif
 
-		<div class="metadata">
+		<div class="metadata grid-60">
 			<p>Arrived on ${user.created_on.strftime('%Y-%m-%d')}.</p>
 			% if user.email == logged_in:
-				<p>Email: ${user.email}</p>
+				<p>${user.email}</p>
 			% endif
 
 			% if rank != 0:
@@ -40,6 +43,31 @@
 			<p>View user as: <a href="${request.route_url('user_json', id=user.nickname)}">
 								JSON</a></p>
 		</div>
+        <div class="grid-10">
+            &nbsp;
+        </div>
+        <div class="social grid-10 pull-5">
+        % if gplus:
+            <!-- Place this tag where you want the +1 button to render. -->
+            <div class="g-plusone" data-size="tall"
+                 data-annotation="none"></div>
+
+            <!-- Place this tag after the last +1 button tag. -->
+            <script type="text/javascript">
+              (function() {
+                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                po.src = 'https://apis.google.com/js/plusone.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+              })();
+            </script>
+        %endif
+        % if twitter:
+            <a href="https://twitter.com/share" class="twitter-share-button"
+               data-text="${twitter_user_text}" data-count="none"
+               data-hashtags="${twitter_user_hash}" data-dnt="true">Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        %endif
+        </div>
 
 		% if logged_in == user.email:
 
