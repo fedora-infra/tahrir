@@ -4,7 +4,7 @@
 	<div class="grid-30">
 		<div class="shadow">
 		<h1 class="section-header">User Info</h1>
-		<div class="padded-content">
+		<div class="padded-content clearfix">
 
         ${self.functions.avatar_thumbnail(user, 'responsive', 100)}
         <div class="grid-100">
@@ -31,7 +31,7 @@
 			% endif
 
 			% if user.website:
-				<p>Website: 
+				<p>Website:
 				% if user.website.startswith('http'):
 					<a href="${user.website}">
 				% else:
@@ -130,7 +130,7 @@
 					   value="Change Nickname" />
 			</form>
 		% endif
-		
+
 		</div> <!-- End shadow. -->
 		</div> <!-- End padded content. -->
 
