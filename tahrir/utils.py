@@ -109,9 +109,9 @@ def make_avatar_method(cache):
         # TODO This next line is temporary and can be removed.  We do
         # libravatar ourselves here by hand to avoid pyDNS issues on epel6.
         # Once those are resolved we can use pylibravatar again.
-        return "http://cdn.libravatar.org/avatar/%s?%s" % (hash, query)
+        return "https://seccdn.libravatar.org/avatar/%s?%s" % (hash, query)
 
-        gravatar_url = "http://www.gravatar.com/avatar/%s?%s" % (hash, query)
+        gravatar_url = "https://secure.gravatar.com/avatar/%s?%s" % (hash, query)
 
         if libravatar:
             return libravatar.libravatar_url(
