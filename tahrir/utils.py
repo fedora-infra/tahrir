@@ -8,6 +8,8 @@ import dateutil.relativedelta
 import urllib
 from hashlib import md5, sha256
 
+import pyramid.threadlocal
+
 libravatar = None
 try:
     import libravatar
@@ -87,8 +89,9 @@ def make_avatar_method(cache):
 
     @cache.cache_on_arguments()
     def _avatar_function(email, size):
-        absolute_default = 'https://fedoraproject.org/static/images/' + \
-            'fedora_infinity_140x140.png'
+        request = pyramid.threadlocal.get_current_request()
+        absolute_default = request.static_url(
+            'tahrir:static/img/badger_avatar.png')
 
         query = {
             's': size,
