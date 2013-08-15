@@ -44,6 +44,7 @@
 								JSON</a></p>
 		</div>
         <div class="social grid-30 pull-5">
+        % if logged_in:
         <div id="social-activate">
             <button id="share" class="pretty-button" onClick="javascript:activate_social_links();">
                 Share!
@@ -54,15 +55,16 @@
             <div class="g-plusone" data-size="tall"
             data-annotation="none"></div>
         </div>
-        %endif
+        % endif
         % if twitter:
         <div id="twitter-container">
             <a href="https://twitter.com/share" class="twitter-share-button"
             data-text="${twitter_user_text}" data-count="none"
             data-hashtags="${twitter_user_hash}" data-dnt="true">Tweet</a>
         </div>
-        %endif
-        </div>
+        % endif
+        % endif
+        </div> <!-- End social grid -->
 
 		% if logged_in == user.email:
 
