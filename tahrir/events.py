@@ -9,6 +9,8 @@ from pyramid.security import (
 
 import tw2.jquery
 
+import tahrir.views
+
 
 @subscriber(BeforeRender)
 def inject_globals(event):
@@ -28,6 +30,8 @@ def inject_globals(event):
     event['logged_in'] = authenticated_userid(request)
     person = request.db.get_person(event['logged_in'])
     event['logged_in_id'] = getattr(person, 'id', None)
+
+    event['footer'] = tahrir.views.load_docs(request, 'footer')
 
     # Cause jquery.js to be injected into the page.
     tw2.jquery.jquery_js.display()

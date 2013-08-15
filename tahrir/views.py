@@ -1071,7 +1071,7 @@ def _load_docs(directory, endpoint):
 
 htmldocs = {}
 def load_docs(request, key):
-    possible_keys = ['about']
+    possible_keys = ['about', 'footer']
 
     # Load from disk only once on first request.
     if not htmldocs:
