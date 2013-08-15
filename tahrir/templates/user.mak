@@ -7,17 +7,20 @@
 		<div class="padded-content">
 
         ${self.functions.avatar_thumbnail(user, 'responsive', 100)}
-
-		<p class="name">${user.nickname}</p>
+        <div class="grid-100">
+        <p class="name">${user.nickname}</p>
+        </div>
 
 		% if user.bio:
+        <div class="grid-100">
 			<p class="description">${user.bio}</p>
+        </div>
 		% endif
 
-		<div class="metadata">
+		<div class="metadata grid-60">
 			<p>Arrived on ${user.created_on.strftime('%Y-%m-%d')}.</p>
 			% if user.email == logged_in:
-				<p>Email: ${user.email}</p>
+				<p>${user.email}</p>
 			% endif
 
 			% if rank != 0:
@@ -40,7 +43,28 @@
 			<p>View user as: <a href="${request.route_url('user_json', id=user.nickname)}">
 								JSON</a></p>
 		</div>
-
+        % if logged_in == user.email:
+        <div class="social grid-30 pull-5">
+        <div id="social-activate">
+            <button id="share" class="pretty-button" onClick="javascript:activate_social_links();">
+                &laquo;Share&raquo;
+            </button>
+        </div>
+        % if gplus:
+        <div id="gplus-container">
+            <div class="g-plusone" data-size="tall"
+            data-annotation="none"></div>
+        </div>
+        % endif
+        % if twitter:
+        <div id="twitter-container">
+            <a href="https://twitter.com/share" class="twitter-share-button"
+            data-text="${twitter_user_text}" data-count="none"
+            data-hashtags="${twitter_user_hash}" data-dnt="true">Tweet</a>
+        </div>
+        % endif
+        </div> <!-- End social grid -->
+        % endif
 		% if logged_in == user.email:
 
 			% if len(invitations) > 0:
@@ -55,11 +79,11 @@
 			% endif
 
 			% if awarded_assertions:
-			  <a href="javascript:claim_badges();">
-				  <div class="pretty-button">
+
+				  <button class="pretty-button" onClick="javascript:claim_badges();">
 					  Export Badges
-				  </div>
-			  </a>
+				  </button>
+
 			% endif
 
             <form method="POST" action="https://www.libravatar.org/openid/login/">
@@ -106,10 +130,6 @@
 					   value="Change Nickname" />
 			</form>
 		% endif
-		
-		% if user.email == logged_in:
-		% endif
-		
 		
 		</div> <!-- End shadow. -->
 		</div> <!-- End padded content. -->

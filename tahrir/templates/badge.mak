@@ -23,7 +23,7 @@
 		% else:
 			<p>This badge has not been tagged.</p>
 		% endif
-			<p>Issued by: ${badge.issuer_id}</p>
+			<p>Issued by: ${badge.issuer.name}</p>
 			<p>Criteria: <a href="${badge.criteria}">${badge.criteria}</a></p>
 			<p>View badge as: <a href="${request.route_url('badge_json', id=badge.id)}">
 								JSON</a></p>

@@ -158,6 +158,7 @@ tr:nth-child(even) { background: white; }
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 15px;
+    min-height: 235px;
 }
 
 
@@ -171,7 +172,7 @@ tr:nth-child(even) { background: white; }
     margin-bottom: 0px !important;
 }
 
-/* Applied to <a href>s which are "buttons". */
+/* Applied to <button> tags. */
 .pretty-button {
     background: #3158AF;
     color: white;
@@ -179,6 +180,8 @@ tr:nth-child(even) { background: white; }
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+    height: 50px;
+    width: 100%;
 }
 
 /* Applied to actual submit buttons (on forms). */
@@ -206,7 +209,8 @@ tr:nth-child(even) { background: white; }
 .name {
     font-size: 1.4em;
     font-weight: bold;
-    margin: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .description {
@@ -217,7 +221,8 @@ tr:nth-child(even) { background: white; }
 .metadata {
     font-size: 0.8em;
     color: #666;
-    margin: 20px;
+    margin: 0px;
+    margin-bottom:   15px;
 }
 
 .badge-image {
@@ -365,8 +370,6 @@ img.badge-256 {
     height: 256px;
 }
 
-
-
 /* Clearfix */
 .clearfix:after {
     content: ".";
@@ -374,4 +377,17 @@ img.badge-256 {
     height: 0;
     clear: both;
     visibility: hidden;
+}
+
+/* Center the badges fan on the about page */
+.document img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.document p {
+    margin: 12px;
+}
+.document h2 {
+    font-size: 130%;
 }

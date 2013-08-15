@@ -7,6 +7,12 @@ from pyramid.security import (
     authenticated_userid,
 )
 
+from pyramid.settings import asbool
+
+import tw2.jquery
+
+import tahrir.views
+
 
 @subscriber(BeforeRender)
 def inject_globals(event):
@@ -17,12 +23,26 @@ def inject_globals(event):
     # in like so...
     request = event['request']
 
+    settings = request.registry.settings
+
     # ... and then set a couple global variables that will be available
     # in every template, so we don't have to pass them through the
     # dict returned by the view every time!
-    event['title'] = request.registry.settings['tahrir.title']
-    event['base_url'] = request.registry.settings['tahrir.base_url']
+    event['title'] = settings['tahrir.title']
+    event['base_url'] = settings['tahrir.base_url']
 
     event['logged_in'] = authenticated_userid(request)
     person = request.db.get_person(event['logged_in'])
     event['logged_in_id'] = getattr(person, 'id', None)
+
+    event['footer'] = tahrir.views.load_docs(request, 'footer')
+
+    event['twitter'] = asbool(settings.get('tahrir.social.twitter'))
+    event['twitter_user_text'] = settings.get(
+        'tahrir.social.twitter_user_text')
+    event['twitter_user_hash'] = settings.get(
+        'tahrir.social.twitter_user_hash')
+    event['gplus'] = asbool(settings.get('tahrir.social.gplus'))
+
+    # Cause jquery.js to be injected into the page.
+    tw2.jquery.jquery_js.display()

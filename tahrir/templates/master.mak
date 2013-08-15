@@ -12,16 +12,10 @@
 	<link rel="stylesheet" media="mobile" href="${request.static_url('tahrir:static/css/unsemantic-grid-mobile.css')}" />
 	<link rel="stylesheet" media="screen" href="${request.static_url('tahrir:static/css/unsemantic-grid-responsive.css')}" />
 	<link rel="shortcut icon" href="${request.static_url('tahrir:static/img/favicon.ico')}" />
-    <script
-      type="text/javascript"
-      src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
-    </script>
+    <script src="${request.static_url('tahrir:static/js/social.js')}"></script>
     % if logged_in and awarded_assertions:
-      <script
-        type="text/javascript"
-        src="http://beta.openbadges.org/issuer.js">
-      </script>
-      <script type="text/javascript">
+      <script src="//beta.openbadges.org/issuer.js"></script>
+      <script>
          function htmlDecode(value) {return $("<div>").html(value).text();}
          function badge_urls() {
           var urls = [
@@ -43,6 +37,33 @@
       </script>
     % endif
     <title>${title}</title>
+
+    % if user:
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:foaf="http://xmlns.com/foaf/0.1/">
+
+        <foaf:PersonalProfileDocument rdf:about="">
+            <admin:generatorAgent rdf:resource="https://badges.fedoraproject.org/">
+            <admin:errorReportsTo rdf:resource="mailto:admin@fedoraproject.org"/>
+        </foaf:PersonalProfileDocument>
+
+        <foaf:OnlineAccount rdf:about="">
+            <foaf:accountServiceHomepage rdf:resource="http://${user.nickname}.id.fedoraproject.org"/>
+            <foaf:accountName rdf:resource="${user.nickname}"/>
+        </foaf>
+
+        <foaf:Person rdf:about="${request.url}">
+           <foaf:nick rdf:resource="${user.nickname}"/>
+           <foaf:mbox rdf:resource="mailto:${user.email_md5}"/>
+           <foaf:img rdf:resource="${user.avatar_url(512)}"/>
+            % if user.website:
+           <foaf:homepage rdf:resource="${user.website}"/>
+            % endif
+            <foaf:account rdf:resource="http://${user.nickname}.id.fedoraproject.org"/>
+        </foaf:Person>
+    </rdf:RDF>
+    % endif
+
   </head>
   <body>
   <div class="page clearfix">
@@ -55,6 +76,7 @@
     </div>
 
 	<ul class="grid-100 navbar">
+		<li><a href="${request.route_url('about')}">About</a></li>
 		<li><a href="${request.route_url('explore')}">Explore</a></li>
 		<li><a href="${request.route_url('leaderboard')}">Leaderboard</a></li>
       % if logged_in:
@@ -77,15 +99,7 @@
 </div> <!-- End page -->
 
   <footer>
-    <p>You can use the
-    <a href="${request.route_url('builder')}">Badge Builder</a> to help
-    you create YAML files for new badges.</p>
-    <p>You can report bugs and file issues with التحرير (Tahrir) on
-    <a href="https://github.com/fedora-infra/tahrir/issues">
-    the GitHub issues tracker</a>.</p>
-    <p>This project is free software; you can find the
-    <a href="http://github.com/fedora-infra/tahrir">source</a>
-    on GitHub.</p>
+    ${footer | n}
   </footer>
 
 

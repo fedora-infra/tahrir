@@ -1,4 +1,5 @@
 import os
+import hashlib
 import ConfigParser
 
 import dogpile.cache
@@ -33,6 +34,8 @@ def main(global_config, **settings):
     cache = dogpile.cache.make_region(
         key_mangler=dogpile.cache.util.sha1_mangle_key)
     tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
+    tahrir_api.model.Person.email_md5 = property(
+        lambda self: hashlib.md5(self.email).hexdigest())
 
     identifier = settings.get('tahrir.openid_identifier')
     tahrir_api.model.Person.openid_identifier =\
@@ -131,6 +134,7 @@ def main(global_config, **settings):
     config.add_route('badge', '/badge/{id}')
     config.add_route('badge_json', '/badge/{id}/json')
     config.add_route('builder', '/builder')
+    config.add_route('about', '/about')
     config.add_route('explore', '/explore')
     config.add_route('explore_badges', '/explore/badges')
     config.add_route('leaderboard', '/leaderboard')
