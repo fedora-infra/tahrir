@@ -53,12 +53,12 @@
 			of people have earned this badge.</li>
 		% if first_awarded and last_awarded:
 			<li>First earned by
-				<strong><a href="${request.route_url('user', id=first_awarded_person.id)}">
+				<strong><a href="${request.route_url('user', id=first_awarded_person.nickname or first_awarded_person.id)}">
 					${first_awarded_person.nickname}</a></strong>
 					on <strong>${first_awarded.issued_on.strftime("%Y-%m-%d")}
 					</strong>.</li>
 		<li>Last awarded to <strong>
-			<a href="${request.route_url('user', id=last_awarded_person.id)}">
+			<a href="${request.route_url('user', id=first_awarded_person.nickname or last_awarded_person.id)}">
 				${last_awarded_person.nickname}</a></strong>
 				on <strong>${last_awarded.issued_on.strftime("%Y-%m-%d")}
 				</strong>.</li>
@@ -78,11 +78,8 @@
 			% if badge_assertions:
 				<p>
 				% for assertion in badge_assertions:
-					<%
-						person = request.db.get_person(id=assertion.person_id)
-					%>
-					<a href=${request.route_url('user', id=person.nickname)}>
-					${request.db.get_person(nickname=person.nickname).nickname}</a>
+					<a href=${request.route_url('user', id=assertion.person.nickname or assertion.person.id)}>
+					${assertion.person.nickname}</a>
 					% if badge_assertions.index(assertion) + 1 != len(badge_assertions):
 					,
 					% endif
