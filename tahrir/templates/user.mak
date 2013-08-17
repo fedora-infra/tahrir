@@ -168,7 +168,7 @@
 				% if i % 3 == 0 and i != 0:
 				</div><div class="grid-container">
 				% endif
-				${self.functions.badge_thumbnail(badge, 128, 33)}
+				${self.functions.badge_thumbnail(badge, 128, 33, 'bottom')}
 			% endfor
 			</div>
 		</div>
