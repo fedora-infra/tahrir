@@ -547,7 +547,7 @@ def badge(request):
         awarded_assertions = request.db.get_assertions_by_email(
                                 authenticated_userid(request))
     else:
-        awarded_assertions = None
+        awarded_assertions = []
 
     # Get badge statistics.
     # TODO: Perhaps abstract these statistics methods away somewhere?
