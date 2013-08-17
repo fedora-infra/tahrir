@@ -25,7 +25,7 @@
 
 			% if rank != 0:
 				<p>Ranked ${rank} out of ${user_count} ranked users
-					(top ${percentile}%).</p>
+					(top ${"{0:.1f}".format(percentile)}%).</p>
 			% else:
 				<p>Not ranked yet.</p>
 			% endif
