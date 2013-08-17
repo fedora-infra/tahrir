@@ -336,6 +336,10 @@ form table {
     transition: all 0.4s ease-in-out; /* To add some smoothness */
 }
 
+.tooltip-bottom::after {
+    border-radius: 8px 0px 8px 8px;
+}
+
 .tooltip:hover::after {
     opacity: 1; /* Make it visible */
     visibility: visible;
