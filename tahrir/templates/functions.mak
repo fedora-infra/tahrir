@@ -1,11 +1,15 @@
-<%def name="avatar_thumbnail(person, size, cell_width)">
+<%def name="avatar_thumbnail(person, size, cell_width, tooltip=True)">
 	<div class="grid-${cell_width} thumbnail-container">
 		<div class="thumbnail thumbnail-${size}">
+      % if tooltip:
 			<span class="tooltip tooltip-${size}" data-tooltip="${person.nickname}">
+      % endif
 				<a href="${request.route_url('user', id=person.nickname or person.id)}">
-					<img src="${person.avatar_url(size)}"/>
+					<img src="${person.avatar_url(size)}" />
 				</a>
+      % if tooltip:
 			</span>
+      % endif
 		</div>
 	</div>
 </%def>
