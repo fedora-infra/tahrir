@@ -1,6 +1,5 @@
 <%inherit file="master.mak" />
 <div class="page">
-<<<<<<< HEAD
   <!-- COLUMN 1 (Left)-->
   <div class="grid-50">
     <div class="shadow">
