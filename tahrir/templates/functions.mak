@@ -31,3 +31,9 @@
 		</div>
 	</div>
 </%def>
+
+<%def name="link_person_nickname(person)">
+  <a href="${request.route_url('user', id=person.nickname or person.id)}">
+    ${person.nickname}
+  </a>
+</%def>
