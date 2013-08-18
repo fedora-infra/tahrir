@@ -1,5 +1,6 @@
 <%inherit file="master.mak" />
 <div class="page">
+<<<<<<< HEAD
   <!-- COLUMN 1 (Left)-->
   <div class="grid-50">
     <div class="shadow">
@@ -37,6 +38,9 @@
       <h1 class="section-header">Badge Statistics</h1>
       <div class="padded-content">
         <ul class="pretty-list">
+          % if badge in [x.badge for x in awarded_assertions]:
+            <li>You have this badge!</li>
+          % endif
           <li>
             Created on <strong>${badge.created_on.strftime("%Y-%m-%d")}</strong>.
           </li>

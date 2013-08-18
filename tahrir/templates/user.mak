@@ -5,7 +5,7 @@
     <div class="shadow">
       <h1 class="section-header">User Info</h1>
       <div class="padded-content clearfix">
-        ${self.functions.avatar_thumbnail(user, 'responsive', 100)}
+        ${self.functions.avatar_thumbnail(user, 'responsive', 100, False)}
         <div class="grid-100">
           <p class="name">${user.nickname}</p>
         </div>
@@ -24,7 +24,7 @@
 
           % if rank != 0:
             <p>
-              Ranked ${rank} out of ${user_count} ranked users (top ${percentile}%).</p>
+              Ranked ${rank} out of ${user_count} ranked users (top ${"{0:.1f}".format(percentile)}%).</p>
           % else:
             <p>Not ranked yet.</p>
           % endif
