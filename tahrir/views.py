@@ -34,7 +34,6 @@ from pyramid.security import (
 )
 from pyramid.settings import asbool
 
-from tahrir_api.dbapi import TahrirDatabase
 import tahrir_api.model as m
 
 from tahrir.utils import strip_tags, generate_badge_yaml
