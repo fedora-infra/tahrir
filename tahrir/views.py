@@ -697,14 +697,18 @@ def badge_rss(request):
         language=u"en",
     )
 
-    description_template = "<img src='%s' />%s"
+    description_template = "<img src='%s' alt='%s' />%s"
 
     for assertion in sorted_assertions:
+        url = request.route_url(
+            'user', id=assertion.person.nickname or assertion.person.id)
         feed.add_item(
-            title=assertion.badge.name,
-            link=request.route_url('badge', id=assertion.badge.id),
+            title=assertion.person.nickname,
+            link=url,
+            pubdate=assertion.issued_on,
             description=description_template % (
                 assertion.person.avatar_url(128),
+                assertion.person.nickname,
                 assertion.person.nickname,
             )
         )
@@ -739,14 +743,17 @@ def user_rss(request):
         language=u"en",
     )
 
-    description_template = "<img src='%s' />%s"
+    description_template = "<img src='%s' alt='%s'/>%s -- %s"
 
     for assertion in sorted_assertions:
         feed.add_item(
             title=assertion.badge.name,
             link=request.route_url('badge', id=assertion.badge.id),
+            pubdate=assertion.issued_on,
             description=description_template % (
                 assertion.badge.image,
+                assertion.badge.name,
+                assertion.badge.name,
                 assertion.badge.description,
             )
         )
