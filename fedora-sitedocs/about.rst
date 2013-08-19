@@ -85,8 +85,21 @@ Of course, we can't use a simple script to retroactively award badges based on l
 
 There's a tentative plan to write a bigger script that will go back over old Koji logs and so on, generate appropriate fedmsg messages but (of course!) not actually broadcast them, and instead feed them straight into datanommer. That should let us catch up on a lot of old activity.
 
+Can I embed by badges in my blog?
+---------------------------------
+
+Our frontend app doesn't provide the tools directly, but we do allow you to
+export your badges to Mozilla's `Open Badges Backpack`_ and *they* provide
+`some tools for embedding your badges elsewhere
+<https://github.com/mozilla/openbadges/wiki/Open-Badges-related-widgets>`_.
+
+Click the *Export Badges* button on your profile, login via Mozilla's
+"Persona" with your ``FASUSERNAME@fedoraproject.org`` email address, and
+create custom badge displays there.
+
 .. _fedmsg: http://fedmsg.com/
 .. _datanommer: https://apps.fedoraproject.org/datagrepper
 .. _fedbadges: https://github.com/fedora-infra/fedbadges
 .. _tahrir: https://github.com/fedora-infra/tahrir
 .. _tahrir-api: https://github.com/fedora-infra/tahrir-api
+.. _Open Badges Backpack: https://backpack.openbadges.org
