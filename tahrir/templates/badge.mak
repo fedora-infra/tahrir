@@ -25,8 +25,10 @@
           % endif
           <p>Issued by: ${badge.issuer.name}</p>
           <p>Criteria: <a href="${badge.criteria}">${badge.criteria}</a></p>
-          <p>View badge as: <a href="${request.route_url('badge_json', id=badge.id)}">
-              JSON</a></p>
+          <p>View badge as:
+            <a href="${request.route_url('badge_json', id=badge.id)}">JSON</a>,
+            <a href="${request.route_url('badge_rss', id=badge.id)}">RSS</a>
+          </p>
         </div>
       </div> <!-- End padded content. -->
     </div> <!-- End shadow. -->

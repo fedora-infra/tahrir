@@ -677,6 +677,45 @@ def badge_json(request):
     return _badge_json_generator(request, badge_id, badge)
 
 
+@view_config(route_name='badge_rss')
+def badge_rss(request):
+    """ Render per-badge rss. """
+
+    badge_id = request.matchdict.get('id')
+    badge = request.db.get_badge(badge_id)
+
+    if not badge:
+        raise HTTPNotFound("No such badge %r" % badge_id)
+
+    comparator = lambda x, y: cmp(x.issued_on, y.issued_on)
+    sorted_assertions = sorted(badge.assertions, cmp=comparator, reverse=True)
+
+    feed = feedgenerator.Rss201rev2Feed(
+        title=u"Badges Feed for %s" % badge.name,
+        link=request.route_url('badge', id=badge.id),
+        description=u"Latest recipients of the badge %s" % badge.name,
+        language=u"en",
+    )
+
+    description_template = "<img src='%s' />%s"
+
+    for assertion in sorted_assertions:
+        feed.add_item(
+            title=assertion.badge.name,
+            link=request.route_url('badge', id=assertion.badge.id),
+            description=description_template % (
+                assertion.person.avatar_url(128),
+                assertion.person.nickname,
+            )
+        )
+
+    return Response(
+        body=feed.writeString('utf-8'),
+        content_type='application/rss+xml',
+        charset='utf-8',
+    )
+
+
 @view_config(route_name='user_rss')
 def user_rss(request):
     """ Render per-user rss. """
