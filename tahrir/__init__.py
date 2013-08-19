@@ -18,6 +18,7 @@ from .utils import (
     make_relative_time_property,
     make_openid_identifier_property,
 )
+import notifications
 
 from tahrir_api.dbapi import TahrirDatabase
 import tahrir_api.model
@@ -58,7 +59,8 @@ def main(global_config, **settings):
             calling anywhere.
         """
         session = session_cls()
-        return TahrirDatabase(session=session, autocommit=False)
+        return TahrirDatabase(session=session, autocommit=False,
+                              notification_callback=notifications.callback)
 
     required_keys = [
         'tahrir.pngs.uri',
