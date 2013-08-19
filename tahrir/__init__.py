@@ -143,6 +143,7 @@ def main(global_config, **settings):
     config.add_route('tags', '/tags/{tags}/{match}')
     config.add_route('user', '/user/{id}')
     config.add_route('user_json', '/user/{id}/json')
+    config.add_route('user_rss', '/user/{id}/rss')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
 

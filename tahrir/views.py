@@ -13,6 +13,7 @@ import markupsafe
 from datetime import datetime
 
 from mako.template import Template as t
+from webhelpers import feedgenerator
 from pyramid.view import (
     view_config,
     forbidden_view_config,
@@ -674,6 +675,48 @@ def badge_json(request):
         return {"error": "No such badge exists."}
 
     return _badge_json_generator(request, badge_id, badge)
+
+
+@view_config(route_name='user_rss')
+def user_rss(request):
+    """ Render per-user rss. """
+
+    user_id = request.matchdict.get('id')
+    user = _get_user(request, user_id)
+
+    if not user:
+        raise HTTPNotFound("No such user %r" % user_id)
+
+    if user.opt_out == True and user.email != authenticated_userid(request):
+        raise HTTPNotFound("User %r has opted out." % user_id)
+
+    comparator = lambda x, y: cmp(x.issued_on, y.issued_on)
+    sorted_assertions = sorted(user.assertions, cmp=comparator, reverse=True)
+
+    feed = feedgenerator.Rss201rev2Feed(
+        title=u"Badges Feed for %s" % user.nickname,
+        link=request.route_url('user', id=user.nickname or user.id),
+        description=u"The latest Fedora Badges obtained by %s" % user.nickname,
+        language=u"en",
+    )
+
+    description_template = "<img src='%s' />%s"
+
+    for assertion in sorted_assertions:
+        feed.add_item(
+            title=assertion.badge.name,
+            link=request.route_url('badge', id=assertion.badge.id),
+            description=description_template % (
+                assertion.badge.image,
+                assertion.badge.description,
+            )
+        )
+
+    return Response(
+        body=feed.writeString('utf-8'),
+        content_type='application/rss+xml',
+        charset='utf-8',
+    )
 
 
 @view_config(route_name='user', renderer='user.mak')

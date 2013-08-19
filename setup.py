@@ -19,6 +19,7 @@ requires = [
     'docutils',
     "python-dateutil",
     "moksha.wsgi>=1.2.1",
+    "webhelpers",
 
     # For qrcode to work from PyPI, you also need Pillow.
     # This is handled for us in Fedora because python-qrcode pulls in the
