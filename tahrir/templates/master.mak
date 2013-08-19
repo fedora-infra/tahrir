@@ -84,7 +84,7 @@
           <li><a href="${request.route_url('explore')}">Explore</a></li>
           <li><a href="${request.route_url('leaderboard')}">Leaderboard</a></li>
           % if logged_in:
-            <li><a href="${request.route_url('user', id=logged_in_id)}">Profile</a></li>
+            <li><a href="${request.route_url('user', id=logged_in_person.nickname or logged_in_person.id)}">Profile</a></li>
           % endif
           % if logged_in:
             % if 'group:admins' in auth_principals:

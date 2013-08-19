@@ -33,7 +33,7 @@ def inject_globals(event):
 
     event['logged_in'] = authenticated_userid(request)
     person = request.db.get_person(event['logged_in'])
-    event['logged_in_id'] = getattr(person, 'id', None)
+    event['logged_in_person'] = person
 
     event['footer'] = tahrir.views.load_docs(request, 'footer')
 
