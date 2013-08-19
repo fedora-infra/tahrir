@@ -41,7 +41,9 @@
           % endif
 
           <p>
-            View user as: <a href="${request.route_url('user_json', id=user.nickname)}">JSON</a>
+            View user as:
+            <a href="${request.route_url('user_json', id=user.nickname)}">JSON</a>,
+            <a href="${request.route_url('user_rss', id=user.nickname or user.id)}">RSS</a>
           </p>
         </div>
         % if logged_in == user.email:
