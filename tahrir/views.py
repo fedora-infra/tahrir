@@ -35,7 +35,6 @@ from pyramid.security import (
 )
 from pyramid.settings import asbool
 
-from tahrir_api.dbapi import TahrirDatabase
 import tahrir_api.model as m
 
 from tahrir.utils import strip_tags, generate_badge_yaml
@@ -46,12 +45,6 @@ from moksha.wsgi.widgets.api import get_moksha_socket, LiveWidget
 from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.expression import func
 
-# Optional.  Emit messages to the fedmsg bus.
-fedmsg = None
-try:
-    import fedmsg
-except ImportError:
-    pass
 
 def _get_user(request, id_or_nickname):
     '''Attempt to get a user by their id or nickname, returning None if
@@ -145,26 +138,6 @@ def admin(request):
                     request.POST.get('assertion-badge-id'),
                     request.POST.get('assertion-person-email'),
                     issued_on)
-
-            if fedmsg and settings.get('tahrir.use_fedmsg', False):
-                person = request.db.get_person(
-                    person_email=request.POST.get('assertion-person-email'))
-                badge = request.db.get_badge(
-                    badge_id=request.POST.get('assertion-badge-id'))
-
-                fedmsg.publish(
-                    modname="fedbadges", topic="badge.award",
-                    msg=dict(
-                        badge=dict(
-                            name=badge.name,
-                            description=badge.description,
-                            image_url=badge.image,
-                        ),
-                        user=dict(
-                            username=person.nickname,
-                            badges_user_id=person.id
-                        ),
-                    ))
 
     return dict(
         auth_principals=effective_principals(request),
@@ -266,22 +239,6 @@ def invitation_claim(request):
     result = request.db.add_assertion(request.context.badge_id,
                                       person.email,
                                       datetime.now())
-
-    if fedmsg and settings.get('tahrir.use_fedmsg', False):
-        badge = request.context.badge
-        fedmsg.publish(
-            modname="fedbadges", topic="badge.award",
-            msg=dict(
-                badge=dict(
-                    name=badge.name,
-                    description=badge.description,
-                    image_url=badge.image,
-                ),
-                user=dict(
-                    username=person.nickname,
-                    badges_user_id=person.id
-                ),
-            ))
 
     # TODO -- return them to a page that auto-exports their badges.
     # TODO -- flash and tell them they got the badge
