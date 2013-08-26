@@ -1,3 +1,6 @@
+import pyramid.threadlocal
+from pyramid.settings import asbool
+
 # Optional.  Emit messages to the fedmsg bus.
 fedmsg = None
 try:
@@ -7,7 +10,9 @@ except ImportError:
 
 
 def callback(topic, msg):
-    if fedmsg:
+    request = pyramid.threadlocal.get_current_request()
+    settings = request.registry.settings
+    if fedmsg and asbool(settings.get('tahrir.use_fedmsg', False)):
         fedmsg.publish(
             modname="fedbadges",
             topic=topic,
