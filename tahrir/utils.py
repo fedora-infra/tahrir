@@ -88,7 +88,7 @@ def generate_badge_yaml(postdict):
 def make_avatar_method(cache):
 
     @cache.cache_on_arguments()
-    def _avatar_function(email, size):
+    def _avatar_function(openid, size):
         request = pyramid.threadlocal.get_current_request()
         absolute_default = request.static_url(
             'tahrir:static/img/badger_avatar.png')
@@ -104,17 +104,13 @@ def make_avatar_method(cache):
 
         query = urllib.urlencode(query)
 
-        # Use md5 for emails, and sha256 for openids.
-        # We're really using openids, so...
-        gravatar_email = email.split('://')[1].replace('.id.','@')
+        gravatar_email = openid.split('://')[1].replace('.id.','@')
         gravatar_hash = md5(gravatar_email).hexdigest()
-        hash = sha256(email).hexdigest()
-
         gravatar_url = "https://secure.gravatar.com/avatar/%s?%s" % (gravatar_hash, query)
 
         if libravatar:
             return libravatar.libravatar_url(
-                email=email,
+                openid=openid,
                 size=size,
                 default=gravatar_url,
             )
