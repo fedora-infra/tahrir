@@ -35,7 +35,7 @@
       <h1 class="section-header">Explore Badges</h1>
       <p style="margin-left: 20px;">
         Visit the <a href="${request.route_url('explore_badges')}">badge index</a>
-        to see a <strong>every badge</strong>,
+        to see <strong>every badge</strong>,
         as well as the <strong>newest badges</strong>.
       </p>
       <div class="clear"></div>
