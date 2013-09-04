@@ -265,66 +265,52 @@ def invitation_qrcode(request):
 @view_config(route_name='leaderboard', renderer='leaderboard.mak')
 def leaderboard(request):
     """ Render a top users view. """
-    if authenticated_userid(request):
-        awarded_assertions = request.db.get_assertions_by_email(
-                                authenticated_userid(request))
-    else:
-        awarded_assertions = None
 
-    leaderboard = request.db.session.query(m.Person, func.count(
-        m.Person.assertions)).join(m.Assertion).order_by(
-            'count_1 desc').filter(m.Person.opt_out == False).group_by(
-                m.Person).all()
-
-    # Hackishly, but relatively cheaply get the rank of all users.
-    # This is:
-    # { <person object>:
-    #   {
-    #     'badges': <number of badges they have>,
-    #     'rank': <their global rank>
-    #   }
-    # }
-    user_to_rank = dict(
-        [
-            [
-                data[0],
-                {
-                    'badges': data[1],
-                    'rank': idx + 1
-                }
-            ] for idx, data in enumerate(leaderboard)
-        ]
-    )
-
-    # Get total user count.
-    user_count = len(leaderboard)
+    user, awarded_assertions = None, None
 
     if authenticated_userid(request):
         user = request.db.get_person(
             person_email=authenticated_userid(request))
 
-        # Get rank.
-        idx = [i[0] for i in leaderboard].index(user)
-        rank = idx + 1
+    leaderboard = request.db.session\
+        .query(m.Person)\
+        .order_by(m.Person.rank)\
+        .filter(m.Person.opt_out == False)\
+        .all()
+
+    user_to_rank = dict([(person, {
+        'badges': len(person.assertions),
+        'rank': person.rank,
+    }) for person in leaderboard])
+
+    # Get total user count.
+    user_count = len(leaderboard)
+
+    if user:
+        awarded_assertions = user.assertions
+        rank = user.rank or 0
+        idx = rank - 1
+
         # Handle the case of leaderboard[-2:2] which will be [] always.
         if idx < 2:
             idx = 2
-        competitors = [c[0] for c in leaderboard[(idx - 2):(idx + 3)]]
+
+        competitors = leaderboard[(idx - 2):(idx + 3)]
 
         try:
-            percentile = (float(user_to_rank[user]['rank']) / float(user_count)) * 100
+            percentile = (float(rank) / float(user_count)) * 100
         except ZeroDivisionError:
             percentile = 0
-
     else:
+        awarded_assertions = None
         rank = None
-        percentile = None
         competitors = None
+        percentile = None
 
     return dict(
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
-            top_persons_sorted=[x[0] for x in leaderboard],
+            top_persons_sorted=leaderboard,
             rank=rank,
             user_count=user_count,
             percentile=percentile,
@@ -342,42 +328,34 @@ def leaderboard_json(request):
     if user_id:
         user = _get_user(request, user_id)
 
-    leaderboard = request.db.session.query(m.Person, func.count(
-        m.Person.assertions)).join(m.Assertion).order_by(
-            'count_1 desc').filter(m.Person.opt_out == False).group_by(
-                m.Person).all()
+    leaderboard = request.db.session\
+        .query(m.Person)\
+        .order_by(m.Person.rank)\
+        .filter(m.Person.opt_out == False)\
+        .all()
 
-    # Hackishly, but relatively cheaply get the rank of all users.
-    # This is:
-    # { <person object>:
-    #   {
-    #     'badges': <number of badges they have>,
-    #     'rank': <their global rank>
-    #   }
-    # }
-    user_to_rank = dict(
-        [
-            [
-                data[0],
-                {
-                    'badges': data[1],
-                    'rank': idx + 1
-                }
-            ] for idx, data in enumerate(leaderboard)
-        ]
-    )
+    user_to_rank = dict([(person, {
+        'badges': len(person.assertions),
+        'rank': person.rank,
+    }) for person in leaderboard])
+
+    # Get total user count.
+    user_count = len(leaderboard)
 
     if user:
-        idx = [i[0] for i in leaderboard].index(user)
+        rank = user.rank or 0
+        idx = rank - 1
+
         # Handle the case of leaderboard[-2:2] which will be [] always.
         if idx < 2:
             idx = 2
+
         leaderboard = leaderboard[(idx - 2):(idx + 3)]
     else:
         leaderboard = leaderboard[:25]
 
     ret = [
-        dict(user_to_rank[p[0]].items() + {'nickname': p[0].nickname}.items())
+        dict(user_to_rank[p].items() + {'nickname': p.nickname}.items())
         for p in leaderboard]
 
     return { 'leaderboard': ret }
