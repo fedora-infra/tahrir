@@ -155,38 +155,35 @@ def index(request):
                                  authenticated_userid(request))
     else:
         awarded_assertions = None
+
     # set came_from so we can get back home after openid auth.
     request.session['came_from'] = request.route_url('home')
 
-    persons_assertions = request.db.get_all_assertions().join(
-                            m.Person).filter(
-                            m.Person.opt_out == False)
-    from collections import defaultdict
-    top_persons = defaultdict(int) # person: assertion count
-    for item in persons_assertions:
-        top_persons[item.person] += 1
+    latest_awards = request.db.get_all_assertions()\
+        .join(m.Person)\
+        .filter(m.Person.opt_out == False)\
+        .order_by(sa.desc(m.Assertion.issued_on))\
+        .limit(n)\
+        .all()
 
-    top_persons_sorted = sorted(sorted(top_persons,
-                                key=lambda person: person.id),
-                                key=top_persons.get,
-                                reverse=True)
-    # Limit the sorted top persons to the top 10% and then take
-    # a random sample of 5 persons from that pool.
-    num_users_at_top = max(int(len(top_persons_sorted) * 0.1),
-                           min(len(top_persons_sorted), 5))
-    # This is not actually a sample yet, but it's about to be...
-    top_persons_sample = top_persons_sorted[:num_users_at_top]
-    try:
-        top_persons_sample = random.sample(top_persons_sample, 5)
-    except ValueError:
-        # The sample is probably larger than the num of top users,
-        # so let's just take all the users in the top 10%, in a
-        # random order.
-        random.shuffle(top_persons_sample)
+    newest_persons = request.db.get_all_persons()\
+        .filter(m.Person.opt_out == False)\
+        .order_by(sa.desc(m.Person.created_on))\
+        .limit(n)\
+        .all()
 
-    # Get latest awards.
-    latest_awards = persons_assertions.order_by(
-                    sa.desc(m.Assertion.issued_on)).limit(n).all()
+    person_count = request.db.session.query(m.Person)\
+        .filter(m.Person.opt_out == False)\
+        .count()
+    top_ten_percent = int(person_count * 0.10) + 1
+
+    top_persons_sample = request.db.session.query(m.Person)\
+        .order_by(m.Person.rank)\
+        .limit(top_ten_percent)\
+        .from_self()\
+        .order_by(func.random())\
+        .limit(n)\
+        .all()
 
     # Register our websocket handler callback
     if asbool(request.registry.settings['tahrir.use_websockets']):
@@ -196,10 +193,7 @@ def index(request):
     return dict(
         auth_principals=effective_principals(request),
         latest_awards=latest_awards,
-        newest_persons=request.db.get_all_persons().filter(
-                        m.Person.opt_out == False).order_by(
-                        sa.desc(m.Person.created_on)).limit(n).all(),
-        top_persons=top_persons,
+        newest_persons=newest_persons,
         top_persons_sample=top_persons_sample,
         awarded_assertions=awarded_assertions,
         moksha_socket=get_moksha_socket(request.registry.settings),
