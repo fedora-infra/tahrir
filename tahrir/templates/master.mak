@@ -38,6 +38,11 @@
     % endif
     <title>${title}</title>
 
+    % if user or badge:
+    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="${request.url}/rss" />
+    <link rel="alternate" type="application/json" title="JSON" href="${request.url}/json" />
+    % endif
+
     % if user:
       <rdf:RDF
          xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
