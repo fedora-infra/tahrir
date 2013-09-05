@@ -52,8 +52,8 @@
               <a href="${request.route_url('user', id=person.nickname or person.id)}">
                 ${person.nickname or person.email}
               </a>
-              with <strong>${top_persons[person]}</strong>
-              ${'badge' if top_persons[person] == 1 else 'badges'}.
+              with <strong>${len(person.assertions)}</strong>
+              ${'badge' if len(person.assertions) == 1 else 'badges'}.
             </div>
           </div> <!-- end grid-container -->
         % endfor
