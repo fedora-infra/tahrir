@@ -41,7 +41,7 @@
     % if user or badge:
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="${request.url}/rss" />
     <link rel="alternate" type="application/json" title="JSON" href="${request.url}/json" />
-    %endif
+    % endif
 
     % if user:
       <rdf:RDF
