@@ -535,28 +535,21 @@ def badge(request):
             percent_earned=percent_earned,
             )
 
-def _badge_json_generator(request, badge_id, badge):
+def _badge_json_generator(request, badge):
     try:
-        times_awarded = len(request.db.get_assertions_by_badge(badge_id))
+        assertions = sorted(badge.assertions,
+                            cmp=lambda x, y: cmp(x.issued_on, y.issued_on))
 
-        last_awarded = request.db.get_all_assertions().filter(
-                sa.func.lower(m.Assertion.badge_id) == \
-                    sa.func.lower(badge_id)).order_by(
-                        sa.desc(m.Assertion.issued_on)).limit(1).one()
+        times_awarded = len(badge.assertions)
 
-        last_awarded_person = request.db.get_person(
-                id=last_awarded.person_id)
+        last_awarded = assertions[-1]
+        last_awarded_person = last_awarded.person
 
-        first_awarded = request.db.get_all_assertions().filter(
-                sa.func.lower(m.Assertion.badge_id) == \
-                    sa.func.lower(badge_id)).order_by(
-                        sa.asc(m.Assertion.issued_on)).limit(1).one()
-
-        first_awarded_person = request.db.get_person(
-                id=first_awarded.person_id)
+        first_awarded = assertions[0]
+        first_awarded_person = first_awarded.person
 
         percent_earned = float(times_awarded) / \
-                         float(len(request.db.get_all_persons().all()))
+                         float(request.db.get_all_persons().count())
 
     except sa.orm.exc.NoResultFound: # This badge has never been awarded.
         times_awarded = 0
@@ -606,7 +599,7 @@ def badge_json(request):
         request.response.status = '404 Not Found'
         return {"error": "No such badge exists."}
 
-    return _badge_json_generator(request, badge_id, badge)
+    return _badge_json_generator(request, badge)
 
 
 @view_config(route_name='badge_rss')
@@ -807,7 +800,7 @@ def _user_json_generator(request, user):
         assertions.append(
             dict(
                 {'issued': float(assertion.issued_on.strftime('%s'))}.items() + \
-                _badge_json_generator(request, assertion.badge.id, assertion.badge).items()))
+                _badge_json_generator(request, assertion.badge).items()))
 
     return {
         'user': user.nickname,
