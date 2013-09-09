@@ -278,10 +278,7 @@ def leaderboard(request):
         .filter(m.Person.opt_out == False)\
         .all()
 
-    user_to_rank = dict([(person, {
-        'badges': len(person.assertions),
-        'rank': person.rank,
-    }) for person in leaderboard])
+    user_to_rank = request.db._make_leaderboard()
 
     # Get total user count.
     user_count = len(leaderboard)
