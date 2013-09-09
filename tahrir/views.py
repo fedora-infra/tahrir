@@ -785,8 +785,6 @@ def user(request):
             )
 
 def _user_json_generator(request, user):
-    awarded_assertions = request.db.get_assertions_by_email(user.email)
-
     # Get user badges.
     user_badges = [a.badge for a in user.assertions]
 
@@ -794,7 +792,7 @@ def _user_json_generator(request, user):
     user_badges = sorted(user_badges, key=lambda badge: badge.id)
 
     # Get total number of unique badges in the system.
-    count_total_badges = len(request.db.get_all_badges().all())
+    count_total_badges = request.db.get_all_badges().count()
 
     # Get percentage of badges earned.
     try:
@@ -805,7 +803,7 @@ def _user_json_generator(request, user):
 
 
     assertions = []
-    for assertion in awarded_assertions:
+    for assertion in user.assertions:
         assertions.append(
             dict(
                 {'issued': float(assertion.issued_on.strftime('%s'))}.items() + \
