@@ -55,7 +55,7 @@
           % for person in top_persons_sorted[:25]:
             <tr>
               <td style="width: 20px;">
-                <span class="big-text">#${user_to_rank[person]['rank']}</span>
+                <span class="big-text">#${person.rank}</span>
               </td>
               <td style="width: 64px;">${self.functions.avatar_thumbnail(person, 64, 33)}</td>
               <td>
