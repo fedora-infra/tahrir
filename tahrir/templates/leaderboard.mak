@@ -21,7 +21,7 @@
                 % if person.email == logged_in:
                   <tr>
                     <td>
-                      <span class="big-text"><strong>#${user_to_rank[person]['rank']}</strong></span>
+                      <span class="big-text"><strong>#${person.rank}</strong></span>
                     </td>
                     <td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
                     <td>
@@ -31,7 +31,7 @@
                     </td>
                   % else:
                     <td>
-                      <span class="big-text">#${user_to_rank[person]['rank']}</span>
+                      <span class="big-text">#${person.rank}</span>
                     </td>
                     <td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
                     <td><a href="${request.route_url('user', id=person.nickname or person.id)}">${person.nickname}</a></td>
