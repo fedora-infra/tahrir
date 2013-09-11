@@ -811,6 +811,104 @@ def _user_json_generator(request, user):
     }
 
 
+@view_config(route_name='diff', renderer='diff.mak')
+def diff(request):
+    """Render user diff page."""
+
+    # Get awarded assertions.
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                authenticated_userid(request))
+    else:
+        awarded_assertions = None
+
+    user_a_id = request.matchdict.get('id_a')
+    user_b_id = request.matchdict.get('id_b')
+    user_a = _get_user(request, user_a_id)
+    user_b = _get_user(request, user_b_id)
+
+    if not user_a:
+        raise HTTPNotFound("No such user %r" % user_a_id)
+    if not user_b:
+        raise HTTPNotFound("No such user %r" % user_b_id)
+
+    if user_a.opt_out == True and user_a.email != authenticated_userid(request):
+        raise HTTPNotFound("User %r has opted out." % user_a_id)
+    if user_b.opt_out == True and user_b.email != authenticated_userid(request):
+        raise HTTPNotFound("User %r has opted out." % user_b_id)
+
+    # Get user badges.
+    user_a_badges = [a.badge for a in user_a.assertions]
+    user_b_badges = [a.badge for a in user_b.assertions]
+
+    # Sort user badges by id.
+    user_a_badges = sorted(user_a_badges, key=lambda badge: badge.id)
+    user_b_badges = sorted(user_b_badges, key=lambda badge: badge.id)
+
+    # Get total number of unique badges in the system.
+    count_total_badges = len(request.db.get_all_badges().all())
+
+    # Get percentage of badges earned.
+    try:
+        user_a_percent_earned = (float(len(user_a_badges)) / \
+                          float(count_total_badges)) * 100
+    except ZeroDivisionError:
+        user_a_percent_earned = 0
+    try:
+        user_b_percent_earned = (float(len(user_b_badges)) / \
+                          float(count_total_badges)) * 100
+    except ZeroDivisionError:
+        user_b_percent_earned = 0
+
+    # Get rank. (same code found in leaderboard view function)
+    user_a_rank = user_a.rank
+    user_b_rank = user_b.rank
+    user_count = request.db.session.query(m.Person)\
+        .filter(m.Person.opt_out == False).count()
+
+    try:
+        user_a_percentile = (float(user_a_rank) / float(user_count)) * 100
+    except ZeroDivisionError:
+        user_a_percentile = 0
+    try:
+        user_b_percentile = (float(user_b_rank) / float(user_count)) * 100
+    except ZeroDivisionError:
+        user_b_percentile = 0
+
+    # Diff badges.
+    user_a_unique_badges = []
+    user_b_unique_badges = []
+    combined_badges = set(user_a_badges + user_b_badges)
+    shared_badges = []
+    for badge in combined_badges:
+        if badge in user_a_badges and badge not in user_b_badges:
+            user_a_unique_badges.append(badge)
+        elif badge in user_b_badges and badge not in user_a_badges:
+            user_b_unique_badges.append(badge)
+        elif badge in user_a_badges and badge in user_b_badges:
+            shared_badges.append(badge)
+
+    return dict(
+            auth_principals=effective_principals(request),
+            awarded_assertions=awarded_assertions,
+            user_count=user_count,
+            user_a=user_a,
+            user_b=user_b,
+            user_a_badges=user_a_badges,
+            user_b_badges=user_b_badges,
+            user_a_unique_badges=user_a_unique_badges,
+            user_b_unique_badges=user_b_unique_badges,
+            shared_badges=shared_badges,
+            user_a_percent_earned=user_a_percent_earned,
+            user_b_percent_earned=user_b_percent_earned,
+            user_a_rank=user_a_rank,
+            user_b_rank=user_b_rank,
+            user_a_percentile=user_a_percentile,
+            user_b_percentile=user_b_percentile,
+            )
+
+
+
 @view_config(route_name='user_json', renderer='json')
 def user_json(request):
     """Render user info JSON dump."""
