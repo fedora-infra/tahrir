@@ -36,8 +36,6 @@ def inject_globals(event):
     with open('setup.py') as setupfile:
         for line in setupfile:
             line = line.split('=')
-            import q
-            q.q(line)
             if line[0].strip() == 'version':
                 tahrir_version = line[1].replace(
                          "'", '').replace(',', '').strip()
