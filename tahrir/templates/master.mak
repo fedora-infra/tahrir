@@ -106,6 +106,7 @@
     </div> <!-- End page -->
 
     <footer>
+	  Running ﺎﻠﺘﺣﺮﻳﺭ (Tahrir) version ${tahrir_version}.
       ${footer | n}
     </footer>
 

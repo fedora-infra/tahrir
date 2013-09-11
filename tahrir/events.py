@@ -31,6 +31,18 @@ def inject_globals(event):
     event['title'] = settings['tahrir.title']
     event['base_url'] = settings['tahrir.base_url']
 
+    # Get version number from setup.py... optimizations welcome.
+    tahrir_version = 'unknown'
+    with open('setup.py') as setupfile:
+        for line in setupfile:
+            line = line.split('=')
+            import q
+            q.q(line)
+            if line[0].strip() == 'version':
+                tahrir_version = line[1].replace(
+                         "'", '').replace(',', '').strip()
+    event['tahrir_version'] = tahrir_version
+
     event['logged_in'] = authenticated_userid(request)
     person = request.db.get_person(event['logged_in'])
     event['logged_in_person'] = person
