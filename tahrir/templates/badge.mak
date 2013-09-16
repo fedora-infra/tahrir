@@ -65,7 +65,7 @@
             </li>
             <li>
               Last awarded to
-              <a href="${request.route_url('user', id=first_awarded_person.nickname or last_awarded_person.id)}">
+              <a href="${request.route_url('user', id=last_awarded_person.nickname or last_awarded_person.id)}">
                 <strong>${last_awarded_person.nickname}</strong>
               </a>
               on <strong>${last_awarded.issued_on.strftime("%Y-%m-%d")}</strong>.
