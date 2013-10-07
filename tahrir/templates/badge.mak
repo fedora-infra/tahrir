@@ -40,9 +40,12 @@
       <h1 class="section-header">Badge Statistics</h1>
       <div class="padded-content">
         <ul class="pretty-list">
-          % if badge in [x.badge for x in awarded_assertions]:
-            <li>You have this badge!</li>
-          % endif
+          % for assertion in awarded_assertions:
+              % if assertion.badge == badge:
+                <li>You were awarded this badge on <strong>${assertion.issued_on.strftime("%Y-%m-%d")}</strong>.</li>
+                <% break %>
+              % endif
+          % endfor
           <li>
             Created on <strong>${badge.created_on.strftime("%Y-%m-%d")}</strong>.
           </li>
