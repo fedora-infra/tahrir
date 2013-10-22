@@ -118,6 +118,8 @@ Then, to set up Tahrir, follow these steps::
 	$ cd tahrir
 	$ mkvirtualenv tahrir
 	(tahrir)$ python setup.py develop
+	tahrir)$ cp development.ini.sample development.ini
+	tahrir)$ cp secret.ini.sample secret.ini
 	(tahrir)$ initialize_tahrir_db development.ini
 	(tahrir)% pserve --reload development.ini
 
