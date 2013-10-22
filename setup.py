@@ -6,7 +6,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.rst')).read()
 
 requires = [
-    'pyramid',
+    'pyramid<1.5a1',
     'tahrir_api >= 0.2.0',
     'SQLAlchemy >= 0.8.0',
     'transaction',
