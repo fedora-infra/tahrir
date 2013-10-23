@@ -44,30 +44,7 @@
     % endif
 
     % if user:
-      <rdf:RDF
-         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-         xmlns:foaf="http://xmlns.com/foaf/0.1/">
-
-        <foaf:PersonalProfileDocument rdf:about="">
-          <admin:generatorAgent rdf:resource="https://badges.fedoraproject.org/" />
-          <admin:errorReportsTo rdf:resource="mailto:admin@fedoraproject.org" />
-        </foaf:PersonalProfileDocument>
-
-        <foaf:OnlineAccount rdf:about="">
-          <foaf:accountServiceHomepage rdf:resource="http://${user.nickname}.id.fedoraproject.org" />
-          <foaf:accountName rdf:resource="${user.nickname}" />
-        </foaf:OnlineAccount>
-
-        <foaf:Person rdf:about="${request.url}">
-          <foaf:nick rdf:resource="${user.nickname}" />
-          <foaf:mbox rdf:resource="mailto:${user.email_md5}" />
-          <foaf:img rdf:resource="${user.avatar_url(512)}" />
-          % if user.website:
-            <foaf:homepage rdf:resource="${user.website}" />
-          % endif
-          <foaf:account rdf:resource="http://${user.nickname}.id.fedoraproject.org" />
-        </foaf:Person>
-      </rdf:RDF>
+    <link rel="alternate" type="application/rdf" title="RDF+FOAF" href="${request.url}/foaf" />
     % endif
   </head>
   <body>
