@@ -472,6 +472,43 @@ def explore_badges(request):
             )
 
 
+@view_config(route_name='explore_badges_rss')
+def explore_badges_rss(request):
+    """ Render rss feed for the latest badges. """
+
+    newest_badges = sorted(request.db.get_all_badges().all(),
+                           key=lambda badge: badge.created_on,
+                           reverse=True)[:20]
+
+    feed = feedgenerator.Rss201rev2Feed(
+        title=u"Newest badges Feed",
+        link=request.route_url('explore_badges_rss'),
+        description=u"Latest badges of the application",
+        language=u"en",
+    )
+
+    description_template = "<img src='%s' alt='%s' />%s"
+
+    for badge in newest_badges:
+        url = request.route_url('badge', id=badge.id)
+        feed.add_item(
+            title=badge.name,
+            link=url,
+            pubdate=badge.created_on,
+            description=description_template % (
+                badge.image,
+                badge.name,
+                badge.description,
+            )
+        )
+
+    return Response(
+        body=feed.writeString('utf-8'),
+        content_type='application/rss+xml',
+        charset='utf-8',
+    )
+
+
 @view_config(route_name='badge', renderer='badge.mak')
 def badge(request):
     """Render badge info page."""
