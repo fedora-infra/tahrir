@@ -59,9 +59,11 @@
               </td>
               <td style="width: 64px;">${self.functions.avatar_thumbnail(person, 64, 33)}</td>
               <td>
-                <a href="${request.route_url('user', id=person.nickname or person.id)}">${person.nickname}</a>
+                % for [person] in user_to_rank:
+<a href="${request.route_url('user', id=person.nickname or person.id)}">${person.nickname}</a>
                 with <strong>${user_to_rank[person]['badges']}</strong>
                 ${'badge' if user_to_rank[person]['badges'] == 1 else 'badges'}.
+		% endfor
               </td>
             </tr>
           % endfor
