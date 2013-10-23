@@ -492,7 +492,7 @@ def explore_badges_rss(request):
     for badge in newest_badges:
         url = request.route_url('badge', id=badge.id)
         feed.add_item(
-            title=badge.name,
+            title="New badge: %s !" % badge.name,
             link=url,
             pubdate=badge.created_on,
             description=description_template % (
