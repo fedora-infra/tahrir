@@ -878,7 +878,8 @@ def diff(request):
     # Diff badges.
     user_a_unique_badges = []
     user_b_unique_badges = []
-    combined_badges = set(user_a_badges + user_b_badges)
+    combined_badges = list(sorted(set(user_a_badges + user_b_badges),
+                                  key=lambda badge: badge.id))
     shared_badges = []
     for badge in combined_badges:
         if badge in user_a_badges and badge not in user_b_badges:
