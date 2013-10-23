@@ -61,17 +61,19 @@
       <div class="padded-content">
         <table>
           % for person in top_persons_sorted[:25]:
-            <tr>
-              <td style="width: 20px;">
-                <span class="big-text">#${person.rank}</span>
-              </td>
-              <td style="width: 64px;">${self.functions.avatar_thumbnail(person, 64, 33)}</td>
-              <td>
-                <a href="${request.route_url('user', id=person.nickname or person.id)}">${person.nickname}</a>
-                with <strong>${user_to_rank[person]['badges']}</strong>
-                ${'badge' if user_to_rank[person]['badges'] == 1 else 'badges'}.
-              </td>
-            </tr>
+			% if person in user_to_rank:
+			<tr>
+			  <td style="width: 20px;">
+				<span class="big-text">#${person.rank}</span>
+			  </td>
+			  <td style="width: 64px;">${self.functions.avatar_thumbnail(person, 64, 33)}</td>
+			  <td>
+				<a href="${request.route_url('user', id=person.nickname or person.id)}">${person.nickname}</a>
+				with <strong>${user_to_rank[person]['badges']}</strong>
+				${'badge' if user_to_rank[person]['badges'] == 1 else 'badges'}.
+			  </td>
+			</tr>
+            % endif
           % endfor
         </table>
       </div> <!-- End padded content. -->
