@@ -41,13 +41,13 @@
 			</li>
 		<li>
 		% if user_a_rank < user_b_rank:
-			${user_a.nickname} (rank ${user_a_rank}, top ${user_a_percentile}%)
+			${user_a.nickname} (rank ${user_a_rank}, top ${"{0:.1f}".format(user_a_percentile)}%)
 			is ranked ${user_b_rank - user_a_rank} higher than ${user_b.nickname}
-			(rank ${user_b_rank}, top ${user_b_percentile}%).
+			(rank ${user_b_rank}, top ${"{0:.1f}".format(user_b_percentile)}%).
 		% else:
-			${user_b.nickname} (rank ${user_b_rank}, top ${user_b_percentile}%)
+			${user_b.nickname} (rank ${user_b_rank}, top ${"{0:.1f}".format(user_b_percentile)}%)
 			is ranked ${user_a_rank - user_b_rank} higher than ${user_a.nickname}
-			(rank ${user_a_rank}, top ${user_a_percentile}%).
+			(rank ${user_a_rank}, top ${"{0:.1f}".format(user_a_percentile)}%).
 		% endif
 			</li>
 	  </ul>
