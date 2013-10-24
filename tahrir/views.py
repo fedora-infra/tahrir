@@ -39,6 +39,7 @@ import tahrir_api.model as m
 
 from tahrir.utils import strip_tags, generate_badge_yaml
 import widgets
+import foafutils
 
 from moksha.wsgi.widgets.api import get_moksha_socket, LiveWidget
 
@@ -685,6 +686,27 @@ def user_rss(request):
     return Response(
         body=feed.writeString('utf-8'),
         content_type='application/rss+xml',
+        charset='utf-8',
+    )
+
+
+@view_config(route_name='user_foaf')
+def user_foaf(request):
+    """ Render per-user foaf. """
+    user_id = request.matchdict.get('id')
+    user = _get_user(request, user_id)
+
+    if not user:
+        raise HTTPNotFound("No such user %r" % user_id)
+
+    if user.opt_out == True and user.email != authenticated_userid(request):
+        raise HTTPNotFound("User %r has opted out." % user_id)
+
+    body = foafutils.generate_foaf_file(user)
+
+    return Response(
+        body=body,
+        content_type='application/rdf',
         charset='utf-8',
     )
 
