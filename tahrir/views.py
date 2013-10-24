@@ -46,7 +46,6 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.expression import func
 
 
-
 def _get_user(request, id_or_nickname):
     '''Attempt to get a user by their id or nickname, returning None if
        we fail.'''
@@ -890,24 +889,23 @@ def diff(request):
             shared_badges.append(badge)
 
     return dict(
-            auth_principals=effective_principals(request),
-            awarded_assertions=awarded_assertions,
-            user_count=user_count,
-            user_a=user_a,
-            user_b=user_b,
-            user_a_badges=user_a_badges,
-            user_b_badges=user_b_badges,
-            user_a_unique_badges=user_a_unique_badges,
-            user_b_unique_badges=user_b_unique_badges,
-            shared_badges=shared_badges,
-            user_a_percent_earned=user_a_percent_earned,
-            user_b_percent_earned=user_b_percent_earned,
-            user_a_rank=user_a_rank,
-            user_b_rank=user_b_rank,
-            user_a_percentile=user_a_percentile,
-            user_b_percentile=user_b_percentile,
-            )
-
+        auth_principals=effective_principals(request),
+        awarded_assertions=awarded_assertions,
+        user_count=user_count,
+        user_a=user_a,
+        user_b=user_b,
+        user_a_badges=user_a_badges,
+        user_b_badges=user_b_badges,
+        user_a_unique_badges=user_a_unique_badges,
+        user_b_unique_badges=user_b_unique_badges,
+        shared_badges=shared_badges,
+        user_a_percent_earned=user_a_percent_earned,
+        user_b_percent_earned=user_b_percent_earned,
+        user_a_rank=user_a_rank,
+        user_b_rank=user_b_rank,
+        user_a_percentile=user_a_percentile,
+        user_b_percentile=user_b_percentile,
+    )
 
 
 @view_config(route_name='user_json', renderer='json')
