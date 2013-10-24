@@ -1061,8 +1061,10 @@ def login_complete_view(request):
     if not request.db.get_person(person_email=email):
         request.db.add_person(email=email, nickname=nickname)
 
-    # Note that they have logged in.
-    request.db.note_login(person_email=email)
+    # Note that they have logged in if we are installed with a newer version of
+    # the db API that supports this.
+    if hasattr(request.db, 'note_login'):
+        request.db.note_login(person_email=email)
 
     headers = remember(request, email)
     response = HTTPFound(location=request.session.get('came_from', '/'))
