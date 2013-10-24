@@ -15,13 +15,18 @@
               You are ranked <strong>#${rank}</strong> out of ${user_count} ranked users.
             </p>
             <p>You are in the <strong>top ${"{0:.1f}".format(percentile)}%</strong>.</p>
+          % endif
             <h3>Competitors</h3>
             <table>
               % for person in competitors:
                 % if person.email == logged_in:
                   <tr>
                     <td>
+                    % if person.rank:
                       <span class="big-text"><strong>#${person.rank}</strong></span>
+                    % else:
+                      <span class="big-text"><strong>-</strong></span>
+                    % endif
                     </td>
                     <td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
                     <td>
@@ -31,7 +36,11 @@
                     </td>
                   % else:
                     <td>
+                    % if person.rank:
                       <span class="big-text">#${person.rank}</span>
+                    % else:
+                      <span class="big-text">-</span>
+                    % endif
                     </td>
                     <td>${self.functions.avatar_thumbnail(person, 64, 33)}</td>
                     <td><a href="${request.route_url('user', id=person.nickname or person.id)}">${person.nickname}</a></td>
@@ -39,7 +48,6 @@
                 </tr>
               % endfor
             </table>
-          % endif
         % else:
           <p>Log in to see your rank. There are ${user_count} ranked users.</p>
         % endif
