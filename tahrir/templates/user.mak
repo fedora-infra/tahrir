@@ -115,6 +115,14 @@
                  value="Deactivate Account" />
             </form>
           % endif
+        % elif logged_in:
+            <form method="GET" action="${request.route_url('diff', id_a=logged_in_person.nickname or logged_in_person.id, id_b=user.nickname or user.id)}">
+              <input
+                 class="pretty-submit"
+                 style="height: 50px; width: 100%;"
+                 type="submit"
+                 value="Show Diff" />
+            </form>
         % endif
 
         <!-- Change nickname button. -->
