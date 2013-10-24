@@ -268,16 +268,22 @@ def leaderboard(request):
         user = request.db.get_person(
             person_email=authenticated_userid(request))
 
-    leaderboard = request.db.session\
-        .query(m.Person)\
-        .order_by(m.Person.rank)\
-        .filter(m.Person.opt_out == False)\
-        .all()
+    query = request.db.session.query(
+        m.Person
+    ).order_by(
+        m.Person.rank,
+        m.Person.created_on,
+    ).filter(
+        m.Person.opt_out == False
+    )
+
+    leaderboard = query.filter(m.Person.rank != None).all()
+    # Get total user count.
+    user_count = len(leaderboard)
+    leaderboard.extend(query.filter(m.Person.rank == None).all())
 
     user_to_rank = request.db._make_leaderboard()
 
-    # Get total user count.
-    user_count = len(leaderboard)
 
     if user:
         awarded_assertions = user.assertions
