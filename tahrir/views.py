@@ -797,11 +797,9 @@ def _user_json_generator(request, user):
 
     assertions = []
     for assertion in user.assertions:
-        assertions.append(
-            dict(
-                {'issued': float(
-                           assertion.issued_on.strftime('%s'))}.items() + \
-                _badge_json_generator(request, assertion.badge).items()))
+        issued = {'issued': float(assertion.issued_on.strftime('%s'))}.items()
+        _badged = _badge_json_generator(request, assertion.badge).items()
+        assertions.append(dict(issued + _badged))
 
     return {
         'user': user.nickname,
