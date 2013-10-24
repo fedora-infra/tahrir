@@ -13,6 +13,8 @@ import tw2.jquery
 
 import tahrir.views
 
+from pkg_resources import get_distribution
+
 
 @subscriber(BeforeRender)
 def inject_globals(event):
@@ -30,6 +32,9 @@ def inject_globals(event):
     # dict returned by the view every time!
     event['title'] = settings['tahrir.title']
     event['base_url'] = settings['tahrir.base_url']
+
+    event['tahrir_version'] = get_distribution('tahrir').version
+    event['tahrir_api_version'] = get_distribution('tahrir-api').version
 
     event['logged_in'] = authenticated_userid(request)
     person = request.db.get_person(event['logged_in'])

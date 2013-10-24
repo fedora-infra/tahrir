@@ -386,6 +386,13 @@ img.badge-256 {
     padding: 20px;
 }
 
+/* This is so that the version number line, external to the sitedocs/footer.rst
+ * file, is not pushed away from the rest of the footer content.
+ */
+footer > .document {
+    padding: 0px;
+}
+
 /* Center the badges fan on the about page */
 .document img {
     display: block;

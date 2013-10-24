@@ -106,6 +106,8 @@
     </div> <!-- End page -->
 
     <footer>
+	  Running ﺎﻠﺘﺣﺮﻳﺭ (Tahrir) version ${tahrir_version}
+	  and Tahrir-API version ${tahrir_api_version}.
       ${footer | n}
     </footer>
 
