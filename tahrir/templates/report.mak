@@ -5,10 +5,13 @@
       <h1 class="section-header">Rising stars: ${frame} of ${start_date} to ${stop_date}</h1>
       <div class="padded-content">
         <table>
-          % for person, rank in user_to_rank.items()[:25]:
+          % for person, stats in user_to_rank.items()[:25]:
             <tr>
               <td style="width: 20px;">
-                <span class="big-text">#${person.rank}</span>
+                  <span class="big-text">#${stats['rank']}</span>
+              </td>
+              <td style="width: 100px;">
+                  <small>(#${person.rank} all time)</small>
               </td>
               <td style="width: 64px;">${self.functions.avatar_thumbnail(person, 64, 33)}</td>
               <td>
