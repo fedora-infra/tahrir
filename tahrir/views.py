@@ -838,10 +838,8 @@ def user_edit(request):
             if request.POST.get('new-bio'):
                 person.bio = request.POST.get('new-bio')
 
-        if new_nick:
-            return HTTPFound(location=request.route_url('user', id=new_nick))
-        else:
-            return HTTPFound(location=request.route_url('user', id=person.nickname))
+        nick = new_nick or person.nickname
+        return HTTPFound(location=request.route_url('user', id=nick))
 
     return dict(
             user=user,
