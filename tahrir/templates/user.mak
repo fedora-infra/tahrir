@@ -97,6 +97,13 @@
                type="submit"
                value="Change Avatar" />
           </form>
+          <form method="GET" action="${request.route_url('user_edit', id=user.nickname or user.id)}">
+            <input
+               class="pretty-submit"
+               style="height: 50px; width: 100%;"
+               type="submit"
+               value="Edit Profile" />
+          </form>
           % if user.opt_out:
             <form method="POST">
               <input
@@ -126,23 +133,7 @@
             </form>
         % endif
 
-        <!-- Change nickname button. -->
-        % if logged_in == user.email and allow_changenick:
-          <form method="POST">
-            <input
-               name="new-nickname"
-               placeholder="New nickname"
-               type="text"
-               style="width: 100%;"
-               required="required" />
-            <input
-               class="pretty-submit"
-               style="height: 50px;"
-               name="change-nickname"
-               type="submit"
-               value="Change Nickname" />
-          </form>
-        % endif
+
       </div> <!-- End shadow. -->
     </div> <!-- End padded content. -->
   </div> <!-- End column 1. -->

@@ -43,5 +43,6 @@
 
 		</div> <!-- End padded content. -->
 		</div> <!-- End shadow. -->
+	</div>
 
 	<div class="clear spacer"></div>
