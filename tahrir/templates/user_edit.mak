@@ -22,10 +22,12 @@
 			<p>Fields left blank will not be updated.</p>
 
 			<form method="POST">
+        % if allow_changenick:
 				<input name="new-nickname"
 					   placeholder="New nickname"
 					   type="text"
 					   style="width: 100%;" />
+        % endif
 				<input name="new-website"
 					   placeholder="New website"
 					   type="text"
