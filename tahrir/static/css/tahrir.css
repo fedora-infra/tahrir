@@ -256,8 +256,7 @@ tr:nth-child(even) { background: white; }
 
 /* Applied to every form element on the admin view. */
 form {
-    padding: 4px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 form table {
