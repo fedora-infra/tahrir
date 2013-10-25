@@ -1126,7 +1126,7 @@ def report_year_week(request):
     week = int(request.matchdict.get('weeknumber'))
 
     # Get the week using the number of week
-    start = date(year, 1, 1) + timedelta(weeks=week -1)
+    start = date(year, 1, 1) + timedelta(weeks=week - 1)
 
     # Get the start of the week (as January 1st might not have been a Monday)
     start = get_start_week(start.year, start.month, start.day)
