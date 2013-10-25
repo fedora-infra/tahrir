@@ -1,24 +1,11 @@
 <%inherit file="master.mak"/>
 <div class="page">
-  <!-- COLUMN 1 (Left)-->
-  <div class="grid-50">
+  <div class="grid-100">
     <div class="shadow">
-      <h1 class="section-header">Your Rank</h1>
-      <div class="padded-content">
-        <p>
-          Leaderboard for the period between
-          <strong>${start_date}</strong> and <strong>${stop_date}</strong>
-        </p>
-      </div> <!-- End padded content. -->
-    </div> <!-- End shadow. -->
-  </div>
-  <!-- COLUMN 2 (Right)-->
-  <div class="grid-50">
-    <div class="shadow">
-      <h1 class="section-header">Leaderboard</h1>
+      <h1 class="section-header">Rising stars from ${start_date} to ${stop_date}</h1>
       <div class="padded-content">
         <table>
-          % for person in top_persons_sorted[:25]:
+          % for person, rank in top_persons_sorted[:25]:
             <tr>
               <td style="width: 20px;">
                 <span class="big-text">#${person.rank}</span>
@@ -26,8 +13,9 @@
               <td style="width: 64px;">${self.functions.avatar_thumbnail(person, 64, 33)}</td>
               <td>
                 <a href="${request.route_url('user', id=person.nickname or person.id)}">${person.nickname}</a>
-                with <strong>${user_to_rank[person]['badges']}</strong>
-                ${'badge' if user_to_rank[person]['badges'] == 1 else 'badges'}.
+                earned <strong>${user_to_rank[person]['badges']}</strong>
+                ${'badge' if user_to_rank[person]['badges'] == 1 else 'badges'}
+                during this period.
               </td>
             </tr>
           % endfor
