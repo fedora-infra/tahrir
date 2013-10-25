@@ -2,7 +2,7 @@
 <div class="page">
   <div class="grid-100">
     <div class="shadow">
-      <h1 class="section-header">Rising stars from ${start_date} to ${stop_date}</h1>
+      <h1 class="section-header">Rising stars: ${frame} of ${start_date} to ${stop_date}</h1>
       <div class="padded-content">
         <table>
           % for person, rank in user_to_rank.items()[:25]:

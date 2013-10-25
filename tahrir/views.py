@@ -1016,6 +1016,8 @@ def tags(request):
 def report(request):
     """Render report page."""
 
+    frame = 'this week'
+
     start = get_start_week()
     stop = start + timedelta(days=6)
 
@@ -1029,12 +1031,15 @@ def report(request):
         user_to_rank=user_to_rank,
         start_date=start,
         stop_date=stop,
+        frame=frame,
     )
 
 
 @view_config(route_name='report_year', renderer='report.mak')
 def report_year(request):
     """ The leaderboard for a specific year. """
+
+    frame = 'year'
 
     ## TODO: how to make sure this doesn't break?
     year = int(request.matchdict.get('year'))
@@ -1052,12 +1057,15 @@ def report_year(request):
         user_to_rank=user_to_rank,
         start_date=start,
         stop_date=stop,
+        frame=frame,
     )
 
 
 @view_config(route_name='report_year_month', renderer='report.mak')
 def report_year_month(request):
     """ The leaderboard for a specific month of a specific year. """
+
+    frame = 'month'
 
     ## TODO: how to make sure this doesn't break?
     year = int(request.matchdict.get('year'))
@@ -1076,12 +1084,15 @@ def report_year_month(request):
         user_to_rank=user_to_rank,
         start_date=start,
         stop_date=stop,
+        frame=frame,
     )
 
 
 @view_config(route_name='report_year_month_day', renderer='report.mak')
 def report_year_month_day(request):
     """ The leaderboard for a specific month of a specific year. """
+
+    frame = 'day'
 
     ## TODO: how to make sure this doesn't break?
     year = int(request.matchdict.get('year'))
@@ -1101,11 +1112,14 @@ def report_year_month_day(request):
         user_to_rank=user_to_rank,
         start_date=start,
         stop_date=stop,
+        frame=frame,
     )
 
 @view_config(route_name='report_year_week', renderer='report.mak')
 def report_year_week(request):
     """ The leaderboard for a specific week of a specific year. """
+
+    frame = 'week'
 
     ## TODO: how to make sure this doesn't break?
     year = int(request.matchdict.get('year'))
@@ -1128,6 +1142,7 @@ def report_year_week(request):
         user_to_rank=user_to_rank,
         start_date=start,
         stop_date=stop,
+        frame=frame,
     )
 
 
