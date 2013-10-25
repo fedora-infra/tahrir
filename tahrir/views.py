@@ -47,6 +47,7 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.expression import func
 
 
+
 def _get_user(request, id_or_nickname):
     '''Attempt to get a user by their id or nickname, returning None if
        we fail.'''
@@ -366,6 +367,7 @@ def about(request):
     return dict(
         content=load_docs(request, 'about'),
         auth_principals=effective_principals(request))
+
 
 
 @view_config(route_name='explore', renderer='explore.mak')
@@ -723,7 +725,6 @@ def user(request):
 
     # Grab a boolean out of the config
     settings = request.registry.settings
-    allow_changenick = asbool(settings.get('tahrir.allow_changenick', True))
 
     # Get awarded assertions.
     if authenticated_userid(request):
@@ -750,13 +751,7 @@ def user(request):
         person = request.db.get_all_persons().filter_by(
                     email=authenticated_userid(request)).one()
 
-        if request.POST.get('change-nickname') and allow_changenick:
-            new_nick = request.POST.get('new-nickname')
-            person.nickname = new_nick
-
-            # The user's nickname has changed, so let's go to the new URL.
-            return HTTPFound(location=request.route_url('user', id=new_nick))
-        elif request.POST.get('deactivate-account'):
+        if request.POST.get('deactivate-account'):
             person.opt_out = True
         elif request.POST.get('reactivate-account'):
             person.opt_out = False
@@ -798,10 +793,59 @@ def user(request):
             percent_earned=percent_earned,
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
-            allow_changenick=allow_changenick,
             rank=rank,
             percentile=percentile,
             user_count=user_count,
+            )
+
+
+@view_config(route_name='user_edit', renderer='user_edit.mak')
+def user_edit(request):
+    """Render user edit page."""
+
+    # Grab a boolean out of the config
+    settings = request.registry.settings
+    allow_changenick = asbool(settings.get('tahrir.allow_changenick', True))
+
+    # Get awarded assertions.
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                authenticated_userid(request))
+    else:
+        awarded_assertions = None
+
+    user = _get_user(request, request.matchdict.get('id'))
+
+    if request.POST:
+
+        # Authz check
+        if authenticated_userid(request) != user.email:
+            raise HTTPForbidden("Unauthorized")
+
+        person = request.db.get_all_persons().filter_by(
+                    email=authenticated_userid(request)).one()
+
+        # if this remains None, we don't have to go to a new URL
+        new_nick = None
+        if request.POST.get('edit-profile'):
+            if request.POST.get('new-nickname') and allow_changenick:
+                new_nick = request.POST.get('new-nickname')
+                person.nickname = new_nick
+
+            if request.POST.get('new-website'):
+                person.website = request.POST.get('new-website')
+
+            if request.POST.get('new-bio'):
+                person.bio = request.POST.get('new-bio')
+
+        user_id = new_nick or person.nickname or person.id
+        return HTTPFound(location=request.route_url('user', id=user_id))
+
+    return dict(
+            user=user,
+            auth_principals=effective_principals(request),
+            awarded_assertions=awarded_assertions,
+            allow_changenick=allow_changenick,
             )
 
 
