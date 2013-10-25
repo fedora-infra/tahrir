@@ -1105,7 +1105,7 @@ def report_year_month_day(request):
 
 @view_config(route_name='report_year_week', renderer='report.mak')
 def report_year_week(request):
-    """ The leaderboard for a specific month of a specific year. """
+    """ The leaderboard for a specific week of a specific year. """
 
     ## TODO: how to make sure this doesn't break?
     year = int(request.matchdict.get('year'))
