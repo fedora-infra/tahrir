@@ -1111,13 +1111,11 @@ def report_year_week(request):
     year = int(request.matchdict.get('year'))
     week = int(request.matchdict.get('weeknumber'))
 
-    # Get the first week of the year
-    fourth_jan = date(year, 1, 4)
-    delta = timedelta(fourth_jan.isoweekday()-1)
-    year_start = fourth_jan - delta
+    # Get the week using the number of week
+    start = date(year, 1, 1) + timedelta(weeks=week -1)
 
-    # Get the start and stop date of that week
-    start = year_start + timedelta(weeks=week - 1)
+    # Get the start of the week (as January 1st might not have been a Monday)
+    start = get_start_week(start.year, start.month, start.day)
     stop = start + timedelta(days=6)
 
     user_to_rank = request.db._make_leaderboard(
