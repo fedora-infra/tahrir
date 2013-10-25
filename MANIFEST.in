@@ -1,6 +1,7 @@
 include *.txt *.ini *.cfg *.rst
-recursive-include tahrir *.ico *.png *.css *.gif *.jpg *.pt *.txt *.mak *.mako *.js *.html *.xml
+recursive-include tahrir *.ico *.png *.css *.gif *.jpg *.pt *.txt *.mak *.mako *.js *.html *.xml *.rst
 recursive-include fedmsg.d *.py
+recursive-include fedora-sitedocs *.rst
 include LICENSE
 
 graft apache

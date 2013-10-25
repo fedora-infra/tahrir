@@ -14,3 +14,4 @@ tahrir.ini
 secret.ini
 *.dbm*
 .DS_STORE
+development.ini

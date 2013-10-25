@@ -6,9 +6,9 @@ here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.rst')).read()
 
 requires = [
-    'pyramid',
+    'pyramid<1.5a1',
     'tahrir_api >= 0.2.0',
-    'SQLAlchemy',
+    'SQLAlchemy >= 0.8.0',
     'transaction',
     'pyramid_tm',
     'zope.sqlalchemy',
@@ -19,6 +19,8 @@ requires = [
     'docutils',
     "python-dateutil",
     "moksha.wsgi>=1.2.1",
+    "webhelpers",
+    "rdflib",
 
     # For qrcode to work from PyPI, you also need Pillow.
     # This is handled for us in Fedora because python-qrcode pulls in the
@@ -31,7 +33,7 @@ requires = [
     ]
 
 setup(name='tahrir',
-      version='0.3.2',
+      version='0.4.1',
       description='A pyramid app for issuing your own Open Badges',
       long_description=README,
       license="AGPLv3+ with additional permission",

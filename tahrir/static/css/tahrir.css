@@ -171,7 +171,7 @@ tr:nth-child(even) { background: white; }
     margin-bottom: 0px !important;
 }
 
-/* Applied to <a href>s which are "buttons". */
+/* Applied to <button> tags. */
 .pretty-button {
     background: #3158AF;
     color: white;
@@ -179,6 +179,8 @@ tr:nth-child(even) { background: white; }
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+    height: 50px;
+    width: 100%;
 }
 
 /* Applied to actual submit buttons (on forms). */
@@ -206,7 +208,8 @@ tr:nth-child(even) { background: white; }
 .name {
     font-size: 1.4em;
     font-weight: bold;
-    margin: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .description {
@@ -217,7 +220,8 @@ tr:nth-child(even) { background: white; }
 .metadata {
     font-size: 0.8em;
     color: #666;
-    margin: 20px;
+    margin: 0px;
+    margin-bottom:   15px;
 }
 
 .badge-image {
@@ -332,6 +336,10 @@ form table {
     transition: all 0.4s ease-in-out; /* To add some smoothness */
 }
 
+.tooltip-bottom::after {
+    border-radius: 8px 0px 8px 8px;
+}
+
 .tooltip:hover::after {
     opacity: 1; /* Make it visible */
     visibility: visible;
@@ -365,8 +373,6 @@ img.badge-256 {
     height: 256px;
 }
 
-
-
 /* Clearfix */
 .clearfix:after {
     content: ".";
@@ -374,4 +380,42 @@ img.badge-256 {
     height: 0;
     clear: both;
     visibility: hidden;
+}
+
+.document {
+    padding: 20px;
+}
+
+/* This is so that the version number line, external to the sitedocs/footer.rst
+ * file, is not pushed away from the rest of the footer content.
+ */
+footer > .document {
+    padding: 0px;
+}
+
+/* Center the badges fan on the about page */
+.document img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.document p {
+    margin: 12px;
+}
+
+.document h1 {
+    border-bottom: 1px solid #cccccc;
+}
+
+.document h1, .document h2 {
+    margin: 10px 0;
+}
+
+.document h2 {
+    font-size: 130%;
+}
+
+.document li {
+    margin-left: 30px;
 }

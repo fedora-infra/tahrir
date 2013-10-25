@@ -1,15 +1,19 @@
 import random
 import transaction
 import types
+import codecs
+import os
 import sqlalchemy as sa
 import velruse
 import json as _json
 import StringIO
 import qrcode as qrcode_module
 import docutils.examples
+import markupsafe
 from datetime import datetime
 
 from mako.template import Template as t
+from webhelpers import feedgenerator
 from pyramid.view import (
     view_config,
     forbidden_view_config,
@@ -31,22 +35,17 @@ from pyramid.security import (
 )
 from pyramid.settings import asbool
 
-from tahrir_api.dbapi import TahrirDatabase
 import tahrir_api.model as m
 
 from tahrir.utils import strip_tags, generate_badge_yaml
 import widgets
+import foafutils
 
 from moksha.wsgi.widgets.api import get_moksha_socket, LiveWidget
 
 from sqlalchemy.orm import joinedload
+from sqlalchemy.sql.expression import func
 
-# Optional.  Emit messages to the fedmsg bus.
-fedmsg = None
-try:
-    import fedmsg
-except ImportError:
-    pass
 
 
 def _get_user(request, id_or_nickname):
@@ -62,7 +61,7 @@ def _get_user(request, id_or_nickname):
             # get upset about comparing what is potentially a string
             # to an integer column.
             return request.db.get_person(id=int(id_or_nickname))
-        except TypeError:
+        except ValueError:
             return None
 
 
@@ -143,26 +142,6 @@ def admin(request):
                     request.POST.get('assertion-person-email'),
                     issued_on)
 
-            if fedmsg and settings.get('tahrir.use_fedmsg', False):
-                person = request.db.get_person(
-                    person_email=request.POST.get('assertion-person-email'))
-                badge = request.db.get_badge(
-                    badge_id=request.POST.get('assertion-badge-id'))
-
-                fedmsg.publish(
-                    modname="fedbadges", topic="badge.award",
-                    msg=dict(
-                        badge=dict(
-                            name=badge.name,
-                            description=badge.description,
-                            image_url=badge.image,
-                        ),
-                        user=dict(
-                            username=person.nickname,
-                            badges_user_id=person.id
-                        ),
-                    ))
-
     return dict(
         auth_principals=effective_principals(request),
         awarded_assertions=awarded_assertions,
@@ -179,38 +158,35 @@ def index(request):
                                  authenticated_userid(request))
     else:
         awarded_assertions = None
+
     # set came_from so we can get back home after openid auth.
     request.session['came_from'] = request.route_url('home')
 
-    persons_assertions = request.db.get_all_assertions().join(
-                            m.Person).filter(
-                            m.Person.opt_out == False)
-    from collections import defaultdict
-    top_persons = defaultdict(int) # person: assertion count
-    for item in persons_assertions:
-        top_persons[item.person] += 1
+    latest_awards = request.db.get_all_assertions()\
+        .join(m.Person)\
+        .filter(m.Person.opt_out == False)\
+        .order_by(sa.desc(m.Assertion.issued_on))\
+        .limit(n)\
+        .all()
 
-    top_persons_sorted = sorted(sorted(top_persons,
-                                key=lambda person: person.id),
-                                key=top_persons.get,
-                                reverse=True)
-    # Limit the sorted top persons to the top 10% and then take
-    # a random sample of 5 persons from that pool.
-    num_users_at_top = max(int(len(top_persons_sorted) * 0.1),
-                           min(len(top_persons_sorted), 5))
-    # This is not actually a sample yet, but it's about to be...
-    top_persons_sample = top_persons_sorted[:num_users_at_top]
-    try:
-        top_persons_sample = random.sample(top_persons_sample, 5)
-    except ValueError:
-        # The sample is probably larger than the num of top users,
-        # so let's just take all the users in the top 10%, in a
-        # random order.
-        random.shuffle(top_persons_sample)
+    newest_persons = request.db.get_all_persons()\
+        .filter(m.Person.opt_out == False)\
+        .order_by(sa.desc(m.Person.created_on))\
+        .limit(n)\
+        .all()
 
-    # Get latest awards.
-    latest_awards = persons_assertions.order_by(
-                    sa.desc(m.Assertion.issued_on)).limit(n).all()
+    person_count = request.db.session.query(m.Person)\
+        .filter(m.Person.opt_out == False)\
+        .count()
+    top_ten_percent = int(person_count * 0.10) + 1
+
+    top_persons_sample = request.db.session.query(m.Person)\
+        .order_by(m.Person.rank)\
+        .limit(top_ten_percent)\
+        .from_self()\
+        .order_by(func.random())\
+        .limit(n)\
+        .all()
 
     # Register our websocket handler callback
     if asbool(request.registry.settings['tahrir.use_websockets']):
@@ -220,10 +196,7 @@ def index(request):
     return dict(
         auth_principals=effective_principals(request),
         latest_awards=latest_awards,
-        newest_persons=request.db.get_all_persons().filter(
-                        m.Person.opt_out == False).order_by(
-                        sa.desc(m.Person.created_on)).limit(n).all(),
-        top_persons=top_persons,
+        newest_persons=newest_persons,
         top_persons_sample=top_persons_sample,
         awarded_assertions=awarded_assertions,
         moksha_socket=get_moksha_socket(request.registry.settings),
@@ -264,22 +237,6 @@ def invitation_claim(request):
                                       person.email,
                                       datetime.now())
 
-    if fedmsg and settings.get('tahrir.use_fedmsg', False):
-        badge = request.context.badge
-        fedmsg.publish(
-            modname="fedbadges", topic="badge.award",
-            msg=dict(
-                badge=dict(
-                    name=badge.name,
-                    description=badge.description,
-                    image_url=badge.image,
-                ),
-                user=dict(
-                    username=person.nickname,
-                    badges_user_id=person.id
-                ),
-            ))
-
     # TODO -- return them to a page that auto-exports their badges.
     # TODO -- flash and tell them they got the badge
     return HTTPFound(location=request.route_url('home'))
@@ -305,62 +262,60 @@ def invitation_qrcode(request):
 @view_config(route_name='leaderboard', renderer='leaderboard.mak')
 def leaderboard(request):
     """ Render a top users view. """
+
+    user, awarded_assertions = None, None
+
     if authenticated_userid(request):
-        awarded_assertions = request.db.get_assertions_by_email(
-                                authenticated_userid(request))
-    else:
-        awarded_assertions = None
+        user = request.db.get_person(
+            person_email=authenticated_userid(request))
 
-    # Get top persons.
-    persons_assertions = request.db.get_all_assertions().join(m.Person).filter(
-        m.Person.opt_out == False)
-    from collections import defaultdict
-    top_persons = defaultdict(int) # person: assertion count
-    for item in persons_assertions:
-        top_persons[item.person] += 1
+    query = request.db.session.query(
+        m.Person
+    ).order_by(
+        m.Person.rank,
+        m.Person.created_on,
+    ).filter(
+        m.Person.opt_out == False
+    )
 
-    # top_persons and top_persons_sorted contain all persons, ordered
-    top_persons_sorted = sorted(sorted(top_persons,
-                                key=lambda person: person.id),
-                                key=top_persons.get,
-                                reverse=True)
-
+    leaderboard = query.filter(m.Person.rank != None).all()
     # Get total user count.
-    user_count = len(top_persons)
+    user_count = len(leaderboard)
+    leaderboard.extend(query.filter(m.Person.rank == None).all())
 
-    if authenticated_userid(request):
-        # Get rank.
-        try:
-            rank = top_persons_sorted.index(request.db.get_person(
-                                person_email=authenticated_userid(
-                                             request))) + 1
-        except ValueError:
-            rank = 0
-        # Get percentile.
+    user_to_rank = request.db._make_leaderboard()
+
+
+    if user:
+        awarded_assertions = user.assertions
+        rank = user.rank or 0
+        idx = rank - 1
+
+        # Handle the case of leaderboard[-2:2] which will be [] always.
+        if idx < 2:
+            idx = 2
+
+        competitors = leaderboard[(idx - 2):(idx + 3)]
+
         try:
             percentile = (float(rank) / float(user_count)) * 100
         except ZeroDivisionError:
             percentile = 0
-
-        # Get a list of nearby competetors (5 users above the current
-        # user and 5 users ranked below).
-        competitors = top_persons_sorted[max(rank - 3, 0):\
-                                     min(rank + 2, len(top_persons_sorted))]
-
     else:
+        awarded_assertions = None
         rank = None
-        percentile = None
         competitors = None
+        percentile = None
 
     return dict(
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
-            top_persons=top_persons,
-            top_persons_sorted=top_persons_sorted,
+            top_persons_sorted=leaderboard,
             rank=rank,
             user_count=user_count,
             percentile=percentile,
             competitors=competitors,
+            user_to_rank=user_to_rank,
             )
 
 
@@ -369,47 +324,50 @@ def leaderboard(request):
 def leaderboard_json(request):
     """ Render a top-users JSON dump. """
 
-    user = _get_user(request, request.matchdict.get('id'))
+    user_id = request.matchdict.get('id')
+    user = None
+    if user_id:
+        user = _get_user(request, user_id)
 
-    # Get top persons.
-    persons_assertions = request.db.get_all_assertions().options(
-        joinedload('person')).filter(m.Person.opt_out == False)[:25]
+    leaderboard = request.db.session\
+        .query(m.Person)\
+        .order_by(m.Person.rank)\
+        .filter(m.Person.opt_out == False)\
+        .all()
 
-    from collections import defaultdict
-    top_persons = defaultdict(int) # person: assertion count
-    for item in persons_assertions:
-        top_persons[item.person] += 1
-
-    # top_persons and top_persons_sorted contain all persons, ordered
-    top_persons_sorted = sorted(sorted(top_persons,
-                                key=lambda person: person.id),
-                                key=top_persons.get,
-                                reverse=True)
-
-    if user:
-        idx = top_persons_sorted.index(user)
-        top_persons_sorted = top_persons_sorted[(idx - 2):(idx + 2)]
-        rank = idx
-    else:
-        rank = None
+    user_to_rank = dict([(person, {
+        'badges': len(person.assertions),
+        'rank': person.rank,
+    }) for person in leaderboard])
 
     # Get total user count.
-    user_count = len(top_persons_sorted)
+    user_count = len(leaderboard)
 
-    ret = dict(
-        top_persons_sorted=[_user_json_generator(request, user) \
-                for user in top_persons_sorted],
-        user_count=user_count,
-    )
+    if user:
+        rank = user.rank or 0
+        idx = rank - 1
 
-    # Rather than sending `rank: null` when we're showing the global
-    # leaderboard (as opposed to a user's rank), just omit the field.
-    # But if the field exists, it means we looked up (and found) a user, and we
-    # can include it in the result.
-    if rank:
-        ret['rank'] = rank
+        # Handle the case of leaderboard[-2:2] which will be [] always.
+        if idx < 2:
+            idx = 2
 
-    return ret
+        leaderboard = leaderboard[(idx - 2):(idx + 3)]
+    else:
+        leaderboard = leaderboard[:25]
+
+    ret = [
+        dict(user_to_rank[p].items() + {'nickname': p.nickname}.items())
+        for p in leaderboard]
+
+    return {'leaderboard': ret}
+
+
+@view_config(route_name='about', renderer='about.mak')
+def about(request):
+    return dict(
+        content=load_docs(request, 'about'),
+        auth_principals=effective_principals(request))
+
 
 
 @view_config(route_name='explore', renderer='explore.mak')
@@ -528,7 +486,7 @@ def badge(request):
         awarded_assertions = request.db.get_assertions_by_email(
                                 authenticated_userid(request))
     else:
-        awarded_assertions = None
+        awarded_assertions = []
 
     # Get badge statistics.
     # TODO: Perhaps abstract these statistics methods away somewhere?
@@ -584,28 +542,21 @@ def badge(request):
             )
 
 
-def _badge_json_generator(request, badge_id, badge):
+def _badge_json_generator(request, badge):
     try:
-        times_awarded = len(request.db.get_assertions_by_badge(badge_id))
+        assertions = sorted(badge.assertions,
+                            cmp=lambda x, y: cmp(x.issued_on, y.issued_on))
 
-        last_awarded = request.db.get_all_assertions().filter(
-                sa.func.lower(m.Assertion.badge_id) == \
-                    sa.func.lower(badge_id)).order_by(
-                        sa.desc(m.Assertion.issued_on)).limit(1).one()
+        times_awarded = len(badge.assertions)
 
-        last_awarded_person = request.db.get_person(
-                id=last_awarded.person_id)
+        last_awarded = assertions[-1]
+        last_awarded_person = last_awarded.person
 
-        first_awarded = request.db.get_all_assertions().filter(
-                sa.func.lower(m.Assertion.badge_id) == \
-                    sa.func.lower(badge_id)).order_by(
-                        sa.asc(m.Assertion.issued_on)).limit(1).one()
-
-        first_awarded_person = request.db.get_person(
-                id=first_awarded.person_id)
+        first_awarded = assertions[0]
+        first_awarded_person = first_awarded.person
 
         percent_earned = float(times_awarded) / \
-                         float(len(request.db.get_all_persons().all()))
+                         float(request.db.get_all_persons().count())
 
     except sa.orm.exc.NoResultFound: # This badge has never been awarded.
         times_awarded = 0
@@ -656,7 +607,116 @@ def badge_json(request):
         request.response.status = '404 Not Found'
         return {"error": "No such badge exists."}
 
-    return _badge_json_generator(request, badge_id, badge)
+    return _badge_json_generator(request, badge)
+
+
+@view_config(route_name='badge_rss')
+def badge_rss(request):
+    """ Render per-badge rss. """
+
+    badge_id = request.matchdict.get('id')
+    badge = request.db.get_badge(badge_id)
+
+    if not badge:
+        raise HTTPNotFound("No such badge %r" % badge_id)
+
+    comparator = lambda x, y: cmp(x.issued_on, y.issued_on)
+    sorted_assertions = sorted(badge.assertions, cmp=comparator, reverse=True)
+
+    feed = feedgenerator.Rss201rev2Feed(
+        title=u"Badges Feed for %s" % badge.name,
+        link=request.route_url('badge', id=badge.id),
+        description=u"Latest recipients of the badge %s" % badge.name,
+        language=u"en",
+    )
+
+    description_template = "<img src='%s' alt='%s' />%s"
+
+    for assertion in sorted_assertions:
+        url = request.route_url(
+            'user', id=assertion.person.nickname or assertion.person.id)
+        feed.add_item(
+            title=assertion.person.nickname,
+            link=url,
+            pubdate=assertion.issued_on,
+            description=description_template % (
+                assertion.person.avatar_url(128),
+                assertion.person.nickname,
+                assertion.person.nickname,
+            )
+        )
+
+    return Response(
+        body=feed.writeString('utf-8'),
+        content_type='application/rss+xml',
+        charset='utf-8',
+    )
+
+
+@view_config(route_name='user_rss')
+def user_rss(request):
+    """ Render per-user rss. """
+
+    user_id = request.matchdict.get('id')
+    user = _get_user(request, user_id)
+
+    if not user:
+        raise HTTPNotFound("No such user %r" % user_id)
+
+    if user.opt_out == True and user.email != authenticated_userid(request):
+        raise HTTPNotFound("User %r has opted out." % user_id)
+
+    comparator = lambda x, y: cmp(x.issued_on, y.issued_on)
+    sorted_assertions = sorted(user.assertions, cmp=comparator, reverse=True)
+
+    feed = feedgenerator.Rss201rev2Feed(
+        title=u"Badges Feed for %s" % user.nickname,
+        link=request.route_url('user', id=user.nickname or user.id),
+        description=u"The latest Fedora Badges obtained by %s" % user.nickname,
+        language=u"en",
+    )
+
+    description_template = "<img src='%s' alt='%s'/>%s -- %s"
+
+    for assertion in sorted_assertions:
+        feed.add_item(
+            title=assertion.badge.name,
+            link=request.route_url('badge', id=assertion.badge.id),
+            pubdate=assertion.issued_on,
+            description=description_template % (
+                assertion.badge.image,
+                assertion.badge.name,
+                assertion.badge.name,
+                assertion.badge.description,
+            )
+        )
+
+    return Response(
+        body=feed.writeString('utf-8'),
+        content_type='application/rss+xml',
+        charset='utf-8',
+    )
+
+
+@view_config(route_name='user_foaf')
+def user_foaf(request):
+    """ Render per-user foaf. """
+    user_id = request.matchdict.get('id')
+    user = _get_user(request, user_id)
+
+    if not user:
+        raise HTTPNotFound("No such user %r" % user_id)
+
+    if user.opt_out == True and user.email != authenticated_userid(request):
+        raise HTTPNotFound("User %r has opted out." % user_id)
+
+    body = foafutils.generate_foaf_file(user)
+
+    return Response(
+        body=body,
+        content_type='application/rdf',
+        charset='utf-8',
+    )
 
 
 @view_config(route_name='user', renderer='user.mak')
@@ -674,7 +734,8 @@ def user(request):
     else:
         awarded_assertions = None
 
-    user = _get_user(request, request.matchdict.get('id'))
+    user_id = request.matchdict.get('id')
+    user = _get_user(request, user_id)
 
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
@@ -723,21 +784,10 @@ def user(request):
                    if i.expires_on > datetime.now()]
 
     # Get rank. (same code found in leaderboard view function)
-    persons_assertions = request.db.get_all_assertions().join(m.Person).filter(
-        m.Person.opt_out == False)
-    from collections import defaultdict
-    top_persons = defaultdict(int) # person: assertion count
-    for item in persons_assertions:
-        top_persons[item.person] += 1
-    top_persons_sorted = sorted(sorted(top_persons,
-                                key=lambda person: person.id),
-                                key=top_persons.get,
-                                reverse=True)
-    user_count = len(top_persons)
-    try:
-        rank = top_persons_sorted.index(user) + 1
-    except ValueError:
-        rank = 0
+    rank = user.rank
+    user_count = request.db.session.query(m.Person)\
+        .filter(m.Person.opt_out == False).count()
+
     try:
         percentile = (float(rank) / float(user_count)) * 100
     except ZeroDivisionError:
@@ -801,8 +851,6 @@ def user_edit(request):
 
 
 def _user_json_generator(request, user):
-    awarded_assertions = request.db.get_assertions_by_email(user.email)
-
     # Get user badges.
     user_badges = [a.badge for a in user.assertions]
 
@@ -810,7 +858,7 @@ def _user_json_generator(request, user):
     user_badges = sorted(user_badges, key=lambda badge: badge.id)
 
     # Get total number of unique badges in the system.
-    count_total_badges = len(request.db.get_all_badges().all())
+    count_total_badges = request.db.get_all_badges().count()
 
     # Get percentage of badges earned.
     try:
@@ -821,14 +869,10 @@ def _user_json_generator(request, user):
 
 
     assertions = []
-    for assertion in awarded_assertions:
-        assertions.append(
-            dict(
-                {'issued': float(assertion.issued_on.strftime(
-                                    '%s'))}.items() + \
-                _badge_json_generator(request,
-                                        assertion.badge.id,
-                                        assertion.badge).items()))
+    for assertion in user.assertions:
+        issued = {'issued': float(assertion.issued_on.strftime('%s'))}.items()
+        _badged = _badge_json_generator(request, assertion.badge).items()
+        assertions.append(dict(issued + _badged))
 
     return {
         'user': user.nickname,
@@ -836,6 +880,104 @@ def _user_json_generator(request, user):
         'percent_earned': percent_earned,
         'assertions': assertions,
     }
+
+
+@view_config(route_name='diff', renderer='diff.mak')
+def diff(request):
+    """Render user diff page."""
+
+    # Get awarded assertions.
+    if authenticated_userid(request):
+        awarded_assertions = request.db.get_assertions_by_email(
+                                authenticated_userid(request))
+    else:
+        awarded_assertions = None
+
+    user_a_id = request.matchdict.get('id_a')
+    user_b_id = request.matchdict.get('id_b')
+    user_a = _get_user(request, user_a_id)
+    user_b = _get_user(request, user_b_id)
+
+    if not user_a:
+        raise HTTPNotFound("No such user %r" % user_a_id)
+    if not user_b:
+        raise HTTPNotFound("No such user %r" % user_b_id)
+
+    if user_a.opt_out == True and user_a.email != authenticated_userid(request):
+        raise HTTPNotFound("User %r has opted out." % user_a_id)
+    if user_b.opt_out == True and user_b.email != authenticated_userid(request):
+        raise HTTPNotFound("User %r has opted out." % user_b_id)
+
+    # Get user badges.
+    user_a_badges = [a.badge for a in user_a.assertions]
+    user_b_badges = [a.badge for a in user_b.assertions]
+
+    # Sort user badges by id.
+    user_a_badges = sorted(user_a_badges, key=lambda badge: badge.id)
+    user_b_badges = sorted(user_b_badges, key=lambda badge: badge.id)
+
+    # Get total number of unique badges in the system.
+    count_total_badges = len(request.db.get_all_badges().all())
+
+    # Get percentage of badges earned.
+    try:
+        user_a_percent_earned = (float(len(user_a_badges)) / \
+                          float(count_total_badges)) * 100
+    except ZeroDivisionError:
+        user_a_percent_earned = 0
+    try:
+        user_b_percent_earned = (float(len(user_b_badges)) / \
+                          float(count_total_badges)) * 100
+    except ZeroDivisionError:
+        user_b_percent_earned = 0
+
+    # Get rank. (same code found in leaderboard view function)
+    user_a_rank = user_a.rank
+    user_b_rank = user_b.rank
+    user_count = request.db.session.query(m.Person)\
+        .filter(m.Person.opt_out == False).count()
+
+    try:
+        user_a_percentile = (float(user_a_rank) / float(user_count)) * 100
+    except ZeroDivisionError:
+        user_a_percentile = 0
+    try:
+        user_b_percentile = (float(user_b_rank) / float(user_count)) * 100
+    except ZeroDivisionError:
+        user_b_percentile = 0
+
+    # Diff badges.
+    user_a_unique_badges = []
+    user_b_unique_badges = []
+    combined_badges = list(sorted(set(user_a_badges + user_b_badges),
+                                  key=lambda badge: badge.id))
+    shared_badges = []
+    for badge in combined_badges:
+        if badge in user_a_badges and badge not in user_b_badges:
+            user_a_unique_badges.append(badge)
+        elif badge in user_b_badges and badge not in user_a_badges:
+            user_b_unique_badges.append(badge)
+        elif badge in user_a_badges and badge in user_b_badges:
+            shared_badges.append(badge)
+
+    return dict(
+        auth_principals=effective_principals(request),
+        awarded_assertions=awarded_assertions,
+        user_count=user_count,
+        user_a=user_a,
+        user_b=user_b,
+        user_a_badges=user_a_badges,
+        user_b_badges=user_b_badges,
+        user_a_unique_badges=user_a_unique_badges,
+        user_b_unique_badges=user_b_unique_badges,
+        shared_badges=shared_badges,
+        user_a_percent_earned=user_a_percent_earned,
+        user_b_percent_earned=user_b_percent_earned,
+        user_a_rank=user_a_rank,
+        user_b_rank=user_b_rank,
+        user_a_percentile=user_a_percentile,
+        user_b_percentile=user_b_percentile,
+    )
 
 
 @view_config(route_name='user_json', renderer='json')
@@ -970,6 +1112,11 @@ def login_complete_view(request):
     if not request.db.get_person(person_email=email):
         request.db.add_person(email=email, nickname=nickname)
 
+    # Note that they have logged in if we are installed with a newer version of
+    # the db API that supports this.
+    if hasattr(request.db, 'note_login'):
+        request.db.note_login(person_email=email)
+
     headers = remember(request, email)
     response = HTTPFound(location=request.session.get('came_from', '/'))
     response.headerlist.extend(headers)
@@ -1042,3 +1189,80 @@ def make_websocket_handler(settings):
         template = ""
 
     return WebsocketHandler
+
+
+def modify_rst(rst):
+    """ Downgrade some of our rst directives if docutils is too old. """
+
+    try:
+        # The rst features we need were introduced in this version
+        minimum = [0, 9]
+        version = map(int, docutils.__version__.split('.'))
+
+        # If we're at or later than that version, no need to downgrade
+        if version >= minimum:
+            return rst
+    except Exception:
+        # If there was some error parsing or comparing versions, run the
+        # substitutions just to be safe.
+        pass
+
+    # Otherwise, make code-blocks into just literal blocks.
+    substitutions = {
+        '.. code-block:: javascript': '::',
+    }
+    for old, new in substitutions.items():
+        rst = rst.replace(old, new)
+
+    return rst
+
+
+def modify_html(html):
+    """ Perform style substitutions where docutils doesn't do what we want.
+    """
+
+    substitutions = {
+        '<tt class="docutils literal">': '<code>',
+        '</tt>': '</code>',
+    }
+    for old, new in substitutions.items():
+        html = html.replace(old, new)
+
+    return html
+
+
+def _load_docs(directory, endpoint):
+    """ Utility to load an RST file and turn it into fancy HTML. """
+
+    fname = os.path.join(directory, endpoint + '.rst')
+    with codecs.open(fname, 'r', 'utf-8') as f:
+        rst = f.read()
+
+    rst = modify_rst(rst)
+
+    api_docs = docutils.examples.html_body(rst)
+
+    api_docs = modify_html(api_docs)
+
+    api_docs = markupsafe.Markup(api_docs)
+    return api_docs
+
+
+htmldocs = {}
+
+
+def load_docs(request, key):
+    possible_keys = ['about', 'footer']
+
+    # Load from disk only once on first request.
+    if not htmldocs:
+        here = os.path.dirname(os.path.abspath(__file__))
+        dflt = os.path.join(here, 'sitedocs')
+        directory = request.registry.settings.get('tahrir.sitedocs_dir', dflt)
+        for k in possible_keys:
+            htmldocs[k] = _load_docs(directory, k)
+
+    if key not in htmldocs:
+        raise KeyError("%r is not permitted." % key)
+
+    return htmldocs[key]

@@ -8,6 +8,8 @@ import dateutil.relativedelta
 import urllib
 from hashlib import md5, sha256
 
+import pyramid.threadlocal
+
 libravatar = None
 try:
     import libravatar
@@ -87,8 +89,9 @@ def make_avatar_method(cache):
 
     @cache.cache_on_arguments()
     def _avatar_function(email, size):
-        absolute_default = 'https://fedoraproject.org/static/images/' + \
-            'fedora_infinity_140x140.png'
+        request = pyramid.threadlocal.get_current_request()
+        absolute_default = request.static_url(
+            'tahrir:static/img/badger_avatar.png')
 
         query = {
             's': size,
@@ -109,9 +112,9 @@ def make_avatar_method(cache):
         # TODO This next line is temporary and can be removed.  We do
         # libravatar ourselves here by hand to avoid pyDNS issues on epel6.
         # Once those are resolved we can use pylibravatar again.
-        return "http://cdn.libravatar.org/avatar/%s?%s" % (hash, query)
+        return "https://seccdn.libravatar.org/avatar/%s?%s" % (hash, query)
 
-        gravatar_url = "http://www.gravatar.com/avatar/%s?%s" % (hash, query)
+        gravatar_url = "https://secure.gravatar.com/avatar/%s?%s" % (hash, query)
 
         if libravatar:
             return libravatar.libravatar_url(
