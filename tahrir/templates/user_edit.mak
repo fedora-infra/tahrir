@@ -30,11 +30,12 @@
         % endif
 				<input name="new-website"
 					   placeholder="New website"
-					   type="text"
+					   type="url"
 					   style="width: 100%;" />
 				<input name="new-bio"
 					   placeholder="New bio"
 					   type="text"
+					   maxlength=139
 					   style="width: 100%;" />
 				<input class="pretty-submit"
 					   style="height: 50px; width:100%"
