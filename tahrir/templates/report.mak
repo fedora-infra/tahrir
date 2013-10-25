@@ -5,7 +5,7 @@
       <h1 class="section-header">Rising stars from ${start_date} to ${stop_date}</h1>
       <div class="padded-content">
         <table>
-          % for person, rank in top_persons_sorted[:25]:
+          % for person, rank in user_to_rank.items()[:25]:
             <tr>
               <td style="width: 20px;">
                 <span class="big-text">#${person.rank}</span>

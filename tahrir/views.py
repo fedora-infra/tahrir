@@ -1024,27 +1024,9 @@ def report(request):
         stop=stop,
     )
 
-    ## TODO: Move this to the API?
-    leaderboard = request.db.session.query(
-        m.Person, func.count(m.Person.assertions)
-    ).join(
-        m.Assertion
-    ).filter(
-        m.Assertion.issued_on >= start
-    ).filter(
-        m.Assertion.issued_on <= stop
-    ).order_by(
-        'count_1 desc'
-    ).filter(
-        m.Person.opt_out == False
-    ).group_by(
-        m.Person
-    ).all()
-
     return dict(
         auth_principals=effective_principals(request),
         user_to_rank=user_to_rank,
-        top_persons_sorted=leaderboard,
         start_date=start,
         stop_date=stop,
     )
@@ -1065,27 +1047,9 @@ def report_year(request):
         stop=stop,
     )
 
-    ## TODO: Move this to the API?
-    leaderboard = request.db.session.query(
-        m.Person, func.count(m.Person.assertions)
-    ).join(
-        m.Assertion
-    ).filter(
-        m.Assertion.issued_on >= start
-    ).filter(
-        m.Assertion.issued_on <= stop
-    ).order_by(
-        'count_1 desc'
-    ).filter(
-        m.Person.opt_out == False
-    ).group_by(
-        m.Person
-    ).all()
-
     return dict(
         auth_principals=effective_principals(request),
         user_to_rank=user_to_rank,
-        top_persons_sorted=leaderboard,
         start_date=start,
         stop_date=stop,
     )
@@ -1107,27 +1071,9 @@ def report_year_month(request):
         stop=stop,
     )
 
-    ## TODO: Move this to the API?
-    leaderboard = request.db.session.query(
-        m.Person, func.count(m.Person.assertions)
-    ).join(
-        m.Assertion
-    ).filter(
-        m.Assertion.issued_on >= start
-    ).filter(
-        m.Assertion.issued_on <= stop
-    ).order_by(
-        'count_1 desc'
-    ).filter(
-        m.Person.opt_out == False
-    ).group_by(
-        m.Person
-    ).all()
-
     return dict(
         auth_principals=effective_principals(request),
         user_to_rank=user_to_rank,
-        top_persons_sorted=leaderboard,
         start_date=start,
         stop_date=stop,
     )
@@ -1150,27 +1096,9 @@ def report_year_month_day(request):
         stop=stop,
     )
 
-    ## TODO: Move this to the API?
-    leaderboard = request.db.session.query(
-        m.Person, func.count(m.Person.assertions)
-    ).join(
-        m.Assertion
-    ).filter(
-        m.Assertion.issued_on >= start
-    ).filter(
-        m.Assertion.issued_on <= stop
-    ).order_by(
-        'count_1 desc'
-    ).filter(
-        m.Person.opt_out == False
-    ).group_by(
-        m.Person
-    ).all()
-
     return dict(
         auth_principals=effective_principals(request),
         user_to_rank=user_to_rank,
-        top_persons_sorted=leaderboard,
         start_date=start,
         stop_date=stop,
     )
@@ -1197,27 +1125,9 @@ def report_year_week(request):
         stop=stop,
     )
 
-    ## TODO: Move this to the API?
-    leaderboard = request.db.session.query(
-        m.Person, func.count(m.Person.assertions)
-    ).join(
-        m.Assertion
-    ).filter(
-        m.Assertion.issued_on >= start
-    ).filter(
-        m.Assertion.issued_on <= stop
-    ).order_by(
-        'count_1 desc'
-    ).filter(
-        m.Person.opt_out == False
-    ).group_by(
-        m.Person
-    ).all()
-
     return dict(
         auth_principals=effective_principals(request),
         user_to_rank=user_to_rank,
-        top_persons_sorted=leaderboard,
         start_date=start,
         stop_date=stop,
     )
