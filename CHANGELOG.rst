@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4.2
+0.4.3
 -----
 
 - PEP 8 for glory. `b0954a7f8 <https://github.com/fedora-infra/tahrir/commit/b0954a7f8ba2c56d4b83a7e167c7edb045a91213>`_
@@ -72,6 +72,7 @@ Changelog
 - Add a space there to match the other code `e6d114825 <https://github.com/fedora-infra/tahrir/commit/e6d114825d8d7c992123c30454d4713c56a2a282>`_
 - More rank information in the report(s). `383ce3f23 <https://github.com/fedora-infra/tahrir/commit/383ce3f2300235d059657c411d8ccbbf63b52905>`_
 - Merge pull request #233 from fedora-infra/feature/reports `27b027a04 <https://github.com/fedora-infra/tahrir/commit/27b027a04d7151812378f348d840fddfd4ea5bda>`_
+- 0.4.2 `e5aaeb963 <https://github.com/fedora-infra/tahrir/commit/e5aaeb963a0a24e11f24492f85316e0b30ad818f>`_
 
 0.4.1
 -----
