@@ -826,7 +826,8 @@ def user_edit(request):
         person = request.db.get_all_persons().filter_by(
                     email=authenticated_userid(request)).one()
 
-        new_nick = None # if this remains None, we don't have to go to a new URL
+        # if this remains None, we don't have to go to a new URL
+        new_nick = None
         if request.POST.get('edit-profile'):
             if request.POST.get('new-nickname') and allow_changenick:
                 new_nick = request.POST.get('new-nickname')
@@ -837,11 +838,6 @@ def user_edit(request):
 
             if request.POST.get('new-bio'):
                 person.bio = request.POST.get('new-bio')
-
-        if request.POST.get('deactivate-account'):
-            person.opt_out = True
-        elif request.POST.get('reactivate-account'):
-            person.opt_out = False
 
         if new_nick:
             return HTTPFound(location=request.route_url('user', id=new_nick))
