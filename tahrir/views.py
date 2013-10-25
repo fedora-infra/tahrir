@@ -793,7 +793,6 @@ def user(request):
             percent_earned=percent_earned,
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
-            allow_changenick=allow_changenick,
             rank=rank,
             percentile=percentile,
             user_count=user_count,
