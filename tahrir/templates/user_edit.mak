@@ -30,14 +30,13 @@
 					   placeholder="New website"
 					   type="text"
 					   style="width: 100%;" />
-				<texarea name="new-bio"
+				<input name="new-bio"
 					   placeholder="New bio"
-					   type="textarea"
-					   rows="50"
-					   style="width: 100%;"></textarea>
+					   type="text"
+					   style="width: 100%;" />
 				<input class="pretty-submit"
 					   style="height: 50px; width:100%"
-					   name="change-nickname"
+					   name="edit-profile"
 					   type="submit"
 					   value="Update Profile" />
 			</form>
