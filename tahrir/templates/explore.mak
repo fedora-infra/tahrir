@@ -134,4 +134,23 @@
       </div> <!-- End padded content. -->
     </div> <!-- End shadow. -->
   </div> <!-- End grid-50. -->
+
+
+  <div class="grid-50">
+    <div class="shadow">
+      <h1 class="section-header">Reports</h1>
+      <div class="padded-content">
+        <p>You can construct URLs to generate reports on almost any time frame.
+        Take a look at the following examples:</p>
+
+        <ul class="pretty-list">
+          <li>Top badge earners <a href="report/2013">for all of 2013</a></li>
+          <li>Top badge earners <a href="report/2013/10">for only October of 2013</a></li>
+          <li>Top badge earners <a href="report/2013/10/2">for just the second day of that October</a></li>
+          <li>Top badge earners <a href="report/2013/week/37">for the 37th week of 2013</a></li>
+          <li>Top badge earners <a href="report">for just this week</a></li>
+        </ul>
+      </div> <!-- End padded content. -->
+    </div> <!-- End shadow. -->
+  </div> <!-- End grid-50. -->
 </div>
