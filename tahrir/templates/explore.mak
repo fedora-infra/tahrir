@@ -147,7 +147,7 @@
           <li>Top badge earners <a href="report/2013">for all of 2013</a></li>
           <li>Top badge earners <a href="report/2013/10">for only October of 2013</a></li>
           <li>Top badge earners <a href="report/2013/10/2">for just the second day of that October</a></li>
-          <li>Top badge earners <a href="report/2013">for the 37th week of 2013</a></li>
+          <li>Top badge earners <a href="report/2013/week/37">for the 37th week of 2013</a></li>
           <li>Top badge earners <a href="report">for just this week</a></li>
         </ul>
       </div> <!-- End padded content. -->
