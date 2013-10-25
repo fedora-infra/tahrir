@@ -725,7 +725,6 @@ def user(request):
 
     # Grab a boolean out of the config
     settings = request.registry.settings
-    allow_changenick = asbool(settings.get('tahrir.allow_changenick', True))
 
     # Get awarded assertions.
     if authenticated_userid(request):
@@ -752,13 +751,7 @@ def user(request):
         person = request.db.get_all_persons().filter_by(
                     email=authenticated_userid(request)).one()
 
-        if request.POST.get('change-nickname') and allow_changenick:
-            new_nick = request.POST.get('new-nickname')
-            person.nickname = new_nick
-
-            # The user's nickname has changed, so let's go to the new URL.
-            return HTTPFound(location=request.route_url('user', id=new_nick))
-        elif request.POST.get('deactivate-account'):
+        if request.POST.get('deactivate-account'):
             person.opt_out = True
         elif request.POST.get('reactivate-account'):
             person.opt_out = False
