@@ -1143,7 +1143,7 @@ def report_year_month_day(request):
     day = int(request.matchdict.get('day'))
 
     start = date(year, month, day)
-    stop = date(year, month, day)
+    stop = date(year, month, day) + timedelta(days=1)
 
     user_to_rank = request.db._make_leaderboard(
         start=start,
