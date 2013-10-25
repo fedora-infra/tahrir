@@ -10,7 +10,9 @@ import StringIO
 import qrcode as qrcode_module
 import docutils.examples
 import markupsafe
+from datetime import date
 from datetime import datetime
+from datetime import timedelta
 
 from mako.template import Template as t
 from webhelpers import feedgenerator
@@ -1010,6 +1012,217 @@ def tags(request):
             )
 
 
+@view_config(route_name='report', renderer='report.mak')
+def report(request):
+    """Render report page."""
+
+    start = get_start_week()
+    stop = start + timedelta(days=6)
+
+    user_to_rank = request.db._make_leaderboard(
+        start=start,
+        stop=stop,
+    )
+
+    ## TODO: Move this to the API?
+    leaderboard = request.db.session.query(
+        m.Person, func.count(m.Person.assertions)
+    ).join(
+        m.Assertion
+    ).filter(
+        m.Assertion.issued_on >= start
+    ).filter(
+        m.Assertion.issued_on <= stop
+    ).order_by(
+        'count_1 desc'
+    ).filter(
+        m.Person.opt_out == False
+    ).group_by(
+        m.Person
+    ).all()
+
+    return dict(
+        auth_principals=effective_principals(request),
+        user_to_rank=user_to_rank,
+        top_persons_sorted=leaderboard,
+        start_date=start,
+        stop_date=stop,
+    )
+
+
+@view_config(route_name='report_year', renderer='report.mak')
+def report_year(request):
+    """ The leaderboard for a specific year. """
+
+    ## TODO: how to make sure this doesn't break?
+    year = int(request.matchdict.get('year'))
+
+    start = date(year, 1, 1)
+    stop = date(year, 12, 31)
+
+    user_to_rank = request.db._make_leaderboard(
+        start=start,
+        stop=stop,
+    )
+
+    ## TODO: Move this to the API?
+    leaderboard = request.db.session.query(
+        m.Person, func.count(m.Person.assertions)
+    ).join(
+        m.Assertion
+    ).filter(
+        m.Assertion.issued_on >= start
+    ).filter(
+        m.Assertion.issued_on <= stop
+    ).order_by(
+        'count_1 desc'
+    ).filter(
+        m.Person.opt_out == False
+    ).group_by(
+        m.Person
+    ).all()
+
+    return dict(
+        auth_principals=effective_principals(request),
+        user_to_rank=user_to_rank,
+        top_persons_sorted=leaderboard,
+        start_date=start,
+        stop_date=stop,
+    )
+
+
+@view_config(route_name='report_year_month', renderer='report.mak')
+def report_year_month(request):
+    """ The leaderboard for a specific month of a specific year. """
+
+    ## TODO: how to make sure this doesn't break?
+    year = int(request.matchdict.get('year'))
+    month = int(request.matchdict.get('month'))
+
+    start = date(year, month, 1)
+    stop = date(year, month + 1, 1) - timedelta(days=1)
+
+    user_to_rank = request.db._make_leaderboard(
+        start=start,
+        stop=stop,
+    )
+
+    ## TODO: Move this to the API?
+    leaderboard = request.db.session.query(
+        m.Person, func.count(m.Person.assertions)
+    ).join(
+        m.Assertion
+    ).filter(
+        m.Assertion.issued_on >= start
+    ).filter(
+        m.Assertion.issued_on <= stop
+    ).order_by(
+        'count_1 desc'
+    ).filter(
+        m.Person.opt_out == False
+    ).group_by(
+        m.Person
+    ).all()
+
+    return dict(
+        auth_principals=effective_principals(request),
+        user_to_rank=user_to_rank,
+        top_persons_sorted=leaderboard,
+        start_date=start,
+        stop_date=stop,
+    )
+
+
+@view_config(route_name='report_year_month_day', renderer='report.mak')
+def report_year_month_day(request):
+    """ The leaderboard for a specific month of a specific year. """
+
+    ## TODO: how to make sure this doesn't break?
+    year = int(request.matchdict.get('year'))
+    month = int(request.matchdict.get('month'))
+    day = int(request.matchdict.get('day'))
+
+    start = date(year, month, day)
+    stop = date(year, month, day)
+
+    user_to_rank = request.db._make_leaderboard(
+        start=start,
+        stop=stop,
+    )
+
+    ## TODO: Move this to the API?
+    leaderboard = request.db.session.query(
+        m.Person, func.count(m.Person.assertions)
+    ).join(
+        m.Assertion
+    ).filter(
+        m.Assertion.issued_on >= start
+    ).filter(
+        m.Assertion.issued_on <= stop
+    ).order_by(
+        'count_1 desc'
+    ).filter(
+        m.Person.opt_out == False
+    ).group_by(
+        m.Person
+    ).all()
+
+    return dict(
+        auth_principals=effective_principals(request),
+        user_to_rank=user_to_rank,
+        top_persons_sorted=leaderboard,
+        start_date=start,
+        stop_date=stop,
+    )
+
+@view_config(route_name='report_year_week', renderer='report.mak')
+def report_year_week(request):
+    """ The leaderboard for a specific month of a specific year. """
+
+    ## TODO: how to make sure this doesn't break?
+    year = int(request.matchdict.get('year'))
+    week = int(request.matchdict.get('weeknumber'))
+
+    # Get the first week of the year
+    fourth_jan = date(year, 1, 4)
+    delta = timedelta(fourth_jan.isoweekday()-1)
+    year_start = fourth_jan - delta
+
+    # Get the start and stop date of that week
+    start = year_start + timedelta(weeks=week - 1)
+    stop = start + timedelta(days=6)
+
+    user_to_rank = request.db._make_leaderboard(
+        start=start,
+        stop=stop,
+    )
+
+    ## TODO: Move this to the API?
+    leaderboard = request.db.session.query(
+        m.Person, func.count(m.Person.assertions)
+    ).join(
+        m.Assertion
+    ).filter(
+        m.Assertion.issued_on >= start
+    ).filter(
+        m.Assertion.issued_on <= stop
+    ).order_by(
+        'count_1 desc'
+    ).filter(
+        m.Person.opt_out == False
+    ).group_by(
+        m.Person
+    ).all()
+
+    return dict(
+        auth_principals=effective_principals(request),
+        user_to_rank=user_to_rank,
+        top_persons_sorted=leaderboard,
+        start_date=start,
+        stop_date=stop,
+    )
+
+
 @view_config(context=unicode)
 def html(context, request):
     return Response(context)
@@ -1221,3 +1434,26 @@ def load_docs(request, key):
         raise KeyError("%r is not permitted." % key)
 
     return htmldocs[key]
+
+
+def get_start_week(year=None, month=None, day=None):
+    """ For a given date, retrieve the day the week started.
+    For any missing parameters (ie: None), use the value of the current
+    day.
+
+    :kwarg year: year to consider when searching a week.
+    :kwarg month: month to consider when searching a week.
+    :kwarg day: day to consider when searching a week.
+    :return a Date of the day the week started either based on the
+        current utc date or based on the information.
+    """
+    now = datetime.utcnow()
+    if not year:
+        year = now.year
+    if not month:
+        month = now.month
+    if not day:
+        day = now.day
+    week_day = date(year, month, day)
+    week_start = week_day - timedelta(days=week_day.weekday())
+    return week_start
