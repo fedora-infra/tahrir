@@ -1,6 +1,78 @@
 Changelog
 =========
 
+0.4.2
+-----
+
+- PEP 8 for glory. `b0954a7f8 <https://github.com/fedora-infra/tahrir/commit/b0954a7f8ba2c56d4b83a7e167c7edb045a91213>`_
+- A good deal of the user_edit view. Will finish after sleeps. `35d8f1ef5 <https://github.com/fedora-infra/tahrir/commit/35d8f1ef5b2ba7a48b01ad423ba824b0fdd30115>`_
+- Use cached rank in the template. `f3220caef <https://github.com/fedora-infra/tahrir/commit/f3220caefb3c2a3f8524784f52080e730b806a04>`_
+- Furthermore. `673e19af1 <https://github.com/fedora-infra/tahrir/commit/673e19af1835d4818cf2b004d547445eaeda8b52>`_
+- Link to trac from the README. `3469cbba4 <https://github.com/fedora-infra/tahrir/commit/3469cbba438662bd149449443143ab58c44b9d67>`_
+- The last shall be first and the first shall be last. `d9aff539e <https://github.com/fedora-infra/tahrir/commit/d9aff539ebbc4d2dc886fd5f1a7a0e2dba60fd7c>`_
+- Merge pull request #218 from fedora-infra/feature/switcharoo `b61f11cfb <https://github.com/fedora-infra/tahrir/commit/b61f11cfbf91fba3640edbd154f643d3f7e8d669>`_
+- Update production.ini `ba9031d7e <https://github.com/fedora-infra/tahrir/commit/ba9031d7e03885cbbfbed921ee69a34a63892240>`_
+- Merge pull request #220 from ArcticSphinx/develop `cf8720fa7 <https://github.com/fedora-infra/tahrir/commit/cf8720fa70c8cdfa02499ab156e851642b6b8d2c>`_
+- Display the date that you were awarded a given badge `ab7066fb2 <https://github.com/fedora-infra/tahrir/commit/ab7066fb2aa952513f48f2cb0750d9ff116d4d6e>`_
+- Add a couple of missing commands to the quick set up howto `30ca2caf1 <https://github.com/fedora-infra/tahrir/commit/30ca2caf1b4aaef4014babbd7a6ed538cbdc6f3c>`_
+- Merge pull request #223 from fedora-infra/feature/update_readme `683ae0783 <https://github.com/fedora-infra/tahrir/commit/683ae07839ab7f6fc8bb796f08d0bd764f22f03a>`_
+- Require an older pyramid for now. `0f1cc15a3 <https://github.com/fedora-infra/tahrir/commit/0f1cc15a34cea72de6b3344e135a948752b4d0b7>`_
+- Merge branch 'develop' of github.com:fedora-infra/tahrir into develop `27bd719b6 <https://github.com/fedora-infra/tahrir/commit/27bd719b68a8866d98fc0824da3260dde017295e>`_
+- fix merge conflicts `176610e3f <https://github.com/fedora-infra/tahrir/commit/176610e3ff95d4f2a728be99a3ae1c9efadabe80>`_
+- Badges are properly diffed on diff view! `e61cbc38e <https://github.com/fedora-infra/tahrir/commit/e61cbc38ee550a226ecdf68d7c3eb9452785d423>`_
+- Display a bunch of diff stats before the visual badge comparison. `c70132797 <https://github.com/fedora-infra/tahrir/commit/c7013279772ea5a71ada5be6558e972a99a42f42>`_
+- Fix out-of-the-box development openid login. `ab4a419be <https://github.com/fedora-infra/tahrir/commit/ab4a419be0445669bdd1fb11518b5cd83044928c>`_
+- Merge pull request #226 from fedora-infra/feature/development-login `83cfebd8e <https://github.com/fedora-infra/tahrir/commit/83cfebd8e2883229663c12a3ede65ca2a0e7e14a>`_
+- Limit the precision of the percentage in the diff template. `5cefed2b0 <https://github.com/fedora-infra/tahrir/commit/5cefed2b06dd16ec1fa32c5a2dbea696dfea34aa>`_
+- Use a table to make the diff view tighter. `01882ca7f <https://github.com/fedora-infra/tahrir/commit/01882ca7f91250889e4682d606d20de1f2c33f13>`_
+- Always sort diffed badges the same way. `064f9f04b <https://github.com/fedora-infra/tahrir/commit/064f9f04baea3372fc40cb75436f4b91c581acea>`_
+- Add a button to diff the logged in user against a user they are viewing. `3008166c7 <https://github.com/fedora-infra/tahrir/commit/3008166c780367fdbd420f48105a47747f80ea23>`_
+- Merge pull request #221 from fedora-infra/feature/date-awarded `3ddbb309d <https://github.com/fedora-infra/tahrir/commit/3ddbb309defc74df20732f9e1b08c4966382dae4>`_
+- PEP8/style. `9e99aa76b <https://github.com/fedora-infra/tahrir/commit/9e99aa76b18259920deb1a94cf8f2fdc3661681e>`_
+- Merge pull request #217 from fedora-infra/feature/user-diff `d87bc79c3 <https://github.com/fedora-infra/tahrir/commit/d87bc79c3208feeab8f87d6c2268925f8174bc99>`_
+- Closes #190 by adding the Tahrir version to the footer. Also order tweak for aesthetic reasons. `5976d8077 <https://github.com/fedora-infra/tahrir/commit/5976d80777affa1ac15db1afb54a354ec6c506f2>`_
+- PEP 8 and get rid of q logging (whoops). `9bcef0eee <https://github.com/fedora-infra/tahrir/commit/9bcef0eeec86e94105a7a8497aeb2ab93389f1fc>`_
+- Get version from setuptools. `e544ba48b <https://github.com/fedora-infra/tahrir/commit/e544ba48b87792b174fedf892fc28d3cc554a581>`_
+- Throw the tahrir-api version in there too. `e6eb3022d <https://github.com/fedora-infra/tahrir/commit/e6eb3022d64742d6cb17aacf8483a6d5bbd763d3>`_
+- Fix pep8 block. `340661af0 <https://github.com/fedora-infra/tahrir/commit/340661af081f25d3b5e892bfacca18f05faa1336>`_
+- Merge pull request #216 from fedora-infra/feature/version-in-footer `3c3963257 <https://github.com/fedora-infra/tahrir/commit/3c396325789c4439538680c57d94801f0c97955c>`_
+- Generate foaf with rdf lib. `67ef469c9 <https://github.com/fedora-infra/tahrir/commit/67ef469c92b6c541eaf26d737875588fa6a759c5>`_
+- I forgot a file. `0bb5c83b3 <https://github.com/fedora-infra/tahrir/commit/0bb5c83b3944ddd1be2fe5506bfa89f9fba5917c>`_
+- Merge pull request #227 from fedora-infra/feature/rdf-external `4fc35c5de <https://github.com/fedora-infra/tahrir/commit/4fc35c5de96981fb35f4cc4888ea6586b41b90aa>`_
+- Fix the display of the leaderboard for user having no badges `4a11845a0 <https://github.com/fedora-infra/tahrir/commit/4a11845a0573ce4d6f9d9f27461fe212845b4edc>`_
+- Call the new note_login api function to track logins. `1387dd407 <https://github.com/fedora-infra/tahrir/commit/1387dd407c3e000e719e251e9ed80cdc4196ac8d>`_
+- Note user logins. `b987501c1 <https://github.com/fedora-infra/tahrir/commit/b987501c1e3efeff4cd54b31e1d46c53373e04c2>`_
+- Merge pull request #231 from fedora-infra/feature/leaderboard_ranking `ccf364159 <https://github.com/fedora-infra/tahrir/commit/ccf364159cd9fcbea9a66f405a4151fea439f393>`_
+- Merge pull request #232 from fedora-infra/feature/login-tracking `09f605d6a <https://github.com/fedora-infra/tahrir/commit/09f605d6a3159b6dee7e335a28feabe2f6e40c68>`_
+- hides leaderboard when there's no users on database `fba7440f0 <https://github.com/fedora-infra/tahrir/commit/fba7440f054f8e3ba1f4caa5d4139c03adbcf5e2>`_
+- Merge pull request #230 from cpallares/develop `cc0f5f654 <https://github.com/fedora-infra/tahrir/commit/cc0f5f65483310865cf68b513886fd0c44800185>`_
+- Add different report pages `8a967d8fc <https://github.com/fedora-infra/tahrir/commit/8a967d8fcbcc714787ff9e44ab9af43cee45fe69>`_
+- Merge branch 'develop' into edit-profile `6b3a5d528 <https://github.com/fedora-infra/tahrir/commit/6b3a5d528ec3a91681a950a8d22ce9b80bb2535c>`_
+- Fix the "day" report. `d78ed0c3f <https://github.com/fedora-infra/tahrir/commit/d78ed0c3fd9e0411fba35328c6629cea5cad05aa>`_
+- Change up presentation for the reports. `c6d61e8ac <https://github.com/fedora-infra/tahrir/commit/c6d61e8ac10b36101dfb9608efb0a57ada3ff1d5>`_
+- Remove unnecessary leaderboard queries. `686cf6ea7 <https://github.com/fedora-infra/tahrir/commit/686cf6ea72fdfc2721de6b028054fe78e489e886>`_
+- Update a comment. `17d73bb93 <https://github.com/fedora-infra/tahrir/commit/17d73bb93e70053c77e0c1583fa5300ea0a924e5>`_
+- Edit profile view works. `335c7bfa4 <https://github.com/fedora-infra/tahrir/commit/335c7bfa45382e58e30d3dc152bc68fd89bdc255>`_
+- Replace "change nickname" on user view with "edit profile" button. `5a4f4153e <https://github.com/fedora-infra/tahrir/commit/5a4f4153ea6c7b0011bac5fa4921f9bc5ce88188>`_
+- Re-work from scratch the way we get the date from a year and a week number `6ab12dbc5 <https://github.com/fedora-infra/tahrir/commit/6ab12dbc554a6c096386cf729d74f1598dc5d56d>`_
+- Merge branch 'feature/reports' of github.com:fedora-infra/tahrir into feature/reports `0fcf118aa <https://github.com/fedora-infra/tahrir/commit/0fcf118aae13815639d0c65fbdf1bebe16275579>`_
+- Small CSS fix that should make form/input and button look the same `f19bbcb38 <https://github.com/fedora-infra/tahrir/commit/f19bbcb385782aaad0b308a99f6e8ddf06fff21d>`_
+- Enhance report description. `5e3d0b5b0 <https://github.com/fedora-infra/tahrir/commit/5e3d0b5b0309ceb05f2ebf0d41d9542839faad30>`_
+- Link to reports from the explore page. `a56c3fc98 <https://github.com/fedora-infra/tahrir/commit/a56c3fc981ab08cb612fa9c6a0180adef54f8eea>`_
+- Remove changenick stuff from the old user view. `18a9c672d <https://github.com/fedora-infra/tahrir/commit/18a9c672db31db22207188f1e4b1d35985acc44a>`_
+- Remove unused activation stuff from the new user_edit view. `a0af95a27 <https://github.com/fedora-infra/tahrir/commit/a0af95a271ca57c1ae71989ae1998c9b4621aaba>`_
+- Whoops.. remove a forgotten reference. `8b8dfdf56 <https://github.com/fedora-infra/tahrir/commit/8b8dfdf564d0c8c3ec8e35565f2b1523e71174e4>`_
+- Simplify redirect code at the end of editing. `07bf77a14 <https://github.com/fedora-infra/tahrir/commit/07bf77a14e1363e6d198ecdc73fb5028ad7215f7>`_
+- Don't display changenick field if it is disallowed. `74c9fe8d3 <https://github.com/fedora-infra/tahrir/commit/74c9fe8d3bed7a60d28a23c5dfec02d73a8dc9dc>`_
+- Some HTML5 validators for make benefit of glorious tubes. `91fd83fc2 <https://github.com/fedora-infra/tahrir/commit/91fd83fc25da1c8ba32c844b4c484cee6cc16b84>`_
+- additional plus for most honourable tubes `d842dabf7 <https://github.com/fedora-infra/tahrir/commit/d842dabf7fc3f3d3b1dcb587b46e9752bf9854f8>`_
+- Typofix. `09f96c3eb <https://github.com/fedora-infra/tahrir/commit/09f96c3eb56317b6f57647781addb969bcc6044b>`_
+- Merge pull request #234 from fedora-infra/edit-profile `f97eff66b <https://github.com/fedora-infra/tahrir/commit/f97eff66b4778acdececf482b5d6db365d59e5ba>`_
+- Merge pull request #235 from fedora-infra/feature/css_fix `e1c971eec <https://github.com/fedora-infra/tahrir/commit/e1c971eecafd9d748621cf9f5cb6118f557eabfd>`_
+- Add a space there to match the other code `e6d114825 <https://github.com/fedora-infra/tahrir/commit/e6d114825d8d7c992123c30454d4713c56a2a282>`_
+- More rank information in the report(s). `383ce3f23 <https://github.com/fedora-infra/tahrir/commit/383ce3f2300235d059657c411d8ccbbf63b52905>`_
+- Merge pull request #233 from fedora-infra/feature/reports `27b027a04 <https://github.com/fedora-infra/tahrir/commit/27b027a04d7151812378f348d840fddfd4ea5bda>`_
+
 0.4.1
 -----
 
