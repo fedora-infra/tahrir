@@ -57,7 +57,7 @@
 
   <div class="clear spacer"></div>
 
-<%def name="badge_table(badges, N=4)">
+<%def name="badge_table(badges, N=3)">
 	<table>
 	<tr>
 	% for badge in badges:
