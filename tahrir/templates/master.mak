@@ -53,10 +53,8 @@
         <div class="header clearfix grid-100">
           <h1>
             <a href="${request.route_url('home')}">
-              <img
-                 src="${request.static_url('%s:static/img/fedora_badges_small.png' % theme_name)}"
-                 alt="Fedora Badges logo"
-                 class="logo-image"/>
+            <div id="site-logo">
+            </div>
             </a>
           </h1>
         </div>
