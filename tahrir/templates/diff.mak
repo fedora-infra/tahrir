@@ -19,7 +19,7 @@
 				badges
 			% endif
 			that ${user_a.nickname} does not have.</li>
-	  	<li>${user_b.nickname} and ${user_b.nickname} share
+	  	<li>${user_a.nickname} and ${user_b.nickname} share
 			${len(shared_badges)}
 			% if len(shared_badges) == 1:
 				award.
@@ -57,7 +57,7 @@
 
   <div class="clear spacer"></div>
 
-<%def name="badge_table(badges, N=4)">
+<%def name="badge_table(badges, N=3)">
 	<table>
 	<tr>
 	% for badge in badges:
