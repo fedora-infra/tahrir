@@ -35,6 +35,15 @@ legend {
     text-decoration: none;
 }
 
+#site-logo {
+    width: 600px;
+    height: 200px;
+    background-image: url(../img/fedora_badges_small.png);
+    background-repeat: no-repeat;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
 
 /* Applied to numbering, mainly (ex. #1, #2, etc.). */
 .big-text {
@@ -133,12 +142,6 @@ td {
 tr:nth-child(odd) { background: #E8EFF8; } /* "Clear day" */
 
 tr:nth-child(even) { background: white; }
-
-.logo-image {
-    margin-right: 10px;
-    margin-left: 10px;
-    margin-top: 10px;
-}
 
 #logo {
     color: #9B9B9B; /* Dark gray */
