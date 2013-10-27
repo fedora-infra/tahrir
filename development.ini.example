@@ -61,7 +61,9 @@ tahrir.websocket.topic = org.fedoraproject.stg.fedbadges.badge.award
 tahrir.use_openid_email = False
 
 # You can optionally create your own CSS theme for tahrir
-# tahrir.static.uri = /home/user/tahrir-theme
+# Specify a python module name that contains static/{css,js,img} dirs.
+# By default, tahrir's own static/ folder contents are used.
+#tahrir.theme_name = tahrir
 
 tahrir.use_websockets = True
 

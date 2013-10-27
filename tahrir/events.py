@@ -32,6 +32,7 @@ def inject_globals(event):
     # dict returned by the view every time!
     event['title'] = settings['tahrir.title']
     event['base_url'] = settings['tahrir.base_url']
+    event['theme_name'] = settings.get('tahrir.theme_name', 'tahrir')
 
     event['tahrir_version'] = get_distribution('tahrir').version
     event['tahrir_api_version'] = get_distribution('tahrir-api').version

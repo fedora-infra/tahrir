@@ -123,7 +123,7 @@ def main(global_config, **settings):
 
     config.add_static_view(
         'static',
-        settings.get('tahrir.static.uri', 'static'),
+        settings.get('tahrir.theme_name', 'tahrir') + ':static',
         cache_max_age=3600,
     )
     config.add_static_view(

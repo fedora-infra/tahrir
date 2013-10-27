@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1,
                                    maximum-scale=1" />
     <!-- end viewport stuff -->
-    <link rel="stylesheet" href="${request.static_url('tahrir:static/css/tahrir.css')}" />
-    <link rel="stylesheet" href="${request.static_url('tahrir:static/css/monokai.css')}" />
-    <link rel="stylesheet" media="mobile" href="${request.static_url('tahrir:static/css/unsemantic-grid-mobile.css')}" />
-    <link rel="stylesheet" media="screen" href="${request.static_url('tahrir:static/css/unsemantic-grid-responsive.css')}" />
-    <link rel="shortcut icon" href="${request.static_url('tahrir:static/img/favicon.ico')}" />
-    <script src="${request.static_url('tahrir:static/js/social.js')}"></script>
+    <link rel="stylesheet" href="${request.static_url('%s:static/css/tahrir.css' % theme_name)}" />
+    <link rel="stylesheet" href="${request.static_url('%s:static/css/monokai.css' % theme_name)}" />
+    <link rel="stylesheet" media="mobile" href="${request.static_url('%s:static/css/unsemantic-grid-mobile.css' % theme_name)}" />
+    <link rel="stylesheet" media="screen" href="${request.static_url('%s:static/css/unsemantic-grid-responsive.css' % theme_name)}" />
+    <link rel="shortcut icon" href="${request.static_url('%s:static/img/favicon.ico' % theme_name)}" />
+    <script src="${request.static_url('%s:static/js/social.js' % theme_name)}"></script>
     % if logged_in and awarded_assertions:
       <script src="//beta.openbadges.org/issuer.js"></script>
       <script>
@@ -54,7 +54,7 @@
           <h1>
             <a href="${request.route_url('home')}">
               <img
-                 src="${request.static_url('tahrir:static/img/fedora_badges_small.png')}"
+                 src="${request.static_url('%s:static/img/fedora_badges_small.png' % theme_name)}"
                  alt="Fedora Badges logo"
                  class="logo-image"/>
             </a>
