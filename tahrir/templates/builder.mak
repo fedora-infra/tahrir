@@ -1,5 +1,5 @@
 <%inherit file="master.mak"/>
-<script type="text/javascript" src="${request.static_url('tahrir:static/js/builder.js')}"></script>
+<script type="text/javascript" src="${request.static_url('%s:static/js/builder.js' % theme_name)}"></script>
 <div class="page">
   <div class="grid-100">
     <h1 class="section-header">Badge Builder</h1>

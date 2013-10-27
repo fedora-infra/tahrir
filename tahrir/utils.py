@@ -90,8 +90,9 @@ def make_avatar_method(cache):
     @cache.cache_on_arguments()
     def _avatar_function(email, size):
         request = pyramid.threadlocal.get_current_request()
+        theme_name = request.registry.settings.get('tahrir.theme_name', 'tahrir')
         absolute_default = request.static_url(
-            'tahrir:static/img/badger_avatar.png')
+            '%s:static/img/badger_avatar.png' % theme_name)
 
         query = {
             's': size,
