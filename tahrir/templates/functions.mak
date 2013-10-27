@@ -17,7 +17,7 @@
 <%def name="badge_thumbnail(badge, size, cell_width, position='top')">
 	<div class="grid-${cell_width} thumbnail-container">
 		<div class="thumbnail thumbnail-${size}">
-			<span class="tooltip tooltip-${size} tooltip-${position}" data-tooltip="${badge.name}">
+			<span class="tooltip tooltip-${size} tooltip-${position}" data-tooltip="${badge.name} -- ${badge.description}">
 				<a href="${request.route_url('badge', id=badge.id)}">
 					<img class="badge-${size}"
 		% if badge.image.startswith("http"):
