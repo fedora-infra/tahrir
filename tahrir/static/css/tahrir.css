@@ -68,15 +68,15 @@ legend {
 }
 .page-content {
     overflow: auto;
-    padding-bottom: 3em;
+    padding-bottom: 7em;
 }
 
 /* Footer Styles */
 
 footer {
     position: relative;
-    margin-top: -3em;
-    height: 3em;
+    margin-top: -9em;
+    height: 9em;
     clear: both;
     color: #9B9B9B;
     font-size: 10px;
