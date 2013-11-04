@@ -779,7 +779,7 @@ def user(request):
                    if i.expires_on > datetime.now()]
 
     # Get rank. (same code found in leaderboard view function)
-    rank = user.rank
+    rank = user.rank or 0
     user_count = request.db.session.query(m.Person)\
         .filter(m.Person.opt_out == False).count()
 
