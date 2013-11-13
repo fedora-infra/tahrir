@@ -122,6 +122,10 @@ tr:nth-child(odd) { background: #E8EFF8; } /* "Clear day" */
 
 tr:nth-child(even) { background: white; }
 
+.admin-form td {
+    min-width: 300px;
+}
+
 .admin-form tr {
     background: white;
 }
