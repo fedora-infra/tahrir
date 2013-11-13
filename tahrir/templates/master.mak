@@ -43,6 +43,10 @@
     <link rel="alternate" type="application/json" title="JSON" href="${request.url}/json" />
     % endif
 
+    %if newest_badges:
+    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="${request.url}/rss" />
+    % endif
+
     % if user:
     <link rel="alternate" type="application/rdf" title="RDF+FOAF" href="${request.url}/foaf" />
     % endif
