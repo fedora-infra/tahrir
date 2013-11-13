@@ -25,7 +25,6 @@ legend {
     padding-bottom: 10px;
 }
 
-
 /* Header Styles */
 .header {
     color: #3158AF;
@@ -66,6 +65,7 @@ legend {
 .page {
     min-height: calc(100% - 1em);
 }
+
 .page-content {
     overflow: auto;
     padding-bottom: 7em;
@@ -82,27 +82,6 @@ footer {
     font-size: 10px;
     text-align: center;
 }
-
-/*
-.footer {
-    color: #9B9B9B; /* Dark gray *
-    font-size: 10px;
-    text-align: center;
-}
-
-.footer, .push {
-    height: -3em;
-    clear: both;
-    display: none;
-}
-
-@media all and (min-width: 768px) {
-    .footer {
-        display: block;
-    }
-}
-*/
-
 
 .date {
     font-size: 0.8em;
@@ -142,6 +121,10 @@ td {
 tr:nth-child(odd) { background: #E8EFF8; } /* "Clear day" */
 
 tr:nth-child(even) { background: white; }
+
+.admin-form tr {
+    background: white;
+}
 
 #logo {
     color: #9B9B9B; /* Dark gray */
@@ -255,16 +238,6 @@ tr:nth-child(even) { background: white; }
     display: block;
     font-size: 0.8em;
     color: #666;
-}
-
-/* Applied to every form element on the admin view. */
-form {
-    margin-bottom: 10px;
-}
-
-form table {
-    width: 95%;
-    max-width: 400px;
 }
 
 .thumbnail-responsive {

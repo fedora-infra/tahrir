@@ -1,19 +1,20 @@
 <%inherit file="master.mak"/>
 <div class="page">
   <div class="grid-100">
-    <h1 class="section-header">Administration Panel</h1>
-    <p>
-      The admin panel is currently under reconstruction. During this time,
-      there will be sub-par validation and little guidance. We apologize.
-    </p>
+    <h1 class="section-header">Admin Panel</h1>
   </div>
 
   <div class="clear"></div>
 
-  <div class="grid-50">
+  <!-- PEOPLE PANEL -->
+
+  <div class="grid-33">
+    <h2>People</h2>
+    <p>Add a new user, who can then be awarded badges.</p>
+  </div>
+
+  <div class="grid-66">
     <form class="admin-form" method="POST">
-      <legend>Add Person</legend>
-      <p>Add a new user, who can then be awarded badges.</p>
       <table>
         <tr>
           <td><label for="person-email">Email</label></td>
@@ -40,10 +41,17 @@
     </form>
   </div>
 
-  <div class="grid-50">
+  <div class="clear"></div>
+
+  <!-- ISSUER PANEL -->
+
+  <div class="grid-33">
+    <h2>Issuers</h2>
+    <p>Add a new issuer. Each badge must have an issuer.</p>
+  </div>
+
+  <div class="grid-66">
     <form class="admin-form" method="POST">
-      <legend>Add Issuer</legend>
-      <p>Add a new issuer. Each badge must have an issuer.</p>
       <table>
         <tr>
           <td><label for="issuer-origin">Origin</label></td>
@@ -70,10 +78,15 @@
 
   <div class="clear"></div>
 
-  <div class="grid-50">
+  <!-- BADGE PANEL -->
+
+  <div class="grid-33">
+    <h2>Badges</h2>
+    <p>Add a new badge so that it can be awarded to people.</p>
+  </div>
+
+  <div class="grid-66">
     <form class="admin-form" method="POST">
-      <legend>Add Badge</legend>
-      <p>Add a new badge so that it can be awarded to people.</p>
       <table>
         <tr>
           <td><label for="badge-name">Name</label></td>
@@ -106,10 +119,15 @@
     </form>
   </div>
 
-  <div class="grid-50">
+  <div class="clear"></div>
+
+  <div class="grid-33">
+    <h2>Invitations</h2>
+    <p>Invite a person via link and QR code to accept a new badge.</p>
+  </div>
+
+  <div class="grid-66">
     <form class="admin-form" method="POST">
-      <legend>Add Invitation</legend>
-      <p>Invite a person via link and QR code to accept a new badge.</p>
       <table>
         <tr>
           <td>
@@ -152,10 +170,13 @@
 
   <div class="clear"></div>
 
-  <div class="grid-50">
+  <div class="grid-33">
+    <h2>Award Badges</h2>
+    <p>Assertions award badges to people.</p>
+  </div>
+
+  <div class="grid-66">
     <form class="admin-form" method="POST">
-      <legend>Add Assertion</legend>
-      <p>Award a badge to a person.</p>
       <table>
         <tr>
           <td><label for="assertion-badge-id">Badge ID</label></td>
