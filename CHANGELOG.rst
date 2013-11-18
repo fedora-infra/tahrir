@@ -1,6 +1,34 @@
 Changelog
 =========
 
+0.4.4
+-----
+
+- Typofix. `0c7c2bdfc <https://github.com/fedora-infra/tahrir/commit/0c7c2bdfce8aa665b2cd3ed05cc6a0829b972b49>`_
+- Only do 3 badges wide instead of 4.  4 is crowded. `00d0569bb <https://github.com/fedora-infra/tahrir/commit/00d0569bb82f873609878b9388fb329fc34c9bdc>`_
+- Merge pull request #236 from fedora-infra/feature/fix-diff-bugs `21c2d12b1 <https://github.com/fedora-infra/tahrir/commit/21c2d12b1d79933dbe239cdaae748b32121958d5>`_
+- Make the theme really configurable. `088ac1d3a <https://github.com/fedora-infra/tahrir/commit/088ac1d3a1c1f088d09950cabf2e5e6c675c5e67>`_
+- Merge pull request #238 from fedora-infra/feature/more-configurable-asset-specification `711e33a4d <https://github.com/fedora-infra/tahrir/commit/711e33a4da4613ef47a908eacc7d5e12ccaf07e9>`_
+- Make site logo set via stylesheet. For #64, probably closing it. `55a89d2f2 <https://github.com/fedora-infra/tahrir/commit/55a89d2f29c4ac1290b8ce098a2243d7e277b17f>`_
+- Merge pull request #237 from fedora-infra/feature/custom-logo `994af6ac7 <https://github.com/fedora-infra/tahrir/commit/994af6ac7e9bdf58c2813fc0bd085ee5322e6e34>`_
+- Re-add description to badge tooltip. (for #164) `94ee8bc6b <https://github.com/fedora-infra/tahrir/commit/94ee8bc6bdfc67f76436d17ee97a88c0b1b147a3>`_
+- Create a rss feed for the latest badges `9f2e024e3 <https://github.com/fedora-infra/tahrir/commit/9f2e024e339ecf95365eda0b29e503326abf0969>`_
+- Enhance the title of the post in the rss feed `7974acc0e <https://github.com/fedora-infra/tahrir/commit/7974acc0e39b945763e54ea6cd138aaeb83a76cc>`_
+- Proper image div size for #site-logo. `109f6f3d7 <https://github.com/fedora-infra/tahrir/commit/109f6f3d794c1813ab4bd45d6accb8526f7180cc>`_
+- Adjusted padding - entire footer visible on page `8682b58cc <https://github.com/fedora-infra/tahrir/commit/8682b58ccad6c8304988c61665850b286018658e>`_
+- Merge pull request #239 from cayci/develop `5e0aa6792 <https://github.com/fedora-infra/tahrir/commit/5e0aa679265f157fbf5e517a7875a8205f235348>`_
+- Fix TypeError that occured when viewing a user page when badges have not been awarded. `56f0b03f6 <https://github.com/fedora-infra/tahrir/commit/56f0b03f6ec7af116165e10f769caec87d39a23f>`_
+- Merge pull request #240 from fedora-infra/feature/fix-profile-typeerror `9b54a43e9 <https://github.com/fedora-infra/tahrir/commit/9b54a43e95c8ad12be43eb323ff3a980a160e62f>`_
+- Merge pull request #224 from fedora-infra/feature/rss_latest_badges `147bd2fb6 <https://github.com/fedora-infra/tahrir/commit/147bd2fb629bf9f8af050622e207d5238f6aefde>`_
+- Add a link to the rss feed from the explore badges page `26cdf48ec <https://github.com/fedora-infra/tahrir/commit/26cdf48ecd03d1466e12f2d9d30a2e8b5d9fe487>`_
+- Merge pull request #241 from fedora-infra/feature/rss_latest_badges `6e3dbef71 <https://github.com/fedora-infra/tahrir/commit/6e3dbef718e0acabf2ec18a70ab360bb63bcdea8>`_
+- Start tweakin' admin panel. Forgot to pull in updates so gonna do that now. `1186455bf <https://github.com/fedora-infra/tahrir/commit/1186455bfa93cf66669e64593569b7376c27fc8b>`_
+- Merge branch 'develop' into feature/admin-upgrade `47168774c <https://github.com/fedora-infra/tahrir/commit/47168774c524ce6a4a9b78484d64a88279e76b24>`_
+- Design tweaks and clarifications for the still-not-great admin panel. `7a9bf590b <https://github.com/fedora-infra/tahrir/commit/7a9bf590b9ca24a2ed74628c2be67d89eedf04f5>`_
+- Merge branch 'feature/admin-upgrade' into develop `8241fd61c <https://github.com/fedora-infra/tahrir/commit/8241fd61c5683852b868dd2fdd669ab3ea1d65d9>`_
+- Make json leaderboard behave like the html leaderboard. `9c54d1379 <https://github.com/fedora-infra/tahrir/commit/9c54d1379480f54828c09746c45fe5a124d09a35>`_
+- Merge pull request #242 from fedora-infra/feature/standardize-leaderboard `790d52ff9 <https://github.com/fedora-infra/tahrir/commit/790d52ff963618a1edaeabe63b9f4db24cfb379a>`_
+
 0.4.3
 -----
 
