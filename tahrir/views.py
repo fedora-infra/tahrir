@@ -150,6 +150,13 @@ def admin(request):
     )
 
 
+@view_config(route_name='heartbeat', renderer='string')
+def heartbeat(request):
+    # A NOOP for haproxy httpchk to ping
+    n = request.db.get_all_badges().count()
+    return "OK: (%i badges in the system)" % n
+
+
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
 
