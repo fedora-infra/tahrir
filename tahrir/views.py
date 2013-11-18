@@ -331,19 +331,21 @@ def leaderboard_json(request):
     if user_id:
         user = _get_user(request, user_id)
 
-    leaderboard = request.db.session\
-        .query(m.Person)\
-        .order_by(m.Person.rank)\
-        .filter(m.Person.opt_out == False)\
-        .all()
+    query = request.db.session.query(
+        m.Person
+    ).order_by(
+        m.Person.rank,
+        m.Person.created_on,
+    ).filter(
+        m.Person.opt_out == False
+    )
 
-    user_to_rank = dict([(person, {
-        'badges': len(person.assertions),
-        'rank': person.rank,
-    }) for person in leaderboard])
-
+    leaderboard = query.filter(m.Person.rank != None).all()
     # Get total user count.
     user_count = len(leaderboard)
+    leaderboard.extend(query.filter(m.Person.rank == None).all())
+
+    user_to_rank = request.db._make_leaderboard()
 
     if user:
         rank = user.rank or 0
@@ -358,8 +360,9 @@ def leaderboard_json(request):
         leaderboard = leaderboard[:25]
 
     ret = [
-        dict(user_to_rank[p].items() + {'nickname': p.nickname}.items())
-        for p in leaderboard]
+        dict(user_to_rank[p].items() + [('nickname', p.nickname)])
+        for p in leaderboard
+    ]
 
     return {'leaderboard': ret}
 
