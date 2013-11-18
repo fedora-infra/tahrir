@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.4.5
+-----
+
+- Add a heartbeat for haproxy to ping. `d803d0574 <https://github.com/fedora-infra/tahrir/commit/d803d057487ebd2565fbb0624b58eb49fc3a84fd>`_
+- Merge pull request #243 from fedora-infra/feature/heartbeat `823779caf <https://github.com/fedora-infra/tahrir/commit/823779caf79838f90fca2cb834c51db849442e5f>`_
+
 0.4.4
 -----
 
