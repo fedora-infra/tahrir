@@ -178,6 +178,14 @@
   <div class="grid-33">
     <h2>Award Badges</h2>
     <p>Assertions award badges to people.</p>
+    <br />
+    <p>Upload a CSV file (badgeID, email) to award a bunch
+        of badges. If this method is used, people will
+        be created if they do not yet exist.</p>
+    <form>
+      <input name="csv-file-award" type="file" required="required" />
+      <input name="submit-csv-file-award" type="submit" value="Award Badges" />
+    </form>
   </div>
 
   <div class="grid-66">
