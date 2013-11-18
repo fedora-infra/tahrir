@@ -182,8 +182,9 @@
     <p>Upload a CSV file (badgeID, email) to award a bunch
         of badges. If this method is used, people will
         be created if they do not yet exist.</p>
-    <form>
-      <input name="csv-file-award" type="file" required="required" />
+    <form action="/award_from_csv" method="POST" accept-charset="utf-8"
+          enctype="multipart/form-data">
+      <input name="csv-file" type="file" required="required" />
       <input name="submit-csv-file-award" type="submit" value="Award Badges" />
     </form>
   </div>
