@@ -136,6 +136,7 @@ def main(global_config, **settings):
     config.add_route('heartbeat', '/heartbeat')
     config.add_route('admin', '/admin')
     config.add_route('qrcode', '/qrcode')
+    config.add_route('award', '/award')
     config.add_route('badge', '/badge/{id}')
     config.add_route('badge_json', '/badge/{id}/json')
     config.add_route('badge_rss', '/badge/{id}/rss')

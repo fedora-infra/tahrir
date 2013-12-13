@@ -67,6 +67,37 @@ def _get_user(request, id_or_nickname):
             return None
 
 
+@view_config(route_name='award', renderer='string')
+def award(request):
+    if not request.POST:
+        return HTTPMethodNotAllowed()
+
+    agent = request.db.get_person(authenticated_userid(request))
+    if not agent:
+        raise HTTPForbidden()
+
+    badge_id = request.POST.get('badge_id')
+    badge = request.db.get_badge(badge_id)
+    if not badge:
+        raise HTTPNotFound("No such badge %r" % badge_id)
+
+    if not badge.authorized(agent):
+        raise HTTPForbidden("Unauthorized for %r" % badge_id)
+
+    nickname = request.POST.get('nickname')
+    user = request.db.get_person(nickname=nickname)
+    if not user:
+        raise HTTPNotFound("No such user %r" % nickname)
+
+    if user.opt_out:
+        raise HTTPNotFound("No such user %r" % nickname)
+
+    # OK
+    request.db.add_assertion(badge.id, user.email, None)
+
+    return HTTPFound(location=request.route_url('badge_rss', id=badge.id))
+
+
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
 
