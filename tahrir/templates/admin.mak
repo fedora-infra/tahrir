@@ -211,3 +211,31 @@
       </table>
     </form>
   </div>
+
+  <div class="clear"></div>
+
+  <div class="grid-33">
+    <h2>Create Authorizations</h2>
+    <p>Allow other people to award certain badges.</p>
+  </div>
+
+  <div class="grid-66">
+    <form class="admin-form" method="POST">
+      <table>
+        <tr>
+          <td><label for="authorization-badge-id">Badge ID</label></td>
+          <td><input name="authorization-badge-id" required="required" placeholder="awesome-badge"/></td>
+        </tr>
+        <tr>
+          <td><label for="authorization-person-email">Person Email</label></td>
+          <td><input name="authorization-person-email" type="email" required="required"
+                placeholder="abadger@badgin.com"/></td>
+        </tr>
+        <tr>
+          <td></td><td>
+            <input name="add-authorization" type="submit" value="Add Authorization" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>

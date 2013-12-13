@@ -143,6 +143,10 @@ def admin(request):
                     request.POST.get('assertion-badge-id'),
                     request.POST.get('assertion-person-email'),
                     issued_on)
+        elif request.POST.get('add-authorization'):
+            request.db.add_authorization(
+                    request.POST.get('authorization-badge-id'),
+                    request.POST.get('authorization-person-email'))
 
     return dict(
         auth_principals=effective_principals(request),
