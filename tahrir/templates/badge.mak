@@ -35,19 +35,39 @@
           <h3 class="section-header">Award this badge</h3>
           <form method="POST" action="${request.route_url('award')}">
             <input name="badge_id" value=${badge.id} type="hidden"/>
-            <div class="grid-40">&nbsp;</div>
-            <div class="grid-30">
+            <div class="grid-35">
+              <input class="pretty-submit"
+                style="height: 30px; width:100%"
+                name="award"
+                type="submit"
+                value="Award directly" />
+            </div>
+            <div class="grid-25">to</div>
+            <div class="grid-40">
               <input name="nickname"
                 placeholder="username"
                 required
                 style="width: 100%;" />
             </div>
-            <div class="grid-30">
+          </form>
+
+          <div class="clear spacer"></div>
+
+          <form method="POST" action="${request.route_url('invite')}">
+            <input name="badge_id" value=${badge.id} type="hidden"/>
+            <div class="grid-35">
               <input class="pretty-submit"
                 style="height: 30px; width:100%"
-                name="award"
+                name="invite"
                 type="submit"
-                value="Award" />
+                value="Create invitation" />
+            </div>
+            <div class="grid-25">that expires on</div>
+            <div class="grid-40">
+              <input name="expires-on"
+                type="datetime"
+                placeholder="YYYY-MM-DD HH:MM"
+                style="width: 100%;" />
             </div>
           </form>
           <div class="clear spacer"></div>

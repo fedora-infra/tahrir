@@ -98,6 +98,36 @@ def award(request):
     return HTTPFound(location=request.route_url('badge_rss', id=badge.id))
 
 
+@view_config(route_name='invite', renderer='string')
+def invite(request):
+    if not request.POST:
+        return HTTPMethodNotAllowed()
+
+    agent = request.db.get_person(authenticated_userid(request))
+    if not agent:
+        raise HTTPForbidden()
+
+    badge_id = request.POST.get('badge_id')
+    badge = request.db.get_badge(badge_id)
+    if not badge:
+        raise HTTPNotFound("No such badge %r" % badge_id)
+
+    if not badge.authorized(agent):
+        raise HTTPForbidden("Unauthorized for %r" % badge_id)
+
+    try:
+        fmt = '%Y-%m-%d %H:%M'
+        expires_on = datetime.strptime(request.POST.get('expires-on'), fmt)
+    except ValueError:
+        expires_on = None # Will default to 1 hour from now
+
+    # OK
+    request.db.add_invitation(
+        badge.id, expires_on=expires_on, created_by=agent.id)
+
+    return HTTPFound(location=request.route_url('user', id=agent.id))
+
+
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
 
