@@ -170,14 +170,14 @@ def admin(request):
                                 request.POST.get('invitation-created'),
                                 '%Y-%m-%d %H:%M')
             except ValueError:
-                created_on = None # Will default to datetime.now()
+                created_on = None # Will default to datetime.utcnow()
 
             try:
                 expires_on = datetime.strptime(
                                 request.POST.get('invitation-expires'),
                                 '%Y-%m-%d %H:%M')
             except ValueError:
-                expires_on = None # Will default to datettime.now()
+                expires_on = None # Will default to datettime.utcnow()
 
             request.db.add_invitation(
                     request.POST.get('invitation-badge-id'),
@@ -198,7 +198,7 @@ def admin(request):
                                 request.POST.get('assertion-issued-on'),
                                 '%Y-%m-%d %H:%M')
             except ValueError:
-                issued_on = None # Will default to datetime.now()
+                issued_on = None # Will default to datetime.utcnow()
 
             request.db.add_assertion(
                     request.POST.get('assertion-badge-id'),
@@ -292,7 +292,7 @@ def invitation_claim(request):
 
     settings = request.registry.settings
 
-    if request.context.expires_on < datetime.now():
+    if request.context.expires_on < datetime.utcnow():
         return HTTPGone("That invitation is expired.")
 
     if not authenticated_userid(request):
@@ -309,7 +309,7 @@ def invitation_claim(request):
 
     result = request.db.add_assertion(request.context.badge_id,
                                       person.email,
-                                      datetime.now())
+                                      datetime.utcnow())
 
     # TODO -- return them to a page that auto-exports their badges.
     # TODO -- flash and tell them they got the badge
@@ -320,7 +320,7 @@ def invitation_claim(request):
 def invitation_qrcode(request):
     """ Returns a raw dummy qrcode through to the user. """
 
-    if request.context.expires_on < datetime.now():
+    if request.context.expires_on < datetime.utcnow():
         return HTTPGone("That invitation is expired.")
 
     target = request.resource_url(request.context, 'claim')
@@ -888,7 +888,7 @@ def user(request):
 
     # Get invitations the user has created.
     invitations = [i for i in request.db.get_invitations(user.id)\
-                   if i.expires_on > datetime.now()]
+                   if i.expires_on > datetime.utcnow()]
 
     # Get rank. (same code found in leaderboard view function)
     rank = user.rank or 0
