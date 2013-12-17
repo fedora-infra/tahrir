@@ -134,7 +134,14 @@ def main(global_config, **settings):
 
     config.add_route('home', '/')
     config.add_route('heartbeat', '/heartbeat')
+
+    # main admin endpoint
     config.add_route('admin', '/admin')
+
+    # delegated admin endpoints
+    config.add_route('award', '/award')
+    config.add_route('invite', '/invite')
+
     config.add_route('qrcode', '/qrcode')
     config.add_route('badge', '/badge/{id}')
     config.add_route('badge_json', '/badge/{id}/json')

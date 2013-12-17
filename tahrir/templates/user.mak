@@ -81,14 +81,19 @@
             % endif
           </div> <!-- End social grid -->
         % endif
+        <div class="clear spacer"></div>
         % if logged_in == user.email:
           % if len(invitations) > 0:
             <h3>Active Invitations</h3>
+            <ul class='pretty-list'>
             % for i in invitations:
-              <a href="${"/invitations/" + i.id + "/claim"}">${i.id[:7]}...</a>
-              <a href="${"/invitations/" + i.id + "/qrcode"}">[QR code]</a>
-              <br />
+            <li>
+              ${i.badge.name}, expires ${i.expires_on_relative},
+              <a href="${"/invitations/" + i.id + "/claim"}">[claim link]</a>,
+              <a href="${"/invitations/" + i.id + "/qrcode"}">[QR code]</a>.
+            </li>
             % endfor
+            </ul>
           % endif
           % if awarded_assertions:
             <button class="pretty-button" onClick="javascript:claim_badges();">

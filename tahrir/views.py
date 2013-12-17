@@ -67,6 +67,67 @@ def _get_user(request, id_or_nickname):
             return None
 
 
+@view_config(route_name='award', renderer='string')
+def award(request):
+    if not request.POST:
+        return HTTPMethodNotAllowed()
+
+    agent = request.db.get_person(authenticated_userid(request))
+    if not agent:
+        raise HTTPForbidden()
+
+    badge_id = request.POST.get('badge_id')
+    badge = request.db.get_badge(badge_id)
+    if not badge:
+        raise HTTPNotFound("No such badge %r" % badge_id)
+
+    if not badge.authorized(agent):
+        raise HTTPForbidden("Unauthorized for %r" % badge_id)
+
+    nickname = request.POST.get('nickname')
+    user = request.db.get_person(nickname=nickname)
+    if not user:
+        raise HTTPNotFound("No such user %r" % nickname)
+
+    if user.opt_out:
+        raise HTTPNotFound("No such user %r" % nickname)
+
+    # OK
+    request.db.add_assertion(badge.id, user.email, None)
+
+    return HTTPFound(location=request.route_url('badge_rss', id=badge.id))
+
+
+@view_config(route_name='invite', renderer='string')
+def invite(request):
+    if not request.POST:
+        return HTTPMethodNotAllowed()
+
+    agent = request.db.get_person(authenticated_userid(request))
+    if not agent:
+        raise HTTPForbidden()
+
+    badge_id = request.POST.get('badge_id')
+    badge = request.db.get_badge(badge_id)
+    if not badge:
+        raise HTTPNotFound("No such badge %r" % badge_id)
+
+    if not badge.authorized(agent):
+        raise HTTPForbidden("Unauthorized for %r" % badge_id)
+
+    try:
+        fmt = '%Y-%m-%d %H:%M'
+        expires_on = datetime.strptime(request.POST.get('expires-on'), fmt)
+    except ValueError:
+        expires_on = None # Will default to 1 hour from now
+
+    # OK
+    request.db.add_invitation(
+        badge.id, expires_on=expires_on, created_by=agent.id)
+
+    return HTTPFound(location=request.route_url('user', id=agent.id))
+
+
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
 
@@ -109,14 +170,14 @@ def admin(request):
                                 request.POST.get('invitation-created'),
                                 '%Y-%m-%d %H:%M')
             except ValueError:
-                created_on = None # Will default to datetime.now()
+                created_on = None # Will default to datetime.utcnow()
 
             try:
                 expires_on = datetime.strptime(
                                 request.POST.get('invitation-expires'),
                                 '%Y-%m-%d %H:%M')
             except ValueError:
-                expires_on = None # Will default to datettime.now()
+                expires_on = None # Will default to datettime.utcnow()
 
             request.db.add_invitation(
                     request.POST.get('invitation-badge-id'),
@@ -137,12 +198,16 @@ def admin(request):
                                 request.POST.get('assertion-issued-on'),
                                 '%Y-%m-%d %H:%M')
             except ValueError:
-                issued_on = None # Will default to datetime.now()
+                issued_on = None # Will default to datetime.utcnow()
 
             request.db.add_assertion(
                     request.POST.get('assertion-badge-id'),
                     request.POST.get('assertion-person-email'),
                     issued_on)
+        elif request.POST.get('add-authorization'):
+            request.db.add_authorization(
+                    request.POST.get('authorization-badge-id'),
+                    request.POST.get('authorization-person-email'))
 
     return dict(
         auth_principals=effective_principals(request),
@@ -227,7 +292,7 @@ def invitation_claim(request):
 
     settings = request.registry.settings
 
-    if request.context.expires_on < datetime.now():
+    if request.context.expires_on < datetime.utcnow():
         return HTTPGone("That invitation is expired.")
 
     if not authenticated_userid(request):
@@ -244,7 +309,7 @@ def invitation_claim(request):
 
     result = request.db.add_assertion(request.context.badge_id,
                                       person.email,
-                                      datetime.now())
+                                      datetime.utcnow())
 
     # TODO -- return them to a page that auto-exports their badges.
     # TODO -- flash and tell them they got the badge
@@ -255,7 +320,7 @@ def invitation_claim(request):
 def invitation_qrcode(request):
     """ Returns a raw dummy qrcode through to the user. """
 
-    if request.context.expires_on < datetime.now():
+    if request.context.expires_on < datetime.utcnow():
         return HTTPGone("That invitation is expired.")
 
     target = request.resource_url(request.context, 'claim')
@@ -823,7 +888,7 @@ def user(request):
 
     # Get invitations the user has created.
     invitations = [i for i in request.db.get_invitations(user.id)\
-                   if i.expires_on > datetime.now()]
+                   if i.expires_on > datetime.utcnow()]
 
     # Get rank. (same code found in leaderboard view function)
     rank = user.rank or 0
