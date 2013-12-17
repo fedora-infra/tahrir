@@ -1,6 +1,19 @@
 Changelog
 =========
 
+0.5.0
+-----
+
+- Let site admins create new authorizations. `0f4e89cba <https://github.com/fedora-infra/tahrir/commit/0f4e89cbab8dc103f6bfdab175a84dcb497a08f1>`_
+- Create a way for authorized users to award single badges. `528e991f1 <https://github.com/fedora-infra/tahrir/commit/528e991f1e1d48bba13c6f7204434dae9b2a6398>`_
+- Integrate FOAF and Schema:Person meta-tags into the user page. `b5231cefa <https://github.com/fedora-infra/tahrir/commit/b5231cefac256f5ab6b257d4640d98cf86124d90>`_
+- Authorized delegates can also created invitations. `20afc1ff4 <https://github.com/fedora-infra/tahrir/commit/20afc1ff431b835e493a6400e22be3ceb40f36fa>`_
+- Use .utcnow everywhere. `0ce17826a <https://github.com/fedora-infra/tahrir/commit/0ce17826abf8a70cbb8f8a1d447b4803af88f5ba>`_
+- A nicer view for active invitations now that we have an easier way to create them. `2f3223569 <https://github.com/fedora-infra/tahrir/commit/2f32235693dfb0a4a02cf153f106552f108630be>`_
+- Remove extra space `c1c0ce6f5 <https://github.com/fedora-infra/tahrir/commit/c1c0ce6f5c976d3bbc36da7b0f8dfd78521f72c9>`_
+- Merge pull request #247 from fedora-infra/feature/foaf `0cbffc6f0 <https://github.com/fedora-infra/tahrir/commit/0cbffc6f04176b34689c609e78a228600e6cc0a0>`_
+- Merge pull request #246 from fedora-infra/feature/authz `209845442 <https://github.com/fedora-infra/tahrir/commit/2098454429273c5cac20fa02b0aae65295791bf9>`_
+
 0.4.5
 -----
 
