@@ -32,6 +32,10 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
 
+    # for flash Messages
+    session_factory = UnencryptedCookieSessionFactoryConfig('tahrir_session')
+    config = Configurator(settings = settings, session_factory = session_factory)
+
     cache = dogpile.cache.make_region(
         key_mangler=dogpile.cache.util.sha1_mangle_key)
     tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
