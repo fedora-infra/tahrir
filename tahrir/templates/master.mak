@@ -79,34 +79,24 @@
             <li><a href="${request.route_url('login')}">Login</a></li>
           % endif
         </ul>
-        ${self.body()}
-
-        <!-- template to flash a message -->
-        <script>
-            function PopUp(hideOrshow) {
-                if (hideOrshow == 'hide') document.getElementById('ac-wrapper').style.display = "none";
-                else document.getElementById('ac-wrapper').removeAttribute('style');
-            }
-
-            window.onload = function () {
-                  setTimeout(function () {
-                    PopUp('show');
-                  }, 0);
-            }
-        </script>
 
         % if request.session.peek_flash():
-          % for message in request.session.pop_flash():
-          <div id="ac-wrapper" style='display:none'>
-            <div id="popup">
-              <center>
-                <h2> ${message} </h2>
-                    <input type="submit" name="submit" value="OK" onClick="PopUp('hide')" />
-              </center>
+        <div class="grid-50 push-25">
+          <div class="shadow">
+            <div class="padded-content">
+              <ul class="pretty-list">
+              % for message in request.session.pop_flash():
+                <li>${message}</li>
+              % endfor
+              </ul>
             </div>
           </div>
-          % endfor
+        </div>
+        <div class="clearfix"></div>
         % endif
+
+        ${self.body()}
+
 
         <!-- End of flash message template -->
       
