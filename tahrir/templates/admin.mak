@@ -108,8 +108,12 @@
           <td><input name="badge-criteria" required="required" placeholder="oursite.tld/mailinglist/awesome_badge_discussion"/></td>
         </tr>
         <tr>
-          <td><label for="badge-issuer">Issuer ID</label></td>
-          <td><input name="badge-issuer" required="required" placeholder="1"/></td>
+          <td><label for="badge-issuer">Issuer</label></td>
+		  <td><select name="badge-issuer">
+		  % for issuer in issuers:
+			<option value="${issuer.id}">${issuer.name} (${issuer.id})</option>
+		  % endfor
+		  </select></td>
         </tr>
         <tr>
           <td><label for="badge-tags">Tags <span class="sublabel">Comma-delimited list of tags.</span></label></td>

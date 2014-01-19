@@ -212,6 +212,7 @@ def admin(request):
     return dict(
         auth_principals=effective_principals(request),
         awarded_assertions=awarded_assertions,
+        issuers=request.db.get_all_issuers().all(),
     )
 
 
