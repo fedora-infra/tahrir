@@ -183,7 +183,7 @@ def admin(request):
                     request.POST.get('invitation-badge-id'),
                     created_on=created_on,
                     expires_on=expires_on,
-                    created_by=request.POST.get('invitation-issuer-id'))
+                    created_by=request.POST.get('invitation-issuer-email'))
         elif request.POST.get('add-issuer'):
             # Add an Issuer to the DB.
             request.db.add_issuer(

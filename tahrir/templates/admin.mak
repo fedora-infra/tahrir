@@ -161,8 +161,8 @@
           <td><input name="invitation-badge-id" required="required" placeholder="awesome-badge"/></td>
         </tr>
         <tr>
-          <td><label for="invitation-issuer-id">Person ID</label></td>
-          <td><input name="invitation-issuer-id" required="required" placeholder="1"/></td>
+          <td><label for="invitation-issuer-id">Person email</label></td>
+          <td><input name="invitation-issuer-email" required="required" placeholder="abadger@badgin.com"/></td>
         </tr>
         <tr>
           <td></td><td>
