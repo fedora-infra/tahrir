@@ -304,7 +304,6 @@ def invitation_claim(request):
 
     # Check to see if the user already has the badge.
     if request.context.badge in [a.badge for a in person.assertions]:
-        # TODO: Flash a message explaining that they already have the badge
         request.session.flash("You already have " + request.context.badge_id + " badge")
         return HTTPFound(location=request.route_url('home'))
 
@@ -313,7 +312,6 @@ def invitation_claim(request):
                                       datetime.utcnow())
 
     # TODO -- return them to a page that auto-exports their badges.
-    # TODO -- flash and tell them they got the badge
     request.session.flash("You have earned " + request.context.badge_id + " badge")
     return HTTPFound(location=request.route_url('home'))
 
