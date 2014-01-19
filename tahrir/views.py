@@ -123,7 +123,7 @@ def invite(request):
 
     # OK
     request.db.add_invitation(
-        badge.id, expires_on=expires_on, created_by_email=agent.id)
+        badge.id, expires_on=expires_on, created_by_email=agent.email)
 
     return HTTPFound(location=request.route_url('user', id=agent.id))
 
