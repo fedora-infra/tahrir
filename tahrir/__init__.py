@@ -10,6 +10,7 @@ from pyramid.config import Configurator
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
+from pyramid_beaker import session_factory_from_settings
 from pyramid.settings import asbool
 
 from .app import get_root
@@ -33,9 +34,10 @@ def main(global_config, **settings):
     """
 
     # for flash Messages
-    session_factory = UnencryptedCookieSessionFactoryConfig('tahrir_session')
-    config = Configurator(settings = settings, session_factory = session_factory)
-
+    session_factory = session_factory_from_settings(settings)
+    config = Configurator(root_factory=get_root, settings = settings)
+    config.set_session_factory(session_factory)
+    
     cache = dogpile.cache.make_region(
         key_mangler=dogpile.cache.util.sha1_mangle_key)
     tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
