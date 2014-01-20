@@ -123,7 +123,7 @@ def invite(request):
 
     # OK
     request.db.add_invitation(
-        badge.id, expires_on=expires_on, created_by=agent.id)
+        badge.id, expires_on=expires_on, created_by_email=agent.email)
 
     return HTTPFound(location=request.route_url('user', id=agent.id))
 
@@ -155,6 +155,7 @@ def admin(request):
                                             'person-website'),
                                   bio=request.POST.get(
                                             'person-bio'))
+            request.session.flash('You added a person with email %s' % request.POST.get('person-email'))
         elif request.POST.get('add-badge'):
             # Add a Badge to the DB.
             request.db.add_badge(request.POST.get('badge-name'),
@@ -163,6 +164,7 @@ def admin(request):
                                  request.POST.get('badge-criteria'),
                                  request.POST.get('badge-issuer'),
                                  request.POST.get('badge-tags'))
+            request.session.flash('You added a badge with name %s' % request.POST.get('badge-name'))
         elif request.POST.get('add-invitation'):
             # Add an Invitation to the DB.
             try:
@@ -183,7 +185,8 @@ def admin(request):
                     request.POST.get('invitation-badge-id'),
                     created_on=created_on,
                     expires_on=expires_on,
-                    created_by=request.POST.get('invitation-issuer-id'))
+                    created_by_email=request.POST.get('invitation-issuer-email'))
+            request.session.flash('You added an invitation for badge %s' % request.POST.get('invitation-badge-id'))
         elif request.POST.get('add-issuer'):
             # Add an Issuer to the DB.
             request.db.add_issuer(
@@ -191,6 +194,7 @@ def admin(request):
                     request.POST.get('issuer-name'),
                     request.POST.get('issuer-org'),
                     request.POST.get('issuer-contact'))
+            request.session.flash('You added an issuer with the name %s' % request.POST.get('issuer-name'))
         elif request.POST.get('add-assertion'):
             # Add an Assertion to the DB.
             try:
@@ -204,14 +208,17 @@ def admin(request):
                     request.POST.get('assertion-badge-id'),
                     request.POST.get('assertion-person-email'),
                     issued_on)
+            request.session.flash('You awarded %s to %s' % (request.POST.get('assertion-badge-id'), request.POST.get('assertion-person-email')))
         elif request.POST.get('add-authorization'):
             request.db.add_authorization(
                     request.POST.get('authorization-badge-id'),
                     request.POST.get('authorization-person-email'))
+            request.session.flash('You authorized %s to issue %s' % (request.POST.get('authorization-person-email'), request.POST.get('authorization-badge-id')))
 
     return dict(
         auth_principals=effective_principals(request),
         awarded_assertions=awarded_assertions,
+        issuers=request.db.get_all_issuers().all(),
     )
 
 
