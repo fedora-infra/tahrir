@@ -1,6 +1,27 @@
 Changelog
 =========
 
+0.5.1
+-----
+
+- Delay executing websocket callback for 250ms to dodge race condition. `507a9cdcf <https://github.com/fedora-infra/tahrir/commit/507a9cdcfcff1a44c4a884b4df4a26c13158c199>`_
+- Merge pull request #249 from fedora-infra/feature/websocket-delay `eee737973 <https://github.com/fedora-infra/tahrir/commit/eee737973a3854e1fcfef35a5c253306e6e230ce>`_
+- Added template to render flash messages `ebc407fbe <https://github.com/fedora-infra/tahrir/commit/ebc407fbe0144b1e56221023b66d6e6dfdaa4a10>`_
+- Added session variable to store flash messages `0a5a6ee80 <https://github.com/fedora-infra/tahrir/commit/0a5a6ee8031df3dacc7e84842a0538ef044fc165>`_
+- Added request.session configuration to store flash messages `34822bfc5 <https://github.com/fedora-infra/tahrir/commit/34822bfc5eabe5dcd26e62293a7efe0ada64f9a3>`_
+- Added css attributes to render message flash cards `a2e17b0d3 <https://github.com/fedora-infra/tahrir/commit/a2e17b0d3d3384fd5727b9bffb431a17d5276301>`_
+- Merge pull request #251 from rahulrrixe/develop `45f75c483 <https://github.com/fedora-infra/tahrir/commit/45f75c4837a025ce16064988f50ee610dd73b795>`_
+- Remove TODO notes. `bdf66a0f4 <https://github.com/fedora-infra/tahrir/commit/bdf66a0f41f84cd6c4f2f1b3dc68d2dfa3e18862>`_
+- Try doing flash messages without js, with html only. `641a7befb <https://github.com/fedora-infra/tahrir/commit/641a7befb2a5be1ae323da38289fcbfc9159db35>`_
+- Remove js-popup css. `2f6651c8d <https://github.com/fedora-infra/tahrir/commit/2f6651c8d36e702443a9ad88a08489e3939b5df9>`_
+- Make add invitation accept the creator as email address instead of person ID. `89d6ffc86 <https://github.com/fedora-infra/tahrir/commit/89d6ffc86650d421ff39733b00c950c7b9b8e770>`_
+- Make the admin panel a bit more user-friendly by making a dropdown of issuer selection `8082ffee8 <https://github.com/fedora-infra/tahrir/commit/8082ffee8beafe1e7b447a04277a0d791a284107>`_
+- Show flash messages after performing admin commands `f3c1e4fcc <https://github.com/fedora-infra/tahrir/commit/f3c1e4fccb55c84c40d09bfe824018fd176001d7>`_
+- Fix forgotten change to email `9c8a9bf3b <https://github.com/fedora-infra/tahrir/commit/9c8a9bf3b58e6290f1f9e483b1bd1840d81856b7>`_
+- Merge pull request #253 from fedora-infra/feature/html-flash-messages `fa3b03fff <https://github.com/fedora-infra/tahrir/commit/fa3b03fff7dbc41c61f26dc02ea4f30739f30993>`_
+- Merge pull request #255 from fedora-infra/feature/admin-revamp `18104b063 <https://github.com/fedora-infra/tahrir/commit/18104b063cdde452754cb45363399adc2d4b628a>`_
+- Check the openid provider more explicitly. `12d4a0ff5 <https://github.com/fedora-infra/tahrir/commit/12d4a0ff5687f0135b94bd22f1f02967945f8188>`_
+
 0.5.0
 -----
 
