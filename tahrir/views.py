@@ -1,3 +1,4 @@
+import re
 import random
 import transaction
 import types
@@ -1345,6 +1346,11 @@ def login(request):
 def login_complete_view(request):
     context = request.context
     settings = request.registry.settings
+
+    trusted_openid = settings.get('tahrir.trusted_openid')
+    trusted_openid = re.compile(trusted_openid)
+    if not trusted_openid.match(context.profile['accounts'][0]['username']):
+        return HTTPForbidden("Invalid openid provider")
 
     nickname = context.profile['preferredUsername']
 
