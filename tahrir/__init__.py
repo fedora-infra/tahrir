@@ -120,8 +120,13 @@ def main(global_config, **settings):
             authentication_policy=authn_policy,
             authorization_policy=authz_policy)
 
+    import tahrir.custom_openid
     config.include('velruse.providers.openid')
-    config.add_openid_login(realm=settings.get('tahrir.openid_realm'))
+    tahrir.custom_openid.add_openid_login(
+        config,
+        realm=settings.get('tahrir.openid_realm'),
+        identity_provider=settings.get('tahrir.openid_identifier'),
+    )
 
     config.add_request_method(get_db, 'db', reify=True)
 
