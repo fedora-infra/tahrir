@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.5.2
+-----
+
+- Create a custom openid extension for velruse. `5539ea299 <https://github.com/fedora-infra/tahrir/commit/5539ea2996d039b67e108ec1c9ed4ea1bf6cd138>`_
+
 0.5.1
 -----
 
