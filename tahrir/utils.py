@@ -127,8 +127,12 @@ def make_avatar_method(cache):
             return gravatar_url
 
     def avatar_method(self, size):
+        # dogpile.cache can barf on unicode, so do this ourselves.
+        ident = self.openid_identifier
+        if isinstance(ident, unicode):
+            ident = ident.encode('utf-8')
         # Call the cached workhorse function
-        return _avatar_function(self.openid_identifier, size)
+        return _avatar_function(ident, size)
 
     return avatar_method
 
