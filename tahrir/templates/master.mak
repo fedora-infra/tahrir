@@ -79,7 +79,27 @@
             <li><a href="${request.route_url('login')}">Login</a></li>
           % endif
         </ul>
+
+        % if request.session.peek_flash():
+        <div class="grid-50 push-25">
+          <div class="shadow">
+            <div class="padded-content">
+              <ul class="pretty-list">
+              % for message in request.session.pop_flash():
+                <li>${message}</li>
+              % endfor
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        % endif
+
         ${self.body()}
+
+
+        <!-- End of flash message template -->
+      
       </div> <!-- End grid-container -->
 
     </div> <!-- End page -->

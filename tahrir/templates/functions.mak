@@ -5,7 +5,7 @@
 			<span class="tooltip tooltip-${size}" data-tooltip="${person.nickname}">
       % endif
 				<a href="${request.route_url('user', id=person.nickname or person.id)}">
-					<img src="${person.avatar_url(size)}" />
+					<img property="foaf:img schema:image" src="${person.avatar_url(size)}" />
 				</a>
       % if tooltip:
 			</span>

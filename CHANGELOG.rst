@@ -1,6 +1,79 @@
 Changelog
 =========
 
+0.5.2
+-----
+
+- Create a custom openid extension for velruse. `5539ea299 <https://github.com/fedora-infra/tahrir/commit/5539ea2996d039b67e108ec1c9ed4ea1bf6cd138>`_
+
+0.5.1
+-----
+
+- Delay executing websocket callback for 250ms to dodge race condition. `507a9cdcf <https://github.com/fedora-infra/tahrir/commit/507a9cdcfcff1a44c4a884b4df4a26c13158c199>`_
+- Merge pull request #249 from fedora-infra/feature/websocket-delay `eee737973 <https://github.com/fedora-infra/tahrir/commit/eee737973a3854e1fcfef35a5c253306e6e230ce>`_
+- Added template to render flash messages `ebc407fbe <https://github.com/fedora-infra/tahrir/commit/ebc407fbe0144b1e56221023b66d6e6dfdaa4a10>`_
+- Added session variable to store flash messages `0a5a6ee80 <https://github.com/fedora-infra/tahrir/commit/0a5a6ee8031df3dacc7e84842a0538ef044fc165>`_
+- Added request.session configuration to store flash messages `34822bfc5 <https://github.com/fedora-infra/tahrir/commit/34822bfc5eabe5dcd26e62293a7efe0ada64f9a3>`_
+- Added css attributes to render message flash cards `a2e17b0d3 <https://github.com/fedora-infra/tahrir/commit/a2e17b0d3d3384fd5727b9bffb431a17d5276301>`_
+- Merge pull request #251 from rahulrrixe/develop `45f75c483 <https://github.com/fedora-infra/tahrir/commit/45f75c4837a025ce16064988f50ee610dd73b795>`_
+- Remove TODO notes. `bdf66a0f4 <https://github.com/fedora-infra/tahrir/commit/bdf66a0f41f84cd6c4f2f1b3dc68d2dfa3e18862>`_
+- Try doing flash messages without js, with html only. `641a7befb <https://github.com/fedora-infra/tahrir/commit/641a7befb2a5be1ae323da38289fcbfc9159db35>`_
+- Remove js-popup css. `2f6651c8d <https://github.com/fedora-infra/tahrir/commit/2f6651c8d36e702443a9ad88a08489e3939b5df9>`_
+- Make add invitation accept the creator as email address instead of person ID. `89d6ffc86 <https://github.com/fedora-infra/tahrir/commit/89d6ffc86650d421ff39733b00c950c7b9b8e770>`_
+- Make the admin panel a bit more user-friendly by making a dropdown of issuer selection `8082ffee8 <https://github.com/fedora-infra/tahrir/commit/8082ffee8beafe1e7b447a04277a0d791a284107>`_
+- Show flash messages after performing admin commands `f3c1e4fcc <https://github.com/fedora-infra/tahrir/commit/f3c1e4fccb55c84c40d09bfe824018fd176001d7>`_
+- Fix forgotten change to email `9c8a9bf3b <https://github.com/fedora-infra/tahrir/commit/9c8a9bf3b58e6290f1f9e483b1bd1840d81856b7>`_
+- Merge pull request #253 from fedora-infra/feature/html-flash-messages `fa3b03fff <https://github.com/fedora-infra/tahrir/commit/fa3b03fff7dbc41c61f26dc02ea4f30739f30993>`_
+- Merge pull request #255 from fedora-infra/feature/admin-revamp `18104b063 <https://github.com/fedora-infra/tahrir/commit/18104b063cdde452754cb45363399adc2d4b628a>`_
+- Check the openid provider more explicitly. `12d4a0ff5 <https://github.com/fedora-infra/tahrir/commit/12d4a0ff5687f0135b94bd22f1f02967945f8188>`_
+
+0.5.0
+-----
+
+- Let site admins create new authorizations. `0f4e89cba <https://github.com/fedora-infra/tahrir/commit/0f4e89cbab8dc103f6bfdab175a84dcb497a08f1>`_
+- Create a way for authorized users to award single badges. `528e991f1 <https://github.com/fedora-infra/tahrir/commit/528e991f1e1d48bba13c6f7204434dae9b2a6398>`_
+- Integrate FOAF and Schema:Person meta-tags into the user page. `b5231cefa <https://github.com/fedora-infra/tahrir/commit/b5231cefac256f5ab6b257d4640d98cf86124d90>`_
+- Authorized delegates can also created invitations. `20afc1ff4 <https://github.com/fedora-infra/tahrir/commit/20afc1ff431b835e493a6400e22be3ceb40f36fa>`_
+- Use .utcnow everywhere. `0ce17826a <https://github.com/fedora-infra/tahrir/commit/0ce17826abf8a70cbb8f8a1d447b4803af88f5ba>`_
+- A nicer view for active invitations now that we have an easier way to create them. `2f3223569 <https://github.com/fedora-infra/tahrir/commit/2f32235693dfb0a4a02cf153f106552f108630be>`_
+- Remove extra space `c1c0ce6f5 <https://github.com/fedora-infra/tahrir/commit/c1c0ce6f5c976d3bbc36da7b0f8dfd78521f72c9>`_
+- Merge pull request #247 from fedora-infra/feature/foaf `0cbffc6f0 <https://github.com/fedora-infra/tahrir/commit/0cbffc6f04176b34689c609e78a228600e6cc0a0>`_
+- Merge pull request #246 from fedora-infra/feature/authz `209845442 <https://github.com/fedora-infra/tahrir/commit/2098454429273c5cac20fa02b0aae65295791bf9>`_
+
+0.4.5
+-----
+
+- Add a heartbeat for haproxy to ping. `d803d0574 <https://github.com/fedora-infra/tahrir/commit/d803d057487ebd2565fbb0624b58eb49fc3a84fd>`_
+- Merge pull request #243 from fedora-infra/feature/heartbeat `823779caf <https://github.com/fedora-infra/tahrir/commit/823779caf79838f90fca2cb834c51db849442e5f>`_
+
+0.4.4
+-----
+
+- Typofix. `0c7c2bdfc <https://github.com/fedora-infra/tahrir/commit/0c7c2bdfce8aa665b2cd3ed05cc6a0829b972b49>`_
+- Only do 3 badges wide instead of 4.  4 is crowded. `00d0569bb <https://github.com/fedora-infra/tahrir/commit/00d0569bb82f873609878b9388fb329fc34c9bdc>`_
+- Merge pull request #236 from fedora-infra/feature/fix-diff-bugs `21c2d12b1 <https://github.com/fedora-infra/tahrir/commit/21c2d12b1d79933dbe239cdaae748b32121958d5>`_
+- Make the theme really configurable. `088ac1d3a <https://github.com/fedora-infra/tahrir/commit/088ac1d3a1c1f088d09950cabf2e5e6c675c5e67>`_
+- Merge pull request #238 from fedora-infra/feature/more-configurable-asset-specification `711e33a4d <https://github.com/fedora-infra/tahrir/commit/711e33a4da4613ef47a908eacc7d5e12ccaf07e9>`_
+- Make site logo set via stylesheet. For #64, probably closing it. `55a89d2f2 <https://github.com/fedora-infra/tahrir/commit/55a89d2f29c4ac1290b8ce098a2243d7e277b17f>`_
+- Merge pull request #237 from fedora-infra/feature/custom-logo `994af6ac7 <https://github.com/fedora-infra/tahrir/commit/994af6ac7e9bdf58c2813fc0bd085ee5322e6e34>`_
+- Re-add description to badge tooltip. (for #164) `94ee8bc6b <https://github.com/fedora-infra/tahrir/commit/94ee8bc6bdfc67f76436d17ee97a88c0b1b147a3>`_
+- Create a rss feed for the latest badges `9f2e024e3 <https://github.com/fedora-infra/tahrir/commit/9f2e024e339ecf95365eda0b29e503326abf0969>`_
+- Enhance the title of the post in the rss feed `7974acc0e <https://github.com/fedora-infra/tahrir/commit/7974acc0e39b945763e54ea6cd138aaeb83a76cc>`_
+- Proper image div size for #site-logo. `109f6f3d7 <https://github.com/fedora-infra/tahrir/commit/109f6f3d794c1813ab4bd45d6accb8526f7180cc>`_
+- Adjusted padding - entire footer visible on page `8682b58cc <https://github.com/fedora-infra/tahrir/commit/8682b58ccad6c8304988c61665850b286018658e>`_
+- Merge pull request #239 from cayci/develop `5e0aa6792 <https://github.com/fedora-infra/tahrir/commit/5e0aa679265f157fbf5e517a7875a8205f235348>`_
+- Fix TypeError that occured when viewing a user page when badges have not been awarded. `56f0b03f6 <https://github.com/fedora-infra/tahrir/commit/56f0b03f6ec7af116165e10f769caec87d39a23f>`_
+- Merge pull request #240 from fedora-infra/feature/fix-profile-typeerror `9b54a43e9 <https://github.com/fedora-infra/tahrir/commit/9b54a43e95c8ad12be43eb323ff3a980a160e62f>`_
+- Merge pull request #224 from fedora-infra/feature/rss_latest_badges `147bd2fb6 <https://github.com/fedora-infra/tahrir/commit/147bd2fb629bf9f8af050622e207d5238f6aefde>`_
+- Add a link to the rss feed from the explore badges page `26cdf48ec <https://github.com/fedora-infra/tahrir/commit/26cdf48ecd03d1466e12f2d9d30a2e8b5d9fe487>`_
+- Merge pull request #241 from fedora-infra/feature/rss_latest_badges `6e3dbef71 <https://github.com/fedora-infra/tahrir/commit/6e3dbef718e0acabf2ec18a70ab360bb63bcdea8>`_
+- Start tweakin' admin panel. Forgot to pull in updates so gonna do that now. `1186455bf <https://github.com/fedora-infra/tahrir/commit/1186455bfa93cf66669e64593569b7376c27fc8b>`_
+- Merge branch 'develop' into feature/admin-upgrade `47168774c <https://github.com/fedora-infra/tahrir/commit/47168774c524ce6a4a9b78484d64a88279e76b24>`_
+- Design tweaks and clarifications for the still-not-great admin panel. `7a9bf590b <https://github.com/fedora-infra/tahrir/commit/7a9bf590b9ca24a2ed74628c2be67d89eedf04f5>`_
+- Merge branch 'feature/admin-upgrade' into develop `8241fd61c <https://github.com/fedora-infra/tahrir/commit/8241fd61c5683852b868dd2fdd669ab3ea1d65d9>`_
+- Make json leaderboard behave like the html leaderboard. `9c54d1379 <https://github.com/fedora-infra/tahrir/commit/9c54d1379480f54828c09746c45fe5a124d09a35>`_
+- Merge pull request #242 from fedora-infra/feature/standardize-leaderboard `790d52ff9 <https://github.com/fedora-infra/tahrir/commit/790d52ff963618a1edaeabe63b9f4db24cfb379a>`_
+
 0.4.3
 -----
 

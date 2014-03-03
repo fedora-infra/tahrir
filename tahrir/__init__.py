@@ -32,6 +32,10 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
 
+    # for flash Messages
+    session_factory = UnencryptedCookieSessionFactoryConfig('tahrir_session')
+    config = Configurator(settings = settings, session_factory = session_factory)
+
     cache = dogpile.cache.make_region(
         key_mangler=dogpile.cache.util.sha1_mangle_key)
     tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
@@ -116,8 +120,13 @@ def main(global_config, **settings):
             authentication_policy=authn_policy,
             authorization_policy=authz_policy)
 
+    import tahrir.custom_openid
     config.include('velruse.providers.openid')
-    config.add_openid_login(realm=settings.get('tahrir.openid_realm'))
+    tahrir.custom_openid.add_openid_login(
+        config,
+        realm=settings.get('tahrir.openid_realm'),
+        identity_provider=settings.get('tahrir.openid_identifier'),
+    )
 
     config.add_request_method(get_db, 'db', reify=True)
 
@@ -133,7 +142,15 @@ def main(global_config, **settings):
     )
 
     config.add_route('home', '/')
+    config.add_route('heartbeat', '/heartbeat')
+
+    # main admin endpoint
     config.add_route('admin', '/admin')
+
+    # delegated admin endpoints
+    config.add_route('award', '/award')
+    config.add_route('invite', '/invite')
+
     config.add_route('qrcode', '/qrcode')
     config.add_route('badge', '/badge/{id}')
     config.add_route('badge_json', '/badge/{id}/json')

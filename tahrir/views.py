@@ -1,3 +1,4 @@
+import re
 import random
 import transaction
 import types
@@ -67,6 +68,67 @@ def _get_user(request, id_or_nickname):
             return None
 
 
+@view_config(route_name='award', renderer='string')
+def award(request):
+    if not request.POST:
+        return HTTPMethodNotAllowed()
+
+    agent = request.db.get_person(authenticated_userid(request))
+    if not agent:
+        raise HTTPForbidden()
+
+    badge_id = request.POST.get('badge_id')
+    badge = request.db.get_badge(badge_id)
+    if not badge:
+        raise HTTPNotFound("No such badge %r" % badge_id)
+
+    if not badge.authorized(agent):
+        raise HTTPForbidden("Unauthorized for %r" % badge_id)
+
+    nickname = request.POST.get('nickname')
+    user = request.db.get_person(nickname=nickname)
+    if not user:
+        raise HTTPNotFound("No such user %r" % nickname)
+
+    if user.opt_out:
+        raise HTTPNotFound("No such user %r" % nickname)
+
+    # OK
+    request.db.add_assertion(badge.id, user.email, None)
+
+    return HTTPFound(location=request.route_url('badge_rss', id=badge.id))
+
+
+@view_config(route_name='invite', renderer='string')
+def invite(request):
+    if not request.POST:
+        return HTTPMethodNotAllowed()
+
+    agent = request.db.get_person(authenticated_userid(request))
+    if not agent:
+        raise HTTPForbidden()
+
+    badge_id = request.POST.get('badge_id')
+    badge = request.db.get_badge(badge_id)
+    if not badge:
+        raise HTTPNotFound("No such badge %r" % badge_id)
+
+    if not badge.authorized(agent):
+        raise HTTPForbidden("Unauthorized for %r" % badge_id)
+
+    try:
+        fmt = '%Y-%m-%d %H:%M'
+        expires_on = datetime.strptime(request.POST.get('expires-on'), fmt)
+    except ValueError:
+        expires_on = None # Will default to 1 hour from now
+
+    # OK
+    request.db.add_invitation(
+        badge.id, expires_on=expires_on, created_by_email=agent.email)
+
+    return HTTPFound(location=request.route_url('user', id=agent.id))
+
+
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
 
@@ -94,6 +156,7 @@ def admin(request):
                                             'person-website'),
                                   bio=request.POST.get(
                                             'person-bio'))
+            request.session.flash('You added a person with email %s' % request.POST.get('person-email'))
         elif request.POST.get('add-badge'):
             # Add a Badge to the DB.
             request.db.add_badge(request.POST.get('badge-name'),
@@ -102,6 +165,7 @@ def admin(request):
                                  request.POST.get('badge-criteria'),
                                  request.POST.get('badge-issuer'),
                                  request.POST.get('badge-tags'))
+            request.session.flash('You added a badge with name %s' % request.POST.get('badge-name'))
         elif request.POST.get('add-invitation'):
             # Add an Invitation to the DB.
             try:
@@ -109,20 +173,21 @@ def admin(request):
                                 request.POST.get('invitation-created'),
                                 '%Y-%m-%d %H:%M')
             except ValueError:
-                created_on = None # Will default to datetime.now()
+                created_on = None # Will default to datetime.utcnow()
 
             try:
                 expires_on = datetime.strptime(
                                 request.POST.get('invitation-expires'),
                                 '%Y-%m-%d %H:%M')
             except ValueError:
-                expires_on = None # Will default to datettime.now()
+                expires_on = None # Will default to datettime.utcnow()
 
             request.db.add_invitation(
                     request.POST.get('invitation-badge-id'),
                     created_on=created_on,
                     expires_on=expires_on,
-                    created_by=request.POST.get('invitation-issuer-id'))
+                    created_by_email=request.POST.get('invitation-issuer-email'))
+            request.session.flash('You added an invitation for badge %s' % request.POST.get('invitation-badge-id'))
         elif request.POST.get('add-issuer'):
             # Add an Issuer to the DB.
             request.db.add_issuer(
@@ -130,6 +195,7 @@ def admin(request):
                     request.POST.get('issuer-name'),
                     request.POST.get('issuer-org'),
                     request.POST.get('issuer-contact'))
+            request.session.flash('You added an issuer with the name %s' % request.POST.get('issuer-name'))
         elif request.POST.get('add-assertion'):
             # Add an Assertion to the DB.
             try:
@@ -137,17 +203,31 @@ def admin(request):
                                 request.POST.get('assertion-issued-on'),
                                 '%Y-%m-%d %H:%M')
             except ValueError:
-                issued_on = None # Will default to datetime.now()
+                issued_on = None # Will default to datetime.utcnow()
 
             request.db.add_assertion(
                     request.POST.get('assertion-badge-id'),
                     request.POST.get('assertion-person-email'),
                     issued_on)
+            request.session.flash('You awarded %s to %s' % (request.POST.get('assertion-badge-id'), request.POST.get('assertion-person-email')))
+        elif request.POST.get('add-authorization'):
+            request.db.add_authorization(
+                    request.POST.get('authorization-badge-id'),
+                    request.POST.get('authorization-person-email'))
+            request.session.flash('You authorized %s to issue %s' % (request.POST.get('authorization-person-email'), request.POST.get('authorization-badge-id')))
 
     return dict(
         auth_principals=effective_principals(request),
         awarded_assertions=awarded_assertions,
+        issuers=request.db.get_all_issuers().all(),
     )
+
+
+@view_config(route_name='heartbeat', renderer='string')
+def heartbeat(request):
+    # A NOOP for haproxy httpchk to ping
+    n = request.db.get_all_badges().count()
+    return "OK: (%i badges in the system)" % n
 
 
 @view_config(route_name='home', renderer='index.mak')
@@ -220,7 +300,7 @@ def invitation_claim(request):
 
     settings = request.registry.settings
 
-    if request.context.expires_on < datetime.now():
+    if request.context.expires_on < datetime.utcnow():
         return HTTPGone("That invitation is expired.")
 
     if not authenticated_userid(request):
@@ -232,15 +312,15 @@ def invitation_claim(request):
 
     # Check to see if the user already has the badge.
     if request.context.badge in [a.badge for a in person.assertions]:
-        # TODO: Flash a message explaining that they already have the badge
+        request.session.flash("You already have " + request.context.badge_id + " badge")
         return HTTPFound(location=request.route_url('home'))
 
     result = request.db.add_assertion(request.context.badge_id,
                                       person.email,
-                                      datetime.now())
+                                      datetime.utcnow())
 
     # TODO -- return them to a page that auto-exports their badges.
-    # TODO -- flash and tell them they got the badge
+    request.session.flash("You have earned " + request.context.badge_id + " badge")
     return HTTPFound(location=request.route_url('home'))
 
 
@@ -248,7 +328,7 @@ def invitation_claim(request):
 def invitation_qrcode(request):
     """ Returns a raw dummy qrcode through to the user. """
 
-    if request.context.expires_on < datetime.now():
+    if request.context.expires_on < datetime.utcnow():
         return HTTPGone("That invitation is expired.")
 
     target = request.resource_url(request.context, 'claim')
@@ -331,19 +411,21 @@ def leaderboard_json(request):
     if user_id:
         user = _get_user(request, user_id)
 
-    leaderboard = request.db.session\
-        .query(m.Person)\
-        .order_by(m.Person.rank)\
-        .filter(m.Person.opt_out == False)\
-        .all()
+    query = request.db.session.query(
+        m.Person
+    ).order_by(
+        m.Person.rank,
+        m.Person.created_on,
+    ).filter(
+        m.Person.opt_out == False
+    )
 
-    user_to_rank = dict([(person, {
-        'badges': len(person.assertions),
-        'rank': person.rank,
-    }) for person in leaderboard])
-
+    leaderboard = query.filter(m.Person.rank != None).all()
     # Get total user count.
     user_count = len(leaderboard)
+    leaderboard.extend(query.filter(m.Person.rank == None).all())
+
+    user_to_rank = request.db._make_leaderboard()
 
     if user:
         rank = user.rank or 0
@@ -358,8 +440,9 @@ def leaderboard_json(request):
         leaderboard = leaderboard[:25]
 
     ret = [
-        dict(user_to_rank[p].items() + {'nickname': p.nickname}.items())
-        for p in leaderboard]
+        dict(user_to_rank[p].items() + [('nickname', p.nickname)])
+        for p in leaderboard
+    ]
 
     return {'leaderboard': ret}
 
@@ -813,7 +896,7 @@ def user(request):
 
     # Get invitations the user has created.
     invitations = [i for i in request.db.get_invitations(user.id)\
-                   if i.expires_on > datetime.now()]
+                   if i.expires_on > datetime.utcnow()]
 
     # Get rank. (same code found in leaderboard view function)
     rank = user.rank or 0
@@ -1303,6 +1386,11 @@ def login_complete_view(request):
     context = request.context
     settings = request.registry.settings
 
+    trusted_openid = settings.get('tahrir.trusted_openid')
+    trusted_openid = re.compile(trusted_openid)
+    if not trusted_openid.match(context.profile['accounts'][0]['username']):
+        return HTTPForbidden("Invalid openid provider")
+
     nickname = context.profile['preferredUsername']
 
     if asbool(settings.get('tahrir.use_openid_email')) \
@@ -1376,21 +1464,22 @@ def make_websocket_handler(settings):
         topic = settings.get("tahrir.websocket.topic")
         onmessage = """
         (function(json){
-            // TODO -- put the DOM manipulation stuff here.
-            var user = json.msg.user.badges_user_id;
-            var badge = json.msg.badge.badge_id;
-            $.ajax({
-                url: "%s/_w/assertion/" + user + "/" + badge,
-                dataType: "html",
-                success: function (html) {
-                    $("#latest-awards").prepend(html);
-                    $("#latest-awards > div:first-child").hide();
-                    $("#latest-awards > div:first-child").slideDown("slow");
-                    $("#latest-awards > div:last-child").slideUp('slow', complete=function() {
-                        $("#latest-awards > div:last-child").remove();
-                    });
-                }
-            });
+            setTimeout(function() {
+                var user = json.msg.user.badges_user_id;
+                var badge = json.msg.badge.badge_id;
+                $.ajax({
+                    url: "%s/_w/assertion/" + user + "/" + badge,
+                    dataType: "html",
+                    success: function (html) {
+                        $("#latest-awards").prepend(html);
+                        $("#latest-awards > div:first-child").hide();
+                        $("#latest-awards > div:first-child").slideDown("slow");
+                        $("#latest-awards > div:last-child").slideUp('slow', complete=function() {
+                            $("#latest-awards > div:last-child").remove();
+                        });
+                    }
+                });
+            }, 250)
         })(json);
         """ % settings['tahrir.base_url']
         backend = "websocket"

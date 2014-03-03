@@ -1,5 +1,9 @@
 <%inherit file="master.mak"/>
-<div class="page">
+<div class="page"
+     prefix="doap: http://usefulinc.com/ns/doap#"
+     prefix="schema: http://schema.org/Person"
+     resource=""
+     typeof="foaf:Person schema:Person">
   <!-- COLUMN 1 (Left)-->
   <div class="grid-30">
     <div class="shadow">
@@ -7,8 +11,9 @@
       <div class="padded-content clearfix">
         ${self.functions.avatar_thumbnail(user, 'responsive', 100, False)}
         <div class="grid-100">
-          <p class="name">${user.nickname}</p>
+          <p class="name" property="foaf:nick">${user.nickname}</p>
         </div>
+        <span property="foaf:account" content="${user.openid_identifier}" />
 
         % if user.bio:
           <div class="grid-100">
@@ -18,8 +23,10 @@
 
         <div class="metadata grid-60">
           <p>Arrived on ${user.created_on.strftime('%Y-%m-%d')}.</p>
+
           % if user.email == logged_in:
-            <p>${user.email}</p>
+            <span property="foaf:mbox_sha1sum" content="${user.email_sha1}" />
+            <p property="schema:email">${user.email}</p>
           % endif
 
           % if rank != 0:
@@ -33,9 +40,9 @@
             <p>
               Website:
               % if user.website.startswith('http'):
-                <a href="${user.website}">${user.website}</a>
+                <a property="foaf:homepage" href="${user.website}">${user.website}</a>
               % else:
-                <a href="http://${user.website}">${user.website}</a>
+                <a property="foaf:homepage" href="http://${user.website}">${user.website}</a>
               % endif
             </p>
           % endif
@@ -74,14 +81,19 @@
             % endif
           </div> <!-- End social grid -->
         % endif
+        <div class="clear spacer"></div>
         % if logged_in == user.email:
           % if len(invitations) > 0:
             <h3>Active Invitations</h3>
+            <ul class='pretty-list'>
             % for i in invitations:
-              <a href="${"/invitations/" + i.id + "/claim"}">${i.id[:7]}...</a>
-              <a href="${"/invitations/" + i.id + "/qrcode"}">[QR code]</a>
-              <br />
+            <li>
+              ${i.badge.name}, expires ${i.expires_on_relative},
+              <a href="${"/invitations/" + i.id + "/claim"}">[claim link]</a>,
+              <a href="${"/invitations/" + i.id + "/qrcode"}">[QR code]</a>.
+            </li>
             % endfor
+            </ul>
           % endif
           % if awarded_assertions:
             <button class="pretty-button" onClick="javascript:claim_badges();">

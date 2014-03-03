@@ -108,8 +108,12 @@
           <td><input name="badge-criteria" required="required" placeholder="oursite.tld/mailinglist/awesome_badge_discussion"/></td>
         </tr>
         <tr>
-          <td><label for="badge-issuer">Issuer ID</label></td>
-          <td><input name="badge-issuer" required="required" placeholder="1"/></td>
+          <td><label for="badge-issuer">Issuer</label></td>
+		  <td><select name="badge-issuer">
+		  % for issuer in issuers:
+			<option value="${issuer.id}">${issuer.name} (${issuer.id})</option>
+		  % endfor
+		  </select></td>
         </tr>
         <tr>
           <td><label for="badge-tags">Tags <span class="sublabel">Comma-delimited list of tags.</span></label></td>
@@ -161,8 +165,8 @@
           <td><input name="invitation-badge-id" required="required" placeholder="awesome-badge"/></td>
         </tr>
         <tr>
-          <td><label for="invitation-issuer-id">Person ID</label></td>
-          <td><input name="invitation-issuer-id" required="required" placeholder="1"/></td>
+          <td><label for="invitation-issuer-id">Person email</label></td>
+          <td><input name="invitation-issuer-email" required="required" placeholder="abadger@badgin.com"/></td>
         </tr>
         <tr>
           <td></td><td>
@@ -215,6 +219,34 @@
         <tr>
           <td></td><td>
             <input name="add-assertion" type="submit" value="Add Assertion" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <div class="clear"></div>
+
+  <div class="grid-33">
+    <h2>Create Authorizations</h2>
+    <p>Allow other people to award certain badges.</p>
+  </div>
+
+  <div class="grid-66">
+    <form class="admin-form" method="POST">
+      <table>
+        <tr>
+          <td><label for="authorization-badge-id">Badge ID</label></td>
+          <td><input name="authorization-badge-id" required="required" placeholder="awesome-badge"/></td>
+        </tr>
+        <tr>
+          <td><label for="authorization-person-email">Person Email</label></td>
+          <td><input name="authorization-person-email" type="email" required="required"
+                placeholder="abadger@badgin.com"/></td>
+        </tr>
+        <tr>
+          <td></td><td>
+            <input name="add-authorization" type="submit" value="Add Authorization" />
           </td>
         </tr>
       </table>
