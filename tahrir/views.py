@@ -1313,6 +1313,7 @@ def report_year_week(request):
 @view_config(route_name='award_from_csv', permission='admin')
 def award_from_csv(request):
     csv_file = request.POST['csv-file'].file
+    successful_awards = 0
     '''TODO: We need some validation here, and flash
     a message whether the awards were successful or not.
     This should be added at the same time that flash
@@ -1343,9 +1344,9 @@ def award_from_csv(request):
             if not request.db.assertion_exists(badge_id, email):
                 # The None will default to datetime.now().
                 request.db.add_assertion(badge_id, email, None)
+                successful_awards += 1
 
-    # Like I said before, we could use some validation and helpful
-    # flashed messages, but we shall add that later.
+    request.session.flash('Successfully awarded %s badges.' % successful_awards)
     return HTTPFound(location=request.route_url('admin'))
 
 
