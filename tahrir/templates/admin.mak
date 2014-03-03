@@ -183,8 +183,10 @@
     <h2>Award Badges</h2>
     <p>Assertions award badges to people.</p>
     <br />
-    <p>Upload a CSV file (badgeID, email) to award a bunch
-        of badges. If this method is used, people will
+    <p>Upload a CSV file to award a bunch
+        of badges. The awards can be listed (badge_id, email),
+		(email, badge_id), or a mix of the two.
+		If this method is used, people will
         be created if they do not yet exist.</p>
     <form action="/award_from_csv" method="POST" accept-charset="utf-8"
           enctype="multipart/form-data">
