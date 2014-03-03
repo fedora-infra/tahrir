@@ -1327,12 +1327,12 @@ def award_from_csv(request):
         two values will be a valid email address.'''
         if values[0].find('@') == -1:
             # If there is no @ sign in the first value, it is the badge id.
-            awards[values[0].strip()] = values[1].strip()
+            awards[values[1].strip()] = values[0].strip()
         else:
             # If there is an @ sign in the first value, it is the email.
-            awards[values[1].strip()] = values[0].strip()
+            awards[values[0].strip()] = values[1].strip()
 
-    for badge_id, email in awards.iteritems():
+    for email, badge_id in awards.iteritems():
         # First, if the person doesn't exist, we automatically
         # create the person in this special case.
         if not request.db.person_exists(email=email):
