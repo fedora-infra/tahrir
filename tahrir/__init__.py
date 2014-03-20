@@ -177,6 +177,7 @@ def main(global_config, **settings):
                      '/report/{year}/week/{weeknumber}')
     config.add_route('report_year_month_day',
                      '/report/{year}/{month}/{day}')
+    config.add_route('award_from_csv', '/award_from_csv')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
 

@@ -1310,6 +1310,46 @@ def report_year_week(request):
     )
 
 
+@view_config(route_name='award_from_csv', permission='admin')
+def award_from_csv(request):
+    csv_file = request.POST['csv-file'].file
+    successful_awards = 0
+    '''TODO: We need some validation here, and flash
+    a message whether the awards were successful or not.
+    This should be added at the same time that flash
+    messages are added to the admin panel.'''
+    awards = dict() # str(badge_id) : str(person_email)
+    for line in csv_file:
+        values = line.split(',')
+        '''Through the following if statement, it doesn't matter
+        if the line has been entered as "email, badge" or
+        "badge, email". The awards dict will be normalized
+        to be "badge, email". This code assumes that one of the
+        two values will be a valid email address.'''
+        if values[0].find('@') == -1:
+            # If there is no @ sign in the first value, it is the badge id.
+            awards[values[1].strip()] = values[0].strip()
+        else:
+            # If there is an @ sign in the first value, it is the email.
+            awards[values[0].strip()] = values[1].strip()
+
+    for email, badge_id in awards.iteritems():
+        # First, if the person doesn't exist, we automatically
+        # create the person in this special case.
+        if not request.db.person_exists(email=email):
+            request.db.add_person(email)
+        # Second, if the badge exists and the person has yet
+        # to be awarded it, give it to them.
+        if request.db.badge_exists(badge_id):
+            if not request.db.assertion_exists(badge_id, email):
+                # The None will default to datetime.now().
+                request.db.add_assertion(badge_id, email, None)
+                successful_awards += 1
+
+    request.session.flash('Successfully awarded %s badges.' % successful_awards)
+    return HTTPFound(location=request.route_url('admin'))
+
+
 @view_config(context=unicode)
 def html(context, request):
     return Response(context)
