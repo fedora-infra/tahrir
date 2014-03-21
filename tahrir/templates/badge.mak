@@ -85,7 +85,14 @@
         <ul class="pretty-list">
           % for assertion in awarded_assertions:
               % if assertion.badge == badge:
-                <li>You were awarded this badge on <strong>${assertion.issued_on.strftime("%Y-%m-%d")}</strong>.</li>
+                <li>You were awarded this badge on
+                % if assertion.issued_for:
+                <strong>${assertion.issued_on.strftime("%Y-%m-%d")}</strong>
+                due to <a href="${assertion.issued_for}">this event</a>.
+                %else:
+                <strong>${assertion.issued_on.strftime("%Y-%m-%d")}</strong>.
+                % endif
+                </li>
                 <% break %>
               % endif
           % endfor
