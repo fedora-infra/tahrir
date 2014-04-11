@@ -671,14 +671,20 @@ def _badge_json_generator(request, badge):
 
         times_awarded = len(badge.assertions)
 
-        last_awarded = assertions[-1]
-        last_awarded_person = last_awarded.person
-
-        first_awarded = assertions[0]
-        first_awarded_person = first_awarded.person
-
         percent_earned = float(times_awarded) / \
                          float(request.db.get_all_persons().count())
+
+        if assertions:
+            last_awarded = assertions[-1]
+            last_awarded_person = last_awarded.person
+
+            first_awarded = assertions[0]
+            first_awarded_person = first_awarded.person
+        else:
+            last_awarded = None
+            last_awarded_person = None
+            first_awarded = None
+            first_awarded_person = None
 
     except sa.orm.exc.NoResultFound: # This badge has never been awarded.
         times_awarded = 0
