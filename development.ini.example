@@ -43,6 +43,7 @@ tahrir.secure_cookies = False
 tahrir.allow_changenick = True
 tahrir.use_fedmsg = True
 tahrir.default_issuer = fedora-project
+tahrir.openbadges_modal = True
 
 tahrir.sitedocs_dir = %(here)s/fedora-sitedocs
 
