@@ -124,12 +124,12 @@ Then, to set up Tahrir, follow these steps::
 	(tahrir)$ pserve --reload development.ini
 
 The pserve command should output "starting HTTP server on
-https://localhost:6543". Login to https://localhost:6543 in your web browser
+https://localhost:8000". Login to https://localhost:8000 in your web browser
 using your FAS account username and password.  In order to make
 yourself an admin of the local copy of tahrir, edit the "development.ini" file
 by changing the value to "YOUR_FAS_USERNAME@fedoraproject.org" and login. You
 should now be able to see the admin view of tahrir in your local copy at
-http://localhost:6543/admin.
+http://localhost:8000/admin.
 
 Windows (32 and 64 bit versions):
 ---------------------------------
