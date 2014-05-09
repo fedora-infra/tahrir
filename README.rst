@@ -118,10 +118,10 @@ Then, to set up Tahrir, follow these steps::
 	$ cd tahrir
 	$ mkvirtualenv tahrir
 	(tahrir)$ python setup.py develop
-	tahrir)$ cp development.ini.sample development.ini
-	tahrir)$ cp secret.ini.sample secret.ini
+	(tahrir)$ cp development.ini.sample development.ini
+	(tahrir)$ cp secret.ini.sample secret.ini
 	(tahrir)$ initialize_tahrir_db development.ini
-	(tahrir)% pserve --reload development.ini
+	(tahrir)$ pserve --reload development.ini
 
 The pserve command should output "starting HTTP server on
 https://localhost:6543". Login to https://localhost:6543 in your web browser
