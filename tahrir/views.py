@@ -592,6 +592,7 @@ def explore_badges_rss(request):
     )
 
 
+@view_config(route_name='badge_full', renderer='badge_full.mak')
 @view_config(route_name='badge', renderer='badge.mak')
 def badge(request):
     """Render badge info page."""

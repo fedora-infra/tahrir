@@ -131,13 +131,13 @@
 
   <div class="clear spacer"></div>
 
-  <!-- Display linked names of all the people who have earned the badge. -->
+  <!-- Display linked names of the people who have earned the badge. -->
   <div class="grid-100">
     <div class="shadow">
       <h1 class="section-header">Badge Holders</h1>
       <div class="padded-content">
         % if badge_assertions:
-          <p>${', '.join(filter(None, [self.functions.link_person_nickname(a.person) for a in badge_assertions]))}</p>
+          ${self.body()}
         % else:
           <p>No one has earned this badge yet!</p>
         % endif
