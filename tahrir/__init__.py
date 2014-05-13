@@ -153,6 +153,7 @@ def main(global_config, **settings):
 
     config.add_route('qrcode', '/qrcode')
     config.add_route('badge', '/badge/{id}')
+    config.add_route('badge_full', '/badge/{id}/full')
     config.add_route('badge_json', '/badge/{id}/json')
     config.add_route('badge_rss', '/badge/{id}/rss')
     config.add_route('builder', '/builder')

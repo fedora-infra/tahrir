@@ -95,7 +95,7 @@
         <div class="clearfix"></div>
         % endif
 
-        ${self.body()}
+        ${next.body()}
 
 
         <!-- End of flash message template -->

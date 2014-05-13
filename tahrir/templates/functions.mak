@@ -37,3 +37,22 @@
     ${person.nickname}
   </a>
 </%def>
+
+<%def name="badge_holders(soft_limit, hard_limit)">
+  % if times_awarded > soft_limit:
+    % for i in range(0, soft_limit):
+      ${link_person_nickname(badge_assertions[i].person)}
+    % endfor
+    % if times_awarded <= hard_limit:
+      % for j in range(soft_limit, times_awarded):
+        ${link_person_nickname(badge_assertions[j].person)}
+      % endfor
+    % else:
+      ... and <a href="${request.route_url('badge_full', id=badge.id)}">${times_awarded - soft_limit} other people</a>.
+    % endif
+  % else:
+    % for a in badge_assertions:
+      ${link_person_nickname(a.person)}
+    % endfor
+  % endif
+</%def>
