@@ -782,6 +782,22 @@ def badge_rss(request):
     )
 
 
+@view_config(route_name='badge_stl', renderer='thingiview.mak')
+def badge_stl(request):
+    """ Render per-badge stl. """
+
+    badge_id = request.matchdict.get('id')
+    badge = request.db.get_badge(badge_id)
+
+    if not badge:
+        raise HTTPNotFound("No such badge %r" % badge_id)
+
+    if not badge.stl:
+        raise HTTPNotFound("Badge has no stl file.")
+
+    return dict(stl_url=badge.stl)
+
+
 @view_config(route_name='user_rss')
 def user_rss(request):
     """ Render per-user rss. """
