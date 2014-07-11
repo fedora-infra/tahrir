@@ -398,3 +398,8 @@ footer > .document {
 .document li {
     margin-left: 30px;
 }
+
+.centered {
+    margin-left: auto;
+    margin-right: auto;
+}
