@@ -402,4 +402,9 @@ footer > .document {
 .centered {
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
+}
+
+.name > small {
+    color: #888888;
 }

@@ -34,6 +34,14 @@
             <a href="${request.route_url('badge_rss', id=badge.id)}">RSS</a>
           </p>
 
+          % for assertion in awarded_assertions:
+              % if assertion.badge == badge:
+                <button class="pretty-button" onClick="window.location.href='${request.route_url('badge_stl', id=badge.id)}'">
+                  Export to Reality
+                </button>
+              % endif
+          % endfor
+
           % if badge.authorized(logged_in_person):
           <h3 class="section-header">Award this badge</h3>
           <form method="POST" action="${request.route_url('award')}">

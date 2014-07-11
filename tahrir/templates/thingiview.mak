@@ -10,7 +10,7 @@
       thingiview = new Thingiview("thingiviewer");
       thingiview.setObjectColor('#C0D8F0');
       thingiview.initScene();
-      thingiview.loadSTL("${stl_url}");
+      thingiview.loadSTL("${badge.stl}");
     }
   </script>
 
@@ -19,8 +19,13 @@
   <!-- COLUMN 1 (Left)-->
   <div class="grid-70 push-15">
     <div class="shadow">
-      <h1 class="section-header">Wow</h1>
+      <h1 class="section-header"> ${badge.name} </h1>
       <div class="padded-content">
+        <p class="name centered">
+        <small>Download the <a href="${badge.stl}">raw stl file</a> for your
+          3D printer or <a href="${request.route_url('badge', id=badge.id)}">go
+          back</a>.</small>
+        </p>
         <div class="centered" id="thingiviewer" style="width:450px;height:450px"></div>
       </div>
     </div>

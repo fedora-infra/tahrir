@@ -795,7 +795,10 @@ def badge_stl(request):
     if not badge.stl:
         raise HTTPNotFound("Badge has no stl file.")
 
-    return dict(stl_url=badge.stl)
+    return dict(
+        badge=badge,
+        auth_principals=effective_principals(request),
+    )
 
 
 @view_config(route_name='user_rss')
