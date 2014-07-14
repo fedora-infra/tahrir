@@ -752,6 +752,7 @@ var STLGeometry = function(stlArray) {
 
 	var scope = this;
 
+  var offset = -25;
   // var vertexes = stlArray[0];
   // var normals  = stlArray[1];
   // var faces    = stlArray[2];
@@ -766,7 +767,7 @@ var STLGeometry = function(stlArray) {
 
   function v(x, y, z) {
     // log("adding vertex: " + x + "," + y + "," + z);
-    scope.vertices.push( new THREE.Vertex( new THREE.Vector3( x, y, z ) ) );
+    scope.vertices.push( new THREE.Vertex( new THREE.Vector3( x + offset, y + offset, z ) ) );
   }
 
   function f3(a, b, c) {
