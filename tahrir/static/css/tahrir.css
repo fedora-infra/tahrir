@@ -398,3 +398,13 @@ footer > .document {
 .document li {
     margin-left: 30px;
 }
+
+.centered {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.name > small {
+    color: #888888;
+}
