@@ -1,6 +1,43 @@
 Changelog
 =========
 
+0.7.0
+-----
+
+- Add a place to upload CSV files to the admin panel. `357f6902e <https://github.com/fedora-infra/tahrir/commit/357f6902efd0c33d791066202974d2f807181638>`_
+- Lots of progress on awarding from a CSV file. Currently dealing with a Tahrir API issue, so the code is broken at the moment. `545ea4129 <https://github.com/fedora-infra/tahrir/commit/545ea41299c7fe5aabeebc68f5499d83d58f2908>`_
+- Deal with доверие. `06dfc320e <https://github.com/fedora-infra/tahrir/commit/06dfc320ed0a150bc5bcad8869e24289b3c51411>`_
+- Merge pull request #261 from fedora-infra/feature/UnicodeExplosionError `af7ab74a8 <https://github.com/fedora-infra/tahrir/commit/af7ab74a86847a4785017e2a222279d2e5c10735>`_
+- Allow admin to set default avatar explicitly. `5aa1927ce <https://github.com/fedora-infra/tahrir/commit/5aa1927ce317c118815bd2617e1870ee99396877>`_
+- Merge pull request #263 from fedora-infra/feature/default-avatar `640ee213f <https://github.com/fedora-infra/tahrir/commit/640ee213f60efdbd285f5463e20e5aaf8a85611f>`_
+- Merge branch 'develop' into feature/csv-award `9270d7ffb <https://github.com/fedora-infra/tahrir/commit/9270d7ffb0edf52429ea4ddcbc16689e1faba6aa>`_
+- CSV badge awarding works. `2f95881e2 <https://github.com/fedora-infra/tahrir/commit/2f95881e2c234dba4e385c74a99fb7b3983a95b4>`_
+- Improve CSV award info on admin template. `5f4316048 <https://github.com/fedora-infra/tahrir/commit/5f431604852dbabb8ba0daf5cbb331246337305d>`_
+- Ignore strange ropeproject files I suppose. `5caf7d2ed <https://github.com/fedora-infra/tahrir/commit/5caf7d2ed09653f2d415a752b7bb12f9e77e7843>`_
+- Flash message to say how many badges were successfully awarded from the CSV awarder. `7fd97c1f2 <https://github.com/fedora-infra/tahrir/commit/7fd97c1f2cc007872f101b610145e5875d419f74>`_
+- Merge pull request #265 from fedora-infra/feature/csv-award `21bf4a778 <https://github.com/fedora-infra/tahrir/commit/21bf4a7789a30df2d1c884220941bdb7830eb7aa>`_
+- Link to the reason you were awarded a badge. `e2c8fe36d <https://github.com/fedora-infra/tahrir/commit/e2c8fe36da2e21ae9701ace339e6e43f8f4d8c77>`_
+- Merge pull request #269 from fedora-infra/feature/link-to-reason `7519d16d8 <https://github.com/fedora-infra/tahrir/commit/7519d16d8938e76a0b84133d3484021e8c990acc>`_
+- Be careful when generating badge json. `ba77c3d99 <https://github.com/fedora-infra/tahrir/commit/ba77c3d990d23d660d24103b7bd66f819fe26281>`_
+- Merge pull request #271 from fedora-infra/feature/careful-in-json-generation `8eee6047d <https://github.com/fedora-infra/tahrir/commit/8eee6047d679233101a2406d30d41f93bc1614d4>`_
+- Allow a no-modal mode for export. `f2bab797f <https://github.com/fedora-infra/tahrir/commit/f2bab797fdb797324b33fdfbd7d310061670648c>`_
+- Merge pull request #273 from fedora-infra/feature/no-modal-for-sugar-browse `c4b26bcea <https://github.com/fedora-infra/tahrir/commit/c4b26bcea18961fadbaf651aa99ff1235a102a10>`_
+- Fix unclosed URL link `fc2f524f5 <https://github.com/fedora-infra/tahrir/commit/fc2f524f51c6c2d681d674a619a8f369bf596c03>`_
+- Fix typos in instructions for setting up Tahrir `563f2ff48 <https://github.com/fedora-infra/tahrir/commit/563f2ff48e2c37982d447cfeb38fff8435242077>`_
+- Default port is 8000 `e60d469a0 <https://github.com/fedora-infra/tahrir/commit/e60d469a05b4cfaef8f7bdb75192c097a2ba5dc9>`_
+- Clarify steps for adding user to tahrir.admin `8c7b1855c <https://github.com/fedora-infra/tahrir/commit/8c7b1855c3b89fbc4ea8fc647ee6125c7ecc470d>`_
+- Merge pull request #274 from jamielinux/readme-fixes `c5245f467 <https://github.com/fedora-infra/tahrir/commit/c5245f46787e8fcd018a2d4790bab8c82d5ac91f>`_
+- Fix link to badges_fan.png `875397c5d <https://github.com/fedora-infra/tahrir/commit/875397c5dd631fea4b9cb5e0ef14065db447a25f>`_
+- Merge pull request #278 from jamielinux/fix-badges-fan `712a3ef06 <https://github.com/fedora-infra/tahrir/commit/712a3ef06863995a53bfa6807c2b88a4ab0ad01f>`_
+- Rename badge.mak to badge-base.mak `0f1862435 <https://github.com/fedora-infra/tahrir/commit/0f18624358af3baeadd2d1a0f3685272bc10911f>`_
+- Do not show all holders when there are too many `90a391057 <https://github.com/fedora-infra/tahrir/commit/90a3910572ad4b3759ba7cb34ecc9205d65d622d>`_
+- Merge pull request #279 from jamielinux/holders-limit `9a2a491b7 <https://github.com/fedora-infra/tahrir/commit/9a2a491b7ac4241c6da5ca0d969ada0a3dcd58d7>`_
+- Stubbing out stl page. `3194b38bf <https://github.com/fedora-infra/tahrir/commit/3194b38bf0f3ebc74a811be75f8a5c0fb3da8bb0>`_
+- Success! `099ffb856 <https://github.com/fedora-infra/tahrir/commit/099ffb856937f2008fb334cdfe6e0909b64fecb9>`_
+- Styling. `22433a1fe <https://github.com/fedora-infra/tahrir/commit/22433a1fed51b884077ea50f6eb651fa893e8d97>`_
+- Only show this button if the badge has an stl file. `e2565d656 <https://github.com/fedora-infra/tahrir/commit/e2565d6566d1750c693d9e1c3dd9f36908570f65>`_
+- Merge pull request #281 from fedora-infra/feature/stls `447604624 <https://github.com/fedora-infra/tahrir/commit/447604624c1273fa3295313f95b7c2d2bb20114a>`_
+
 0.5.2
 -----
 
