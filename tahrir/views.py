@@ -1494,10 +1494,12 @@ def make_websocket_handler(settings):
             setTimeout(function() {
                 var user = json.msg.user.badges_user_id;
                 var badge = json.msg.badge.badge_id;
+                notifs_count = notifs_count + 1;
                 $.ajax({
                     url: "%s/_w/assertion/" + user + "/" + badge,
                     dataType: "html",
                     success: function (html) {
+                        favicon.badge(notifs_count); // animate the favicon
                         $("#latest-awards").prepend(html);
                         $("#latest-awards > div:first-child").hide();
                         $("#latest-awards > div:first-child").slideDown("slow");
