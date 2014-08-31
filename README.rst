@@ -80,7 +80,7 @@ Reporting Bugs
 --------------
 
 If you find bugs in Tahrir or have ideas for enhancements, please report them
-at http://github.com/fedora-infra/tahrir/issues.
+at https://github.com/fedora-infra/tahrir/issues.
 
 Hacking
 -------
