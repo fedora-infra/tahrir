@@ -149,23 +149,32 @@ def admin(request):
         if request.POST.get('add-person'):
             # Email is a required field on the HTML form.
             # Add a Badge to the DB.
-            request.db.add_person(request.POST.get('person-email'),
-                                  nickname=request.POST.get(
-                                            'person-nickname'),
-                                  website=request.POST.get(
-                                            'person-website'),
-                                  bio=request.POST.get(
-                                            'person-bio'))
-            request.session.flash('You added a person with email %s' % request.POST.get('person-email'))
+            email = request.POST.get('person-email')
+            if not request.db.person_exists(email=email):
+                request.db.add_person(email,
+                                      nickname=request.POST.get(
+                                                'person-nickname'),
+                                      website=request.POST.get(
+                                                'person-website'),
+                                      bio=request.POST.get(
+                                                'person-bio'))
+                request.session.flash('You added a person with email %s' % request.POST.get('person-email'))
+            else:
+                request.session.flash("Person with email {0} already exists.".format(email))
         elif request.POST.get('add-badge'):
-            # Add a Badge to the DB.
-            request.db.add_badge(request.POST.get('badge-name'),
-                                 request.POST.get('badge-image'),
-                                 request.POST.get('badge-description'),
-                                 request.POST.get('badge-criteria'),
-                                 request.POST.get('badge-issuer'),
-                                 request.POST.get('badge-tags'))
-            request.session.flash('You added a badge with name %s' % request.POST.get('badge-name'))
+            idx = request.POST.get('badge-name')
+            if not request.db.badge_exists(idx):
+                # Add a Badge to the DB.
+                request.db.add_badge(idx,
+                                     request.POST.get('badge-image'),
+                                     request.POST.get('badge-description'),
+                                     request.POST.get('badge-criteria'),
+                                     request.POST.get('badge-issuer'),
+                                     request.POST.get('badge-tags'))
+                request.session.flash('You added a badge with name %s' % request.POST.get('badge-name'))
+            else:
+                request.session.flash("Badge with id {0} already exists.".format(idx))
+
         elif request.POST.get('add-invitation'):
             # Add an Invitation to the DB.
             try:
@@ -189,27 +198,38 @@ def admin(request):
                     created_by_email=request.POST.get('invitation-issuer-email'))
             request.session.flash('You added an invitation for badge %s' % request.POST.get('invitation-badge-id'))
         elif request.POST.get('add-issuer'):
-            # Add an Issuer to the DB.
-            request.db.add_issuer(
-                    request.POST.get('issuer-origin'),
-                    request.POST.get('issuer-name'),
-                    request.POST.get('issuer-org'),
-                    request.POST.get('issuer-contact'))
-            request.session.flash('You added an issuer with the name %s' % request.POST.get('issuer-name'))
+            origin = request.POST.get('issuer-origin')
+            name = request.POST.get('issuer-name')
+            if not request.db.issuer_exists(origin, name):
+                # Add an Issuer to the DB.
+                request.db.add_issuer(origin, name,
+                        request.POST.get('issuer-org'),
+                        request.POST.get('issuer-contact'))
+                request.session.flash('You added an issuer with the name %s' % request.POST.get('issuer-name'))
+            else:
+                request.session.flash("Issuer with origin {0} and name {1} already exists.".format(
+                        origin, name))
+                
         elif request.POST.get('add-assertion'):
-            # Add an Assertion to the DB.
-            try:
-                issued_on = datetime.strptime(
-                                request.POST.get('assertion-issued-on'),
-                                '%Y-%m-%d %H:%M')
-            except ValueError:
-                issued_on = None # Will default to datetime.utcnow()
+            idx = request.POST.get('assertion-badge-id')
+            email = request.POST.get('assertion-person-email')
+            if not request.db.assertion_exists(idx, email):
+                # Add an Assertion to the DB.
+                try:
+                    issued_on = datetime.strptime(
+                                    request.POST.get('assertion-issued-on'),
+                                    '%Y-%m-%d %H:%M')
+                except ValueError:
+                    issued_on = None # Will default to datetime.utcnow()
 
-            request.db.add_assertion(
-                    request.POST.get('assertion-badge-id'),
-                    request.POST.get('assertion-person-email'),
-                    issued_on)
-            request.session.flash('You awarded %s to %s' % (request.POST.get('assertion-badge-id'), request.POST.get('assertion-person-email')))
+                request.db.add_assertion(
+                        request.POST.get('assertion-badge-id'),
+                        request.POST.get('assertion-person-email'),
+                        issued_on)
+                request.session.flash('You awarded %s to %s' % (request.POST.get('assertion-badge-id'), request.POST.get('assertion-person-email')))
+            else:
+                request.session.flash("User with email {0} already has badge {1}.".format(email, idx))
+                
         elif request.POST.get('add-authorization'):
             request.db.add_authorization(
                     request.POST.get('authorization-badge-id'),
