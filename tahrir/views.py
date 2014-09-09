@@ -253,7 +253,7 @@ def heartbeat(request):
 @view_config(route_name='home', renderer='index.mak')
 def index(request):
 
-    n = 5 # n is the number of items displayed in each column.
+    n = 5  # n is the number of items displayed in each column.
 
     if authenticated_userid(request):
         awarded_assertions = request.db.get_assertions_by_email(
