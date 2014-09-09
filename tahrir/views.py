@@ -231,10 +231,14 @@ def admin(request):
                 request.session.flash("User with email {0} already has badge {1}.".format(email, idx))
                 
         elif request.POST.get('add-authorization'):
-            request.db.add_authorization(
-                    request.POST.get('authorization-badge-id'),
-                    request.POST.get('authorization-person-email'))
-            request.session.flash('You authorized %s to issue %s' % (request.POST.get('authorization-person-email'), request.POST.get('authorization-badge-id')))
+            idx = request.POST.get('authorization-badge-id')
+            email = request.POST.get('authorization-person-email')
+
+            if not request.db.authorization_exists(idx, email):
+                request.db.add_authorization(idx, email)
+                request.session.flash('You authorized %s to issue %s' % (email, idx))
+            else:
+                request.session.flash('{0} is already authorized to issue {1}.'.format(email, idx))
 
     return dict(
         auth_principals=effective_principals(request),
