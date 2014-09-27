@@ -40,7 +40,7 @@ from pyramid.settings import asbool
 
 import tahrir_api.model as m
 
-from tahrir.utils import strip_tags, generate_badge_yaml
+from tahrir.utils import strip_tags, generate_badge_yaml, badge_name_to_id
 import widgets
 import foafutils
 
@@ -162,7 +162,7 @@ def admin(request):
             else:
                 request.session.flash("Person with email {0} already exists.".format(email))
         elif request.POST.get('add-badge'):
-            idx = request.POST.get('badge-name')
+            idx = badge_name_to_id(request.POST.get('badge-name'))
             if not request.db.badge_exists(idx):
                 # Add a Badge to the DB.
                 request.db.add_badge(idx,
