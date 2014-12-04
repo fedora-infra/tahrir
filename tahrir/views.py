@@ -40,7 +40,8 @@ from pyramid.settings import asbool
 
 import tahrir_api.model as m
 
-from tahrir.utils import strip_tags, generate_badge_yaml, badge_name_to_id
+from tahrir.utils import strip_tags, generate_badge_yaml
+from tahrir_api.utils import badge_name_to_id
 import widgets
 import foafutils
 
@@ -209,7 +210,7 @@ def admin(request):
             else:
                 request.session.flash("Issuer with origin {0} and name {1} already exists.".format(
                         origin, name))
-                
+
         elif request.POST.get('add-assertion'):
             idx = request.POST.get('assertion-badge-id')
             email = request.POST.get('assertion-person-email')
@@ -229,7 +230,7 @@ def admin(request):
                 request.session.flash('You awarded %s to %s' % (request.POST.get('assertion-badge-id'), request.POST.get('assertion-person-email')))
             else:
                 request.session.flash("User with email {0} already has badge {1}.".format(email, idx))
-                
+
         elif request.POST.get('add-authorization'):
             idx = request.POST.get('authorization-badge-id')
             email = request.POST.get('authorization-person-email')
