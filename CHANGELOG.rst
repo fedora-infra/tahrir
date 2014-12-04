@@ -1,6 +1,22 @@
 Changelog
 =========
 
+0.7.2
+-----
+
+- Offset our badges by 25 units. `824da05f3 <https://github.com/fedora-infra/tahrir/commit/824da05f3f6d14ba8491e721019f483666dcab43>`_
+- Add source for favico.js. `a776ad2e2 <https://github.com/fedora-infra/tahrir/commit/a776ad2e2b5d51e79842bc2f7909d77beb679125>`_
+- Animate the favicon when badges are awarded. `f1d2b3430 <https://github.com/fedora-infra/tahrir/commit/f1d2b343068f9435ec90c0647e6f14266375219a>`_
+- Merge pull request #282 from fedora-infra/feature/favico.js `f6675a48a <https://github.com/fedora-infra/tahrir/commit/f6675a48abfb32370d2255dff402e990a7c5e7b9>`_
+- Use https for github URLs `fc68e04d5 <https://github.com/fedora-infra/tahrir/commit/fc68e04d5c561d9d51047663b1eba0b9baddbd66>`_
+- Merge pull request #285 from tyll/https `1bc9d788f <https://github.com/fedora-infra/tahrir/commit/1bc9d788fc84783275a61092ebf8a0e2cb395164>`_
+- Add checks to check for attempted duplicate additions of person, badge, assertion, or issuer to the db `7af9846d5 <https://github.com/fedora-infra/tahrir/commit/7af9846d508381b17dc1e915cbe752e1719662f6>`_
+- pep 8 that comment `60219b7d4 <https://github.com/fedora-infra/tahrir/commit/60219b7d41c684ac8cb169610279fe3f3382ce8c>`_
+- Add check in admin view to ensure a duplicate authorization will not be attempted `9ffa6493f <https://github.com/fedora-infra/tahrir/commit/9ffa6493f5001aba8daaa3baaf314cd1680f4b2b>`_
+- use new badge_name_to_id util function from tahrir-api `5d5ba030d <https://github.com/fedora-infra/tahrir/commit/5d5ba030dc87279e9d4c7d6e5fc3f9cfc80f6ba0>`_
+- Merge pull request #286 from fedora-infra/feature/admin-check-dups `6d06d14e1 <https://github.com/fedora-infra/tahrir/commit/6d06d14e19cdac349705c9f93077998f46a8ff57>`_
+- Fix mistaken import. `25dffbed2 <https://github.com/fedora-infra/tahrir/commit/25dffbed2672b4b8c382e6efb10c689030a881e3>`_
+
 0.7.0
 -----
 
