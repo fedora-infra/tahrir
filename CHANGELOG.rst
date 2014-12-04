@@ -16,6 +16,7 @@ Changelog
 - use new badge_name_to_id util function from tahrir-api `5d5ba030d <https://github.com/fedora-infra/tahrir/commit/5d5ba030dc87279e9d4c7d6e5fc3f9cfc80f6ba0>`_
 - Merge pull request #286 from fedora-infra/feature/admin-check-dups `6d06d14e1 <https://github.com/fedora-infra/tahrir/commit/6d06d14e19cdac349705c9f93077998f46a8ff57>`_
 - Fix mistaken import. `25dffbed2 <https://github.com/fedora-infra/tahrir/commit/25dffbed2672b4b8c382e6efb10c689030a881e3>`_
+- 0.7.2 `e118d5e0b <https://github.com/fedora-infra/tahrir/commit/e118d5e0bbfccd5e38a27a45746d380fd3966823>`_
 
 0.7.0
 -----
