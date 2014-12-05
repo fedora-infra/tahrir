@@ -92,10 +92,6 @@ import json
 			logout_url.innerHTML = '<a href="${request.route_url('logout')}">Logout</a>';
 			list.appendChild(logout_url);
 		}
-		function loginFailed(errordata)
-		{
-			alert("Login failed: " + errordata["error"]);
-		}
 
 		% if logged_in:
 		var userdata = ${ json.dumps(logged_in_person.__json__())|n };
@@ -113,7 +109,7 @@ import json
 			}
 			else
 			{
-				tryBackgroundLogin('/login', loginSuccess, loginFailed);
+				tryBackgroundLogin('/login', loginSuccess, null);
 			}
 		}	
 	</script>
