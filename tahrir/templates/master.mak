@@ -65,7 +65,7 @@ import json
     <link rel="alternate" type="application/rdf" title="RDF+FOAF" href="${request.url}/foaf" />
     % endif
 
-	<script type="text/javascript" src="//apps.fedoraproject.org/js/jsopenid.js">
+	<script type="text/javascript" src="//apps.fedoraproject.org/global/js/jsopenid.js">
 	</script>
 
 	<script type="text/javascript">
