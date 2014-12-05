@@ -1,4 +1,7 @@
 <%namespace name="functions" file="functions.mak" inheritable="True" />
+<%
+import json
+%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -61,8 +64,57 @@
     % if user:
     <link rel="alternate" type="application/rdf" title="RDF+FOAF" href="${request.url}/foaf" />
     % endif
+
+	<script type="text/javascript" src="//apps.fedoraproject.org/global/js/jsopenid.js">
+	</script>
+
+	<script type="text/javascript">
+		function loginSuccess(userdata)
+		{
+			var child = document.getElementById('login-button');
+			child.parentNode.removeChild(child);
+			var list = document.getElementById('login-list');
+
+			var profile_url = document.createElement('li');
+			var profile_url_template = "${request.route_url('user', id='TEMP')}";
+			if("nickname" in userdata)
+			{
+				profile_url_template = profile_url_template.replace('TEMP', userdata['nickname']);
+			}
+			else
+			{
+				profile_url_template = profile_url_template.replace('TEMP', userdata['id']);
+			}
+			profile_url.innerHTML = '<a href="' + profile_url_template + '">Profile</a>';
+			list.appendChild(profile_url);
+
+			var logout_url = document.createElement('li');
+			logout_url.innerHTML = '<a href="${request.route_url('logout')}">Logout</a>';
+			list.appendChild(logout_url);
+		}
+
+		% if logged_in:
+		var userdata = ${ json.dumps(logged_in_person.__json__())|n };
+		% else:
+		var userdata = null;
+		% endif
+		var myurl = "${request.scheme}://${request.server_name}:${request.server_port}";
+		function handleLogin()
+		{
+			if(userdata != null)
+			{
+				// The user is currently logged in
+				//  If this was a recursive auth attempt, report back
+				respondToLogin(myurl, true, userdata);
+			}
+			else
+			{
+				tryBackgroundLogin('/login', loginSuccess, null);
+			}
+		}	
+	</script>
   </head>
-  <body>
+  <body onload="handleLogin()">
     <div class="page clearfix">
       <div class="page-content grid-container">
         <div class="header clearfix grid-100">
@@ -74,7 +126,7 @@
           </h1>
         </div>
 
-        <ul class="grid-100 navbar">
+        <ul class="grid-100 navbar" id="login-list">
           <li><a href="${request.route_url('about')}">About</a></li>
           <li><a href="${request.route_url('explore')}">Explore</a></li>
           <li><a href="${request.route_url('leaderboard')}">Leaderboard</a></li>
@@ -87,7 +139,7 @@
             % endif
             <li><a href="${request.route_url('logout')}">Logout</a></li>
           % else:
-            <li><a href="${request.route_url('login')}">Login</a></li>
+            <li id="login-button"><a href="${request.route_url('login')}">Login</a></li>
           % endif
         </ul>
 
