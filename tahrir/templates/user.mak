@@ -144,10 +144,27 @@
                  value="Show Diff" />
             </form>
         % endif
+      </div> <!-- End padded content. -->
+    </div> <!-- End shadow. -->
 
+    % if user.assertions:
+    <div class="shadow">
+      <h1 class="section-header">History</h1>
+      <div class="padded-content clearfix">
+        <div class="grid-container">
+          % for assertion in sorted(user.assertions, key=lambda a: a.issued_on, reverse=True):
+            ${self.functions.badge_thumbnail(assertion.badge, 64, 33)}
+            <div class="grid-66 text-64"><p>received on ${assertion.issued_on.strftime('%Y-%m-%d')}
+              % if assertion.issued_for:
+              for <a target="_blank" href="${assertion.issued_for}">this activity</a>
+              % endif
+              </p></div>
+          % endfor
+        </div>
+      </div> <!-- End padded content. -->
+    </div> <!-- End shadow. -->
+    % endif
 
-      </div> <!-- End shadow. -->
-    </div> <!-- End padded content. -->
   </div> <!-- End column 1. -->
 
   <!-- COLUMN 2 (Right)-->
