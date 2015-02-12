@@ -158,7 +158,7 @@ def make_relative_time_property(attr):
     @property
     def relative_time_method(self):
         then_in_seconds = time.mktime(getattr(self, attr).timetuple())
-        now_in_seconds = time.mktime(datetime.datetime.now().timetuple())
+        now_in_seconds = time.mktime(datetime.datetime.utcnow().timetuple())
         delta = now_in_seconds - then_in_seconds
 
         if delta > 0:
