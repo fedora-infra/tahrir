@@ -105,7 +105,10 @@ def main(global_config, **settings):
     )
     authz_policy = ACLAuthorizationPolicy()
     session_factory = UnencryptedCookieSessionFactoryConfig(
-            settings['session.secret'])
+        secret=settings['session.secret'],
+        cookie_secure=asbool(settings['tahrir.secure_cookies']),
+        cookie_httponly=asbool(settings['tahrir.httponly_cookies']),
+    )
 
     # Configure our cache that we instantiated earlier.
     cache.configure_from_config(settings, 'dogpile.cache.')
