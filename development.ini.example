@@ -40,6 +40,7 @@ tahrir.openid_identifier = https://id.fedoraproject.org/
 tahrir.trusted_openid = ^http(s)?:\/\/([a-zA-Z0-9]+\.)?id\.fedoraproject\.org(/)?$
 tahrir.openid_realm = http://localhost:8000
 tahrir.secure_cookies = False
+tahrir.httponly_cookies = False
 tahrir.allow_changenick = True
 tahrir.use_fedmsg = True
 tahrir.default_issuer = fedora-project

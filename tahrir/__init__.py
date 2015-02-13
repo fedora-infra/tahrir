@@ -105,6 +105,7 @@ def main(global_config, **settings):
         callback=groupfinder, # groupfinder callback checks for admin privs
         hashalg='sha512', # because md5 is deprecated
         secure=asbool(settings['tahrir.secure_cookies']),
+        http_only=asbool(settings['tahrir.httponly_cookies']),
     )
     authz_policy = ACLAuthorizationPolicy()
     session_factory = UnencryptedCookieSessionFactoryConfig(
