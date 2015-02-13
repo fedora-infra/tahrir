@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.7.4
+-----
+
+- Remove old "pip freeze" requirements.txt. `3c0928826 <https://github.com/fedora-infra/tahrir/commit/3c0928826c2459e50095b61d0bcbdfd2e1cb018e>`_
+- Un-pin tahrir-api. `c55cc31a3 <https://github.com/fedora-infra/tahrir/commit/c55cc31a35beba4eb371ace29dc161b11df1a491>`_
+
 0.7.3
 -----
 
