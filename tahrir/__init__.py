@@ -32,10 +32,6 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
 
-    # for flash Messages
-    session_factory = UnencryptedCookieSessionFactoryConfig('tahrir_session')
-    config = Configurator(settings = settings, session_factory = session_factory)
-
     cache = dogpile.cache.make_region(
         key_mangler=dogpile.cache.util.sha1_mangle_key)
     tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
@@ -105,10 +101,14 @@ def main(global_config, **settings):
         callback=groupfinder, # groupfinder callback checks for admin privs
         hashalg='sha512', # because md5 is deprecated
         secure=asbool(settings['tahrir.secure_cookies']),
+        http_only=asbool(settings['tahrir.httponly_cookies']),
     )
     authz_policy = ACLAuthorizationPolicy()
     session_factory = UnencryptedCookieSessionFactoryConfig(
-            settings['session.secret'])
+        secret=settings['session.secret'],
+        cookie_secure=asbool(settings['tahrir.secure_cookies']),
+        cookie_httponly=asbool(settings['tahrir.httponly_cookies']),
+    )
 
     # Configure our cache that we instantiated earlier.
     cache.configure_from_config(settings, 'dogpile.cache.')
