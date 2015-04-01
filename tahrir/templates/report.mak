@@ -4,6 +4,7 @@
     <div class="shadow">
       <h1 class="section-header">Rising stars: ${frame} of ${start_date} to ${stop_date}</h1>
       <div class="padded-content">
+        <p>Looking for the <a href="${request.route_url('leaderboard')}">all-time leaderboard?</a></p>
         <table>
           % for person, stats in user_to_rank.items()[:25]:
             <tr>

@@ -129,7 +129,7 @@ import json
         <ul class="grid-100 navbar" id="login-list">
           <li><a href="${request.route_url('about')}">About</a></li>
           <li><a href="${request.route_url('explore')}">Explore</a></li>
-          <li><a href="${request.route_url('leaderboard')}">Leaderboard</a></li>
+          <li><a href="${request.route_url('report_this_month')}">Leaderboard</a></li>
           % if logged_in:
             <li><a href="${request.route_url('user', id=logged_in_person.nickname or logged_in_person.id)}">Profile</a></li>
           % endif

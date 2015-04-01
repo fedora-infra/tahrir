@@ -1361,6 +1361,14 @@ def report_year_week(request):
     )
 
 
+@view_config(route_name='report_this_month')
+def report_this_month(request):
+    now = datetime.utcnow()
+    year, month = now.year, now.month
+    location = request.route_url('report_year_month', year=year, month=month)
+    return HTTPFound(location=location)
+
+
 @view_config(route_name='award_from_csv', permission='admin')
 def award_from_csv(request):
     csv_file = request.POST['csv-file'].file
