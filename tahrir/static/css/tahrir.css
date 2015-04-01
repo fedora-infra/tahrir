@@ -408,3 +408,9 @@ footer > .document {
 .name > small {
     color: #888888;
 }
+
+@media all and (max-width:  768px) {
+    .mobile-hidden {
+        display: none !important;
+    }
+}

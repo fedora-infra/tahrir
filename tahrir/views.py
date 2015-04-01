@@ -899,6 +899,8 @@ def user(request):
     user_id = request.matchdict.get('id')
     user = _get_user(request, user_id)
 
+    history_limit = int(request.params.get('history_limit', 10))
+
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
 
@@ -959,6 +961,7 @@ def user(request):
             rank=rank,
             percentile=percentile,
             user_count=user_count,
+            history_limit=history_limit,
             )
 
 
