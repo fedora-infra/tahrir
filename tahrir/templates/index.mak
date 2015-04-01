@@ -23,16 +23,17 @@
   <!-- COLUMN 2 (Middle)-->
   <div class="grid-33">
     <div class="shadow">
-      <h1 class="section-header">Newcomers</h1>
+      <h1 class="section-header">Weekly Leaders</h1>
       <div class="padded-content">
-        % for person in sorted(newest_persons, key=lambda x: x.id, reverse=True):
+        % for person in weekly_leaders.keys()[:n]:
           <div class="grid-container">
             ${self.functions.avatar_thumbnail(person, 64, 33)}
-            <div class="grid-33 text-64">
+            <div class="grid-66 text-64">
               <a href="${request.route_url('user', id=person.nickname or person.id)}">
                 ${person.nickname or person.email}
               </a>
-              <span class="date">${person.created_on_rel}</span>
+              with <strong>${weekly_leaders[person]['badges']}</strong>
+              ${'badge' if weekly_leaders[person]['badges'] == 1 else 'badges'} this week.
             </div>
           </div> <!-- end grid-container -->
         % endfor
@@ -43,17 +44,17 @@
   <!-- COLUMN 3 (Right)-->
   <div class="grid-33">
     <div class="shadow">
-      <h1 class="section-header">Awesome People</h1>
+      <h1 class="section-header">Monthly Leaders</h1>
       <div class="padded-content">
-        % for person in top_persons_sample:
+        % for person in monthly_leaders.keys()[:n]:
           <div class="grid-container">
             ${self.functions.avatar_thumbnail(person, 64, 33)}
             <div class="grid-66 text-64">
               <a href="${request.route_url('user', id=person.nickname or person.id)}">
                 ${person.nickname or person.email}
               </a>
-              with <strong>${len(person.assertions)}</strong>
-              ${'badge' if len(person.assertions) == 1 else 'badges'}.
+              with <strong>${monthly_leaders[person]['badges']}</strong>
+              ${'badge' if monthly_leaders[person]['badges'] == 1 else 'badges'} this month.
             </div>
           </div> <!-- end grid-container -->
         % endfor
