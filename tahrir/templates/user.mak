@@ -109,6 +109,13 @@
                type="submit"
                value="Change Avatar" />
           </form>
+          <form method="GET" action="https://apps.fedoraproject.org/notifications/${user.nickname}.id.fedoraproject.org">
+            <input
+               class="pretty-submit"
+               style="height: 50px; width: 100%;"
+               type="submit"
+               value="Manage Notifications" />
+          </form>
           <form method="GET" action="${request.route_url('user_edit', id=user.nickname or user.id)}">
             <input
                class="pretty-submit"
