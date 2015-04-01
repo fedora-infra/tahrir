@@ -260,12 +260,6 @@ def index(request):
 
     n = 5  # n is the number of items displayed in each column.
 
-    if authenticated_userid(request):
-        awarded_assertions = request.db.get_assertions_by_email(
-                                 authenticated_userid(request))
-    else:
-        awarded_assertions = None
-
     # set came_from so we can get back home after openid auth.
     request.session['came_from'] = request.route_url('home')
 
@@ -276,24 +270,20 @@ def index(request):
         .limit(n)\
         .all()
 
-    newest_persons = request.db.get_all_persons()\
-        .filter(m.Person.opt_out == False)\
-        .order_by(sa.desc(m.Person.created_on))\
-        .limit(n)\
-        .all()
+    start = get_start_week()
+    stop = start + timedelta(days=6)
+    weekly_leaders = request.db._make_leaderboard(
+        start=start,
+        stop=stop,
+    )
 
-    person_count = request.db.session.query(m.Person)\
-        .filter(m.Person.opt_out == False)\
-        .count()
-    top_ten_percent = int(person_count * 0.10) + 1
-
-    top_persons_sample = request.db.session.query(m.Person)\
-        .order_by(m.Person.rank)\
-        .limit(top_ten_percent)\
-        .from_self()\
-        .order_by(func.random())\
-        .limit(n)\
-        .all()
+    now = datetime.utcnow()
+    start = date(now.year, now.month, 1)
+    stop = date(now.year, now.month + 1, 1) - timedelta(days=1)
+    monthly_leaders = request.db._make_leaderboard(
+        start=start,
+        stop=stop,
+    )
 
     # Register our websocket handler callback
     if asbool(request.registry.settings['tahrir.use_websockets']):
@@ -303,10 +293,10 @@ def index(request):
     return dict(
         auth_principals=effective_principals(request),
         latest_awards=latest_awards,
-        newest_persons=newest_persons,
-        top_persons_sample=top_persons_sample,
-        awarded_assertions=awarded_assertions,
+        weekly_leaders=weekly_leaders,
+        monthly_leaders=monthly_leaders,
         moksha_socket=get_moksha_socket(request.registry.settings),
+        n=n,
     )
 
 
