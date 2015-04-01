@@ -148,7 +148,7 @@
     </div> <!-- End shadow. -->
 
     % if user.assertions:
-    <div class="shadow">
+    <div class="shadow mobile-hidden">
       <h1 class="section-header">History</h1>
       <div class="padded-content clearfix">
         <div class="grid-container">
