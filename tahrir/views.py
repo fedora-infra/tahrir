@@ -1534,7 +1534,7 @@ def make_websocket_handler(settings):
                         });
                     }
                 });
-            }, 250)
+            }, 1000)
         })(json);
         """ % settings['tahrir.base_url']
         backend = "websocket"
