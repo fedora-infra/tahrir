@@ -125,6 +125,7 @@
           </form>
           % if user.opt_out:
             <form method="POST">
+              <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
               <input
                  class="pretty-submit"
                  style="height: 50px; width: 100%;"
@@ -134,6 +135,7 @@
             </form>
           % else:
             <form method="POST">
+              <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
               <input
                  class="pretty-submit"
                  style="height: 50px;"

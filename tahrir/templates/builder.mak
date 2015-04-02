@@ -27,6 +27,7 @@
     <div class="grid-50">
       <h3>Badge Builder</h3>
       <form id="builder-form" method="POST">
+        <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
         <table>
           <tr>
             <td><label for="badge-name">Badge Name</label></td>
@@ -70,6 +71,7 @@
       <h3>Preview</h3>
   <p>Preview will work only if JavaScript is enabled.</p>
   <form id="preview-options-form">
+    <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
     <table>
       <tr><td>
           <label for="read-only">Preview is read only?

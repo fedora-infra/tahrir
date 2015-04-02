@@ -47,6 +47,7 @@
           % if 'group:admins' in auth_principals:
           <h3 class="section-header">Add tags to this badge</h3>
           <form method="POST" action="${request.route_url('add_tag')}">
+            <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
             <input name="badge_id" value=${badge.id} type="hidden"/>
             <div class="grid-50">
               <input name="tags"
@@ -69,6 +70,7 @@
           % if badge.authorized(logged_in_person):
           <h3 class="section-header">Award this badge</h3>
           <form method="POST" action="${request.route_url('award')}">
+            <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
             <input name="badge_id" value=${badge.id} type="hidden"/>
             <div class="grid-35">
               <input class="pretty-submit"
@@ -89,6 +91,7 @@
           <div class="clear spacer"></div>
 
           <form method="POST" action="${request.route_url('invite')}">
+            <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
             <input name="badge_id" value=${badge.id} type="hidden"/>
             <div class="grid-35">
               <input class="pretty-submit"

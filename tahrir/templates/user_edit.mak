@@ -22,7 +22,8 @@
 			<p>Fields left blank will not be updated.</p>
 
 			<form method="POST">
-        % if allow_changenick:
+				<input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+				% if allow_changenick:
 				<input name="new-nickname"
 					   placeholder="New nickname"
 					   type="text"
