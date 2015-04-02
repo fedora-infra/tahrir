@@ -5,6 +5,7 @@ from pyramid.events import (
 
 from pyramid.security import (
     authenticated_userid,
+    effective_principals,
 )
 
 from pyramid.settings import asbool
@@ -49,6 +50,8 @@ def inject_globals(event):
     event['twitter_user_hash'] = settings.get(
         'tahrir.social.twitter_user_hash')
     event['gplus'] = asbool(settings.get('tahrir.social.gplus'))
+
+    event['auth_principals'] = effective_principals(request)
 
     # Cause jquery.js to be injected into the page.
     tw2.jquery.jquery_js.display()

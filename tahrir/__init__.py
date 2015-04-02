@@ -150,6 +150,7 @@ def main(global_config, **settings):
     # delegated admin endpoints
     config.add_route('award', '/award')
     config.add_route('invite', '/invite')
+    config.add_route('add_tag', '/add_tag')
 
     config.add_route('qrcode', '/qrcode')
     config.add_route('badge', '/badge/{id}')

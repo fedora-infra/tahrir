@@ -44,6 +44,28 @@
             % endfor
           %endif
 
+          % if 'group:admins' in auth_principals:
+          <h3 class="section-header">Add tags to this badge</h3>
+          <form method="POST" action="${request.route_url('add_tag')}">
+            <input name="badge_id" value=${badge.id} type="hidden"/>
+            <div class="grid-50">
+              <input name="tags"
+                placeholder="tag1,tag2,tag3"
+                required
+                style="width: 100%;" />
+            </div>
+            <div class="grid-50">
+              <input class="pretty-submit"
+                style="height: 30px; width:100%"
+                name="add"
+                type="submit"
+                value="Add" />
+            </div>
+          </form>
+
+          <div class="clear spacer"></div>
+          % endif
+
           % if badge.authorized(logged_in_person):
           <h3 class="section-header">Award this badge</h3>
           <form method="POST" action="${request.route_url('award')}">
