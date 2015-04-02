@@ -186,31 +186,27 @@
     <div class="shadow">
       <h1 class="section-header">Badges Earned</h1>
       <div class="padded-content">
-        <div class="grid-container">
-          <div style="text-align: center; font-size: 1.2em; padding: 20px;">
-            % if len(user_badges) < 1:
-              % if user.email == logged_in:
-                <p>You have not earned any badges yet!</p>
-              % else:
-                <p>${user.nickname} has not earned any badges yet!</p>
-              % endif
+        <div style="text-align: center; font-size: 1.2em; padding: 20px;">
+          % if len(user_badges) < 1:
+            % if user.email == logged_in:
+              <p>You have not earned any badges yet!</p>
             % else:
-              % if user.email == logged_in:
-                <p>You have earned
-              % else:
-                <p>${user.nickname} has earned
-              % endif
-              <strong>${len(user_badges)}</strong>
-              ${'badge' if len(user_badges) == 1 else 'badges'}
-              (<strong>${"{0:.1f}".format(percent_earned)}%</strong> of total).
+              <p>${user.nickname} has not earned any badges yet!</p>
             % endif
-          </div>
+          % else:
+            % if user.email == logged_in:
+              <p>You have earned
+            % else:
+              <p>${user.nickname} has earned
+            % endif
+            <strong>${len(user_badges)}</strong>
+            ${'badge' if len(user_badges) == 1 else 'badges'}
+            (<strong>${"{0:.1f}".format(percent_earned)}%</strong> of total).
+          % endif
+        </div>
+        <div class="flex-container">
           % for i, badge in enumerate(user_badges):
-            % if i % 3 == 0 and i != 0:
-              </div>
-              <div class="grid-container">
-            % endif
-            ${self.functions.badge_thumbnail(badge, 128, 33)}
+            ${self.functions.badge_thumbnail_flex(badge, 128, 33)}
           % endfor
         </div>
       </div>
