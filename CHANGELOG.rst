@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.8.1
+-----
+
+- Fix <div> closure in the history pane. `2c1571f8a <https://github.com/fedora-infra/tahrir/commit/2c1571f8a50b181dcef28f348cf9d20142ad72a9>`_
+
 0.8.0
 -----
 
