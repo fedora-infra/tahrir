@@ -1,6 +1,29 @@
 Changelog
 =========
 
+0.8.0
+-----
+
+- Promote the monthly leaderboard. `5ccb1ac88 <https://github.com/fedora-infra/tahrir/commit/5ccb1ac88c1c6622e273207915606d437f3dd32c>`_
+- Change frontpage panes. `5dcb38042 <https://github.com/fedora-infra/tahrir/commit/5dcb38042a2a87dd81682dc2904f7d3dba6c477c>`_
+- Merge pull request #296 from fedora-infra/feature/promote-monthly-leaderboard `6c9d41d5e <https://github.com/fedora-infra/tahrir/commit/6c9d41d5e33050112dc2cc5c41f1324d3dffd04e>`_
+- Provide a link from your profile to FMN. `9c4c48113 <https://github.com/fedora-infra/tahrir/commit/9c4c48113c1d5b7ff1a0aad35fc7447a1f25c516>`_
+- Merge pull request #297 from fedora-infra/feature/frontpage-switchup `3ebff58af <https://github.com/fedora-infra/tahrir/commit/3ebff58aff971fb57902bee12d823d721f56879f>`_
+- Shorten the number of entries in the user-history pane. `acb60ba5d <https://github.com/fedora-infra/tahrir/commit/acb60ba5d647c43407d743d339a87e0ddc541547>`_
+- Completely hide the history pane in the mobile view. `3a341802c <https://github.com/fedora-infra/tahrir/commit/3a341802c4a78a679b775e675951534bd495b462>`_
+- Merge pull request #298 from fedora-infra/feature/fmn-link `059becde5 <https://github.com/fedora-infra/tahrir/commit/059becde55b17f6a603920f7bc03886aa6a8201d>`_
+- Merge pull request #299 from fedora-infra/feature/shorten-history `7afa96139 <https://github.com/fedora-infra/tahrir/commit/7afa96139360c9047b908fd050b8f459c4546470>`_
+- Wait a little longer after receiving a websocket message before going back to query the assertions API. `c6d9ea2db <https://github.com/fedora-infra/tahrir/commit/c6d9ea2dbe5576630828088ba445be01cf10c10e>`_
+- Use css flexbox to render badge collections much more nicely. `8f790fea8 <https://github.com/fedora-infra/tahrir/commit/8f790fea89dd5fc1ffb7aaaa06085b74ed9ad5cf>`_
+- Merge pull request #300 from fedora-infra/feature/flexbox `5061c5632 <https://github.com/fedora-infra/tahrir/commit/5061c56325c3512210928c3ebce55f5bf52c42d4>`_
+- Lay out badges according to their tags. `4b25f1a31 <https://github.com/fedora-infra/tahrir/commit/4b25f1a3116ec21b8ce150260f7ac41150aa5cd0>`_
+- Add an admin interface for adding new tags to existing badges. `a0458301f <https://github.com/fedora-infra/tahrir/commit/a0458301ff40dd595bb99af769a749748bae4002>`_
+- Merge pull request #302 from fedora-infra/feature/admin-tagging `5f977e7f2 <https://github.com/fedora-infra/tahrir/commit/5f977e7f26711ec5e02c66ba3059a642a4b12205>`_
+- Typofix. `d46cfe58b <https://github.com/fedora-infra/tahrir/commit/d46cfe58bce7c51579511ffafb9d8b8cf154cfb1>`_
+- CSRF protection. `55263bce4 <https://github.com/fedora-infra/tahrir/commit/55263bce48d0d200697aa3830e7cdfb3f7ea41f7>`_
+- Merge pull request #303 from fedora-infra/feature/csrf `5ff84e887 <https://github.com/fedora-infra/tahrir/commit/5ff84e887e21a427a3acff348839be0e97cda8fb>`_
+- Merge pull request #301 from fedora-infra/feature/tag-layout `8a69d0826 <https://github.com/fedora-infra/tahrir/commit/8a69d08268f83eeb12b13be9957cc4fdbe704051>`_
+
 0.7.4
 -----
 
