@@ -74,6 +74,10 @@ def award(request):
     if not request.POST:
         return HTTPMethodNotAllowed()
 
+    token = request.session.get_csrf_token()
+    if token != request.POST['csrf_token']:
+        raise HTTPForbidden('CSRF token did not match')
+
     agent = request.db.get_person(authenticated_userid(request))
     if not agent:
         raise HTTPForbidden()
@@ -105,6 +109,10 @@ def invite(request):
     if not request.POST:
         return HTTPMethodNotAllowed()
 
+    token = request.session.get_csrf_token()
+    if token != request.POST['csrf_token']:
+        raise HTTPForbidden('CSRF token did not match')
+
     agent = request.db.get_person(authenticated_userid(request))
     if not agent:
         raise HTTPForbidden()
@@ -135,6 +143,10 @@ def add_tag(request):
     if not request.POST:
         return HTTPMethodNotAllowed()
 
+    token = request.session.get_csrf_token()
+    if token != request.POST['csrf_token']:
+        raise HTTPForbidden('CSRF token did not match')
+
     agent = request.db.get_person(authenticated_userid(request))
     if not agent:
         raise HTTPForbidden()
@@ -155,7 +167,6 @@ def add_tag(request):
 
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
-
     settings = request.registry.settings
 
     # TODO: Check if I even need this anymore... leaving for now.
@@ -170,6 +181,10 @@ def admin(request):
     # Handle any admin actions. These are done through POSTS via the
     # HTML forms on the admin panel.
     if request.POST:
+        token = request.session.get_csrf_token()
+        if token != request.POST['csrf_token']:
+            raise HTTPForbidden('CSRF token did not match')
+
         if request.POST.get('add-person'):
             # Email is a required field on the HTML form.
             # Add a Badge to the DB.
@@ -501,6 +516,10 @@ def explore(request):
     search_query = None
     search_results = dict() # name: link
     if request.POST:
+        token = request.session.get_csrf_token()
+        if token != request.POST['csrf_token']:
+            raise HTTPForbidden('CSRF token did not match')
+
         if request.POST.get('badge-search'):
             # badge-query is a required field on the template form.
             search_query = request.POST.get('badge-query')
@@ -932,6 +951,10 @@ def user(request):
 
     if request.POST:
 
+        token = request.session.get_csrf_token()
+        if token != request.POST['csrf_token']:
+            raise HTTPForbidden('CSRF token did not match')
+
         # Authz check
         if authenticated_userid(request) != user.email:
             raise HTTPForbidden("Unauthorized")
@@ -1006,6 +1029,10 @@ def user_edit(request):
     user = _get_user(request, request.matchdict.get('id'))
 
     if request.POST:
+
+        token = request.session.get_csrf_token()
+        if token != request.POST['csrf_token']:
+            raise HTTPForbidden('CSRF token did not match')
 
         # Authz check
         if authenticated_userid(request) != user.email:
@@ -1207,6 +1234,9 @@ def builder(request):
 
     badge_yaml = None
     if request.POST:
+        token = request.session.get_csrf_token()
+        if token != request.POST['csrf_token']:
+            raise HTTPForbidden('CSRF token did not match')
         badge_yaml = generate_badge_yaml(request.POST)
 
     return dict(
@@ -1387,6 +1417,10 @@ def report_this_month(request):
 
 @view_config(route_name='award_from_csv', permission='admin')
 def award_from_csv(request):
+    token = request.session.get_csrf_token()
+    if token != request.POST['csrf_token']:
+        raise HTTPForbidden('CSRF token did not match')
+
     csv_file = request.POST['csv-file'].file
     successful_awards = 0
     '''TODO: We need some validation here, and flash

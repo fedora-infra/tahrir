@@ -15,6 +15,7 @@
 
   <div class="grid-66">
     <form class="admin-form" method="POST">
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
         <td><label for="person-email">Email</label></td>
@@ -53,6 +54,7 @@
 
   <div class="grid-66">
     <form class="admin-form" method="POST">
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
           <td><label for="issuer-origin">Origin</label></td>
@@ -90,6 +92,7 @@
 
   <div class="grid-66">
     <form class="admin-form" method="POST">
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
           <td><label for="badge-name">Name</label></td>
@@ -137,6 +140,7 @@
 
   <div class="grid-66">
     <form class="admin-form" method="POST">
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
           <td>
@@ -190,6 +194,7 @@
         be created if they do not yet exist.</p>
     <form action="/award_from_csv" method="POST" accept-charset="utf-8"
           enctype="multipart/form-data">
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <input name="csv-file" type="file" required="required" />
       <input name="submit-csv-file-award" type="submit" value="Award Badges" />
     </form>
@@ -197,6 +202,7 @@
 
   <div class="grid-66">
     <form class="admin-form" method="POST">
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
           <td><label for="assertion-badge-id">Badge ID</label></td>
@@ -236,6 +242,7 @@
 
   <div class="grid-66">
     <form class="admin-form" method="POST">
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
           <td><label for="authorization-badge-id">Badge ID</label></td>

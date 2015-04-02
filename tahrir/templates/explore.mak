@@ -47,6 +47,7 @@
         <div class="clear"></div>
         <h2>Badge Search</h2>
         <form method="POST">
+          <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
           <table>
             <tr>
               <td>
@@ -79,6 +80,7 @@
         <div class="clear"></div>
         <h2>Person Search</h2>
         <form method="POST">
+          <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
           <table>
             <tr>
               <td>
@@ -107,6 +109,7 @@
       <div class="padded-content">
         <h2>View Tags</h2>
         <form method="POST">
+          <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
           <table>
             <tr>
               <td>
