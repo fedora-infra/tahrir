@@ -130,6 +130,29 @@ def invite(request):
     return HTTPFound(location=request.route_url('user', id=agent.id))
 
 
+@view_config(route_name='add_tag', renderer='string', permission='admin')
+def add_tag(request):
+    if not request.POST:
+        return HTTPMethodNotAllowed()
+
+    agent = request.db.get_person(authenticated_userid(request))
+    if not agent:
+        raise HTTPForbidden()
+
+    badge_id = request.POST.get('badge_id')
+    badge = request.db.get_badge(badge_id)
+    if not badge:
+        raise HTTPNotFound("No such badge %r" % badge_id)
+
+    tags = request.POST.get('tags', '')
+    new_tags = [tag.strip() for tag in tags.strip().split(',') if tag.strip()]
+    originals = [tag.strip() for tag in badge.tags.split(',') if tag.strip()]
+    badge.tags = ",".join(set(originals + new_tags)) + ","
+    request.db.session.flush()
+
+    return HTTPFound(location=request.route_url('badge', id=badge.id))
+
+
 @view_config(route_name='admin', renderer='admin.mak', permission='admin')
 def admin(request):
 
