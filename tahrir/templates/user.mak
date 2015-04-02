@@ -206,11 +206,24 @@
             (<strong>${"{0:.1f}".format(percent_earned)}%</strong> of total).
           % endif
         </div>
+        % for tag in request.registry.settings.get('tahrir.display_tags', '').split(","):
+        % if tag in sum([badge.tags.strip(",").split(",") for badge in user_badges], []):
+        <h3 class="section-header">${tag.title()} Badges</h3>
         <div class="flex-container">
-          % for i, badge in enumerate(user_badges):
+          % for badge in [b for b in user_badges if tag in b.tags.strip(",").split(",")]:
             ${self.functions.badge_thumbnail_flex(badge, 128, 33)}
           % endfor
         </div>
+        % endif
+        % endfor
+        % if any([badge for badge in user_badges if not any([tag in request.registry.settings.get('tahrir.display_tags', '').split(",") for tag in badge.tags.strip(",").split(",")])]):
+        <h3 class="section-header">Uncategorized Badges</h3>
+        <div class="flex-container">
+          % for badge in [b for b in user_badges if not any([tag in request.registry.settings.get('tahrir.display_tags', '').split(",") for tag in b.tags.strip(",").split(",")])]:
+            ${self.functions.badge_thumbnail_flex(badge, 128, 33)}
+          % endfor
+        </div>
+        % endif
       </div>
     </div> <!-- End padded content. -->
   </div> <!-- End shadow. -->
