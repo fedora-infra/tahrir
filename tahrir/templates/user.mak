@@ -160,23 +160,25 @@
     <div class="shadow mobile-hidden">
       <h1 class="section-header">History</h1>
       <div class="padded-content clearfix">
-        <div class="grid-container">
-          % for assertion in sorted(user.assertions, key=lambda a: a.issued_on, reverse=True)[:history_limit]:
+        % for assertion in sorted(user.assertions, key=lambda a: a.issued_on, reverse=True)[:history_limit]:
+          <div class="grid-container">
             ${self.functions.badge_thumbnail(assertion.badge, 64, 33)}
             <div class="grid-66 text-64"><p>received on ${assertion.issued_on.strftime('%Y-%m-%d')}
               % if assertion.issued_for:
               for <a target="_blank" href="${assertion.issued_for}">this activity</a>
               % endif
               </p></div>
-          % endfor
-          % if history_limit < len(user.assertions):
-          <div class="grid-66 text-64"><p>
+          </div>
+        % endfor
+        % if history_limit < len(user.assertions):
+        <div class="grid-container">
+          <div class="grid-100 text-64"><p>
             This is only the last ${history_limit} entries.
             <a href="${request.route_url('user', id=user.nickname or user.id, _query=dict(history_limit=len(user.assertions)))}">
               Click here to see all of them</a>.
           </p></div>
-          % endif
         </div>
+        % endif
       </div> <!-- End padded content. -->
     </div> <!-- End shadow. -->
     % endif
