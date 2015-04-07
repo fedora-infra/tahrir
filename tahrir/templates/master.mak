@@ -173,5 +173,20 @@ import json
       ${footer | n}
     </footer>
 
+    % if request.registry.settings.get('fedmenu.url'):
+    <script src="${request.registry.settings.get('fedmenu.url')}/js/fedora-libravatar.js"></script>
+    <script src="${request.registry.settings.get('fedmenu.url')}/js/fedmenu.js"></script>
+    <script>
+      fedmenu({
+          'url': '${request.registry.settings.get("fedmenu.data_url")}',
+          'mimeType': 'application/javascript',
+          'position': 'bottom-right',
+          % if user:
+          'user': '${user.nickname}',
+          % endif
+      });
+    </script>
+    % endif
+
   </body>
 </html>
