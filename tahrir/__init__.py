@@ -128,6 +128,8 @@ def main(global_config, **settings):
         identity_provider=settings.get('tahrir.openid_identifier'),
     )
 
+    config.include('pyramid_mako')
+
     config.add_request_method(get_db, 'db', reify=True)
 
     config.add_static_view(
