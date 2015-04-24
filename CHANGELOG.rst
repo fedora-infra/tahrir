@@ -1,6 +1,20 @@
 Changelog
 =========
 
+0.8.2
+-----
+
+- Add fedmenu. `2e3f01f0e <https://github.com/fedora-infra/tahrir/commit/2e3f01f0eb1d3aca699e9b71a25755da904aac3b>`_
+- Merge pull request #304 from fedora-infra/feature/fedmenu `f6daed3cb <https://github.com/fedora-infra/tahrir/commit/f6daed3cb8de8d2c5d7929bf346e826291b42cc3>`_
+- Remove version pin for pyramid. `9c8d6e130 <https://github.com/fedora-infra/tahrir/commit/9c8d6e130ecc21345e8a1f06420ab29426dbb135>`_
+- In modern pyramid, mako support is provided by a third-party module. `c490ada77 <https://github.com/fedora-infra/tahrir/commit/c490ada77470d7239c87420d51c2aeb3b0b278a5>`_
+- Merge pull request #305 from fedora-infra/feature/modern-pyramid `b173380da <https://github.com/fedora-infra/tahrir/commit/b173380dace8a3dff002796ab55f77a8e4061cd9>`_
+- (cosmetic) Use "name" for this variable to be more clear. `cf70a55bd <https://github.com/fedora-infra/tahrir/commit/cf70a55bdd737a8d1fcb848bbb4190f1d0cc41f6>`_
+- Don't mangle the name for new badges passed in by the admin form. `bcd5b910e <https://github.com/fedora-infra/tahrir/commit/bcd5b910e86c297b3c285be09f75948ba6164d16>`_
+- Merge pull request #306 from fedora-infra/feature/mangled-name `bd9f674e2 <https://github.com/fedora-infra/tahrir/commit/bd9f674e2aff26c1361b01bd1fd8eb24f49b19cc>`_
+- Allow users to specify a limit to the json leaderboard. `6be0c98fb <https://github.com/fedora-infra/tahrir/commit/6be0c98fba72a5fc09dd45f59a0b063a7297cc18>`_
+- Merge pull request #307 from fedora-infra/feature/json-limit `40fa902e3 <https://github.com/fedora-infra/tahrir/commit/40fa902e3b015a807c7c80a4feec95b9ab3521c1>`_
+
 0.8.1
 -----
 
