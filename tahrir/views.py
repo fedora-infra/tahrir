@@ -460,6 +460,7 @@ def leaderboard(request):
 def leaderboard_json(request):
     """ Render a top-users JSON dump. """
 
+    limit = int(request.params.get('limit', 25))
     user_id = request.matchdict.get('id')
     user = None
     if user_id:
@@ -491,7 +492,7 @@ def leaderboard_json(request):
 
         leaderboard = leaderboard[(idx - 2):(idx + 3)]
     else:
-        leaderboard = leaderboard[:25]
+        leaderboard = leaderboard[:limit]
 
     ret = [
         dict(user_to_rank[p].items() + [('nickname', p.nickname)])
