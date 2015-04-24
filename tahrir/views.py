@@ -205,7 +205,7 @@ def admin(request):
             idx = badge_name_to_id(name)
             if not request.db.badge_exists(idx):
                 # Add a Badge to the DB.
-                request.db.add_badge(idx,
+                request.db.add_badge(name,
                                      request.POST.get('badge-image'),
                                      request.POST.get('badge-description'),
                                      request.POST.get('badge-criteria'),
