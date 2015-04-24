@@ -201,7 +201,8 @@ def admin(request):
             else:
                 request.session.flash("Person with email {0} already exists.".format(email))
         elif request.POST.get('add-badge'):
-            idx = badge_name_to_id(request.POST.get('badge-name'))
+            name = request.POST.get('badge-name')
+            idx = badge_name_to_id(name)
             if not request.db.badge_exists(idx):
                 # Add a Badge to the DB.
                 request.db.add_badge(idx,
@@ -210,7 +211,7 @@ def admin(request):
                                      request.POST.get('badge-criteria'),
                                      request.POST.get('badge-issuer'),
                                      request.POST.get('badge-tags'))
-                request.session.flash('You added a badge with name %s' % request.POST.get('badge-name'))
+                request.session.flash('You added a badge with name %s' % name)
             else:
                 request.session.flash("Badge with id {0} already exists.".format(idx))
 
