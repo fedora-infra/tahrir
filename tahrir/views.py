@@ -496,7 +496,7 @@ def leaderboard_json(request):
 
     ret = [
         dict(user_to_rank[p].items() + [('nickname', p.nickname)])
-        for p in leaderboard
+        for p in leaderboard if p in user_to_rank
     ]
 
     return {'leaderboard': ret}
