@@ -124,6 +124,12 @@ import json
             </div>
             </a>
           </h1>
+
+          <form method="POST" action="/explore" id="header-search" class="mobile-hidden">
+            <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+            <input name="badge-query" required="required" />
+            <input name="badge-search" type="submit" value="Search" />
+          </form>
         </div>
 
         <ul class="grid-100 navbar" id="login-list">
