@@ -420,3 +420,12 @@ footer > .document {
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+#header-search {
+    margin-top: 35px;
+    float: right;
+}
+
+.header > h1 {
+    display: inline-block;
+}
