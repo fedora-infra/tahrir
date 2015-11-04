@@ -21,7 +21,8 @@ requires = [
     "python-dateutil",
     "moksha.wsgi>=1.2.1",
     "webhelpers",
-    "rdflib",
+    "requests",
+    "rdflib<=4.1.2",
 
     # For qrcode to work from PyPI, you also need Pillow.
     # This is handled for us in Fedora because python-qrcode pulls in the
