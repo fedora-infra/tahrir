@@ -117,7 +117,7 @@ Then, to set up Tahrir, follow these steps::
 	$ git clone git://github.com/fedora-infra/tahrir.git
 	$ cd tahrir
 	$ mkvirtualenv tahrir
-	(tahrir)$ python setup.py develop
+	(tahrir)$ pip install -r requirements.txt
 	(tahrir)$ cp development.ini.example development.ini
 	(tahrir)$ cp secret.ini.example secret.ini
 	(tahrir)$ initialize_tahrir_db development.ini
