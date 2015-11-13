@@ -31,7 +31,7 @@ def create_foaf_node(graph, FOAF, user):
     # add the user data
     graph.add((node, r.RDF.type, FOAF['Person']))
     graph.add((node, FOAF['nick'], r.Literal(user.nickname)))
-    graph.add((node, FOAF['img'], r.Namespace(user.avatar_url(512))))
+    graph.add((node, FOAF['img'], r.URIRef(user.avatar_url(512))))
     graph.add((node, FOAF['mbox_sha1sum'], r.Literal(user.email_sha1)))
 
     if user.website:
