@@ -318,7 +318,10 @@ def index(request):
 
     now = datetime.utcnow()
     start = date(now.year, now.month, 1)
-    stop = date(now.year, now.month + 1, 1) - timedelta(days=1)
+    if now.month == 12:
+        stop = date(now.year + 1, 1, 1) - timedelta(days=1)
+    else:
+        stop = date(now.year, now.month + 1, 1) - timedelta(days=1)
     monthly_leaders = request.db._make_leaderboard(
         start=start,
         stop=stop,
@@ -1336,7 +1339,10 @@ def report_year_month(request):
     month = int(request.matchdict.get('month'))
 
     start = date(year, month, 1)
-    stop = date(year, month + 1, 1) - timedelta(days=1)
+    if now.month == 12:
+        stop = date(year + 1, 1, 1) - timedelta(days=1)
+    else:
+        stop = date(year, month + 1, 1) - timedelta(days=1)
 
     user_to_rank = request.db._make_leaderboard(
         start=start,
