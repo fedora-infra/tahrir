@@ -780,6 +780,7 @@ def _badge_json_generator(request, badge):
         'first_awarded_person': first_awarded_person,
         'percent_earned': percent_earned,
         'image': badge.image,
+        'tags': badge.tags,
     }
 
 
