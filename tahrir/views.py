@@ -14,6 +14,7 @@ import markupsafe
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
+from decimal import Decimal, ROUND_UP
 
 from mako.template import Template as t
 from webhelpers import feedgenerator
@@ -999,7 +1000,8 @@ def user(request):
         .filter(m.Person.opt_out == False).count()
 
     try:
-        percentile = (float(rank) / float(user_count)) * 100
+        percentile = Decimal(float(rank) / float(user_count)).quantize(
+            Decimal('.01'), rounding=ROUND_UP)
     except ZeroDivisionError:
         percentile = 0
 
