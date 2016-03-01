@@ -165,7 +165,7 @@
             ${self.functions.badge_thumbnail(assertion.badge, 64, 33)}
             <div class="grid-66 text-64"><p>received on ${assertion.issued_on.strftime('%Y-%m-%d')}
               % if assertion.issued_for:
-              for <a target="_blank" href="${assertion.issued_for}">this activity</a>
+              for <a href="${assertion.issued_for}">this activity</a>
               % endif
               </p></div>
           </div>
