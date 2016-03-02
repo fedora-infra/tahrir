@@ -226,7 +226,7 @@
         </tr>
         <tr>
           <td></td><td>
-            <input name="add-assertion" type="submit" value="Add Assertion" />
+            <input name="add-assertion" type="submit" value="Award Individual Badge" />
           </td>
         </tr>
       </table>
