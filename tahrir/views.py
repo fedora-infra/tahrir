@@ -70,6 +70,47 @@ def _get_user(request, id_or_nickname):
             return None
 
 
+def _get_user_badge_info(request, user):
+    """ Returns a dictionary of the user badge information
+    """
+
+    # Get user badges.
+    user_badges = [a.badge for a in user.assertions]
+
+    # Sort user badges by id.
+    user_badges = sorted(user_badges, key=lambda badge: badge.id)
+
+    # Get total number of unique badges in the system.
+    count_total_badges = request.db.get_all_badges().count()
+
+    # Get percentage of badges earned.
+    try:
+        percent_earned = (float(len(user_badges)) / \
+                          float(count_total_badges)) * 100
+    except ZeroDivisionError:
+        percent_earned = 0
+
+    # Get rank. (same code found in leaderboard view function)
+    rank = user.rank or 0
+    user_count = request.db.session.query(m.Person)\
+        .filter(m.Person.opt_out == False).count()
+
+    try:
+        percentile = Decimal(float(rank) / float(user_count)).quantize(
+            Decimal('.01'), rounding=ROUND_UP)
+    except ZeroDivisionError:
+        percentile = 0
+
+    return dict(
+        user_badges=user_badges,
+        count_total_badges=count_total_badges,
+        percent_earned=percent_earned,
+        rank=rank,
+        user_count=user_count,
+        percentile=str(percentile)
+    )
+
+
 @view_config(route_name='award', renderer='string')
 def award(request):
     if not request.POST:
@@ -974,49 +1015,21 @@ def user(request):
         elif request.POST.get('reactivate-account'):
             person.opt_out = False
 
-    # Get user badges.
-    user_badges = [a.badge for a in user.assertions]
-
-    # Sort user badges by id.
-    user_badges = sorted(user_badges, key=lambda badge: badge.id)
-
-    # Get total number of unique badges in the system.
-    count_total_badges = len(request.db.get_all_badges().all())
-
-    # Get percentage of badges earned.
-    try:
-        percent_earned = (float(len(user_badges)) / \
-                          float(count_total_badges)) * 100
-    except ZeroDivisionError:
-        percent_earned = 0
-
     # Get invitations the user has created.
     invitations = [i for i in request.db.get_invitations(user.id)\
                    if i.expires_on > datetime.utcnow()]
 
-    # Get rank. (same code found in leaderboard view function)
-    rank = user.rank or 0
-    user_count = request.db.session.query(m.Person)\
-        .filter(m.Person.opt_out == False).count()
+    user_info = dict(
+        user=user,
+        invitations=invitations,
+        auth_principals=effective_principals(request),
+        awarded_assertions=awarded_assertions,
+        history_limit=history_limit,
+    )
 
-    try:
-        percentile = Decimal(float(rank) / float(user_count)).quantize(
-            Decimal('.01'), rounding=ROUND_UP)
-    except ZeroDivisionError:
-        percentile = 0
+    user_info.update(_get_user_badge_info(request, user))
 
-    return dict(
-            user=user,
-            user_badges=user_badges,
-            invitations=invitations,
-            percent_earned=percent_earned,
-            auth_principals=effective_principals(request),
-            awarded_assertions=awarded_assertions,
-            rank=rank,
-            percentile=percentile,
-            user_count=user_count,
-            history_limit=history_limit,
-            )
+    return user_info
 
 
 @view_config(route_name='user_edit', renderer='user_edit.mak')
@@ -1074,22 +1087,8 @@ def user_edit(request):
 
 
 def _user_json_generator(request, user):
-    # Get user badges.
-    user_badges = [a.badge for a in user.assertions]
-
-    # Sort user badges by id.
-    user_badges = sorted(user_badges, key=lambda badge: badge.id)
-
-    # Get total number of unique badges in the system.
-    count_total_badges = request.db.get_all_badges().count()
-
-    # Get percentage of badges earned.
-    try:
-        percent_earned = (float(len(user_badges)) / \
-                          float(count_total_badges)) * 100
-    except ZeroDivisionError:
-        percent_earned = 0
-
+    """ Generates a json of user data """
+    user_info = _get_user_badge_info(request, user)
 
     assertions = []
     for assertion in user.assertions:
@@ -1100,8 +1099,10 @@ def _user_json_generator(request, user):
     return {
         'user': user.nickname,
         'avatar': user.avatar_url(int(request.GET.get('size', 100))),
-        'percent_earned': percent_earned,
+        'percent_earned': user_info['percent_earned'],
         'assertions': assertions,
+        'percentile': user_info['percentile'],
+        'rank': user_info['rank'],
     }
 
 
