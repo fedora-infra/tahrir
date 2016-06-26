@@ -7,6 +7,7 @@ import datetime
 import dateutil.relativedelta
 import urllib
 from hashlib import md5, sha256
+import re
 
 import pyramid.threadlocal
 
@@ -193,3 +194,60 @@ def make_openid_identifier_property(identifier):
         return "http://%s.%s" % (self.nickname, domain)
 
     return openid_identifier
+
+
+_ROMAN_TO_ARABIC = dict([
+    ('I', 1),
+    ('V', 5),
+    ('X', 10),
+    ('L', 50),
+    ('C', 100),
+    ('D', 500),
+    ('M', 1000),
+])
+_REPLACEMENTS = [
+    ('CM', 'DCCCC'),
+    ('CD', 'CCCC'),
+    ('XC', 'LXXXX'),
+    ('XL', 'XXXX'),
+    ('IX', 'VIIII'),
+    ('IV', 'IIII'),
+]
+# A name of a badge in series must end with parenthesised series name and
+# ordinal number, either in arabic or roman numerals. All badges in a given
+# series must share the same series name.
+_SERIES_NAME_RE = re.compile(r'.+ \((?P<name>.+) (?P<ord>[0-9IXVL]+)\)')
+
+
+def _convert(mapping, x):
+    for prefix, replacement in mapping:
+        x = x.replace(prefix, replacement)
+    return x
+
+
+def _to_number(x):
+    """Convert a string with Roman numerals into an integer."""
+    total = 0
+    for c in _convert(_REPLACEMENTS, x):
+        total += _ROMAN_TO_ARABIC[c]
+    return total
+
+
+def get_series_name(name):
+    """Given a badge name, return a tuple of series name and ordinal number of
+    this badge in the series.
+
+    If the badge is not in any series, both tuple elements are None.
+    """
+    m = _SERIES_NAME_RE.match(name)
+    if not m:
+        return None, None
+    base = m.group('name')
+    idx = m.group('ord')
+    try:
+        try:
+            return base, int(idx)
+        except ValueError:
+            return base, _to_number(idx)
+    except (ValueError, KeyError):
+        return None, None

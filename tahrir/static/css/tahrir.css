@@ -429,3 +429,8 @@ footer > .document {
 .header > h1 {
     display: inline-block;
 }
+
+.current-badge .thumbnail-container {
+    background: #dfdfef;
+    border-radius: 50%;
+}
