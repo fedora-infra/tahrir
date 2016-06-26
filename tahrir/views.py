@@ -41,7 +41,7 @@ from pyramid.settings import asbool
 
 import tahrir_api.model as m
 
-from tahrir.utils import strip_tags, generate_badge_yaml
+from tahrir.utils import strip_tags, generate_badge_yaml, get_series_name
 from tahrir_api.utils import badge_name_to_id
 import widgets
 import foafutils
@@ -715,6 +715,22 @@ def badge(request):
     else:
         awarded_assertions = []
 
+    # Get all badges in the same series.
+    series_name, current_idx = get_series_name(badge.name)
+    related_badges = None
+    if series_name:
+        # Find all badges that possibly could belong the the series. This can
+        # theoretically return false positives if name of one series is a
+        # prefix of another. Such badges will be filtered later.
+        related_badges = request.db.get_all_badges().filter(
+            m.Badge.name.like('% (' + series_name + ' %)')).all()
+        parsed_badges = []
+        for b in related_badges:
+            series, order = get_series_name(b.name)
+            if series == series_name:
+                parsed_badges.append((b, order))
+        related_badges = sorted(parsed_badges, key=lambda (x, y): y)
+
     # Get badge statistics.
     # TODO: Perhaps abstract these statistics methods away somewhere?
     try:
@@ -766,6 +782,9 @@ def badge(request):
             first_awarded_person=first_awarded_person,
             badge_assertions=badge_assertions,
             percent_earned=percent_earned,
+            series_name=series_name,
+            related_badges=related_badges,
+            current_idx=current_idx,
             )
 
 
