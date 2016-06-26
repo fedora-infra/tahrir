@@ -165,6 +165,24 @@
         </ul>
       </div> <!-- End padded content. -->
     </div> <!-- End shadow. -->
+    % if related_badges:
+      <div class="shadow">
+        <h1 class="section-header">Series <em>${badge.series}</em></h1>
+        <div class="padded-content">
+          <div class="flex-container">
+            % for b in related_badges:
+              % if b.ordering == badge.ordering:
+                <div class="current-badge">
+                  ${self.functions.badge_thumbnail_flex(b, 128, 33)}
+                </div>
+              % else:
+                ${self.functions.badge_thumbnail_flex(b, 128, 33)}
+              % endif
+            % endfor
+          </div> <!-- End .flex-container -->
+        </div> <!-- End padded content. -->
+      </div> <!-- End shadow. -->
+    % endif
   </div>
 
   <div class="clear spacer"></div>

@@ -715,6 +715,12 @@ def badge(request):
     else:
         awarded_assertions = []
 
+    # Get all badges in the same series.
+    related_badges = []
+    if badge.series:
+        related_badges = request.db.get_all_badges().filter(
+            m.Badge.series == badge.series).order_by(sa.asc(m.Badge.ordering)).all()
+
     # Get badge statistics.
     # TODO: Perhaps abstract these statistics methods away somewhere?
     try:
@@ -766,6 +772,7 @@ def badge(request):
             first_awarded_person=first_awarded_person,
             badge_assertions=badge_assertions,
             percent_earned=percent_earned,
+            related_badges=related_badges,
             )
 
 
