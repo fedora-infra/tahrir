@@ -42,7 +42,7 @@ from pyramid.settings import asbool
 import tahrir_api.model as m
 
 from tahrir.utils import strip_tags, generate_badge_yaml
-from tahrir_api.utils import badge_name_to_id
+from tahrir_api.utils import convert_name_to_id
 import widgets
 import foafutils
 
@@ -227,7 +227,18 @@ def admin(request):
         if token != request.POST['csrf_token']:
             raise HTTPForbidden('CSRF token did not match')
 
-        if request.POST.get('add-person'):
+        if request.POST.get('add-team'):
+            team_name = request.POST.get('team-name')
+            team_id = convert_name_to_id(team_name)
+            if not request.db.team_exists(team_id=team_id):
+                request.db.create_team(name=team_name)
+                request.session.flash(
+                    "You created a team with name {0}".format(team_name))
+            else:
+                request.session.flash(
+                    "Team with name {0} already exists.".format(team_name))
+
+        elif request.POST.get('add-person'):
             # Email is a required field on the HTML form.
             # Add a Badge to the DB.
             email = request.POST.get('person-email')
@@ -244,7 +255,7 @@ def admin(request):
                 request.session.flash("Person with email {0} already exists.".format(email))
         elif request.POST.get('add-badge'):
             name = request.POST.get('badge-name')
-            idx = badge_name_to_id(name)
+            idx = convert_name_to_id(name)
             if not request.db.badge_exists(idx):
                 # Add a Badge to the DB.
                 request.db.add_badge(name,

@@ -83,6 +83,32 @@
 
   <div class="clear"></div>
 
+  <!-- TEAM PANEL -->
+
+  <div class="grid-33">
+    <h2>Team</h2>
+    <p>Add a new team</p>
+  </div>
+
+  <div class="grid-66">
+    <form class="admin-form" method="POST">
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+      <table>
+        <tr>
+          <td><label for="team-name">Team Name</label></td>
+          <td><input name="team-name" required="required" placeholder="Creative Team"/></td>
+        </tr>
+        <tr>
+          <td></td><td>
+            <input name="add-team" type="submit" value="Add Team" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <div class="clear"></div>
+
   <!-- BADGE PANEL -->
 
   <div class="grid-33">
