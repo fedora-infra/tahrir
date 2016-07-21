@@ -238,6 +238,45 @@ def admin(request):
                 request.session.flash(
                     "Team with name {0} already exists.".format(team_name))
 
+        elif request.POST.get('add-series'):
+            data = request.POST
+            series_name = data.get('series-name')
+            series_id = convert_name_to_id(series_name)
+            if not request.db.series_exists(series_id):
+                description = data.get('series-description')
+                tags = data.get('series-tags')
+                team_id = data.get('series-team-id')
+
+                request.db.create_series(
+                        series_id=series_id,
+                        name=series_name,
+                        desc=description,
+                        tags=tags,
+                        team_id=team_id)
+                request.session.flash(
+                    "You created a series with name {0}".format(series_name))
+            else:
+                request.session.flash(
+                    "Series with name {0} already exists.".format(series_name))
+
+        elif request.POST.get('add-perk'):
+            data = request.POST
+            series_id = data.get('perk-series-id')
+            badge_id = data.get('perk-badge-id')
+            if not request.db.perk_exists_for_badge_series(badge_id,
+                                                           series_id):
+                position = data.get('perk-position')
+                request.db.create_perk(position=position,
+                                       series_id=series_id,
+                                       badge_id=badge_id)
+                request.session.flash(
+                    "You add badge {0} as perk in series {1}".format(
+                        badge_id, series_id))
+            else:
+                request.session.flash(
+                    "Badge {0} already added as perk in series {1}".format(
+                        badge_id, series_id))
+
         elif request.POST.get('add-person'):
             # Email is a required field on the HTML form.
             # Add a Badge to the DB.

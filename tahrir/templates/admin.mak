@@ -109,6 +109,74 @@
 
   <div class="clear"></div>
 
+  <div class="grid-33">
+    <h2>Series</h2>
+    <p>Add a new Series</p>
+  </div>
+
+  <div class="grid-66">
+    <form class="admin-form" method="POST">
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+      <table>
+        <tr>
+          <td><label for="series-name">Series Name</label></td>
+          <td><input name="series-name" required="required" placeholder="Awesome Series"/></td>
+        </tr>
+        <tr>
+          <td><label for="series-description">Series Description</label></td>
+          <td><input name="series-description" required="required" placeholder="This is an awesome series"/></td>
+        </tr>
+        <tr>
+          <td><label for="series-tags">Series Tags</label></td>
+          <td><input name="series-tags" required="required" placeholder="awesome, series"/></td>
+        </tr>
+        <tr>
+          <td><label for="series-team-id">Team ID</label></td>
+          <td><input name="series-team-id" required="required" placeholder="Team Series belongs to"/></td>
+        </tr>
+        <tr>
+          <td></td><td>
+            <input name="add-series" type="submit" value="Add Series" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <div class="clear"></div>
+
+  <div class="grid-33">
+    <h2>Perk</h2>
+    <p>Add a new Perk</p>
+  </div>
+
+  <div class="grid-66">
+    <form class="admin-form" method="POST">
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+      <table>
+        <tr>
+          <td><label for="perk-series-id">Series ID</label></td>
+          <td><input name="perk-series-id" required="required" placeholder="awesome-series"/></td>
+        </tr>
+        <tr>
+          <td><label for="perk-badge-id">Badge ID</label></td>
+          <td><input name="perk-badge-id" required="required" placeholder="awesome-badge"/></td>
+        </tr>
+        <tr>
+          <td><label for="perk-position">Postion</label></td>
+          <td><input name="perk-position" required="required" placeholder="1"/></td>
+        </tr>
+        <tr>
+          <td></td><td>
+            <input name="add-perk" type="submit" value="Add Perk" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <div class="clear"></div>
+
   <!-- BADGE PANEL -->
 
   <div class="grid-33">
