@@ -174,6 +174,7 @@ def main(global_config, **settings):
     config.add_route('user_json', '/user/{id}/json')
     config.add_route('user_rss', '/user/{id}/rss')
     config.add_route('user_foaf', '/user/{id}/foaf')
+    config.add_route('user_team_json', '/user/{id}/team/{team_id}/json')
     config.add_route('diff', '/diff/{id_a}/{id_b}')
     config.add_route('report', '/report')
     config.add_route('report_this_month', '/report/this/month')

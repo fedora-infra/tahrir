@@ -1,12 +1,10 @@
 import re
 import random
-import transaction
 import types
 import codecs
 import os
 import sqlalchemy as sa
 import velruse
-import json as _json
 import StringIO
 import qrcode as qrcode_module
 import docutils.examples
@@ -16,7 +14,6 @@ from datetime import datetime
 from datetime import timedelta
 from decimal import Decimal, ROUND_UP
 
-from mako.template import Template as t
 from webhelpers import feedgenerator
 from pyramid.view import (
     view_config,
@@ -29,6 +26,7 @@ from pyramid.httpexceptions import (
     HTTPGone,
     HTTPNotFound,
     HTTPForbidden,
+    HTTPMethodNotAllowed,
 )
 
 from pyramid.security import (
@@ -41,16 +39,11 @@ from pyramid.settings import asbool
 
 import tahrir_api.model as m
 
-from tahrir.utils import strip_tags, generate_badge_yaml
+from tahrir.utils import generate_badge_yaml
 from tahrir_api.utils import convert_name_to_id
-import widgets
 import foafutils
 
 from moksha.wsgi.widgets.api import get_moksha_socket, LiveWidget
-
-from sqlalchemy.orm import joinedload
-from sqlalchemy.sql.expression import func
-
 
 
 def _get_user(request, id_or_nickname):
@@ -68,6 +61,15 @@ def _get_user(request, id_or_nickname):
             return request.db.get_person(id=int(id_or_nickname))
         except ValueError:
             return None
+
+
+def _get_team(request, team_id):
+    '''Get team for the given team_id'''
+    team = request.db.get_team(team_id=team_id)
+
+    if team:
+        return team
+    return None
 
 
 def _get_user_badge_info(request, user):
@@ -706,7 +708,7 @@ def explore_badges(request):
             newest_badges=newest_badges,
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
-            )
+           )
 
 
 @view_config(route_name='explore_badges_rss')
@@ -1153,6 +1155,34 @@ def _user_json_generator(request, user):
         'assertions': assertions,
         'percentile': user_info['percentile'],
         'rank': user_info['rank'],
+        'user_count': user_info['user_count'],
+    }
+
+
+def _user_team_json_generator(request, team, user):
+    """ Generate the json of team data """
+    team_id = team.id
+    badges = request.db.get_badges_from_team(team_id)
+    badges_count = len(badges)
+
+    series = request.db.get_series_from_team(team_id)
+    assertions = user.assertions
+    assertion_ids = set([assertion.badge_id for assertion in assertions])
+
+    for elem in series:
+        series_info = []
+
+        perks = elem.perk
+        for perk in perks:
+            series_info.append({
+                'perk': perk.__json__(),
+                'series': elem.__json__(),
+                'is_awarded': perk.badge_id in assertion_ids
+            })
+
+    return {
+        'badges_count': badges_count,
+        'series_info': series_info
     }
 
 
@@ -1252,6 +1282,24 @@ def diff(request):
         user_a_percentile=user_a_percentile,
         user_b_percentile=user_b_percentile,
     )
+
+
+@view_config(route_name='user_team_json', renderer='json')
+def user_team_json(request):
+    """ Render user team info as JSON dump."""
+
+    user = _get_user(request, request.matchdict.get('id'))
+    team = _get_team(request, request.matchdict.get('team_id'))
+
+    if not user:
+        request.response.status = '404 Not Found'
+        return {'error': 'No such user exists.'}
+
+    if user.opt_out and user.email != authenticated_userid(request):
+        request.response.status = '404 Not Found'
+        return {"error": "User has opted out."}
+
+    return _user_team_json_generator(request, team, user)
 
 
 @view_config(route_name='user_json', renderer='json')

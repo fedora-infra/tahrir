@@ -3,7 +3,7 @@ during development of tahrir.
 """
 
 import socket
-hostname = socket.gethostname()
+hostname = socket.gethostname().split('.')[0]
 
 config = dict(
     endpoints={
