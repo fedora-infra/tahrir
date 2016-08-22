@@ -147,7 +147,7 @@
 
   <div class="grid-33">
     <h2>Perk</h2>
-    <p>Add a new Perk</p>
+    <p>Add a new Perk (An element in a Series)</p>
   </div>
 
   <div class="grid-66">

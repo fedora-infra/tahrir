@@ -67,9 +67,7 @@ def _get_team(request, team_id):
     '''Get team for the given team_id'''
     team = request.db.get_team(team_id=team_id)
 
-    if team:
-        return team
-    return None
+    return team
 
 
 def _get_user_badge_info(request, user):
