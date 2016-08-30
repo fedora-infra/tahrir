@@ -14,7 +14,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
@@ -53,7 +53,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
@@ -91,7 +91,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
@@ -115,7 +115,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
@@ -151,7 +151,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
@@ -185,7 +185,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
@@ -233,7 +233,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
@@ -295,7 +295,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
@@ -335,7 +335,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
