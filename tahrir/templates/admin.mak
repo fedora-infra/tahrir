@@ -146,8 +146,8 @@
   <div class="clear"></div>
 
   <div class="grid-33">
-    <h2>Perk</h2>
-    <p>Add a new Perk (An element in a Series)</p>
+    <h2>Milestone</h2>
+    <p>Add a new Milestone (An element in a Series)</p>
   </div>
 
   <div class="grid-66">
@@ -155,20 +155,20 @@
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
-          <td><label for="perk-series-id">Series ID</label></td>
-          <td><input name="perk-series-id" required="required" placeholder="awesome-series"/></td>
+          <td><label for="milestone-series-id">Series ID</label></td>
+          <td><input name="milestone-series-id" required="required" placeholder="awesome-series"/></td>
         </tr>
         <tr>
-          <td><label for="perk-badge-id">Badge ID</label></td>
-          <td><input name="perk-badge-id" required="required" placeholder="awesome-badge"/></td>
+          <td><label for="milestone-badge-id">Badge ID</label></td>
+          <td><input name="milestone-badge-id" required="required" placeholder="awesome-badge"/></td>
         </tr>
         <tr>
-          <td><label for="perk-position">Postion</label></td>
-          <td><input name="perk-position" required="required" placeholder="1"/></td>
+          <td><label for="milestone-position">Postion</label></td>
+          <td><input name="milestone-position" required="required" placeholder="1"/></td>
         </tr>
         <tr>
           <td></td><td>
-            <input name="add-perk" type="submit" value="Add Perk" />
+            <input name="add-milestone" type="submit" value="Add Milestone" />
           </td>
         </tr>
       </table>

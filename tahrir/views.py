@@ -259,22 +259,22 @@ def admin(request):
                 request.session.flash(
                     "Series with name {0} already exists.".format(series_name))
 
-        elif request.POST.get('add-perk'):
+        elif request.POST.get('add-milestone'):
             data = request.POST
-            series_id = data.get('perk-series-id')
-            badge_id = data.get('perk-badge-id')
-            if not request.db.perk_exists_for_badge_series(badge_id,
+            series_id = data.get('milestone-series-id')
+            badge_id = data.get('milestone-badge-id')
+            if not request.db.milestone_exists_for_badge_series(badge_id,
                                                            series_id):
-                position = data.get('perk-position')
-                request.db.create_perk(position=position,
+                position = data.get('milestone-position')
+                request.db.create_milestone(position=position,
                                        series_id=series_id,
                                        badge_id=badge_id)
                 request.session.flash(
-                    "You add badge {0} as perk in series {1}".format(
+                    "You add badge {0} as milestone in series {1}".format(
                         badge_id, series_id))
             else:
                 request.session.flash(
-                    "Badge {0} already added as perk in series {1}".format(
+                    "Badge {0} already added as milestone in series {1}".format(
                         badge_id, series_id))
 
         elif request.POST.get('add-person'):
@@ -1170,12 +1170,12 @@ def _user_team_json_generator(request, team, user):
     for elem in series:
         series_info = []
 
-        perks = elem.perk
-        for perk in perks:
+        milestones = elem.milestone
+        for milestone in milestones:
             series_info.append({
-                'perk': perk.__json__(),
+                'milestone': milestone.__json__(),
                 'series': elem.__json__(),
-                'is_awarded': perk.badge_id in assertion_ids
+                'is_awarded': milestone.badge_id in assertion_ids
             })
 
     return {
