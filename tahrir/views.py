@@ -1,12 +1,10 @@
 import re
 import random
-import transaction
 import types
 import codecs
 import os
 import sqlalchemy as sa
 import velruse
-import json as _json
 import StringIO
 import qrcode as qrcode_module
 import docutils.examples
@@ -16,7 +14,6 @@ from datetime import datetime
 from datetime import timedelta
 from decimal import Decimal, ROUND_UP
 
-from mako.template import Template as t
 from webhelpers import feedgenerator
 from pyramid.view import (
     view_config,
@@ -29,6 +26,7 @@ from pyramid.httpexceptions import (
     HTTPGone,
     HTTPNotFound,
     HTTPForbidden,
+    HTTPMethodNotAllowed,
 )
 
 from pyramid.security import (
@@ -41,16 +39,11 @@ from pyramid.settings import asbool
 
 import tahrir_api.model as m
 
-from tahrir.utils import strip_tags, generate_badge_yaml
-from tahrir_api.utils import badge_name_to_id
-import widgets
+from tahrir.utils import generate_badge_yaml
+from tahrir_api.utils import convert_name_to_id
 import foafutils
 
 from moksha.wsgi.widgets.api import get_moksha_socket, LiveWidget
-
-from sqlalchemy.orm import joinedload
-from sqlalchemy.sql.expression import func
-
 
 
 def _get_user(request, id_or_nickname):
@@ -68,6 +61,13 @@ def _get_user(request, id_or_nickname):
             return request.db.get_person(id=int(id_or_nickname))
         except ValueError:
             return None
+
+
+def _get_team(request, team_id):
+    '''Get team for the given team_id'''
+    team = request.db.get_team(team_id=team_id)
+
+    return team
 
 
 def _get_user_badge_info(request, user):
@@ -227,7 +227,57 @@ def admin(request):
         if token != request.POST['csrf_token']:
             raise HTTPForbidden('CSRF token did not match')
 
-        if request.POST.get('add-person'):
+        if request.POST.get('add-team'):
+            team_name = request.POST.get('team-name')
+            team_id = convert_name_to_id(team_name)
+            if not request.db.team_exists(team_id=team_id):
+                request.db.create_team(name=team_name)
+                request.session.flash(
+                    "You created a team with name {0}".format(team_name))
+            else:
+                request.session.flash(
+                    "Team with name {0} already exists.".format(team_name))
+
+        elif request.POST.get('add-series'):
+            data = request.POST
+            series_name = data.get('series-name')
+            series_id = convert_name_to_id(series_name)
+            if not request.db.series_exists(series_id):
+                description = data.get('series-description')
+                tags = data.get('series-tags')
+                team_id = data.get('series-team-id')
+
+                request.db.create_series(
+                        series_id=series_id,
+                        name=series_name,
+                        desc=description,
+                        tags=tags,
+                        team_id=team_id)
+                request.session.flash(
+                    "You created a series with name {0}".format(series_name))
+            else:
+                request.session.flash(
+                    "Series with name {0} already exists.".format(series_name))
+
+        elif request.POST.get('add-milestone'):
+            data = request.POST
+            series_id = data.get('milestone-series-id')
+            badge_id = data.get('milestone-badge-id')
+            if not request.db.milestone_exists_for_badge_series(badge_id,
+                                                           series_id):
+                position = data.get('milestone-position')
+                request.db.create_milestone(position=position,
+                                       series_id=series_id,
+                                       badge_id=badge_id)
+                request.session.flash(
+                    "You add badge {0} as milestone in series {1}".format(
+                        badge_id, series_id))
+            else:
+                request.session.flash(
+                    "Badge {0} already added as milestone in series {1}".format(
+                        badge_id, series_id))
+
+        elif request.POST.get('add-person'):
             # Email is a required field on the HTML form.
             # Add a Badge to the DB.
             email = request.POST.get('person-email')
@@ -244,7 +294,7 @@ def admin(request):
                 request.session.flash("Person with email {0} already exists.".format(email))
         elif request.POST.get('add-badge'):
             name = request.POST.get('badge-name')
-            idx = badge_name_to_id(name)
+            idx = convert_name_to_id(name)
             if not request.db.badge_exists(idx):
                 # Add a Badge to the DB.
                 request.db.add_badge(name,
@@ -656,7 +706,7 @@ def explore_badges(request):
             newest_badges=newest_badges,
             auth_principals=effective_principals(request),
             awarded_assertions=awarded_assertions,
-            )
+           )
 
 
 @view_config(route_name='explore_badges_rss')
@@ -1103,6 +1153,34 @@ def _user_json_generator(request, user):
         'assertions': assertions,
         'percentile': user_info['percentile'],
         'rank': user_info['rank'],
+        'user_count': user_info['user_count'],
+    }
+
+
+def _user_team_json_generator(request, team, user):
+    """ Generate the json of team data """
+    team_id = team.id
+    badges = request.db.get_badges_from_team(team_id)
+    badges_count = len(badges)
+
+    series = request.db.get_series_from_team(team_id)
+    assertions = user.assertions
+    assertion_ids = set([assertion.badge_id for assertion in assertions])
+
+    for elem in series:
+        series_info = []
+
+        milestones = elem.milestone
+        for milestone in milestones:
+            series_info.append({
+                'milestone': milestone.__json__(),
+                'series': elem.__json__(),
+                'is_awarded': milestone.badge_id in assertion_ids
+            })
+
+    return {
+        'badges_count': badges_count,
+        'series_info': series_info
     }
 
 
@@ -1202,6 +1280,24 @@ def diff(request):
         user_a_percentile=user_a_percentile,
         user_b_percentile=user_b_percentile,
     )
+
+
+@view_config(route_name='user_team_json', renderer='json')
+def user_team_json(request):
+    """ Render user team info as JSON dump."""
+
+    user = _get_user(request, request.matchdict.get('id'))
+    team = _get_team(request, request.matchdict.get('team_id'))
+
+    if not user:
+        request.response.status = '404 Not Found'
+        return {'error': 'No such user exists.'}
+
+    if user.opt_out and user.email != authenticated_userid(request):
+        request.response.status = '404 Not Found'
+        return {"error": "User has opted out."}
+
+    return _user_team_json_generator(request, team, user)
 
 
 @view_config(route_name='user_json', renderer='json')

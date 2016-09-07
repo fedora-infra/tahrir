@@ -14,7 +14,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
@@ -53,7 +53,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
@@ -83,6 +83,100 @@
 
   <div class="clear"></div>
 
+  <!-- TEAM PANEL -->
+
+  <div class="grid-33">
+    <h2>Team</h2>
+    <p>Add a new team</p>
+  </div>
+
+  <div class="grid-66">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+      <table>
+        <tr>
+          <td><label for="team-name">Team Name</label></td>
+          <td><input name="team-name" required="required" placeholder="Creative Team"/></td>
+        </tr>
+        <tr>
+          <td></td><td>
+            <input name="add-team" type="submit" value="Add Team" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <div class="clear"></div>
+
+  <div class="grid-33">
+    <h2>Series</h2>
+    <p>Add a new Series</p>
+  </div>
+
+  <div class="grid-66">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+      <table>
+        <tr>
+          <td><label for="series-name">Series Name</label></td>
+          <td><input name="series-name" required="required" placeholder="Awesome Series"/></td>
+        </tr>
+        <tr>
+          <td><label for="series-description">Series Description</label></td>
+          <td><input name="series-description" required="required" placeholder="This is an awesome series"/></td>
+        </tr>
+        <tr>
+          <td><label for="series-tags">Series Tags</label></td>
+          <td><input name="series-tags" required="required" placeholder="awesome, series"/></td>
+        </tr>
+        <tr>
+          <td><label for="series-team-id">Team ID</label></td>
+          <td><input name="series-team-id" required="required" placeholder="Team Series belongs to"/></td>
+        </tr>
+        <tr>
+          <td></td><td>
+            <input name="add-series" type="submit" value="Add Series" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <div class="clear"></div>
+
+  <div class="grid-33">
+    <h2>Milestone</h2>
+    <p>Add a new Milestone (An element in a Series)</p>
+  </div>
+
+  <div class="grid-66">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+      <table>
+        <tr>
+          <td><label for="milestone-series-id">Series ID</label></td>
+          <td><input name="milestone-series-id" required="required" placeholder="awesome-series"/></td>
+        </tr>
+        <tr>
+          <td><label for="milestone-badge-id">Badge ID</label></td>
+          <td><input name="milestone-badge-id" required="required" placeholder="awesome-badge"/></td>
+        </tr>
+        <tr>
+          <td><label for="milestone-position">Postion</label></td>
+          <td><input name="milestone-position" required="required" placeholder="1"/></td>
+        </tr>
+        <tr>
+          <td></td><td>
+            <input name="add-milestone" type="submit" value="Add Milestone" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <div class="clear"></div>
+
   <!-- BADGE PANEL -->
 
   <div class="grid-33">
@@ -91,7 +185,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
@@ -139,7 +233,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
@@ -201,7 +295,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
@@ -241,7 +335,7 @@
   </div>
 
   <div class="grid-66">
-    <form class="admin-form" method="POST">
+    <form class="admin-form" method="POST" action="${request.route_url('admin')}">
       <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <table>
         <tr>
