@@ -1,3 +1,80 @@
+
+0.9.0
+-----
+
+Pull Requests
+
+- (@decause)        #310, Free as in Freedom
+  https://github.com/fedora-infra/tahrir/pull/310
+- (@ralphbean)      #312, Add a search form to the header..
+  https://github.com/fedora-infra/tahrir/pull/312
+- (@trishnaguha)    #322, Changes for RPM-based distributions
+  https://github.com/fedora-infra/tahrir/pull/322
+- (@trishnaguha)    #324, Changes to fix traceback from dependencies
+  https://github.com/fedora-infra/tahrir/pull/324
+- (@trishnaguha)    #325, Fixes Internal server error #321
+  https://github.com/fedora-infra/tahrir/pull/325
+- (@puiterwijk)     #326, The current code crashes in December as 12+1 > 12
+  https://github.com/fedora-infra/tahrir/pull/326
+- (@puiterwijk)     #327, Fix the monthly report, same breakage
+  https://github.com/fedora-infra/tahrir/pull/327
+- (@sayanchowdhury) #328, fix the percentile for the top users in the leaderboard
+  https://github.com/fedora-infra/tahrir/pull/328
+- (@trishnaguha)    #333, Linking GoBack of datagrepper page to user page
+  https://github.com/fedora-infra/tahrir/pull/333
+- (@cydrobolt)      #335, Change "add assertion" to "award individual badge"
+  https://github.com/fedora-infra/tahrir/pull/335
+- (@sayanchowdhury) #344, Create a function to return a dict of user badge informations
+  https://github.com/fedora-infra/tahrir/pull/344
+- (@sayanchowdhury) #347, Forms to create Teams, Series, Perks and json endpoint for the Paths
+  https://github.com/fedora-infra/tahrir/pull/347
+
+Commits
+
+- 565a65dda Be more careful with this comprehension.
+  https://github.com/fedora-infra/tahrir/commit/565a65dda
+- 59fdefa85 Free as in Freedom
+  https://github.com/fedora-infra/tahrir/commit/59fdefa85
+- 54018f713 Add a search form to the header..
+  https://github.com/fedora-infra/tahrir/commit/54018f713
+- c513c3211 Changes for RPM-based distributions
+  https://github.com/fedora-infra/tahrir/commit/c513c3211
+- 45d0c3b61 Changes to fix traceback from dependencies
+  https://github.com/fedora-infra/tahrir/commit/45d0c3b61
+- 7fb633f3e Fixes Internal server error #321
+  https://github.com/fedora-infra/tahrir/commit/7fb633f3e
+- 11c8da3a7 Add a note about fedora-apps.
+  https://github.com/fedora-infra/tahrir/commit/11c8da3a7
+- bc055fda1 Merge branch 'develop' of github.com:fedora-infra/tahrir into develop
+  https://github.com/fedora-infra/tahrir/commit/bc055fda1
+- 90b28c8e3 The current code crashes in December as 12+1 > 12
+  https://github.com/fedora-infra/tahrir/commit/90b28c8e3
+- 9414d86ae Fix the monthly report, same breakage
+  https://github.com/fedora-infra/tahrir/commit/9414d86ae
+- fba45ed4d Also expose tags over the JSON api.
+  https://github.com/fedora-infra/tahrir/commit/fba45ed4d
+- 70593ccfe Merge branch 'develop' of github.com:fedora-infra/tahrir into develop
+  https://github.com/fedora-infra/tahrir/commit/70593ccfe
+- 5a198ed36 fix the percentile for the top users in the leaderboard
+  https://github.com/fedora-infra/tahrir/commit/5a198ed36
+- 902fe55d3 Linking GoBack of datagrepper page to user page
+  https://github.com/fedora-infra/tahrir/commit/902fe55d3
+- 512ac2ccd Change "add assertion" to "award individual badge"
+  https://github.com/fedora-infra/tahrir/commit/512ac2ccd
+- f29b6431b Create a function to return a dict of user badge informations
+  https://github.com/fedora-infra/tahrir/commit/f29b6431b
+- 594a8b922 Add the form to add team
+  https://github.com/fedora-infra/tahrir/commit/594a8b922
+- a3b5c8965 Add forms for adding perk and series
+  https://github.com/fedora-infra/tahrir/commit/a3b5c8965
+- 0e033ce8e Add a new endpoint to pull out the json for team user data
+  https://github.com/fedora-infra/tahrir/commit/0e033ce8e
+- 3fd168505 Minor fixes to template and remove redundant code
+  https://github.com/fedora-infra/tahrir/commit/3fd168505
+- 70aeaacb7 Explicitly mentions the route name in the template
+  https://github.com/fedora-infra/tahrir/commit/70aeaacb7
+- 03040ced0 Change Perk to Milestone
+  https://github.com/fedora-infra/tahrir/commit/03040ced0
 Changelog
 =========
 
