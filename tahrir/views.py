@@ -107,7 +107,7 @@ def _get_user_badge_info(request, user):
         percent_earned=percent_earned,
         rank=rank,
         user_count=user_count,
-        percentile=str(percentile)
+        percentile=percentile
     )
 
 
@@ -1151,7 +1151,7 @@ def _user_json_generator(request, user):
         'avatar': user.avatar_url(int(request.GET.get('size', 100))),
         'percent_earned': user_info['percent_earned'],
         'assertions': assertions,
-        'percentile': user_info['percentile'],
+        'percentile': str(user_info['percentile']),
         'rank': user_info['rank'],
         'user_count': user_info['user_count'],
     }
