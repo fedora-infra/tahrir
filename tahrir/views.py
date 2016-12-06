@@ -1437,6 +1437,7 @@ def report_year_month(request):
     year = int(request.matchdict.get('year'))
     month = int(request.matchdict.get('month'))
 
+    now = datetime.utcnow()
     start = date(year, month, 1)
     if now.month == 12:
         stop = date(year + 1, 1, 1) - timedelta(days=1)
