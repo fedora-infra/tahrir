@@ -97,7 +97,7 @@ def _get_user_badge_info(request, user):
 
     try:
         percentile = Decimal(float(rank) / float(user_count)).quantize(
-            Decimal('.01'), rounding=ROUND_UP)
+            Decimal('.0001'), rounding=ROUND_UP) * 100
     except ZeroDivisionError:
         percentile = 0
 
