@@ -1,0 +1,28 @@
+---
+- name: Setup development instance of tahrir
+  command: python setup.py develop
+  args:
+      chdir: /vagrant
+
+- name: Install PIP deps
+  pip:
+    name: "{{ item }}"
+  with_items:
+      - twisted
+
+- command: cp /vagrant/development.ini.example /vagrant/development.ini
+  args:
+      creates: /vagrant/development.ini
+
+- replace:
+    name: /vagrant/development.ini
+    regexp: '^host\s=\slocalhost$'
+    replace: 'host\s=\s0\.0\.0\.0'
+
+- command: cp /vagrant/secret.ini.example /vagrant/secret.ini
+  args:
+      creates: /vagrant/secret.ini
+
+- command: initialize_tahrir_db development.ini
+  args:
+      chdir: /vagrant
