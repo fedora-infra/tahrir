@@ -9,7 +9,7 @@ requires = [
     'pyramid',
     'pyramid_mako',
     'tahrir_api',
-    'SQLAlchemy >= 0.9.0',
+    'SQLAlchemy >= 0.9.1',
     'transaction',
     'pyramid_tm',
     'zope.sqlalchemy',
@@ -35,7 +35,7 @@ requires = [
     ]
 
 setup(name='tahrir',
-      version='0.9.0',
+      version='0.9.1',
       description='A pyramid app for issuing your own Open Badges',
       long_description=README,
       license="AGPLv3+ with additional permission",

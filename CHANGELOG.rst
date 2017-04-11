@@ -1,4 +1,33 @@
 
+0.9.1
+-----
+
+Pull Requests
+
+- (@sayanchowdhury) #350, Convert Decimal to string only when returning json
+  https://github.com/fedora-infra/tahrir/pull/350
+- (@dhgutteridge)   #356, Fix calculation of percentage of top users in the leaderboard
+  https://github.com/fedora-infra/tahrir/pull/356
+- (@puiterwijk)     #353, Fix breaking bugs
+  https://github.com/fedora-infra/tahrir/pull/353
+- (@ryanlerch)      #362, Added Vagrant setup for hacking on Tahrir
+  https://github.com/fedora-infra/tahrir/pull/362
+- (@sayanchowdhury) #365, Fix the json output for series
+  https://github.com/fedora-infra/tahrir/pull/365
+
+Commits
+
+- 480dc9081 Convert Decimal to string when returning json
+  https://github.com/fedora-infra/tahrir/commit/480dc9081
+- 67543ff59 Fix breaking bugs
+  https://github.com/fedora-infra/tahrir/commit/67543ff59
+- cadb1067a Fix calculation of percentage of top users in the leaderboard
+  https://github.com/fedora-infra/tahrir/commit/cadb1067a
+- 5b414c4d7 Added Vagrant setup for hacking on Tahrir
+  https://github.com/fedora-infra/tahrir/commit/5b414c4d7
+- 61ed24651 Fix the json out for series
+  https://github.com/fedora-infra/tahrir/commit/61ed24651
+
 0.9.0
 -----
 
