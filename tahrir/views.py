@@ -1167,16 +1167,17 @@ def _user_team_json_generator(request, team, user):
     assertions = user.assertions
     assertion_ids = set([assertion.badge_id for assertion in assertions])
 
+    series_info = []
     for elem in series:
-        series_info = []
-
+        milestones_info = []
         milestones = elem.milestone
         for milestone in milestones:
-            series_info.append({
+            milestones_info.append({
                 'milestone': milestone.__json__(),
                 'series': elem.__json__(),
                 'is_awarded': milestone.badge_id in assertion_ids
             })
+        series_info.append(milestones_info)
 
     return {
         'badges_count': badges_count,
