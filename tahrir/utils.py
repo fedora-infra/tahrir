@@ -88,7 +88,7 @@ def generate_badge_yaml(postdict):
 def make_avatar_method(cache):
 
     @cache.cache_on_arguments()
-    def _avatar_function(email, size):
+    def _avatar_function(openid, size):
         request = pyramid.threadlocal.get_current_request()
         absolute_default = request.registry.settings.get(
             'tahrir.default_avatar',
@@ -105,21 +105,13 @@ def make_avatar_method(cache):
 
         query = urllib.urlencode(query)
 
-        # Use md5 for emails, and sha256 for openids.
-        # We're really using openids, so...
-        #hash = md5(email).hexdigest()
-        hash = sha256(email).hexdigest()
-
-        # TODO This next line is temporary and can be removed.  We do
-        # libravatar ourselves here by hand to avoid pyDNS issues on epel6.
-        # Once those are resolved we can use pylibravatar again.
-        return "https://seccdn.libravatar.org/avatar/%s?%s" % (hash, query)
-
-        gravatar_url = "https://secure.gravatar.com/avatar/%s?%s" % (hash, query)
+        gravatar_email = openid.split('://')[1].replace('.id.','@')
+        gravatar_hash = md5(gravatar_email).hexdigest()
+        gravatar_url = "https://secure.gravatar.com/avatar/%s?%s" % (gravatar_hash, query)
 
         if libravatar:
             return libravatar.libravatar_url(
-                email=email,
+                openid=openid,
                 size=size,
                 default=gravatar_url,
             )
