@@ -100,7 +100,7 @@
               Export Badges
             </button>
           % endif
-          <form method="POST" action="https://www.libravatar.org/openid/login/">
+          <form method="GET" action="https://www.libravatar.org/openid/login/">
             <input type="hidden" name="openid_identifier" value="${user.openid_identifier}"/>
             <input
                class="pretty-submit"
