@@ -14,7 +14,7 @@ You can see Tahrir deployed in production `here
 <https://badges.stg.fedoraproject.org/>`_.
 
 (On the side, if you have ideas for new *Fedora* badges, you can file them on
-`this trac instance <https://fedorahosted.org/fedora-badges/>`_.)
+`this Pagure project <https://pagure.io/Fedora-Badges>`_.)
 
 The development team hangs out in ``#fedora-apps`` on freenode.  Join and ask
 if you have any questions!
