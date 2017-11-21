@@ -1,4 +1,21 @@
 
+0.9.2
+-----
+
+Pull Requests
+
+- (@fmarier)        #368, Fix for CSRF errors on libravatar.org
+  https://github.com/fedora-infra/tahrir/pull/368
+- (@mavit)	    #373, Site fedorahosted.org went away, so update links.
+  https://github.com/fedora-infra/tahrir/pull/373
+
+Commits
+
+- 97ab9d09f Fix for CSRF errors on libravatar.org
+  https://github.com/fedora-infra/tahrir/commit/97ab9d09f
+- 5ea5ae7dc Site fedorahosted.org went away, so update links.
+  https://github.com/fedora-infra/tahrir/commit/5ea5ae7dc
+
 0.9.1
 -----
 
