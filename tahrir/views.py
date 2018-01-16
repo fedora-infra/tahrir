@@ -819,7 +819,16 @@ def badge(request):
             )
 
 
-def _badge_json_generator(request, badge):
+def _badge_json_generator(request, badge, withasserts=True):
+    if not withasserts:
+        return {
+            'id': badge.id,
+            'name': badge.name,
+            'description': badge.description,
+            'image': badge.image,
+            'tags': badge.tags,
+        }
+
     try:
         assertions = sorted(badge.assertions,
                             cmp=lambda x, y: cmp(x.issued_on, y.issued_on))
@@ -1143,7 +1152,8 @@ def _user_json_generator(request, user):
     assertions = []
     for assertion in user.assertions:
         issued = {'issued': float(assertion.issued_on.strftime('%s'))}.items()
-        _badged = _badge_json_generator(request, assertion.badge).items()
+        _badged = _badge_json_generator(
+            request, assertion.badge, withasserts=False).items()
         assertions.append(dict(issued + _badged))
 
     return {
