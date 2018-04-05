@@ -43,8 +43,6 @@ from tahrir.utils import generate_badge_yaml
 from tahrir_api.utils import convert_name_to_id
 import foafutils
 
-from moksha.wsgi.widgets.api import get_moksha_socket, LiveWidget
-
 
 def _get_user(request, id_or_nickname):
     '''Attempt to get a user by their id or nickname, returning None if
@@ -419,17 +417,11 @@ def index(request):
         stop=stop,
     )
 
-    # Register our websocket handler callback
-    if asbool(request.registry.settings['tahrir.use_websockets']):
-        socket = make_websocket_handler(request.registry.settings)
-        socket.display()
-
     return dict(
         auth_principals=effective_principals(request),
         latest_awards=latest_awards,
         weekly_leaders=weekly_leaders,
         monthly_leaders=monthly_leaders,
-        moksha_socket=get_moksha_socket(request.registry.settings),
         n=n,
     )
 
@@ -1682,45 +1674,6 @@ def assertion_widget(request):
 
     assertion = get_assertion()
     return dict(assertion=assertion)
-
-
-def make_websocket_handler(settings):
-    """ Add a js snippet that listens over websockets to fedmsg.
-
-    It animates the "latest awards" pane on the frontpage.
-    """
-
-    class WebsocketHandler(LiveWidget):
-        topic = settings.get("tahrir.websocket.topic")
-        onmessage = """
-        (function(json){
-            setTimeout(function() {
-                var user = json.msg.user.badges_user_id;
-                var badge = json.msg.badge.badge_id;
-                notifs_count = notifs_count + 1;
-                $.ajax({
-                    url: "%s/_w/assertion/" + user + "/" + badge,
-                    dataType: "html",
-                    success: function (html) {
-                        favicon.badge(notifs_count); // animate the favicon
-                        $("#latest-awards").prepend(html);
-                        $("#latest-awards > div:first-child").hide();
-                        $("#latest-awards > div:first-child").slideDown("slow");
-                        $("#latest-awards > div:last-child").slideUp('slow', complete=function() {
-                            $("#latest-awards > div:last-child").remove();
-                        });
-                    }
-                });
-            }, 1000)
-        })(json);
-        """ % settings['tahrir.base_url']
-        backend = "websocket"
-
-        # Don't actually produce anything when you call .display() on this widget.
-        inline_engine_name = "mako"
-        template = ""
-
-    return WebsocketHandler
 
 
 def modify_rst(rst):
