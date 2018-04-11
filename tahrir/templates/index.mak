@@ -62,9 +62,6 @@
     </div> <!-- End shadow -->
   </div>
 
-  <!-- Set up the moksha live socket -->
-  ${moksha_socket.display() | n}
-
   <div class="clear spacer"></div>
 </div>
 

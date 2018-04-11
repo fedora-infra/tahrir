@@ -19,7 +19,6 @@ requires = [
     "dogpile.cache",
     'docutils',
     "python-dateutil",
-    "moksha.wsgi>=1.2.1",
     "webhelpers",
     "requests",
     "rdflib<=4.1.2",

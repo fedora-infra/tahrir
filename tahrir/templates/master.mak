@@ -111,7 +111,7 @@ import json
 			{
 				tryBackgroundLogin('/login', loginSuccess, null);
 			}
-		}	
+		}
 	</script>
   </head>
   <body onload="handleLogin()">
@@ -168,7 +168,7 @@ import json
 
 
         <!-- End of flash message template -->
-      
+
       </div> <!-- End grid-container -->
 
     </div> <!-- End page -->
