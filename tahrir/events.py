@@ -10,8 +10,6 @@ from pyramid.security import (
 
 from pyramid.settings import asbool
 
-import tw2.jquery
-
 import tahrir.views
 
 from pkg_resources import get_distribution
@@ -52,6 +50,3 @@ def inject_globals(event):
     event['gplus'] = asbool(settings.get('tahrir.social.gplus'))
 
     event['auth_principals'] = effective_principals(request)
-
-    # Cause jquery.js to be injected into the page.
-    tw2.jquery.jquery_js.display()
