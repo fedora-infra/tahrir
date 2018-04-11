@@ -1,5 +1,9 @@
 import cgi
-from HTMLParser import HTMLParser
+
+try:
+    from html.parser import HTMLParser
+except ImportError:
+    from HTMLParser import HTMLParser
 
 import math
 import time

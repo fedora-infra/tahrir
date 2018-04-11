@@ -1,6 +1,13 @@
+from __future__ import print_function
+
 import os
 import hashlib
-import ConfigParser
+
+try:
+    import configparser as ConfigParser
+except ImportError:
+    import ConfigParser
+
 
 import dogpile.cache
 import dogpile.cache.util
@@ -18,7 +25,7 @@ from .utils import (
     make_relative_time_property,
     make_openid_identifier_property,
 )
-import notifications
+from . import notifications
 
 from tahrir_api.dbapi import TahrirDatabase
 import tahrir_api.model
@@ -86,14 +93,14 @@ def main(global_config, **settings):
         default_path = os.path.abspath("secret.ini")
         secret_path = settings.get('secret_config_path', default_path)
         # TODO: There is a better way to log this message than print.
-        print "Reading secrets from %r" % secret_path
+        print("Reading secrets from %r" % secret_path)
         parser = ConfigParser.ConfigParser()
         parser.read(secret_path)
         secret_config = dict(parser.items("tahrir"))
         settings.update(secret_config)
     except Exception as e:
         # TODO: There is a better way to log this message than print.
-        print 'Failed to load secret.ini.  Reason: %r' % str(e)
+        print('Failed to load secret.ini.  Reason: %r' % str(e))
 
 
     authn_policy = AuthTktAuthenticationPolicy(

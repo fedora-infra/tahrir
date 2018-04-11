@@ -5,7 +5,6 @@ import codecs
 import os
 import sqlalchemy as sa
 import velruse
-import StringIO
 import qrcode as qrcode_module
 import docutils.examples
 import markupsafe
@@ -13,6 +12,11 @@ from datetime import date
 from datetime import datetime
 from datetime import timedelta
 from decimal import Decimal, ROUND_UP
+
+try:
+    from io import StringIO
+except ImportError:
+    from StringIO import StringIO
 
 from webhelpers import feedgenerator
 from pyramid.view import (
@@ -474,7 +478,7 @@ def invitation_qrcode(request):
 
     target = request.resource_url(request.context, 'claim')
     img = qrcode_module.make(target)
-    stringstream = StringIO.StringIO()
+    stringstream = StringIO()
     img.save(stringstream)
     return Response(
         body=stringstream.getvalue(),
