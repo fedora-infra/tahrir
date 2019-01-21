@@ -1,0 +1,10 @@
+[run]
+branch = True
+source = tahrir
+
+[report]
+precision = 2
+fail_under = 5.2
+exclude_lines =
+    pragma: no cover
+show_missing = True
