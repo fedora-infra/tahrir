@@ -1,7 +1,12 @@
 *.swp
 *.pyc
 *.pyo
+.coverage
+.tox
+coverage.xml
 data
+docs/_build
+htmlcov
 *.swo
 *.db
 *.db-journal

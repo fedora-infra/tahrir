@@ -164,6 +164,15 @@ following command:
 Once that is running, simply go to http://localhost:8000/ in your browser on
 your host to see your running tahrir test instance.
 
+
+Run the tests
+-------------
+
+You can use ``tox`` to run the tests::
+
+   $ tox
+
+
 Windows (32 and 64 bit versions):
 ---------------------------------
 
