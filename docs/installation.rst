@@ -15,11 +15,12 @@ Tahrir is `packaged for Fedora and epel6
 <https://apps.fedoraproject.org/packages/python-tahrir>`_. The authors use an
 `Ansible <http://ansibleworks.com>`_ playbook to deploy Tahrir in production.
 
-You can find our repo `here
-<http://infrastructure.fedoraproject.org/infra/ansible/>`_, our playbook `here
+You can look at Fedora's `Ansible repository
+<http://infrastructure.fedoraproject.org/infra/ansible/>`_, `Tahrir playbook
 <http://infrastructure.fedoraproject.org/infra/ansible/playbooks/groups/badges-web.yml>`_,
-and our Tahrir Ansible role `here
-<http://infrastructure.fedoraproject.org/infra/ansible/roles/badges-frontend/>`_.
+and `Tahrir Ansible role
+<http://infrastructure.fedoraproject.org/infra/ansible/roles/badges-frontend/>`_ to learn how
+Fedora has deployed the application.
 
 Configuration
 -------------
