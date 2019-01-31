@@ -1006,27 +1006,6 @@ def user_rss(request):
     )
 
 
-@view_config(route_name='user_foaf')
-def user_foaf(request):
-    """ Render per-user foaf. """
-    user_id = request.matchdict.get('id')
-    user = _get_user(request, user_id)
-
-    if not user:
-        raise HTTPNotFound("No such user %r" % user_id)
-
-    if user.opt_out == True and user.email != authenticated_userid(request):
-        raise HTTPNotFound("User %r has opted out." % user_id)
-
-    body = foafutils.generate_foaf_file(user)
-
-    return Response(
-        body=body,
-        content_type='application/rdf',
-        charset='utf-8',
-    )
-
-
 @view_config(route_name='user', renderer='user.mak')
 def user(request):
     """Render user info page."""
