@@ -6,8 +6,7 @@
 
 - name: Install PIP deps
   pip:
-    name: "{{ item }}"
-  with_items:
+    name:
       - twisted
 
 - command: cp /vagrant/development.ini.example /vagrant/development.ini
