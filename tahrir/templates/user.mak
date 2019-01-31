@@ -51,7 +51,6 @@
             View user as:
             <a href="${request.route_url('user_json', id=user.nickname or user.id)}">JSON</a>,
             <a href="${request.route_url('user_rss', id=user.nickname or user.id)}">RSS</a>,
-            <a href="${request.route_url('user_foaf', id=user.nickname or user.id)}">RDF</a>
           </p>
         </div>
         % if logged_in == user.email:
