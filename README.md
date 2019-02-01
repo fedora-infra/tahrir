@@ -9,5 +9,5 @@ Tahrir is [Arabic for Liberation](http://en.wikipedia.org/wiki/Tahrir_Square).
 ## Contributing
 
 To get started contributing content, see the [Contributing
-guide](https://github.com/fedora-infra/tahrir/blob/master/CONTRIBUTING.md),
-To setup your development environment, see the [Developing guide](https://github.com/fedora-infra/tahrir/blob/master/DEVELOPING.md)
+guide](https://github.com/fedora-infra/tahrir/blob/develop/CONTRIBUTING.md),
+To setup your development environment, see the [Developing guide](https://github.com/fedora-infra/tahrir/blob/develop/DEVELOPING.md)
