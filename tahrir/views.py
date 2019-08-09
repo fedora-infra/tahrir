@@ -45,7 +45,6 @@ import tahrir_api.model as m
 
 from tahrir.utils import generate_badge_yaml
 from tahrir_api.utils import convert_name_to_id
-import foafutils
 
 
 def _get_user(request, id_or_nickname):
