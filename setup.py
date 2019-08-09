@@ -13,7 +13,6 @@ requires = [
     'transaction',
     'pyramid_tm',
     'zope.sqlalchemy',
-    "weberror",
     'velruse',
     "qrcode",
     "dogpile.cache",
