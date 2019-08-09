@@ -12,13 +12,14 @@ from datetime import date
 from datetime import datetime
 from datetime import timedelta
 from decimal import Decimal, ROUND_UP
+from pytz import UTC
 
 try:
     from io import StringIO
 except ImportError:
     from StringIO import StringIO
 
-from webhelpers import feedgenerator
+from feedgen.feed import FeedGenerator
 from pyramid.view import (
     view_config,
     forbidden_view_config,
@@ -712,30 +713,29 @@ def explore_badges_rss(request):
                            key=lambda badge: badge.created_on,
                            reverse=True)[:20]
 
-    feed = feedgenerator.Rss201rev2Feed(
-        title=u"Newest badges Feed",
-        link=request.route_url('explore_badges_rss'),
-        description=u"Latest badges of the application",
-        language=u"en",
-    )
+    feed = FeedGenerator()
+    feed.title("Newest badges Feed")
+    feed.link(href=request.route_url('explore_badges_rss'), rel="self")
+    feed.subtitle("Latest badges of the application")
+    feed.language=("en")
 
     description_template = "<img src='%s' alt='%s' />%s"
 
     for badge in newest_badges:
         url = request.route_url('badge', id=badge.id)
-        feed.add_item(
-            title="New badge: %s !" % badge.name,
-            link=url,
-            pubdate=badge.created_on,
-            description=description_template % (
-                badge.image,
-                badge.name,
-                badge.description,
-            )
-        )
+        entry = feed.add_entry()
+        entry.title("New badge: %s !" % badge.name)
+        entry.link(href=url)
+        pubdate = badge.created_on.replace(tzinfo=UTC)
+        entry.published(pubdate)
+        entry.description(description_template % (
+            badge.image,
+            badge.name,
+            badge.description,
+        ))
 
     return Response(
-        body=feed.writeString('utf-8'),
+        body=feed.rss_str(pretty=True),
         content_type='application/rss+xml',
         charset='utf-8',
     )
@@ -909,33 +909,36 @@ def badge_rss(request):
         raise HTTPNotFound("No such badge %r" % badge_id)
 
     comparator = lambda x, y: cmp(x.issued_on, y.issued_on)
-    sorted_assertions = sorted(badge.assertions, cmp=comparator, reverse=True)
+    # this gives us the assertions sorted *earliest first*. feedgen's
+    # default when adding entries is to prepend - put the new item at
+    # the top of the feed. so as we iterate over this and add items to
+    # the feed, we add each newer assertion to the front of the feed
+    sorted_assertions = sorted(badge.assertions, cmp=comparator)
 
-    feed = feedgenerator.Rss201rev2Feed(
-        title=u"Badges Feed for %s" % badge.name,
-        link=request.route_url('badge', id=badge.id),
-        description=u"Latest recipients of the badge %s" % badge.name,
-        language=u"en",
-    )
+    feed = FeedGenerator()
+    feed.title("Badges Feed for %s" % badge.name)
+    feed.link(href=request.route_url('badge', id=badge.id), rel="self")
+    feed.subtitle("Latest recipients of the badge %s" % badge.name)
+    feed.language("en")
 
     description_template = "<img src='%s' alt='%s' />%s"
 
     for assertion in sorted_assertions:
         url = request.route_url(
             'user', id=assertion.person.nickname or assertion.person.id)
-        feed.add_item(
-            title=assertion.person.nickname,
-            link=url,
-            pubdate=assertion.issued_on,
-            description=description_template % (
-                assertion.person.avatar_url(128),
-                assertion.person.nickname,
-                assertion.person.nickname,
-            )
-        )
+        entry = feed.add_entry()
+        entry.title(assertion.person.nickname)
+        entry.link(href=url)
+        pubdate = assertion.issued_on.replace(tzinfo=UTC)
+        entry.published(pubdate)
+        entry.description(description_template % (
+            assertion.person.avatar_url(128),
+            assertion.person.nickname,
+            assertion.person.nickname,
+        ))
 
     return Response(
-        body=feed.writeString('utf-8'),
+        body=feed.rss_str(pretty=True),
         content_type='application/rss+xml',
         charset='utf-8',
     )
@@ -974,32 +977,35 @@ def user_rss(request):
         raise HTTPNotFound("User %r has opted out." % user_id)
 
     comparator = lambda x, y: cmp(x.issued_on, y.issued_on)
-    sorted_assertions = sorted(user.assertions, cmp=comparator, reverse=True)
+    # this gives us the assertions sorted *earliest first*. feedgen's
+    # default when adding entries is to prepend - put the new item at
+    # the top of the feed. so as we iterate over this and add items to
+    # the feed, we add each newer assertion to the front of the feed
+    sorted_assertions = sorted(user.assertions, cmp=comparator)
 
-    feed = feedgenerator.Rss201rev2Feed(
-        title=u"Badges Feed for %s" % user.nickname,
-        link=request.route_url('user', id=user.nickname or user.id),
-        description=u"The latest Fedora Badges obtained by %s" % user.nickname,
-        language=u"en",
-    )
+    feed = FeedGenerator()
+    feed.title("Badges Feed for %s" % user.nickname)
+    feed.link(href=request.route_url('user', id=user.nickname or user.id), rel="self")
+    feed.subtitle("The latest Fedora Badges obtained by %s" % user.nickname)
+    feed.language("en")
 
     description_template = "<img src='%s' alt='%s'/>%s -- %s"
 
     for assertion in sorted_assertions:
-        feed.add_item(
-            title=assertion.badge.name,
-            link=request.route_url('badge', id=assertion.badge.id),
-            pubdate=assertion.issued_on,
-            description=description_template % (
-                assertion.badge.image,
-                assertion.badge.name,
-                assertion.badge.name,
-                assertion.badge.description,
-            )
-        )
+        entry = feed.add_entry()
+        entry.title(assertion.badge.name)
+        entry.link(href=request.route_url('badge', id=assertion.badge.id))
+        pubdate = assertion.issued_on.replace(tzinfo=UTC)
+        entry.published(pubdate)
+        entry.description(description_template % (
+            assertion.badge.image,
+            assertion.badge.name,
+            assertion.badge.name,
+            assertion.badge.description,
+        ))
 
     return Response(
-        body=feed.writeString('utf-8'),
+        body=feed.rss_str(pretty=True),
         content_type='application/rss+xml',
         charset='utf-8',
     )
