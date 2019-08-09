@@ -18,9 +18,10 @@ requires = [
     "dogpile.cache",
     'docutils',
     "python-dateutil",
-    "webhelpers",
+    "feedgen",
     "requests",
     "rdflib<=4.1.2",
+    "pytz",
 
     # For qrcode to work from PyPI, you also need Pillow.
     # This is handled for us in Fedora because python-qrcode pulls in the
