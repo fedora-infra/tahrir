@@ -1,58 +1,21 @@
+from __future__ import absolute_import
 import cgi
-
-try:
-    from html.parser import HTMLParser
-except ImportError:
-    from HTMLParser import HTMLParser
 
 import math
 import time
 import datetime
 import dateutil.relativedelta
-import urllib
+import six.moves.urllib.parse
 from hashlib import md5, sha256
 
 import pyramid.threadlocal
+import six
 
 libravatar = None
 try:
     import libravatar
 except ImportError:
     pass
-
-
-class MLStripper(HTMLParser):
-
-    def __init__(self):
-        self.reset()
-        self.fed = []
-
-    def handle_data(self, d):
-        self.fed.append(d)
-
-    def get_data(self):
-        return ''.join(self.fed)
-
-
-def _strip_tags(html):
-    s = MLStripper()
-    s.feed(html)
-    return s.get_data()
-
-
-def strip_tags(_d):
-    d = {}
-    for k, v in _d.items():
-        if type(v) == dict:
-            d[k] = strip_tags(v)
-        elif type(v) == list:
-            d[k] = map(strip_tags, v)
-        elif isinstance(v, cgi.FieldStorage):
-            d[k] = v
-        else:
-            d[k] = _strip_tags(v)
-
-    return d
 
 
 def generate_badge_yaml(postdict):
@@ -107,7 +70,7 @@ def make_avatar_method(cache):
             # Make it big so we can downscale it as we please
             query['s'] = 312
 
-        query = urllib.urlencode(query)
+        query = six.moves.urllib.parse.urlencode(query)
 
         # Use md5 for emails, and sha256 for openids.
         # We're really using openids, so...
@@ -132,9 +95,7 @@ def make_avatar_method(cache):
 
     def avatar_method(self, size):
         # dogpile.cache can barf on unicode, so do this ourselves.
-        ident = self.openid_identifier
-        if isinstance(ident, unicode):
-            ident = ident.encode('utf-8')
+        ident = str_to_bytes(self.openid_identifier)
         # Call the cached workhorse function
         return _avatar_function(ident, size)
 
@@ -197,3 +158,24 @@ def make_openid_identifier_property(identifier):
         return "http://%s.%s" % (self.nickname, domain)
 
     return openid_identifier
+
+
+def merge_dicts(dict1, dict2):
+    """
+    Combine two dicts, in a way that works with Python 2 and 3. In
+    3.5+ you can just do z = {**x, **y}, so when we no longer care
+    about compatibility before 3.5 we can replace use of this.
+    """
+    ret = dict1.copy()
+    ret.update(dict2)
+    return ret
+
+
+def str_to_bytes(input):
+    """If input is unicode-type (unicode on Python 2, str on Python
+    3), encodes it and returns the result. Otherwise just passes it
+    through. Needed to deal with dogpile key mangling.
+    """
+    if isinstance(input, six.text_type):
+        input = input.encode('utf-8')
+    return input

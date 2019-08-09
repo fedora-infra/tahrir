@@ -25,7 +25,7 @@
     <div class="shadow">
       <h1 class="section-header">Weekly Leaders</h1>
       <div class="padded-content">
-        % for person in weekly_leaders.keys()[:n]:
+        % for person in list(weekly_leaders.keys())[:n]:
           <div class="grid-container">
             ${self.functions.avatar_thumbnail(person, 64, 33)}
             <div class="grid-66 text-64">
@@ -46,7 +46,7 @@
     <div class="shadow">
       <h1 class="section-header">Monthly Leaders</h1>
       <div class="padded-content">
-        % for person in monthly_leaders.keys()[:n]:
+        % for person in list(monthly_leaders.keys())[:n]:
           <div class="grid-container">
             ${self.functions.avatar_thumbnail(person, 64, 33)}
             <div class="grid-66 text-64">

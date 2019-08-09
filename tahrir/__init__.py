@@ -1,13 +1,10 @@
 from __future__ import print_function
+from __future__ import absolute_import
 
 import os
 import hashlib
 
-try:
-    import configparser as ConfigParser
-except ImportError:
-    import ConfigParser
-
+from six.moves.configparser import ConfigParser
 
 import dogpile.cache
 import dogpile.cache.util
@@ -24,6 +21,7 @@ from .utils import (
     make_avatar_method,
     make_relative_time_property,
     make_openid_identifier_property,
+    str_to_bytes,
 )
 from . import notifications
 
@@ -40,12 +38,12 @@ def main(global_config, **settings):
     """
 
     cache = dogpile.cache.make_region(
-        key_mangler=dogpile.cache.util.sha1_mangle_key)
+        key_mangler=lambda x: dogpile.cache.util.sha1_mangle_key(str_to_bytes(x)))
     tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
     tahrir_api.model.Person.email_md5 = property(
-        lambda self: hashlib.md5(self.email).hexdigest())
+        lambda self: hashlib.md5(str_to_bytes(self.email)).hexdigest())
     tahrir_api.model.Person.email_sha1 = property(
-        lambda self: hashlib.sha1(self.email).hexdigest())
+        lambda self: hashlib.sha1(str_to_bytes(self.email)).hexdigest())
 
     identifier = settings.get('tahrir.openid_identifier')
     tahrir_api.model.Person.openid_identifier =\
@@ -94,7 +92,7 @@ def main(global_config, **settings):
         secret_path = settings.get('secret_config_path', default_path)
         # TODO: There is a better way to log this message than print.
         print("Reading secrets from %r" % secret_path)
-        parser = ConfigParser.ConfigParser()
+        parser = ConfigParser()
         parser.read(secret_path)
         secret_config = dict(parser.items("tahrir"))
         settings.update(secret_config)
@@ -208,10 +206,7 @@ def groupfinder(userid, request):
     is listed as an admin in the config file (tahrir.ini).
     This is the callback function used by the authorization
     policy."""
-    admins = map(
-        str.strip,
-        request.registry.settings['tahrir.admin'].split(','),
-    )
+    admins = [admin.strip() for admin in request.registry.settings['tahrir.admin'].split(',')]
     if userid in admins:
         return ['group:admins']
     else:
