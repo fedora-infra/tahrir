@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import re
 import random
 import types
@@ -8,6 +9,7 @@ import velruse
 import qrcode as qrcode_module
 import docutils.examples
 import markupsafe
+import six
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
@@ -44,7 +46,7 @@ from pyramid.settings import asbool
 
 import tahrir_api.model as m
 
-from tahrir.utils import generate_badge_yaml
+from tahrir.utils import generate_badge_yaml, merge_dicts
 from tahrir_api.utils import convert_name_to_id
 
 
@@ -586,7 +588,7 @@ def leaderboard_json(request):
         leaderboard = leaderboard[:limit]
 
     ret = [
-        dict(user_to_rank[p].items() + [('nickname', p.nickname)])
+        merge_dicts(user_to_rank[p], {'nickname': p.nickname})
         for p in leaderboard if p in user_to_rank
     ]
 
@@ -908,12 +910,11 @@ def badge_rss(request):
     if not badge:
         raise HTTPNotFound("No such badge %r" % badge_id)
 
-    comparator = lambda x, y: cmp(x.issued_on, y.issued_on)
     # this gives us the assertions sorted *earliest first*. feedgen's
     # default when adding entries is to prepend - put the new item at
     # the top of the feed. so as we iterate over this and add items to
     # the feed, we add each newer assertion to the front of the feed
-    sorted_assertions = sorted(badge.assertions, cmp=comparator)
+    sorted_assertions = sorted(badge.assertions, key=lambda x: x.issued_on)
 
     feed = FeedGenerator()
     feed.title("Badges Feed for %s" % badge.name)
@@ -976,12 +977,11 @@ def user_rss(request):
     if user.opt_out == True and user.email != authenticated_userid(request):
         raise HTTPNotFound("User %r has opted out." % user_id)
 
-    comparator = lambda x, y: cmp(x.issued_on, y.issued_on)
     # this gives us the assertions sorted *earliest first*. feedgen's
     # default when adding entries is to prepend - put the new item at
     # the top of the feed. so as we iterate over this and add items to
     # the feed, we add each newer assertion to the front of the feed
-    sorted_assertions = sorted(user.assertions, cmp=comparator)
+    sorted_assertions = sorted(user.assertions, key=lambda x: x.issued_on)
 
     feed = FeedGenerator()
     feed.title("Badges Feed for %s" % user.nickname)
@@ -1131,10 +1131,10 @@ def _user_json_generator(request, user):
 
     assertions = []
     for assertion in user.assertions:
-        issued = {'issued': float(assertion.issued_on.strftime('%s'))}.items()
+        issued = {'issued': float(assertion.issued_on.strftime('%s'))}
         _badged = _badge_json_generator(
-            request, assertion.badge, withasserts=False).items()
-        assertions.append(dict(issued + _badged))
+            request, assertion.badge, withasserts=False)
+        assertions.append(merge_dicts(issued, _badged))
 
     return {
         'user': user.nickname,
@@ -1542,7 +1542,7 @@ def award_from_csv(request):
             # If there is an @ sign in the first value, it is the email.
             awards[values[0].strip()] = values[1].strip()
 
-    for email, badge_id in awards.iteritems():
+    for email, badge_id in six.iteritems(awards):
         # First, if the person doesn't exist, we automatically
         # create the person in this special case.
         if not request.db.person_exists(email=email):
@@ -1559,7 +1559,7 @@ def award_from_csv(request):
     return HTTPFound(location=request.route_url('admin'))
 
 
-@view_config(context=unicode)
+@view_config(context=six.text_type)
 def html(context, request):
     return Response(context)
 
@@ -1670,7 +1670,7 @@ def modify_rst(rst):
     try:
         # The rst features we need were introduced in this version
         minimum = [0, 9]
-        version = map(int, docutils.__version__.split('.'))
+        version = [int(elem) for elem in docutils.__version__.split('.')]
 
         # If we're at or later than that version, no need to downgrade
         if version >= minimum:

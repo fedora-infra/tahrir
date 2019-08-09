@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import tahrir_api.model as m
 
 import hashlib
@@ -16,7 +17,7 @@ log = logging.getLogger(__name__)
 def scale_to_standard_size(filename):
     try:
         import magickwand.image as magick
-    except Exception, e:
+    except Exception as e:
         log.warn(str(e))
         log.warn("Did not scale image to standard size")
         return

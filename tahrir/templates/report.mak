@@ -6,7 +6,7 @@
       <div class="padded-content">
         <p>Looking for the <a href="${request.route_url('leaderboard')}">all-time leaderboard?</a></p>
         <table>
-          % for person, stats in user_to_rank.items()[:25]:
+          % for person, stats in list(user_to_rank.items())[:25]:
             <tr>
               <td style="width: 20px;">
                   <span class="big-text">#${stats['rank']}</span>
