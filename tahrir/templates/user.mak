@@ -60,11 +60,6 @@
                 &laquo;Share&raquo;
               </button>
             </div>
-            % if gplus:
-              <div id="gplus-container">
-                <div class="g-plusone" data-size="tall" data-annotation="none"></div>
-              </div>
-            % endif
             % if twitter:
               <div id="twitter-container">
                 <a
