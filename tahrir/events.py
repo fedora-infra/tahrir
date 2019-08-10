@@ -47,6 +47,5 @@ def inject_globals(event):
         'tahrir.social.twitter_user_text')
     event['twitter_user_hash'] = settings.get(
         'tahrir.social.twitter_user_hash')
-    event['gplus'] = asbool(settings.get('tahrir.social.gplus'))
 
     event['auth_principals'] = effective_principals(request)

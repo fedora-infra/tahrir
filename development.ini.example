@@ -44,7 +44,6 @@ tahrir.sitedocs_dir = %(here)s/fedora-sitedocs
 tahrir.social.twitter = True
 tahrir.social.twitter_user_text = Check out all these #fedorabadges :trophy:
 tahrir.social.twitter_user_hash = #fedora
-tahrir.social.gplus = True
 
 # If this is true, we'll store the email from the user's FAS account, if
 # not, then we'll use their FAS_USERNAME@fedoraproject.org.  For Fedora
