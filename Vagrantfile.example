@@ -9,8 +9,10 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.synced_folder ".", "/vagrant", type: "sshfs"
 
-  # Ansible needs the guest to have these
-  config.vm.provision "shell", inline: "sudo dnf install -y libselinux-python python2-dnf"
+  # To cache update packages (which is helpful if frequently doing vagrant destroy && vagrant up)
+  # you can create a local directory and share it to the guest's DNF cache. Comment the line below
+  # to not use a dnf cache directory
+  config.vm.synced_folder ".dnf-cache", "/var/cache/dnf", type: "sshfs", owner: "root", group: "root", create: true, sshfs_opts_append: "-o idmap=user"
 
   config.vm.provision "ansible" do |ansible|
       ansible.playbook = "devel/ansible/playbook.yml"

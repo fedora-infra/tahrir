@@ -21,3 +21,5 @@ secret.ini
 .DS_STORE
 development.ini
 *.ropeproject
+.dnf-cache
+.vagrant
