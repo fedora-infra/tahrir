@@ -1,4 +1,4 @@
-You can submit new badge ideas on the `fedora-badges
+You can submit new badge ideas or report issues on existing badges on the `fedora-badges
 <https://pagure.io/Fedora-Badges>`_ tracker.
 
 This project is free software; you can find the `source
