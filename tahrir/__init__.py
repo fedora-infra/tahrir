@@ -30,7 +30,7 @@ import tahrir_api.model
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from zope.sqlalchemy import ZopeTransactionExtension
+from zope.sqlalchemy import ZopeTransactionEvents
 
 
 def main(global_config, **settings):
@@ -57,7 +57,7 @@ def main(global_config, **settings):
             make_relative_time_property('issued_on')
 
     session_cls = scoped_session(sessionmaker(
-        extension=ZopeTransactionExtension(),
+        extension=ZopeTransactionEvents(),
         bind=create_engine(settings['sqlalchemy.url']),
     ))
 
