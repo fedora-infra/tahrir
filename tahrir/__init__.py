@@ -13,7 +13,7 @@ from pyramid.config import Configurator
 
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
-from pyramid.session import UnencryptedCookieSessionFactoryConfig
+from pyramid.session import SignedCookieSessionFactory
 from pyramid.settings import asbool
 
 from .app import get_root
@@ -30,7 +30,7 @@ import tahrir_api.model
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from zope.sqlalchemy import ZopeTransactionExtension
+from zope.sqlalchemy import ZopeTransactionEvents
 
 
 def main(global_config, **settings):
@@ -57,7 +57,7 @@ def main(global_config, **settings):
             make_relative_time_property('issued_on')
 
     session_cls = scoped_session(sessionmaker(
-        extension=ZopeTransactionExtension(),
+        extension=ZopeTransactionEvents(),
         bind=create_engine(settings['sqlalchemy.url']),
     ))
 
@@ -109,7 +109,7 @@ def main(global_config, **settings):
         http_only=asbool(settings['tahrir.httponly_cookies']),
     )
     authz_policy = ACLAuthorizationPolicy()
-    session_factory = UnencryptedCookieSessionFactoryConfig(
+    session_factory = SignedCookieSessionFactory(
         secret=settings['session.secret'],
         cookie_secure=asbool(settings['tahrir.secure_cookies']),
         cookie_httponly=asbool(settings['tahrir.httponly_cookies']),
