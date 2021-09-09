@@ -105,14 +105,14 @@ def main(global_config, **settings):
         secret=settings['authnsecret'],
         callback=groupfinder, # groupfinder callback checks for admin privs
         hashalg='sha512', # because md5 is deprecated
-        secure=asbool(settings['tahrir.secure_cookies']),
-        http_only=asbool(settings['tahrir.httponly_cookies']),
+        secure=asbool(settings.get('tahrir.secure_cookies', True)),
+        http_only=asbool(settings.get('tahrir.httponly_cookies', True)),
     )
     authz_policy = ACLAuthorizationPolicy()
     session_factory = SignedCookieSessionFactory(
         secret=settings['session.secret'],
-        cookie_secure=asbool(settings['tahrir.secure_cookies']),
-        cookie_httponly=asbool(settings['tahrir.httponly_cookies']),
+        cookie_secure=asbool(settings.get('tahrir.secure_cookies', True)),
+        cookie_httponly=asbool(settings.get('tahrir.httponly_cookies', True)),
     )
 
     # Configure our cache that we instantiated earlier.
