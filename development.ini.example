@@ -57,13 +57,6 @@ tahrir.use_openid_email = False
 # By default, tahrir's own static/ folder contents are used.
 #tahrir.theme_name = tahrir
 
-# If you leave fedmenu.url undefined, it won't be written to the page at all.
-# https://github.com/fedora-infra/fedmenu
-#fedmenu.url = https://apps.fedoraproject.org/fedmenu
-#fedmenu.data_url = https://apps.fedoraproject.org/js/data.js
-fedmenu.url = http://threebean.org/fedmenu
-fedmenu.data_url = http://threebean.org/fedmenu/dev-data.js
-
 # Begin logging configuration
 
 [loggers]
