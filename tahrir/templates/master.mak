@@ -54,16 +54,16 @@ import json
     <title>${title}</title>
 
     % if user or badge:
-    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="${request.url}/rss" />
-    <link rel="alternate" type="application/json" title="JSON" href="${request.url}/json" />
+    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="${request.path_url}/rss" />
+    <link rel="alternate" type="application/json" title="JSON" href="${request.path_url}/json" />
     % endif
 
     %if newest_badges:
-    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="${request.url}/rss" />
+    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="${request.path_url}/rss" />
     % endif
 
     % if user:
-    <link rel="alternate" type="application/rdf" title="RDF+FOAF" href="${request.url}/foaf" />
+    <link rel="alternate" type="application/rdf" title="RDF+FOAF" href="${request.path_url}/foaf" />
     % endif
 
 	<script type="text/javascript" src="//apps.fedoraproject.org/global/js/jsautologin.js">
