@@ -21,3 +21,6 @@ secret.ini
 .DS_STORE
 development.ini
 *.ropeproject
+.coverage
+coverage.xml
+htmlcov/
