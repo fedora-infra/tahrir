@@ -97,7 +97,7 @@ Click the *Export Badges* button on your profile, login via Mozilla's
 "Persona" with your ``FASUSERNAME@fedoraproject.org`` email address, and
 create custom badge displays there.
 
-.. _fedmsg: http://fedmsg.com/
+.. _fedmsg: https://github.com/fedora-infra/fedora-messaging
 .. _datanommer: https://apps.fedoraproject.org/datagrepper
 .. _fedbadges: https://github.com/fedora-infra/fedbadges
 .. _tahrir: https://github.com/fedora-infra/tahrir
