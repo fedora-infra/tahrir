@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.8.3
+-----
+
+- Fix broken URL for issuer.js `efb5a6eec <https://github.com/fedora-infra/tahrir/commit/efb5a6eec1b70415db1bb926cf3eb2215eadf23a>`
+
 0.8.2
 -----
 
