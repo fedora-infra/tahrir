@@ -28,7 +28,7 @@ import json
         });
     </script>
     % if logged_in and awarded_assertions:
-      <script src="//beta.openbadges.org/issuer.js"></script>
+      <script src="//backpack.openbadges.org/issuer.js"></script>
       <script>
         function htmlDecode(value) { return $("<div>").html(value).text(); }
         function badge_urls() {
