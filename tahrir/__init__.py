@@ -89,7 +89,7 @@ def main(global_config, **settings):
     # Load secret stuff from secret.ini.
     try:
         default_path = os.path.abspath("secret.ini")
-        secret_path = settings.get('secret_config_path', default_path)
+        secret_path = settings.get('tahrir.secret_config_path', default_path)
         # TODO: There is a better way to log this message than print.
         print("Reading secrets from %r" % secret_path)
         parser = ConfigParser()
@@ -111,8 +111,8 @@ def main(global_config, **settings):
     authz_policy = ACLAuthorizationPolicy()
     session_factory = SignedCookieSessionFactory(
         secret=settings['session.secret'],
-        cookie_secure=asbool(settings.get('tahrir.secure_cookies', True)),
-        cookie_httponly=asbool(settings.get('tahrir.httponly_cookies', True)),
+        secure=asbool(settings.get('tahrir.secure_cookies', True)),
+        httponly=asbool(settings.get('tahrir.httponly_cookies', True)),
     )
 
     # Configure our cache that we instantiated earlier.
