@@ -1,27 +1,44 @@
 ---
 - name: Setup development instance of tahrir
-  command: python setup.py develop
+  command: poetry install
+  become: yes
+  become_user: vagrant
   args:
-      chdir: /vagrant
+      chdir: /home/vagrant/tahrir
 
-- name: Install PIP deps
-  pip:
-    name:
-      - twisted
+- name: copy the developemnt.ini file
+  copy:
+    src: development.ini
+    dest: /home/vagrant/development.ini
+    mode: 0644
+    owner: vagrant
+    group: vagrant
 
-- command: cp /vagrant/development.ini.example /vagrant/development.ini
+
+- name: copy the secret.ini file
+  copy:
+    src: secret.ini
+    dest: /home/vagrant/secret.ini
+    mode: 0644
+    owner: vagrant
+    group: vagrant
+
+
+- command: poetry run initialize_tahrir_db /home/vagrant/development.ini
+  become: yes
+  become_user: vagrant
   args:
-      creates: /vagrant/development.ini
+      chdir: /home/vagrant/tahrir
 
-- replace:
-    name: /vagrant/development.ini
-    regexp: '^host\s=\slocalhost$'
-    replace: 'host\s=\s0\.0\.0\.0'
+- name: Install the systemd unit files for tahrir service
+  copy:
+    src: tahrir.service
+    dest: /etc/systemd/system/tahrir.service
+    mode: 0644
 
-- command: cp /vagrant/secret.ini.example /vagrant/secret.ini
-  args:
-      creates: /vagrant/secret.ini
-
-- command: initialize_tahrir_db development.ini
-  args:
-      chdir: /vagrant
+- name: Start tahrir service using systemd
+  systemd:
+    state: started
+    name: tahrir
+    daemon_reload: yes
+    enabled: yes

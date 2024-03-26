@@ -11,4 +11,5 @@
         - gcc
         - redhat-rpm-config
         - python-devel
+        - poetry
       state: present
