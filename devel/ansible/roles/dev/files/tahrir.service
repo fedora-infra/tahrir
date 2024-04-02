@@ -5,6 +5,7 @@ Wants=network-online.target
 
 [Service]
 AmbientCapabilities = CAP_NET_BIND_SERVICE
+Environment=REQUESTS_CA_BUNDLE=/etc/pki/tls/certs/ca-bundle.crt
 User=vagrant
 WorkingDirectory=/home/vagrant/tahrir
 ExecStart=poetry run pserve --reload /home/vagrant/development.ini

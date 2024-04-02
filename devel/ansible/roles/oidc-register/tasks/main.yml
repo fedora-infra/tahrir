@@ -1,0 +1,54 @@
+- name: Install RPM packages
+  dnf:
+    name:
+      - python3-pip
+      - python3-devel
+    state: present
+
+- name: Determine Python version
+  command:
+    argv:
+      - python3
+      - -c
+      - "from sys import version_info as vi; print(f'{vi[0]}.{vi[1]}')"
+  register: _python3_version_result
+  changed_when: False
+
+- name: Prepare the facts dir
+  file:
+    path: /etc/ansible/facts.d
+    state: directory
+
+- name: Set Python version fact
+  ini_file:
+    path: /etc/ansible/facts.d/python.fact
+    section: py3
+    option: version
+    value: "{{ _python3_version_result.stdout | trim }}"
+  register: fact_ini
+
+- name: Re-read facts after adding custom fact
+  ansible.builtin.setup:
+    filter: ansible_local
+  when: fact_ini.changed
+
+- name: install oidc_register with pip
+  pip:
+    name: oidc-register
+
+# not sure of how to do this another way, but without this, oidc_register fails
+- name: Get the content of the CA cert
+  slurp:
+    src: /etc/ipa/ca.crt
+  register: ca_crt
+- name: Put tinystage root CA in the list of CA's for httplib2
+  blockinfile:
+    block: "{{ ca_crt.content | b64decode }}"
+    path: /usr/local/lib/python{{ ansible_local["python"]["py3"]["version"] }}/site-packages/httplib2/cacerts.txt
+
+- name: register the application with oidc-register
+  shell:
+    cmd: oidc-register --debug --output-file {{ dest }} https://{{ ipsilon_hostname }}/idp/openidc/ {{ redirect_url }}
+    creates: "{{ dest }}"
+  become: yes
+  become_user: vagrant

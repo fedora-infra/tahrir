@@ -4,11 +4,6 @@ from pyramid.events import (
     BeforeRender,
 )
 
-from pyramid.security import (
-    authenticated_userid,
-    effective_principals,
-)
-
 from pyramid.settings import asbool
 
 import tahrir.views
@@ -37,7 +32,7 @@ def inject_globals(event):
     event['tahrir_version'] = get_distribution('tahrir').version
     event['tahrir_api_version'] = get_distribution('tahrir-api').version
 
-    event['logged_in'] = authenticated_userid(request)
+    event['logged_in'] = request.authenticated_userid
     person = request.db.get_person(event['logged_in'])
     event['logged_in_person'] = person
 
@@ -49,4 +44,4 @@ def inject_globals(event):
     event['twitter_user_hash'] = settings.get(
         'tahrir.social.twitter_user_hash')
 
-    event['auth_principals'] = effective_principals(request)
+    event['auth_principals'] = request.effective_principals
