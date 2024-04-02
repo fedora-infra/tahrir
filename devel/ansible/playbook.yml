@@ -2,7 +2,11 @@
 - hosts: all
   become: true
   become_method: sudo
-  vars:
+  vars_files:
+    - vars.yml
   roles:
     - core
+    - ipa-client
+    - cert
+    - oidc-register
     - dev

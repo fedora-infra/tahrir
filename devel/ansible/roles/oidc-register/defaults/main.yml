@@ -1,0 +1,4 @@
+ipsilon_hostname: ipsilon.tinystage.test
+redirect_path: "oidc/authorize"
+redirect_url: https://{{ ansible_fqdn }}/{{ redirect_path }}
+dest: /home/vagrant/client_secrets.json

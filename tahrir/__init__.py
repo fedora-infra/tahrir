@@ -30,7 +30,7 @@ import tahrir_api.model
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from zope.sqlalchemy import ZopeTransactionEvents
+from zope.sqlalchemy import register
 
 
 def main(global_config, **settings):
@@ -57,9 +57,9 @@ def main(global_config, **settings):
             make_relative_time_property('issued_on')
 
     session_cls = scoped_session(sessionmaker(
-        extension=ZopeTransactionEvents(),
         bind=create_engine(settings['sqlalchemy.url']),
     ))
+    register(session_cls)
 
     def get_db(request):
         """ Database retrieval function to be added to the request for
@@ -125,13 +125,13 @@ def main(global_config, **settings):
             authentication_policy=authn_policy,
             authorization_policy=authz_policy)
 
-    import tahrir.custom_openid
-    config.include('velruse.providers.openid')
-    tahrir.custom_openid.add_openid_login(
-        config,
-        realm=settings.get('tahrir.openid_realm'),
-        identity_provider=settings.get('tahrir.openid_identifier'),
-    )
+    # import tahrir.custom_openid
+    # config.include('velruse.providers.openid')
+    # tahrir.custom_openid.add_openid_login(
+    #     config,
+    #     realm=settings.get('tahrir.openid_realm'),
+    #     identity_provider=settings.get('tahrir.openid_identifier'),
+    # )
 
     config.include('pyramid_mako')
 
@@ -189,8 +189,11 @@ def main(global_config, **settings):
     config.add_route('report_year_month_day',
                      '/report/{year}/{month}/{day}')
     config.add_route('award_from_csv', '/award_from_csv')
-    config.add_route('login', '/login')
-    config.add_route('logout', '/logout')
+
+    config.include("tahrir.auth")
+
+    # config.add_route('login', '/login')
+    # config.add_route('logout', '/logout')
 
     # Used to grab a "was awarded" html snippet asynchronously
     config.add_route('assertion_widget', '/_w/assertion/{person}/{badge}')

@@ -5,7 +5,6 @@ import types
 import codecs
 import os
 import sqlalchemy as sa
-import velruse
 import qrcode as qrcode_module
 import docutils.examples
 import markupsafe
@@ -37,8 +36,6 @@ from pyramid.httpexceptions import (
 )
 
 from pyramid.security import (
-    authenticated_userid,
-    effective_principals,
     remember,
     forget,
 )
@@ -124,7 +121,7 @@ def award(request):
     if token != request.POST['csrf_token']:
         raise HTTPForbidden('CSRF token did not match')
 
-    agent = request.db.get_person(authenticated_userid(request))
+    agent = request.db.get_person(request.authenticated_userid)
     if not agent:
         raise HTTPForbidden()
 
@@ -159,7 +156,7 @@ def invite(request):
     if token != request.POST['csrf_token']:
         raise HTTPForbidden('CSRF token did not match')
 
-    agent = request.db.get_person(authenticated_userid(request))
+    agent = request.db.get_person(request.authenticated_userid)
     if not agent:
         raise HTTPForbidden()
 
@@ -193,7 +190,7 @@ def add_tag(request):
     if token != request.POST['csrf_token']:
         raise HTTPForbidden('CSRF token did not match')
 
-    agent = request.db.get_person(authenticated_userid(request))
+    agent = request.db.get_person(request.authenticated_userid)
     if not agent:
         raise HTTPForbidden()
 
@@ -218,9 +215,9 @@ def admin(request):
     # TODO: Check if I even need this anymore... leaving for now.
     request.session['came_from'] = request.route_url('admin')
 
-    if authenticated_userid(request):
+    if request.authenticated_userid:
         awarded_assertions = request.db.get_assertions_by_email(
-                                 authenticated_userid(request))
+                                 request.authenticated_userid)
     else:
         awarded_assertions = None
 
@@ -377,7 +374,7 @@ def admin(request):
                 request.session.flash('{0} is already authorized to issue {1}.'.format(email, idx))
 
     return dict(
-        auth_principals=effective_principals(request),
+        auth_principals=request.effective_principals,
         awarded_assertions=awarded_assertions,
         issuers=request.db.get_all_issuers().all(),
     )
@@ -424,7 +421,7 @@ def index(request):
     )
 
     return dict(
-        auth_principals=effective_principals(request),
+        auth_principals=request.effective_principals,
         latest_awards=latest_awards,
         weekly_leaders=weekly_leaders,
         monthly_leaders=monthly_leaders,
@@ -450,12 +447,12 @@ def invitation_claim(request):
     if request.context.expires_on < datetime.utcnow():
         return HTTPGone("That invitation is expired.")
 
-    if not authenticated_userid(request):
+    if not request.authenticated_userid:
         request.session['came_from'] = request.resource_url(
                 request.context, 'claim')
         return HTTPFound(location=request.route_url('login'))
 
-    person = request.db.get_person(person_email=authenticated_userid(request))
+    person = request.db.get_person(person_email=request.authenticated_userid)
 
     # Check to see if the user already has the badge.
     if request.context.badge in [a.badge for a in person.assertions]:
@@ -494,9 +491,9 @@ def leaderboard(request):
 
     user, awarded_assertions = None, None
 
-    if authenticated_userid(request):
+    if request.authenticated_userid:
         user = request.db.get_person(
-            person_email=authenticated_userid(request))
+            person_email=request.authenticated_userid)
 
     query = request.db.session.query(
         m.Person
@@ -537,7 +534,7 @@ def leaderboard(request):
         percentile = None
 
     return dict(
-            auth_principals=effective_principals(request),
+            auth_principals=request.effective_principals,
             awarded_assertions=awarded_assertions,
             top_persons_sorted=leaderboard,
             rank=rank,
@@ -599,7 +596,7 @@ def leaderboard_json(request):
 def about(request):
     return dict(
         content=load_docs(request, 'about'),
-        auth_principals=effective_principals(request))
+        auth_principals=request.effective_principals)
 
 
 
@@ -653,9 +650,9 @@ def explore(request):
 
 
     # Get awarded assertions.
-    if authenticated_userid(request):
+    if request.authenticated_userid:
         awarded_assertions = request.db.get_assertions_by_email(
-                                authenticated_userid(request))
+                                request.authenticated_userid)
     else:
         awarded_assertions = None
 
@@ -674,7 +671,7 @@ def explore(request):
                 m.Person.opt_out == False).all()
 
     return dict(
-            auth_principals=effective_principals(request),
+            auth_principals=request.effective_principals,
             awarded_assertions=awarded_assertions,
             random_badges=random_badges,
             random_persons=random_persons,
@@ -693,16 +690,16 @@ def explore_badges(request):
                            reverse=True)[:20]
 
     # Get awarded assertions.
-    if authenticated_userid(request):
+    if request.authenticated_userid:
         awarded_assertions = request.db.get_assertions_by_email(
-                                authenticated_userid(request))
+                                request.authenticated_userid)
     else:
         awarded_assertions = None
 
     return dict(
             all_badges=all_badges,
             newest_badges=newest_badges,
-            auth_principals=effective_principals(request),
+            auth_principals=request.effective_principals,
             awarded_assertions=awarded_assertions,
            )
 
@@ -756,9 +753,9 @@ def badge(request):
         raise HTTPNotFound("No such badge %r" % badge_id)
 
     # Get awarded assertions.
-    if authenticated_userid(request):
+    if request.authenticated_userid:
         awarded_assertions = request.db.get_assertions_by_email(
-                                authenticated_userid(request))
+                                request.authenticated_userid)
     else:
         awarded_assertions = []
 
@@ -804,7 +801,7 @@ def badge(request):
     return dict(
             badge=badge,
             badge_description_html=badge_description_html,
-            auth_principals=effective_principals(request),
+            auth_principals=request.effective_principals,
             awarded_assertions=awarded_assertions,
             times_awarded=times_awarded,
             last_awarded=last_awarded,
@@ -960,7 +957,7 @@ def badge_stl(request):
 
     return dict(
         badge=badge,
-        auth_principals=effective_principals(request),
+        auth_principals=request.effective_principals,
     )
 
 
@@ -974,7 +971,7 @@ def user_rss(request):
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
 
-    if user.opt_out == True and user.email != authenticated_userid(request):
+    if user.opt_out == True and user.email != request.authenticated_userid:
         raise HTTPNotFound("User %r has opted out." % user_id)
 
     # this gives us the assertions sorted *earliest first*. feedgen's
@@ -1019,9 +1016,9 @@ def user(request):
     settings = request.registry.settings
 
     # Get awarded assertions.
-    if authenticated_userid(request):
+    if request.authenticated_userid:
         awarded_assertions = request.db.get_assertions_by_email(
-                                authenticated_userid(request))
+                                request.authenticated_userid)
     else:
         awarded_assertions = None
 
@@ -1033,7 +1030,7 @@ def user(request):
     if not user:
         raise HTTPNotFound("No such user %r" % user_id)
 
-    if user.opt_out == True and user.email != authenticated_userid(request):
+    if user.opt_out == True and user.email != request.authenticated_userid:
         raise HTTPNotFound("User %r has opted out." % user_id)
 
     if request.POST:
@@ -1043,11 +1040,11 @@ def user(request):
             raise HTTPForbidden('CSRF token did not match')
 
         # Authz check
-        if authenticated_userid(request) != user.email:
+        if request.authenticated_userid != user.email:
             raise HTTPForbidden("Unauthorized")
 
         person = request.db.get_all_persons().filter_by(
-                    email=authenticated_userid(request)).one()
+                    email=request.authenticated_userid).one()
 
         if request.POST.get('deactivate-account'):
             person.opt_out = True
@@ -1061,7 +1058,7 @@ def user(request):
     user_info = dict(
         user=user,
         invitations=invitations,
-        auth_principals=effective_principals(request),
+        auth_principals=request.effective_principals,
         awarded_assertions=awarded_assertions,
         history_limit=history_limit,
     )
@@ -1080,9 +1077,9 @@ def user_edit(request):
     allow_changenick = asbool(settings.get('tahrir.allow_changenick', True))
 
     # Get awarded assertions.
-    if authenticated_userid(request):
+    if request.authenticated_userid:
         awarded_assertions = request.db.get_assertions_by_email(
-                                authenticated_userid(request))
+                                request.authenticated_userid)
     else:
         awarded_assertions = None
 
@@ -1095,11 +1092,11 @@ def user_edit(request):
             raise HTTPForbidden('CSRF token did not match')
 
         # Authz check
-        if authenticated_userid(request) != user.email:
+        if request.authenticated_userid != user.email:
             raise HTTPForbidden("Unauthorized")
 
         person = request.db.get_all_persons().filter_by(
-                    email=authenticated_userid(request)).one()
+                    email=request.authenticated_userid).one()
 
         # if this remains None, we don't have to go to a new URL
         new_nick = None
@@ -1119,7 +1116,7 @@ def user_edit(request):
 
     return dict(
             user=user,
-            auth_principals=effective_principals(request),
+            auth_principals=request.effective_principals,
             awarded_assertions=awarded_assertions,
             allow_changenick=allow_changenick,
             )
@@ -1180,9 +1177,9 @@ def diff(request):
     """Render user diff page."""
 
     # Get awarded assertions.
-    if authenticated_userid(request):
+    if request.authenticated_userid:
         awarded_assertions = request.db.get_assertions_by_email(
-                                authenticated_userid(request))
+                                request.authenticated_userid)
     else:
         awarded_assertions = None
 
@@ -1196,9 +1193,9 @@ def diff(request):
     if not user_b:
         raise HTTPNotFound("No such user %r" % user_b_id)
 
-    if user_a.opt_out == True and user_a.email != authenticated_userid(request):
+    if user_a.opt_out == True and user_a.email != request.authenticated_userid:
         raise HTTPNotFound("User %r has opted out." % user_a_id)
-    if user_b.opt_out == True and user_b.email != authenticated_userid(request):
+    if user_b.opt_out == True and user_b.email != request.authenticated_userid:
         raise HTTPNotFound("User %r has opted out." % user_b_id)
 
     # Get user badges.
@@ -1254,7 +1251,7 @@ def diff(request):
             shared_badges.append(badge)
 
     return dict(
-        auth_principals=effective_principals(request),
+        auth_principals=request.effective_principals,
         awarded_assertions=awarded_assertions,
         user_count=user_count,
         user_a=user_a,
@@ -1284,7 +1281,7 @@ def user_team_json(request):
         request.response.status = '404 Not Found'
         return {'error': 'No such user exists.'}
 
-    if user.opt_out and user.email != authenticated_userid(request):
+    if user.opt_out and user.email != request.authenticated_userid:
         request.response.status = '404 Not Found'
         return {"error": "User has opted out."}
 
@@ -1304,7 +1301,7 @@ def user_json(request):
         request.response.status = '404 Not Found'
         return {"error": "No such user exists."}
 
-    if user.opt_out == True and user.email != authenticated_userid(request):
+    if user.opt_out == True and user.email != request.authenticated_userid:
         request.response.status = '404 Not Found'
         return {"error": "User has opted out."}
 
@@ -1313,9 +1310,9 @@ def user_json(request):
 
 @view_config(route_name='builder', renderer='builder.mak')
 def builder(request):
-    if authenticated_userid(request):
+    if request.authenticated_userid:
         awarded_assertions = request.db.get_assertions_by_email(
-                                 authenticated_userid(request))
+                                 request.authenticated_userid)
     else:
         awarded_assertions = None
 
@@ -1324,7 +1321,7 @@ def builder(request):
 
     # get default creator field
     default_creator = None
-    user = request.db.get_person(person_email=authenticated_userid(request))
+    user = request.db.get_person(person_email=request.authenticated_userid)
     if user:
         default_creator = user.nickname or user.email
 
@@ -1336,7 +1333,7 @@ def builder(request):
         badge_yaml = generate_badge_yaml(request.POST)
 
     return dict(
-        auth_principals=effective_principals(request),
+        auth_principals=request.effective_principals,
         awarded_assertions=awarded_assertions,
         default_creator=default_creator,
         badge_yaml=badge_yaml,
@@ -1348,9 +1345,9 @@ def tags(request):
     """Render tag page."""
 
     # Get awarded assertions.
-    if authenticated_userid(request):
+    if request.authenticated_userid:
         awarded_assertions = request.db.get_assertions_by_email(
-                                authenticated_userid(request))
+                                request.authenticated_userid)
     else:
         awarded_assertions = None
 
@@ -1364,7 +1361,7 @@ def tags(request):
     return dict(
             tags=tags,
             badges=badges,
-            auth_principals=effective_principals(request),
+            auth_principals=request.effective_principals,
             awarded_assertions=awarded_assertions,
             )
 
@@ -1384,7 +1381,7 @@ def report(request):
     )
 
     return dict(
-        auth_principals=effective_principals(request),
+        auth_principals=request.effective_principals,
         user_to_rank=user_to_rank,
         start_date=start,
         stop_date=stop,
@@ -1410,7 +1407,7 @@ def report_year(request):
     )
 
     return dict(
-        auth_principals=effective_principals(request),
+        auth_principals=request.effective_principals,
         user_to_rank=user_to_rank,
         start_date=start,
         stop_date=stop,
@@ -1441,7 +1438,7 @@ def report_year_month(request):
     )
 
     return dict(
-        auth_principals=effective_principals(request),
+        auth_principals=request.effective_principals,
         user_to_rank=user_to_rank,
         start_date=start,
         stop_date=stop,
@@ -1469,7 +1466,7 @@ def report_year_month_day(request):
     )
 
     return dict(
-        auth_principals=effective_principals(request),
+        auth_principals=request.effective_principals,
         user_to_rank=user_to_rank,
         start_date=start,
         stop_date=stop,
@@ -1499,7 +1496,7 @@ def report_year_week(request):
     )
 
     return dict(
-        auth_principals=effective_principals(request),
+        auth_principals=request.effective_principals,
         user_to_rank=user_to_rank,
         start_date=start,
         stop_date=stop,
@@ -1580,69 +1577,6 @@ def _404(request):
 def _500(request):
     request.response.status = 500
     return dict()
-
-
-@view_config(route_name='login', renderer='login.mak')
-@forbidden_view_config(renderer='login.mak')
-def login(request):
-    settings = request.registry.settings
-    ident = "openid_identifier=" + settings.get('tahrir.openid_identifier')
-    url = velruse.login_url(request, 'openid') + "?" + ident
-    return HTTPFound(location=url)
-
-
-@view_config(context='velruse.AuthenticationComplete')
-def login_complete_view(request):
-    context = request.context
-    settings = request.registry.settings
-
-    trusted_openid = settings.get('tahrir.trusted_openid')
-    trusted_openid = re.compile(trusted_openid)
-    if not trusted_openid.match(context.profile['accounts'][0]['username']):
-        return HTTPForbidden("Invalid openid provider")
-
-    nickname = context.profile['preferredUsername']
-
-    if asbool(settings.get('tahrir.use_openid_email')) \
-       and context.profile['emails']:
-        email = context.profile['emails'][0]
-    else:
-        ident = settings.get('tahrir.openid_identifier')
-        domain = '.'.join(ident.split('.')[-2:])
-        if domain.endswith('/'):
-            domain = domain[:-1]
-        email = nickname + "@" + domain
-
-    # Keep adding underscores until we get a default nickname
-    # that isn't already used.
-    while request.db.get_person(nickname=nickname):
-        nickname += '_'
-
-    if not request.db.get_person(person_email=email):
-        request.db.add_person(email=email, nickname=nickname)
-
-    # Note that they have logged in if we are installed with a newer version of
-    # the db API that supports this.
-    if hasattr(request.db, 'note_login'):
-        request.db.note_login(person_email=email)
-
-    headers = remember(request, email)
-    response = HTTPFound(location=request.session.get('came_from', '/'))
-    response.headerlist.extend(headers)
-    return response
-
-
-@view_config(context='velruse.AuthenticationDenied', renderer='json')
-def login_denied_view(request):
-    # HAAACK -- if login fails, just try again.
-    return HTTPFound(location=request.route_url('login'))
-
-
-@view_config(route_name='logout')
-def logout(request):
-    headers = forget(request)
-    return HTTPFound(location=request.resource_url(request.context),
-                     headers=headers)
 
 
 @view_config(route_name='assertion_widget',

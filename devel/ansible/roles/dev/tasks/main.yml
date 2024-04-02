@@ -15,6 +15,28 @@
     group: vagrant
 
 
+- name: read client_secrets.json
+  register: client_secrets_json
+  ansible.builtin.slurp:
+    path: /home/vagrant/client_secrets.json
+
+- name: extract stuff from client_secrets.json
+  set_fact:
+    client_secrets: "{{ client_secrets_json.content |b64decode | from_json }}"
+
+- name: Update development.ini
+  lineinfile:
+    dest: /home/vagrant/development.ini
+    line: "oidc.fedora.client_id = {{client_secrets.web.client_id}}"
+    owner: vagrant
+
+- name: Update development.ini
+  lineinfile:
+    dest: /home/vagrant/development.ini
+    line: "oidc.fedora.client_secret = {{client_secrets.web.client_secret}}"
+    owner: vagrant
+
+
 - name: copy the secret.ini file
   copy:
     src: secret.ini
