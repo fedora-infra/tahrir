@@ -7,8 +7,8 @@ on:
     branches:
       - develop
 jobs:
-  unit_tests:
-    name: Run the Unit Tests, Checks, & build docs
+  checks:
+    name: Run Checks
     container: fedorapython/fedora-python-tox:latest
     steps:
       - uses: actions/checkout@v4
