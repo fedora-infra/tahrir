@@ -61,6 +61,8 @@ gevent = "^24.2.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
+pytest-cov = "^5.0.0"
+coverage = "^7.4.4"
 
 [tool.poetry.plugins."paste.app_factory"]
 main = "tahrir:main"
@@ -73,7 +75,6 @@ source = [
 ]
 
 [tool.coverage.report]
-fail_under = 1
 exclude_lines = [
     "pragma: no cover",
     "if __name__ == .__main__.:",
