@@ -1,0 +1,28 @@
+name: Tests
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+jobs:
+  unit_tests:
+    name: Run the Unit Tests
+    container: fedorapython/fedora-python-tox:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Mark the directory as safe for git
+        run: git config --global --add safe.directory $PWD
+      - name: Install RPM dependencies
+        run: |
+          dnf install -y krb5-devel libpq-devel gettext python-tox poetry
+      - name: Run tests
+        run: tox -e ${{ matrix.tox_env }}
+    strategy:
+      matrix:
+        tox_env:
+          - py39
+          - py310
+          - py311
+    runs-on: ubuntu-latest
