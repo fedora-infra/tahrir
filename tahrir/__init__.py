@@ -1,79 +1,72 @@
-from __future__ import print_function
-from __future__ import absolute_import
-
-import os
 import hashlib
-
-from six.moves.configparser import ConfigParser
+import os
 
 import dogpile.cache
 import dogpile.cache.util
-
-from pyramid.config import Configurator
-
+import tahrir_api.model
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.config import Configurator
 from pyramid.session import SignedCookieSessionFactory
 from pyramid.settings import asbool
+from six.moves.configparser import ConfigParser
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+from tahrir_api.dbapi import TahrirDatabase
+from zope.sqlalchemy import register
 
+from . import notifications
 from .app import get_root
 from .utils import (
     make_avatar_method,
-    make_relative_time_property,
     make_openid_identifier_property,
+    make_relative_time_property,
     str_to_bytes,
 )
-from . import notifications
-
-from tahrir_api.dbapi import TahrirDatabase
-import tahrir_api.model
-
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
-from zope.sqlalchemy import register
 
 
 def main(global_config, **settings):
-    """ This function returns a Pyramid WSGI application.
-    """
+    """This function returns a Pyramid WSGI application."""
 
     cache = dogpile.cache.make_region(
-        key_mangler=lambda x: dogpile.cache.util.sha1_mangle_key(str_to_bytes(x)))
+        key_mangler=lambda x: dogpile.cache.util.sha1_mangle_key(str_to_bytes(x))
+    )
     tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
     tahrir_api.model.Person.email_md5 = property(
-        lambda self: hashlib.md5(str_to_bytes(self.email)).hexdigest())
+        lambda self: hashlib.md5(str_to_bytes(self.email)).hexdigest()
+    )
     tahrir_api.model.Person.email_sha1 = property(
-        lambda self: hashlib.sha1(str_to_bytes(self.email)).hexdigest())
+        lambda self: hashlib.sha1(str_to_bytes(self.email)).hexdigest()
+    )
 
-    identifier = settings.get('tahrir.openid_identifier')
-    tahrir_api.model.Person.openid_identifier =\
-            make_openid_identifier_property(identifier)
+    identifier = settings.get("tahrir.openid_identifier")
+    tahrir_api.model.Person.openid_identifier = make_openid_identifier_property(identifier)
 
-    tahrir_api.model.Person.created_on_rel =\
-            make_relative_time_property('created_on')
-    tahrir_api.model.Assertion.created_on_rel =\
-            make_relative_time_property('created_on')
-    tahrir_api.model.Assertion.issued_on_rel =\
-            make_relative_time_property('issued_on')
+    tahrir_api.model.Person.created_on_rel = make_relative_time_property("created_on")
+    tahrir_api.model.Assertion.created_on_rel = make_relative_time_property("created_on")
+    tahrir_api.model.Assertion.issued_on_rel = make_relative_time_property("issued_on")
 
-    session_cls = scoped_session(sessionmaker(
-        bind=create_engine(settings['sqlalchemy.url']),
-    ))
+    session_cls = scoped_session(
+        sessionmaker(
+            bind=create_engine(settings["sqlalchemy.url"]),
+        )
+    )
     register(session_cls)
 
     def get_db(request):
-        """ Database retrieval function to be added to the request for
-            calling anywhere.
+        """Database retrieval function to be added to the request for
+        calling anywhere.
         """
         session = session_cls()
-        return TahrirDatabase(session=session, autocommit=False,
-                              notification_callback=notifications.callback)
+        return TahrirDatabase(
+            session=session, autocommit=False, notification_callback=notifications.callback
+        )
 
     required_keys = [
-        'tahrir.pngs.uri',
-        'tahrir.admin',
-        'tahrir.title',
-        'tahrir.base_url',
+        "tahrir.pngs.uri",
+        "tahrir.admin",
+        "tahrir.title",
+        "tahrir.base_url",
     ]
 
     # validate the config
@@ -82,14 +75,14 @@ def main(global_config, **settings):
             raise ValueError("%s required in settings." % key)
 
     # Make data dir if it doesn't already exist.
-    settings['tahrir.pngs.uri'] = os.path.abspath(settings['tahrir.pngs.uri'])
-    if not os.path.exists(settings['tahrir.pngs.uri']):
-        os.makedirs(settings['tahrir.pngs.uri'])
+    settings["tahrir.pngs.uri"] = os.path.abspath(settings["tahrir.pngs.uri"])
+    if not os.path.exists(settings["tahrir.pngs.uri"]):
+        os.makedirs(settings["tahrir.pngs.uri"])
 
     # Load secret stuff from secret.ini.
     try:
         default_path = os.path.abspath("secret.ini")
-        secret_path = settings.get('tahrir.secret_config_path', default_path)
+        secret_path = settings.get("tahrir.secret_config_path", default_path)
         # TODO: There is a better way to log this message than print.
         print("Reading secrets from %r" % secret_path)
         parser = ConfigParser()
@@ -98,32 +91,32 @@ def main(global_config, **settings):
         settings.update(secret_config)
     except Exception as e:
         # TODO: There is a better way to log this message than print.
-        print('Failed to load secret.ini.  Reason: %r' % str(e))
-
+        print("Failed to load secret.ini.  Reason: %r" % str(e))
 
     authn_policy = AuthTktAuthenticationPolicy(
-        secret=settings['authnsecret'],
-        callback=groupfinder, # groupfinder callback checks for admin privs
-        hashalg='sha512', # because md5 is deprecated
-        secure=asbool(settings.get('tahrir.secure_cookies', True)),
-        http_only=asbool(settings.get('tahrir.httponly_cookies', True)),
+        secret=settings["authnsecret"],
+        callback=groupfinder,  # groupfinder callback checks for admin privs
+        hashalg="sha512",  # because md5 is deprecated
+        secure=asbool(settings.get("tahrir.secure_cookies", True)),
+        http_only=asbool(settings.get("tahrir.httponly_cookies", True)),
     )
     authz_policy = ACLAuthorizationPolicy()
     session_factory = SignedCookieSessionFactory(
-        secret=settings['session.secret'],
-        secure=asbool(settings.get('tahrir.secure_cookies', True)),
-        httponly=asbool(settings.get('tahrir.httponly_cookies', True)),
+        secret=settings["session.secret"],
+        secure=asbool(settings.get("tahrir.secure_cookies", True)),
+        httponly=asbool(settings.get("tahrir.httponly_cookies", True)),
     )
 
     # Configure our cache that we instantiated earlier.
-    cache.configure_from_config(settings, 'dogpile.cache.')
+    cache.configure_from_config(settings, "dogpile.cache.")
 
     config = Configurator(
-            settings=settings,
-            root_factory=get_root,
-            session_factory=session_factory,
-            authentication_policy=authn_policy,
-            authorization_policy=authz_policy)
+        settings=settings,
+        root_factory=get_root,
+        session_factory=session_factory,
+        authentication_policy=authn_policy,
+        authorization_policy=authz_policy,
+    )
 
     # import tahrir.custom_openid
     # config.include('velruse.providers.openid')
@@ -133,62 +126,60 @@ def main(global_config, **settings):
     #     identity_provider=settings.get('tahrir.openid_identifier'),
     # )
 
-    config.include('pyramid_mako')
+    config.include("pyramid_mako")
 
-    config.add_request_method(get_db, 'db', reify=True)
+    config.add_request_method(get_db, "db", reify=True)
 
     config.add_static_view(
-        'static',
-        settings.get('tahrir.theme_name', 'tahrir') + ':static',
+        "static",
+        settings.get("tahrir.theme_name", "tahrir") + ":static",
         cache_max_age=3600,
     )
     config.add_static_view(
-        'pngs',
-        settings['tahrir.pngs.uri'],
+        "pngs",
+        settings["tahrir.pngs.uri"],
         cache_max_age=3600,
     )
 
-    config.add_route('home', '/')
-    config.add_route('heartbeat', '/heartbeat')
+    config.add_route("home", "/")
+    config.add_route("heartbeat", "/heartbeat")
 
     # main admin endpoint
-    config.add_route('admin', '/admin')
+    config.add_route("admin", "/admin")
 
     # delegated admin endpoints
-    config.add_route('award', '/award')
-    config.add_route('invite', '/invite')
-    config.add_route('add_tag', '/add_tag')
+    config.add_route("award", "/award")
+    config.add_route("invite", "/invite")
+    config.add_route("add_tag", "/add_tag")
 
-    config.add_route('qrcode', '/qrcode')
-    config.add_route('badge', '/badge/{id}')
-    config.add_route('badge_full', '/badge/{id}/full')
-    config.add_route('badge_json', '/badge/{id}/json')
-    config.add_route('badge_rss', '/badge/{id}/rss')
-    config.add_route('badge_stl', '/badge/{id}/stl')
-    config.add_route('builder', '/builder')
-    config.add_route('about', '/about')
-    config.add_route('explore', '/explore')
-    config.add_route('explore_badges', '/explore/badges')
-    config.add_route('explore_badges_rss', '/explore/badges/rss')
-    config.add_route('leaderboard', '/leaderboard')
-    config.add_route('leaderboard_json', '/leaderboard/json')
-    config.add_route('rank_json', '/leaderboard/{id}/json')
-    config.add_route('tags', '/tags/{tags}/{match}')
-    config.add_route('user', '/user/{id}')
-    config.add_route('user_edit', '/user/{id}/edit')
-    config.add_route('user_json', '/user/{id}/json')
-    config.add_route('user_rss', '/user/{id}/rss')
-    config.add_route('user_team_json', '/user/{id}/team/{team_id}/json')
-    config.add_route('diff', '/diff/{id_a}/{id_b}')
-    config.add_route('report', '/report')
-    config.add_route('report_this_month', '/report/this/month')
-    config.add_route('report_year', '/report/{year}')
-    config.add_route('report_year_month', '/report/{year}/{month}')
-    config.add_route('report_year_week',
-                     '/report/{year}/week/{weeknumber}')
-    config.add_route('report_year_month_day',
-                     '/report/{year}/{month}/{day}')
-    config.add_route('award_from_csv', '/award_from_csv')
+    config.add_route("qrcode", "/qrcode")
+    config.add_route("badge", "/badge/{id}")
+    config.add_route("badge_full", "/badge/{id}/full")
+    config.add_route("badge_json", "/badge/{id}/json")
+    config.add_route("badge_rss", "/badge/{id}/rss")
+    config.add_route("badge_stl", "/badge/{id}/stl")
+    config.add_route("builder", "/builder")
+    config.add_route("about", "/about")
+    config.add_route("explore", "/explore")
+    config.add_route("explore_badges", "/explore/badges")
+    config.add_route("explore_badges_rss", "/explore/badges/rss")
+    config.add_route("leaderboard", "/leaderboard")
+    config.add_route("leaderboard_json", "/leaderboard/json")
+    config.add_route("rank_json", "/leaderboard/{id}/json")
+    config.add_route("tags", "/tags/{tags}/{match}")
+    config.add_route("user", "/user/{id}")
+    config.add_route("user_edit", "/user/{id}/edit")
+    config.add_route("user_json", "/user/{id}/json")
+    config.add_route("user_rss", "/user/{id}/rss")
+    config.add_route("user_team_json", "/user/{id}/team/{team_id}/json")
+    config.add_route("diff", "/diff/{id_a}/{id_b}")
+    config.add_route("report", "/report")
+    config.add_route("report_this_month", "/report/this/month")
+    config.add_route("report_year", "/report/{year}")
+    config.add_route("report_year_month", "/report/{year}/{month}")
+    config.add_route("report_year_week", "/report/{year}/week/{weeknumber}")
+    config.add_route("report_year_month_day", "/report/{year}/{month}/{day}")
+    config.add_route("award_from_csv", "/award_from_csv")
 
     config.include("tahrir.auth")
 
@@ -196,7 +187,7 @@ def main(global_config, **settings):
     # config.add_route('logout', '/logout')
 
     # Used to grab a "was awarded" html snippet asynchronously
-    config.add_route('assertion_widget', '/_w/assertion/{person}/{badge}')
+    config.add_route("assertion_widget", "/_w/assertion/{person}/{badge}")
 
     config.scan()
 
@@ -209,8 +200,8 @@ def groupfinder(userid, request):
     is listed as an admin in the config file (tahrir.ini).
     This is the callback function used by the authorization
     policy."""
-    admins = [admin.strip() for admin in request.registry.settings['tahrir.admin'].split(',')]
+    admins = [admin.strip() for admin in request.registry.settings["tahrir.admin"].split(",")]
     if userid in admins:
-        return ['group:admins']
+        return ["group:admins"]
     else:
         return []

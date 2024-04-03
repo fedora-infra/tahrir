@@ -1,16 +1,7 @@
-from __future__ import absolute_import
-import tahrir_api.model as m
-
-import hashlib
-import os
+import logging
 import shutil
 import tempfile
-from datetime import (
-    datetime,
-    timedelta,
-)
 
-import logging
 log = logging.getLogger(__name__)
 
 
@@ -30,7 +21,7 @@ def scale_to_standard_size(filename):
 
     img.crop((s, s), (wo, ho))
     img.thumbnail(256)
-    handle, tempname = tempfile.mkstemp(suffix='.png')
+    handle, tempname = tempfile.mkstemp(suffix=".png")
     img.save(tempname)
-    shutil.move(filename, filename + '.original')
+    shutil.move(filename, filename + ".original")
     shutil.move(tempname, filename)

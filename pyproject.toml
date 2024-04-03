@@ -37,7 +37,7 @@ python = "^3.9.0"
 pyramid = "^2.0.2"
 pyramid-mako = "^1.1.0"
 
-# use this from git for now (need the recent zope fixes) 
+# use this from git for now (need the recent zope fixes)
 tahrir-api = {git = "https://github.com/fedora-infra/tahrir-api"}
 
 sqlalchemy = "^2.0.29"
@@ -63,6 +63,8 @@ gevent = "^24.2.1"
 pytest = "^8.1.1"
 pytest-cov = "^5.0.0"
 coverage = "^7.4.4"
+ruff = "^0.3.5"
+black = "^24.3.0"
 
 [tool.poetry.plugins."paste.app_factory"]
 main = "tahrir:main"

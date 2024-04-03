@@ -1,15 +1,12 @@
-from __future__ import absolute_import
-import cgi
-
+import datetime
 import math
 import time
-import datetime
-import dateutil.relativedelta
-import six.moves.urllib.parse
-from hashlib import md5, sha256
+from hashlib import sha256
 
+import dateutil.relativedelta
 import pyramid.threadlocal
 import six
+import six.moves.urllib.parse
 
 libravatar = None
 try:
@@ -19,37 +16,35 @@ except ImportError:
 
 
 def generate_badge_yaml(postdict):
-    return "%YAML 1.2\n"\
-         "---\n"\
-         "\n"\
-         "# This is some metadata about the badge.\n"\
-         "name:           " + postdict.get('badge-name', default="") + "\n"\
-         "description:    " + postdict.get('badge-description',
-                                            default="") + "\n"\
-         "creator:        " + postdict.get('badge-creator',
-                                            default="") + "\n"\
-         "\n"\
-         "# This is a link to the discussion about adopting this as\n"\
-         "a for-real badge\n"\
-         "discussion:     " + postdict.get('discussion', default="") + "\n"\
-         "\n"\
-         "# A link to the image for the badge.\n"\
-         "image_url:      " + postdict.get('image', default="") + "\n"\
-         "\n"\
-         "# The issuer.\n"\
-         "issuer_id:      " + postdict.get('issuer', default="") + "\n"\
-         "\n"\
-         "# We'll perform our more costly check (defined below)\n"\
-         "# only when we receive messages that match this trigger.\n"\
-         "trigger:\n"\
-         "  topic:        " + postdict.get('trigger-topic',
-                                            default="") + "\n"\
-         "\n"\
-         "# Once the check has been triggered, this defines what we\n"\
-         "# actually check.\n"\
-         "criteria:       " + postdict.get('criteria',
-                                            default="") + "\n"\
-         "(This section is under construction.)"
+    return (
+        "%YAML 1.2\n"
+        "---\n"
+        "\n"
+        "# This is some metadata about the badge.\n"
+        "name:           " + postdict.get("badge-name", default="") + "\n"
+        "description:    " + postdict.get("badge-description", default="") + "\n"
+        "creator:        " + postdict.get("badge-creator", default="") + "\n"
+        "\n"
+        "# This is a link to the discussion about adopting this as\n"
+        "a for-real badge\n"
+        "discussion:     " + postdict.get("discussion", default="") + "\n"
+        "\n"
+        "# A link to the image for the badge.\n"
+        "image_url:      " + postdict.get("image", default="") + "\n"
+        "\n"
+        "# The issuer.\n"
+        "issuer_id:      " + postdict.get("issuer", default="") + "\n"
+        "\n"
+        "# We'll perform our more costly check (defined below)\n"
+        "# only when we receive messages that match this trigger.\n"
+        "trigger:\n"
+        "  topic:        " + postdict.get("trigger-topic", default="") + "\n"
+        "\n"
+        "# Once the check has been triggered, this defines what we\n"
+        "# actually check.\n"
+        "criteria:       " + postdict.get("criteria", default="") + "\n"
+        "(This section is under construction.)"
+    )
 
 
 def make_avatar_method(cache):
@@ -58,31 +53,31 @@ def make_avatar_method(cache):
     def _avatar_function(email, size):
         request = pyramid.threadlocal.get_current_request()
         absolute_default = request.registry.settings.get(
-            'tahrir.default_avatar',
-            'https://badges.fedoraproject.org/static/img/badger_avatar.png')
+            "tahrir.default_avatar", "https://badges.fedoraproject.org/static/img/badger_avatar.png"
+        )
 
         query = {
-            's': size,
-            'd': absolute_default,
+            "s": size,
+            "d": absolute_default,
         }
 
-        if size == 'responsive':
+        if size == "responsive":
             # Make it big so we can downscale it as we please
-            query['s'] = 312
+            query["s"] = 312
 
         query = six.moves.urllib.parse.urlencode(query)
 
         # Use md5 for emails, and sha256 for openids.
         # We're really using openids, so...
-        #hash = md5(email).hexdigest()
+        # hash = md5(email).hexdigest()
         hash = sha256(email).hexdigest()
 
         # TODO This next line is temporary and can be removed.  We do
         # libravatar ourselves here by hand to avoid pyDNS issues on epel6.
         # Once those are resolved we can use pylibravatar again.
-        return "https://seccdn.libravatar.org/avatar/%s?%s" % (hash, query)
+        return f"https://seccdn.libravatar.org/avatar/{hash}?{query}"
 
-        gravatar_url = "https://secure.gravatar.com/avatar/%s?%s" % (hash, query)
+        gravatar_url = f"https://secure.gravatar.com/avatar/{hash}?{query}"
 
         if libravatar:
             return libravatar.libravatar_url(
@@ -103,21 +98,22 @@ def make_avatar_method(cache):
 
 
 def singularize(term, value):
-    """ Strip the 's' off of plural words to dumbly singularize them. """
+    """Strip the 's' off of plural words to dumbly singularize them."""
     if value == 1:
         return term[:-1]
     else:
         return term
 
+
 def make_relative_time_property(attr):
 
     SHORT_DENOMINATIONS = {
-            'years': 'yrs',
-            'months': 'mons',
-            'days': 'days',
-            'hours': 'hrs',
-            'minutes': 'mins',
-            'seconds': 'secs',
+        "years": "yrs",
+        "months": "mons",
+        "days": "days",
+        "hours": "hrs",
+        "minutes": "mins",
+        "seconds": "secs",
     }
 
     @property
@@ -131,18 +127,16 @@ def make_relative_time_property(attr):
         else:
             suffix = "from now"
 
-        time_strings = []
+        # time_strings = []
         rd = dateutil.relativedelta.relativedelta(seconds=math.fabs(delta))
-        denominations = [
-            'years', 'months', 'days', 'hours',
-            'minutes', 'seconds']
+        denominations = ["years", "months", "days", "hours", "minutes", "seconds"]
         for denomination in denominations:
             value = getattr(rd, denomination, 0)
             if value:
                 return "%d %s %s" % (
                     value,
                     singularize(SHORT_DENOMINATIONS[denomination], value),
-                    suffix
+                    suffix,
                 )
 
         return "just now"
@@ -155,7 +149,7 @@ def make_openid_identifier_property(identifier):
     @property
     def openid_identifier(self):
         prefix, domain = identifier.split("://")
-        return "http://%s.%s" % (self.nickname, domain)
+        return f"http://{self.nickname}.{domain}"
 
     return openid_identifier
 
@@ -177,5 +171,5 @@ def str_to_bytes(input):
     through. Needed to deal with dogpile key mangling.
     """
     if isinstance(input, six.text_type):
-        input = input.encode('utf-8')
+        input = input.encode("utf-8")
     return input

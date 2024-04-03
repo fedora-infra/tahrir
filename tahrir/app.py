@@ -1,9 +1,8 @@
-from __future__ import absolute_import
-from pyramid.security import Allow, Deny, Everyone
+from pyramid.security import Allow
 
 
-class AssertionApp(object):
-    __name__ = 'assertions'
+class AssertionApp:
+    __name__ = "assertions"
 
     def __init__(self, badge):
         self.badge = badge
@@ -18,8 +17,8 @@ class AssertionApp(object):
             raise KeyError("Assertion %r not found." % key)
 
 
-class InvitationApp(object):
-    __name__ = 'invitations'
+class InvitationApp:
+    __name__ = "invitations"
 
     def __init__(self, request):
         self.request = request
@@ -31,22 +30,22 @@ class InvitationApp(object):
         return resource
 
 
-class RootApp(object):
+class RootApp:
     __name__ = None
     __parent__ = None
 
     __acl__ = [
-        (Allow, 'group:admins', 'admin'),
+        (Allow, "group:admins", "admin"),
     ]
 
     def __init__(self, request):
         self.request = request
 
     def __getitem__(self, key):
-        if key == 'assertions':
+        if key == "assertions":
             return self
 
-        if key == 'invitations':
+        if key == "invitations":
             resource = InvitationApp(request=self.request)
             resource.__parent__ = self
             return resource
