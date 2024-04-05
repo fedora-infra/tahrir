@@ -42,6 +42,8 @@ legend {
     margin-right: 10px;
     margin-left: 10px;
     margin-top: 10px;
+    background-size: contain;
+    background-position-y: center;
 }
 
 /* Applied to numbering, mainly (ex. #1, #2, etc.). */
