@@ -5,6 +5,7 @@ import typing
 from authlib.oauth2.rfc6750 import InvalidTokenError
 from pyramid.httpexceptions import HTTPFound
 from pyramid.security import remember
+from pyramid.settings import asbool
 
 if typing.TYPE_CHECKING:  # pragma: no cover
     import pyramid.request.Request  # noqa: 401
@@ -12,12 +13,16 @@ if typing.TYPE_CHECKING:  # pragma: no cover
 
 
 def get_and_store_user(request, access_token, response):
+    settings = request.registry.settings
     userinfo = request.registry.oidc.fedora.userinfo(token={"access_token": access_token})
     if "error" in userinfo:
         raise InvalidTokenError(description=userinfo["error_description"])
 
     nickname = userinfo["nickname"]
-    email = userinfo["email"]
+    if asbool(settings.get("tahrir.use_openid_email")):
+        email = userinfo["email"]
+    else:
+        email = nickname + settings.get("tahrir.email_domain")
 
     # Keep adding underscores until we get a default nickname
     # that isn't already used.
