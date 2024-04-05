@@ -80,7 +80,7 @@ def _get_user_badge_info(request, user):
 
     # Get rank. (same code found in leaderboard view function)
     rank = user.rank or 0
-    user_count = request.db.session.query(m.Person).filter(not m.Person.opt_out).count()
+    user_count = request.db.session.query(m.Person).filter(m.Person.opt_out.is_(False)).count()
 
     try:
         percentile = (
@@ -393,7 +393,7 @@ def index(request):
     latest_awards = (
         request.db.get_all_assertions()
         .join(m.Person)
-        .filter(not m.Person.opt_out)
+        .filter(m.Person.opt_out.is_(False))
         .order_by(sa.desc(m.Assertion.issued_on))
         .limit(n)
         .all()
@@ -494,13 +494,13 @@ def leaderboard(request):
             m.Person.rank,
             m.Person.created_on,
         )
-        .filter(not m.Person.opt_out)
+        .filter(m.Person.opt_out.is_(False))
     )
 
-    leaderboard = query.filter(m.Person.rank is not None).all()
+    leaderboard = query.filter(m.Person.rank.isnot(None)).all()
     # Get total user count.
     user_count = len(leaderboard)
-    leaderboard.extend(query.filter(m.Person.rank is None).all())
+    leaderboard.extend(query.filter(m.Person.rank.is_(None)).all())
 
     user_to_rank = request.db._make_leaderboard()
 
@@ -554,13 +554,13 @@ def leaderboard_json(request):
             m.Person.rank,
             m.Person.created_on,
         )
-        .filter(not m.Person.opt_out)
+        .filter(m.Person.opt_out.is_(False))
     )
 
-    leaderboard = query.filter(m.Person.rank is not None).all()
+    leaderboard = query.filter(m.Person.rank.isnot(None)).all()
     # Get total user count.
     # user_count = len(leaderboard)
-    leaderboard.extend(query.filter(m.Person.rank is None).all())
+    leaderboard.extend(query.filter(m.Person.rank.is_(None)).all())
 
     user_to_rank = request.db._make_leaderboard()
 
@@ -626,7 +626,7 @@ def explore(request):
                         (m.Person.nickname.like("%" + search_query + "%"))
                         | (m.Person.bio.like("%" + search_query + "%"))
                     )
-                    & (not m.Person.opt_out)
+                    & (m.Person.opt_out.is_(False))
                 )
                 .all()
             )
@@ -655,10 +655,10 @@ def explore(request):
     # Get some random persons (for discovery).
     try:
         random_persons = random.sample(
-            request.db.get_all_persons().filter(not m.Person.opt_out).all(), 5
+            request.db.get_all_persons().filter(m.Person.opt_out.is_(False)).all(), 5
         )
     except ValueError:  # the sample is probably larger than the population
-        random_persons = request.db.get_all_persons().filter(not m.Person.opt_out).all()
+        random_persons = request.db.get_all_persons().filter(m.Person.opt_out.is_(False)).all()
 
     return dict(
         auth_principals=request.effective_principals,
@@ -1217,7 +1217,7 @@ def diff(request):
     # Get rank. (same code found in leaderboard view function)
     user_a_rank = user_a.rank
     user_b_rank = user_b.rank
-    user_count = request.db.session.query(m.Person).filter(not m.Person.opt_out).count()
+    user_count = request.db.session.query(m.Person).filter(m.Person.opt_out.is_(False)).count()
 
     try:
         user_a_percentile = (float(user_a_rank) / float(user_count)) * 100
