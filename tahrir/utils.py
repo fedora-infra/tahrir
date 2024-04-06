@@ -149,7 +149,7 @@ def make_openid_identifier_property(identifier):
     @property
     def openid_identifier(self):
         prefix, domain = identifier.split("://")
-        return f"http://{self.nickname}.{domain}"
+        return f"{self.nickname}@fedoraproject.org"
 
     return openid_identifier
 
