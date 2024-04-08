@@ -1,4 +1,10 @@
 ---
+- name: configure fedora-messaging to point at tinystage rabbitmq
+  lineinfile:
+    path: /etc/fedora-messaging/config.toml
+    regexp: "amqp_url = \"amqp://\""
+    line: "amqp_url = \"amqp://fedoramessages:fedoramessages@tinystage.tinystage.test\"" # gitleaks:allow
+
 - name: Setup development instance of tahrir
   command: poetry install
   become: yes

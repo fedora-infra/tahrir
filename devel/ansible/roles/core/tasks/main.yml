@@ -12,4 +12,7 @@
         - redhat-rpm-config
         - python-devel
         - poetry
+        - libpq-devel
+        - gcc
+        - fedora-messaging
       state: present
