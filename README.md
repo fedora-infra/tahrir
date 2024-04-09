@@ -49,33 +49,21 @@ Your pull request should contain tests for your new feature or bug fix. If you'r
 
 #### Setup a local development environment
 
-To quickly start hacking on tahrir we provide a vagrant setup.
+To quickly start hacking on Tahrir, we provide a vagrant setup.
 
-First, install Ansible, Vagrant, the vagrant-sshfs plugin, and the vagrant-libvirt plugin from the official Fedora repos
+1. Set up tinystage (if you haven't already) and ensure the base boxes are running.
 
-```
-$ sudo dnf install ansible vagrant vagrant-libvirt vagrant-sshfs
-```
+   https://github.com/fedora-infra/tiny-stage
 
-Now, from within main directory (the one with the Vagrantfile in it) of your git checkout of tahrir, copy the Vagrantfile.example file to Vagrantfile
+   This sets up the infrastructure to use things like authentication and Fedora Messaging when developing on Tahrir
 
-```
-$ cp Vagrantfile.example Vagrantfile
-```
+2. Clone the repository to your local storage and run
 
-Run the ``vagrant up`` command to provision your dev environment
+   ```
+   vagrant up
+   ```
 
-```
-$ vagrant up
-```
-
-When this command is completed (it may take a while) start tahrir with the following command:
-
-```
-$ vagrant ssh -c"cd /vagrant/; pserve --reload development.ini"
-```
-
-Once that is running, simply go to http://localhost:8000/ in your browser on your host to see your running tahrir test instance.
+3. Tahrir frontend should now be available on https://badges.tinystage.test.
 
 [open-badges]: https://openbadges.org
 [ob-about]: https://openbadges.org/about/
