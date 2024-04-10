@@ -31,15 +31,6 @@ More detailed guidelines to help ensure your submission goes smoothly are below.
 
 ### Guidelines
 
-#### Python Support
-
-Tahrir supports Python 2.7 version. This is automatically enforced by the continuous integration (CI) suite.
-
-#### Code Style
-
-We follow the [PEP8](https://www.python.org/dev/peps/pep-0008/) style guide
-for Python. This is automatically enforced by the CI suite.
-
 #### Tests
 
 The test suites can be run using [tox](http://tox.readthedocs.io/) by simply
