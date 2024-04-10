@@ -2304,10 +2304,12 @@ develop = false
 [package.dependencies]
 alembic = "*"
 arrow = "*"
+fedora_messaging = "*"
 pastedeploy = "*"
 pygments = "*"
 simplejson = "*"
 SQLAlchemy = ">=0.7.2"
+tahrir-messages = "*"
 "zope.sqlalchemy" = "*"
 
 [package.source]
@@ -2315,6 +2317,20 @@ type = "git"
 url = "https://github.com/fedora-infra/tahrir-api"
 reference = "HEAD"
 resolved_reference = "bc18ba9398ac517721feb077f552625167024db3"
+
+[[package]]
+name = "tahrir-messages"
+version = "1.0.1"
+description = "A schema package for messages sent by tahrir"
+optional = false
+python-versions = "<4.0,>=3.8"
+files = [
+    {file = "tahrir_messages-1.0.1-py3-none-any.whl", hash = "sha256:898803d3b2386e8d006fcb8f0019be9faf2de03a1691b8147fed817a692d618f"},
+    {file = "tahrir_messages-1.0.1.tar.gz", hash = "sha256:c1670198f44fe514bd6da64eb6d6e6fe52bda4ec39452686b1d6faf4533cee14"},
+]
+
+[package.dependencies]
+fedora-messaging = ">=3.3.0,<4.0.0"
 
 [[package]]
 name = "tomli"
@@ -2699,4 +2715,4 @@ test = ["zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9.0"
-content-hash = "f7bf637e8ccaaa4f013627367cd706eb8570594729e0d4d2e03404d9c3327e22"
+content-hash = "341e7d36953b83afd63d01af2954ec7ca0c334cd5f7cfd22ae22d00ddb64ba48"
