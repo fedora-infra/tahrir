@@ -25,12 +25,11 @@ def _publish(message):
     fm_api.publish(message)
 
 
-def callback(topic, msg):
+def callback(message):
     request = pyramid.threadlocal.get_current_request()
     settings = request.registry.settings
     if asbool(settings.get("tahrir.use_fedmsg", False)):
-        log.debug(f"Publishing fedoramessage topic`{topic}` with message `{msg}`")
-        message = fm_api.Message(topic=topic, body=msg)
+        log.debug(f"Publishing fedoramessage `{message}`")
         try:
             _publish(message)
         except fm_exceptions.BaseException:
