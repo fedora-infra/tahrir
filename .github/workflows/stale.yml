@@ -19,3 +19,4 @@ jobs:
           exempt-all-assignees: true
           # exclude issues/PRs with the specified labels
           exempt-issue-labels: good-first-issue
+          operations-per-run: 1000
