@@ -18,4 +18,4 @@ jobs:
         with:
           exempt-all-assignees: true
           # exclude issues/PRs with the specified labels
-          exempt-labels: good-first-issue
+          exempt-issue-labels: good-first-issue
