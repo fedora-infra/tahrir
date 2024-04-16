@@ -59,7 +59,7 @@ $(document).ready(function() {
         badgeDescription = $(this).val();
         updateTextarea();
     });
-    
+
     $('input[name=badge-creator]').keyup(function() {
         badgeCreator = $(this).val();
         updateTextarea();
@@ -95,7 +95,7 @@ $(document).ready(function() {
         if ($(this).is(':checked')) {
             $('textarea#preview').prop('readonly', 'readonly');
         }
-        else { 
+        else {
             $('textarea#preview').prop('readonly', '');
         }
     });
@@ -104,7 +104,7 @@ $(document).ready(function() {
     if ($('input[name=read-only]').is(':checked')) {
         $('textarea#preview').prop('readonly', 'readonly');
     }
-    else { 
+    else {
         $('textarea#preview').prop('readonly', '');
     }
 });

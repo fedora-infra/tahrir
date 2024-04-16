@@ -29,7 +29,7 @@ Thingiloader = function(event) {
       return reader.getSize() == predictedSize;
     };
 
-    workerFacadeMessage({'status':'message', 'content':'Downloading ' + url});  
+    workerFacadeMessage({'status':'message', 'content':'Downloading ' + url});
     var file = this.load_binary_resource(url);
     var reader = new BinaryReader(file);
 
@@ -41,7 +41,7 @@ Thingiloader = function(event) {
   };
 
   this.loadOBJ = function(url) {
-    workerFacadeMessage({'status':'message', 'content':'Downloading ' + url});  
+    workerFacadeMessage({'status':'message', 'content':'Downloading ' + url});
     var file = this.load_binary_resource(url);
     this.loadOBJString(file);
   };
@@ -51,12 +51,12 @@ Thingiloader = function(event) {
     var file = this.load_binary_resource(url);
     this.loadJSONString(file);
   };
-  
+
   this.loadPLY = function(url) {
-    workerFacadeMessage({'status':'message', 'content':'Downloading ' + url});  
-  
+    workerFacadeMessage({'status':'message', 'content':'Downloading ' + url});
+
     var file = this.load_binary_resource(url);
-    
+
     if (file.match(/format ascii/i)) {
       this.loadPLYString(file);
     } else {
@@ -65,7 +65,7 @@ Thingiloader = function(event) {
   };
 
   this.loadSTLString = function(STLString) {
-    workerFacadeMessage({'status':'message', 'content':'Parsing STL String...'});  
+    workerFacadeMessage({'status':'message', 'content':'Parsing STL String...'});
     workerFacadeMessage({'status':'complete', 'content':this.ParseSTLString(STLString)});
   };
 
@@ -83,14 +83,14 @@ Thingiloader = function(event) {
     workerFacadeMessage({'status':'message', 'content':'Parsing JSON String...'});
     workerFacadeMessage({'status':'complete', 'content':eval(JSONString)});
   };
-  
+
   this.loadPLYString = function(PLYString) {
-    workerFacadeMessage({'status':'message', 'content':'Parsing PLY String...'});  
+    workerFacadeMessage({'status':'message', 'content':'Parsing PLY String...'});
     workerFacadeMessage({'status':'complete_points', 'content':this.ParsePLYString(PLYString)});
   };
 
   this.loadPLYBinary = function(PLYBinary) {
-    workerFacadeMessage({'status':'message', 'content':'Parsing PLY Binary...'});  
+    workerFacadeMessage({'status':'message', 'content':'Parsing PLY Binary...'});
     workerFacadeMessage({'status':'complete_points', 'content':this.ParsePLYBinary(PLYBinary)});
   };
 
@@ -100,15 +100,15 @@ Thingiloader = function(event) {
     var colors = [];
 
     var vertex_count = 0;
-    
+
     var header = /ply\n([\s\S]+)\nend_header/ig.exec(input)[1];
     var data = /end_header\n([\s\S]+)$/ig.exec(input)[1];
-    
-    // workerFacadeMessage({'status':'message', 'content':'header:\n' + header});  
-    // workerFacadeMessage({'status':'message', 'content':'data:\n' + data});  
+
+    // workerFacadeMessage({'status':'message', 'content':'header:\n' + header});
+    // workerFacadeMessage({'status':'message', 'content':'data:\n' + data});
 
     header_parts = header.split("\n");
-    
+
     for (i in header_parts) {
       if (/element vertex/i.test(header_parts[i])) {
         vertex_count = /element vertex (\d+)/i.exec(header_parts[i])[1];
@@ -116,25 +116,25 @@ Thingiloader = function(event) {
         properties.push(/property (.*) (.*)/i.exec(header_parts[i])[2]);
       }
     }
-    
+
     // workerFacadeMessage({'status':'message', 'content':'properties: ' + properties});
 
     data_parts = data.split("\n");
-    
+
     for (i in data_parts) {
       data_line = data_parts[i];
       data_line_parts = data_line.split(" ");
-      
+
       vertices.push([
-        parseFloat(data_line_parts[properties.indexOf("x")]), 
-        parseFloat(data_line_parts[properties.indexOf("y")]), 
-        parseFloat(data_line_parts[properties.indexOf("z")]) 
+        parseFloat(data_line_parts[properties.indexOf("x")]),
+        parseFloat(data_line_parts[properties.indexOf("y")]),
+        parseFloat(data_line_parts[properties.indexOf("z")])
       ]);
-      
-      colors.push([ 
-        parseInt(data_line_parts[properties.indexOf("red")]), 
-        parseInt(data_line_parts[properties.indexOf("green")]), 
-        parseInt(data_line_parts[properties.indexOf("blue")]) 
+
+      colors.push([
+        parseInt(data_line_parts[properties.indexOf("red")]),
+        parseInt(data_line_parts[properties.indexOf("green")]),
+        parseInt(data_line_parts[properties.indexOf("blue")])
       ]);
     }
 
@@ -171,14 +171,14 @@ Thingiloader = function(event) {
             'content':parseInt(i / count * 100) + '%'
           });
       }
-      
+
       // Skip the normal (3 single-precision floats)
       input.seek(input.getPosition() + 12);
 
       var face_indices = [];
       for (var x = 0; x < 3; x++) {
         var vertex = [input.readFloat(), input.readFloat(), input.readFloat()];
-      
+
         var vertexIndex = vert_hash[vertex];
         if (vertexIndex == null) {
           vertexIndex = vertices.length;
@@ -189,7 +189,7 @@ Thingiloader = function(event) {
         face_indices.push(vertexIndex);
       }
       faces.push(face_indices);
-    
+
       // Skip the "attribute" field (unused in common models)
       input.readUInt16();
     }
@@ -201,7 +201,7 @@ Thingiloader = function(event) {
   this.ParseSTLString = function(STLString) {
     var vertexes  = [];
     var faces     = [];
-  
+
     var face_vertexes = [];
     var vert_hash = {}
 
@@ -212,7 +212,7 @@ Thingiloader = function(event) {
     STLString = STLString.replace(/^solid[^\n]*/, "");
     STLString = STLString.replace(/\n/g, " ");
     STLString = STLString.replace(/facet normal /g,"");
-    STLString = STLString.replace(/outer loop/g,"");  
+    STLString = STLString.replace(/outer loop/g,"");
     STLString = STLString.replace(/vertex /g,"");
     STLString = STLString.replace(/endloop/g,"");
     STLString = STLString.replace(/endfacet/g,"");
@@ -232,7 +232,7 @@ Thingiloader = function(event) {
       if ((i % 100) == 0) {
         workerFacadeMessage({'status':'progress', 'content':parseInt(i / (points.length/12-1) * 100) + '%'});
       }
-    
+
       var face_indices = [];
       for (var x=0; x<3; x++) {
         var vertex = [parseFloat(points[block_start+x*3+3]), parseFloat(points[block_start+x*3+4]), parseFloat(points[block_start+x*3+5])];
@@ -247,7 +247,7 @@ Thingiloader = function(event) {
         face_indices.push(vertexIndex);
       }
       faces.push(face_indices);
-    
+
       block_start = block_start + 12;
     }
 
@@ -259,21 +259,21 @@ Thingiloader = function(event) {
     var faces     = [];
 
     var lines = OBJString.split("\n");
-  
+
     // var normal_position = 0;
-  
+
     for (var i=0; i<lines.length; i++) {
       workerFacadeMessage({'status':'progress', 'content':parseInt(i / lines.length * 100) + '%'});
-    
+
       line_parts = lines[i].replace(/\s+/g, " ").split(" ");
-    
+
       if (line_parts[0] == "v") {
         vertexes.push([parseFloat(line_parts[1]), parseFloat(line_parts[2]), parseFloat(line_parts[3])]);
       } else if (line_parts[0] == "f") {
         faces.push([parseFloat(line_parts[1].split("/")[0])-1, parseFloat(line_parts[2].split("/")[0])-1, parseFloat(line_parts[3].split("/")[0]-1), 0])
       }
     }
-  
+
     return [vertexes, faces];
   };
 
@@ -305,7 +305,7 @@ Thingiloader = function(event) {
     case "loadPLYBinary":
     this.loadPLYBinary(event.data.param);
     break;
-  }  
+  }
 
 };
 

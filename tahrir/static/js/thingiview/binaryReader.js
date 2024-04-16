@@ -24,7 +24,7 @@ BinaryReader.prototype = {
 
 	readFloat:	function (){ return this._decodeFloat(23, 8); },
 	readDouble:	function (){ return this._decodeFloat(52, 11); },
-	
+
 	readChar:	function () { return this.readString(1); },
 	readString: function (length) {
 		this._checkSize(length * 8);
@@ -37,18 +37,18 @@ BinaryReader.prototype = {
 		this._pos = pos;
 		this._checkSize(0);
 	},
-	
+
 	getPosition: function () {
 		return this._pos;
 	},
-	
+
 	getSize: function () {
 		return this._buffer.length;
 	},
 
 
 	/* Private */
-	
+
 	_decodeFloat: function(precisionBits, exponentBits){
 		var length = precisionBits + exponentBits + 1;
 		var size = length >> 3;
@@ -93,7 +93,7 @@ BinaryReader.prototype = {
 		for (++b; --b; a = ((a %= 0x7fffffff + 1) & 0x40000000) == 0x40000000 ? a * 2 : (a - 0x40000000) * 2 + 0x7fffffff + 1);
 		return a;
 	},
-	
+
 	_readByte: function (i, size) {
 		return this._buffer.charCodeAt(this._pos + size - i - 1) & 0xff;
 	},
@@ -108,7 +108,7 @@ BinaryReader.prototype = {
 		var sum = (this._readByte(curByte, size) >> offsetRight) & ((1 << (diff ? 8 - offsetRight : length)) - 1);
 
 		if (diff && offsetLeft) {
-			sum += (this._readByte(lastByte++, size) & ((1 << offsetLeft) - 1)) << (diff-- << 3) - offsetRight; 
+			sum += (this._readByte(lastByte++, size) & ((1 << offsetLeft) - 1)) << (diff-- << 3) - offsetRight;
 		}
 
 		while (diff) {
