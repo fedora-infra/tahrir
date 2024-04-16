@@ -52,7 +52,7 @@
     group: vagrant
 
 
-- command: poetry run initialize_tahrir_db /home/vagrant/development.ini
+- command: poetry run sync_tahrir_db /home/vagrant/development.ini
   become: yes
   become_user: vagrant
   args:
