@@ -50,7 +50,7 @@ def generate_badge_yaml(postdict):
 def make_avatar_method(cache):
 
     @cache.cache_on_arguments()
-    def _avatar_function(email, size):
+    def _avatar_function(email: bytes, size):
         request = pyramid.threadlocal.get_current_request()
         absolute_default = request.registry.settings.get(
             "tahrir.default_avatar", "https://badges.fedoraproject.org/static/img/badger_avatar.png"
@@ -90,9 +90,8 @@ def make_avatar_method(cache):
 
     def avatar_method(self, size):
         # dogpile.cache can barf on unicode, so do this ourselves.
-        ident = str_to_bytes(self.openid_identifier)
         # Call the cached workhorse function
-        return _avatar_function(ident, size)
+        return _avatar_function(self.email.encode("utf-8"), size)
 
     return avatar_method
 
@@ -136,16 +135,6 @@ def relative_time(value: datetime.datetime):
             )
 
     return "just now"
-
-
-def make_openid_identifier_property(identifier):
-
-    @property
-    def openid_identifier(self):
-        prefix, domain = identifier.split("://")
-        return f"{self.nickname}@fedoraproject.org"
-
-    return openid_identifier
 
 
 def merge_dicts(dict1, dict2):

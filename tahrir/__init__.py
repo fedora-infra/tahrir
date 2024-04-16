@@ -18,7 +18,6 @@ from . import notifications
 from .app import get_root
 from .utils import (
     make_avatar_method,
-    make_openid_identifier_property,
     str_to_bytes,
 )
 
@@ -30,9 +29,6 @@ def main(global_config, **settings):
         key_mangler=lambda x: dogpile.cache.util.sha1_mangle_key(str_to_bytes(x))
     )
     tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
-
-    identifier = settings.get("tahrir.openid_identifier")
-    tahrir_api.model.Person.openid_identifier = make_openid_identifier_property(identifier)
 
     session_cls = scoped_session(
         sessionmaker(
@@ -105,14 +101,6 @@ def main(global_config, **settings):
         authentication_policy=authn_policy,
         authorization_policy=authz_policy,
     )
-
-    # import tahrir.custom_openid
-    # config.include('velruse.providers.openid')
-    # tahrir.custom_openid.add_openid_login(
-    #     config,
-    #     realm=settings.get('tahrir.openid_realm'),
-    #     identity_provider=settings.get('tahrir.openid_identifier'),
-    # )
 
     config.include("pyramid_mako")
 
