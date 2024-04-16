@@ -2,21 +2,14 @@ import codecs
 import os
 import random
 import types
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from decimal import ROUND_UP, Decimal
+from io import StringIO
 
 import docutils.examples
 import markupsafe
 import qrcode as qrcode_module
-import six
 import sqlalchemy as sa
-from pytz import UTC
-
-try:
-    from io import StringIO
-except ImportError:
-    from StringIO import StringIO
-
 import tahrir_api.model as m
 from feedgen.feed import FeedGenerator
 from pyramid.httpexceptions import (
@@ -33,7 +26,7 @@ from pyramid.view import (
 )
 from tahrir_api.utils import convert_name_to_id
 
-from tahrir.utils import generate_badge_yaml, merge_dicts
+from tahrir.utils import generate_badge_yaml
 
 
 def _get_user(request, id_or_nickname):
@@ -300,14 +293,14 @@ def admin(request):
                     request.POST.get("invitation-created"), "%Y-%m-%d %H:%M"
                 )
             except ValueError:
-                created_on = None  # Will default to datetime.utcnow()
+                created_on = None  # Will default to datetime.now(timezone.utc)
 
             try:
                 expires_on = datetime.strptime(
                     request.POST.get("invitation-expires"), "%Y-%m-%d %H:%M"
                 )
             except ValueError:
-                expires_on = None  # Will default to datettime.utcnow()
+                expires_on = None  # Will default to datettime.now(timezone.utc)
 
             request.db.add_invitation(
                 request.POST.get("invitation-badge-id"),
@@ -344,7 +337,7 @@ def admin(request):
                         request.POST.get("assertion-issued-on"), "%Y-%m-%d %H:%M"
                     )
                 except ValueError:
-                    issued_on = None  # Will default to datetime.utcnow()
+                    issued_on = None  # Will default to datetime.now(timezone.utc)
 
                 request.db.add_assertion(
                     request.POST.get("assertion-badge-id"),
@@ -406,7 +399,7 @@ def index(request):
         stop=stop,
     )
 
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     start = date(now.year, now.month, 1)
     if now.month == 12:
         stop = date(now.year + 1, 1, 1) - timedelta(days=1)
@@ -441,7 +434,7 @@ def invitation_claim(request):
 
     # settings = request.registry.settings
 
-    if request.context.expires_on < datetime.utcnow():
+    if request.context.expires_on < datetime.now(timezone.utc):
         return HTTPGone("That invitation is expired.")
 
     if not request.authenticated_userid:
@@ -455,7 +448,9 @@ def invitation_claim(request):
         request.session.flash("You already have " + request.context.badge_id + " badge")
         return HTTPFound(location=request.route_url("home"))
 
-    # result = request.db.add_assertion(request.context.badge_id, person.email, datetime.utcnow())
+    # result = request.db.add_assertion(
+    #     request.context.badge_id, person.email, datetime.now(timezone.utc)
+    # )
 
     # TODO -- return them to a page that auto-exports their badges.
     request.session.flash("You have earned " + request.context.badge_id + " badge")
@@ -466,7 +461,7 @@ def invitation_claim(request):
 def invitation_qrcode(request):
     """Returns a raw dummy qrcode through to the user."""
 
-    if request.context.expires_on < datetime.utcnow():
+    if request.context.expires_on < datetime.now(timezone.utc):
         return HTTPGone("That invitation is expired.")
 
     target = request.resource_url(request.context, "claim")
@@ -577,9 +572,7 @@ def leaderboard_json(request):
         leaderboard = leaderboard[:limit]
 
     ret = [
-        merge_dicts(user_to_rank[p], {"nickname": p.nickname})
-        for p in leaderboard
-        if p in user_to_rank
+        {**user_to_rank[p], **{"nickname": p.nickname}} for p in leaderboard if p in user_to_rank
     ]
 
     return {"leaderboard": ret}
@@ -714,7 +707,7 @@ def explore_badges_rss(request):
         entry = feed.add_entry()
         entry.title("New badge: %s !" % badge.name)
         entry.link(href=url)
-        pubdate = badge.created_on.replace(tzinfo=UTC)
+        pubdate = badge.created_on.replace(tzinfo=timezone.utc)
         entry.published(pubdate)
         entry.description(
             description_template
@@ -820,9 +813,7 @@ def _badge_json_generator(request, badge, withasserts=True):
 
     try:
         # Fixme -- not sure if this works -- need to check it out.
-        assertions = sorted(
-            badge.assertions, cmp=lambda x, y: cmp(x.issued_on, y.issued_on)  # noqa: F821
-        )
+        assertions = sorted(badge.assertions, key=lambda b: b.issued_on)
 
         times_awarded = len(badge.assertions)
 
@@ -922,7 +913,7 @@ def badge_rss(request):
         entry = feed.add_entry()
         entry.title(assertion.person.nickname)
         entry.link(href=url)
-        pubdate = assertion.issued_on.replace(tzinfo=UTC)
+        pubdate = assertion.issued_on.replace(tzinfo=timezone.utc)
         entry.published(pubdate)
         entry.description(
             description_template
@@ -990,7 +981,7 @@ def user_rss(request):
         entry = feed.add_entry()
         entry.title(assertion.badge.name)
         entry.link(href=request.route_url("badge", id=assertion.badge.id))
-        pubdate = assertion.issued_on.replace(tzinfo=UTC)
+        pubdate = assertion.issued_on.replace(tzinfo=timezone.utc)
         entry.published(pubdate)
         entry.description(
             description_template
@@ -1052,7 +1043,7 @@ def user(request):
 
     # Get invitations the user has created.
     invitations = [
-        i for i in request.db.get_invitations(user.id) if i.expires_on > datetime.utcnow()
+        i for i in request.db.get_invitations(user.id) if i.expires_on > datetime.now(timezone.utc)
     ]
 
     user_info = dict(
@@ -1128,7 +1119,7 @@ def _user_json_generator(request, user):
     for assertion in user.assertions:
         issued = {"issued": float(assertion.issued_on.strftime("%s"))}
         _badged = _badge_json_generator(request, assertion.badge, withasserts=False)
-        assertions.append(merge_dicts(issued, _badged))
+        assertions.append({**issued, **_badged})
 
     return {
         "user": user.nickname,
@@ -1414,7 +1405,7 @@ def report_year_month(request):
     year = int(request.matchdict.get("year"))
     month = int(request.matchdict.get("month"))
 
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     start = date(year, month, 1)
     if now.month == 12:
         stop = date(year + 1, 1, 1) - timedelta(days=1)
@@ -1496,7 +1487,7 @@ def report_year_week(request):
 
 @view_config(route_name="report_this_month")
 def report_this_month(request):
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     year, month = now.year, now.month
     location = request.route_url("report_year_month", year=year, month=month)
     return HTTPFound(location=location)
@@ -1529,7 +1520,7 @@ def award_from_csv(request):
             # If there is an @ sign in the first value, it is the email.
             awards[values[0].strip()] = values[1].strip()
 
-    for email, badge_id in six.iteritems(awards):
+    for email, badge_id in awards.items():
         # First, if the person doesn't exist, we automatically
         # create the person in this special case.
         if not request.db.person_exists(email=email):
@@ -1546,7 +1537,7 @@ def award_from_csv(request):
     return HTTPFound(location=request.route_url("admin"))
 
 
-@view_config(context=six.text_type)
+@view_config(context=str)
 def html(context, request):
     return Response(context)
 
@@ -1673,7 +1664,7 @@ def get_start_week(year=None, month=None, day=None):
     :return a Date of the day the week started either based on the
         current utc date or based on the information.
     """
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     if not year:
         year = now.year
     if not month:

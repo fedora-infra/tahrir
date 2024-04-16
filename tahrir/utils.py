@@ -1,12 +1,10 @@
 import datetime
 import math
-import time
+import urllib.parse
 from hashlib import sha256
 
 import dateutil.relativedelta
 import pyramid.threadlocal
-import six
-import six.moves.urllib.parse
 
 libravatar = None
 try:
@@ -65,7 +63,7 @@ def make_avatar_method(cache):
             # Make it big so we can downscale it as we please
             query["s"] = 312
 
-        query = six.moves.urllib.parse.urlencode(query)
+        query = urllib.parse.urlencode(query)
 
         # Use md5 for emails, and sha256 for openids.
         # We're really using openids, so...
@@ -137,22 +135,11 @@ def relative_time(value: datetime.datetime):
     return "just now"
 
 
-def merge_dicts(dict1, dict2):
-    """
-    Combine two dicts, in a way that works with Python 2 and 3. In
-    3.5+ you can just do z = {**x, **y}, so when we no longer care
-    about compatibility before 3.5 we can replace use of this.
-    """
-    ret = dict1.copy()
-    ret.update(dict2)
-    return ret
-
-
 def str_to_bytes(input):
-    """If input is unicode-type (unicode on Python 2, str on Python
-    3), encodes it and returns the result. Otherwise just passes it
-    through. Needed to deal with dogpile key mangling.
+    """If input is a unicode string, encodes it and returns the result.
+
+    Otherwise just passes it through. Needed to deal with dogpile key mangling.
     """
-    if isinstance(input, six.text_type):
+    if isinstance(input, str):
         input = input.encode("utf-8")
     return input

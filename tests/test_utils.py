@@ -15,15 +15,6 @@ class TestSingularize(unittest.TestCase):
         self.assertEqual(utils.singularize("cats", 1), "cat")
 
 
-class TestMergeDicts(unittest.TestCase):
-    """Test the merge_dicts() function."""
-
-    def test_merge_dicts(self):
-        dict1 = {1: "a"}
-        dict2 = {2: ["b"]}
-        self.assertEqual(utils.merge_dicts(dict1, dict2), {1: "a", 2: ["b"]})
-
-
 class TestStrToBytes(unittest.TestCase):
     """Test the str_to_bytes() function."""
 

@@ -1,4 +1,5 @@
 import os
+from configparser import ConfigParser
 
 import dogpile.cache
 import dogpile.cache.util
@@ -8,7 +9,6 @@ from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.session import SignedCookieSessionFactory
 from pyramid.settings import asbool
-from six.moves.configparser import ConfigParser
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from tahrir_api.dbapi import TahrirDatabase
