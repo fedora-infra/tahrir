@@ -1149,8 +1149,8 @@ def _user_team_json_generator(request, team, user):
         for milestone in milestones:
             milestones_info.append(
                 {
-                    "milestone": milestone.__json__(),
-                    "series": elem.__json__(),
+                    "milestone": milestone.as_dict(),
+                    "series": elem.as_dict(),
                     "is_awarded": milestone.badge_id in assertion_ids,
                 }
             )
@@ -1544,7 +1544,7 @@ def html(context, request):
 
 @view_config(context=m.Assertion, renderer="json")
 def json(context, request):
-    return context.__json__()
+    return context.as_dict()
 
 
 @view_config(context="pyramid.httpexceptions.HTTPNotFound", renderer="404.mak")

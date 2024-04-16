@@ -95,7 +95,7 @@ import json
 		}
 
 		% if logged_in:
-		var userdata = ${ json.dumps(logged_in_person.__json__())|n };
+		var userdata = ${ json.dumps(logged_in_person.as_dict())|n };
 		% else:
 		var userdata = null;
 		% endif

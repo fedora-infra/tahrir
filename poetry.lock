@@ -2336,7 +2336,7 @@ tahrir-messages = "^1.0.2"
 type = "git"
 url = "https://github.com/fedora-infra/tahrir-api"
 reference = "HEAD"
-resolved_reference = "d1639265e734e56fb976bd8b7412e09ed1ca7e8e"
+resolved_reference = "c0d87024de15570f8737740ea65618e8a601be2c"
 
 [[package]]
 name = "tahrir-messages"
