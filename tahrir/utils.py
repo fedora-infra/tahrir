@@ -105,8 +105,7 @@ def singularize(term, value):
         return term
 
 
-def make_relative_time_property(attr):
-
+def relative_time(value: datetime.datetime):
     SHORT_DENOMINATIONS = {
         "years": "yrs",
         "months": "mons",
@@ -115,33 +114,28 @@ def make_relative_time_property(attr):
         "minutes": "mins",
         "seconds": "secs",
     }
+    then_in_seconds = value.timestamp()
+    now_in_seconds = datetime.datetime.now(datetime.timezone.utc).timestamp()
+    delta = now_in_seconds - then_in_seconds
 
-    @property
-    def relative_time_method(self):
-        then_in_seconds = time.mktime(getattr(self, attr).timetuple())
-        now_in_seconds = time.mktime(datetime.datetime.utcnow().timetuple())
-        delta = now_in_seconds - then_in_seconds
+    if delta > 0:
+        suffix = "ago"
+    else:
+        suffix = "from now"
 
-        if delta > 0:
-            suffix = "ago"
-        else:
-            suffix = "from now"
+    # time_strings = []
+    rd = dateutil.relativedelta.relativedelta(seconds=math.fabs(delta))
+    denominations = ["years", "months", "days", "hours", "minutes", "seconds"]
+    for denomination in denominations:
+        value = getattr(rd, denomination, 0)
+        if value:
+            return "%d %s %s" % (
+                value,
+                singularize(SHORT_DENOMINATIONS[denomination], value),
+                suffix,
+            )
 
-        # time_strings = []
-        rd = dateutil.relativedelta.relativedelta(seconds=math.fabs(delta))
-        denominations = ["years", "months", "days", "hours", "minutes", "seconds"]
-        for denomination in denominations:
-            value = getattr(rd, denomination, 0)
-            if value:
-                return "%d %s %s" % (
-                    value,
-                    singularize(SHORT_DENOMINATIONS[denomination], value),
-                    suffix,
-                )
-
-        return "just now"
-
-    return relative_time_method
+    return "just now"
 
 
 def make_openid_identifier_property(identifier):

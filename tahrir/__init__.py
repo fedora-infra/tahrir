@@ -19,7 +19,6 @@ from .app import get_root
 from .utils import (
     make_avatar_method,
     make_openid_identifier_property,
-    make_relative_time_property,
     str_to_bytes,
 )
 
@@ -34,10 +33,6 @@ def main(global_config, **settings):
 
     identifier = settings.get("tahrir.openid_identifier")
     tahrir_api.model.Person.openid_identifier = make_openid_identifier_property(identifier)
-
-    tahrir_api.model.Person.created_on_rel = make_relative_time_property("created_on")
-    tahrir_api.model.Assertion.created_on_rel = make_relative_time_property("created_on")
-    tahrir_api.model.Assertion.issued_on_rel = make_relative_time_property("issued_on")
 
     session_cls = scoped_session(
         sessionmaker(
