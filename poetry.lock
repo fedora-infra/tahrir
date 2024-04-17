@@ -2314,29 +2314,25 @@ pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 
 [[package]]
 name = "tahrir-api"
-version = "0.8.1"
+version = "1.0.0"
 description = "An API for interacting with the Tahrir database"
 optional = false
-python-versions = "^3.9.0"
-files = []
-develop = false
+python-versions = "<4.0.0,>=3.9.0"
+files = [
+    {file = "tahrir_api-1.0.0-py3-none-any.whl", hash = "sha256:3ebbbf9f46d9734a0517dd254fdc356ddcab23b590f7f1d8cc95eb6ef91e6b3d"},
+    {file = "tahrir_api-1.0.0.tar.gz", hash = "sha256:f216d84f76e0855159a8845f4981da9dd662c5610eb303e2992d127d6569f515"},
+]
 
 [package.dependencies]
-alembic = "^1.13.1"
-arrow = "^1.3.0"
-fedora-messaging = "^3.5.0"
-pastedeploy = "^3.1.0"
-pygments = "^2.17.2"
-simplejson = "^3.19.2"
-sqlalchemy = "^2.0.29"
+alembic = ">=1.13.1,<2.0.0"
+arrow = ">=1.3.0,<2.0.0"
+fedora-messaging = ">=3.5.0,<4.0.0"
+pastedeploy = ">=3.1.0,<4.0.0"
+pygments = ">=2.17.2,<3.0.0"
+simplejson = ">=3.19.2,<4.0.0"
+sqlalchemy = ">=2.0.29,<3.0.0"
 sqlalchemy-helpers = ">=0.13.0"
-tahrir-messages = "^1.0.2"
-
-[package.source]
-type = "git"
-url = "https://github.com/fedora-infra/tahrir-api"
-reference = "HEAD"
-resolved_reference = "c0d87024de15570f8737740ea65618e8a601be2c"
+tahrir-messages = ">=1.0.2,<2.0.0"
 
 [[package]]
 name = "tahrir-messages"
@@ -2735,4 +2731,4 @@ test = ["zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9.0"
-content-hash = "3c709fe7d4c89e6d986ac0581e3bb722fae6c22d01d4ff67a2cfd2342bb143bf"
+content-hash = "f3a09c932ea35f0d2bd7b443561122761ff711bde8ef4a4493617981f9c37639"
