@@ -16,7 +16,7 @@
         <div class="grid-100">
           <p class="name" property="foaf:nick">${user.nickname}</p>
         </div>
-        <span property="foaf:account" content="${user.nickname}@fedoraproject.org" />
+        <span property="foaf:account" content="${user.nickname}${request.registry.settings['tahrir.email_domain']}" />
 
         % if user.bio:
           <div class="grid-100">
@@ -98,7 +98,7 @@
             </button>
           % endif
           <form method="GET" action="https://www.libravatar.org/openid/login/">
-            <input type="hidden" name="openid_identifier" value="${user.nickname}@fedoraproject.org"/>
+            <input type="hidden" name="openid_identifier" value="${user.nickname}.id.fedoraproject.org"/>
             <input
                class="pretty-submit"
                style="height: 50px; width: 100%;"
