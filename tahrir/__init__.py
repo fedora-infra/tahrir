@@ -1,9 +1,6 @@
 import os
 from configparser import ConfigParser
 
-import dogpile.cache
-import dogpile.cache.util
-import tahrir_api.model
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
@@ -15,19 +12,11 @@ from tahrir_api.dbapi import TahrirDatabase
 
 from . import notifications
 from .app import get_root
-from .utils import (
-    make_avatar_method,
-    str_to_bytes,
-)
+from .utils import cache
 
 
 def main(global_config, **settings):
     """This function returns a Pyramid WSGI application."""
-
-    cache = dogpile.cache.make_region(
-        key_mangler=lambda x: dogpile.cache.util.sha1_mangle_key(str_to_bytes(x))
-    )
-    tahrir_api.model.Person.avatar_url = make_avatar_method(cache)
 
     session_cls = scoped_session(
         sessionmaker(

@@ -23,7 +23,7 @@ from pyramid.response import Response
 from pyramid.view import view_config
 from tahrir_api.utils import convert_name_to_id
 
-from tahrir.utils import generate_badge_yaml
+from tahrir.utils import generate_badge_yaml, get_avatar
 
 
 def _get_user(request, id_or_nickname):
@@ -915,7 +915,7 @@ def badge_rss(request):
         entry.description(
             description_template
             % (
-                assertion.person.avatar_url(128),
+                get_avatar(assertion.person.email, 128),
                 assertion.person.nickname,
                 assertion.person.nickname,
             )
@@ -1070,7 +1070,7 @@ def _user_json_generator(request, user):
 
     return {
         "user": user.nickname,
-        "avatar": user.avatar_url(int(request.GET.get("size", 100))),
+        "avatar": get_avatar(user.email, int(request.GET.get("size", 100))),
         "percent_earned": user_info["percent_earned"],
         "assertions": assertions,
         "percentile": str(user_info["percentile"]),

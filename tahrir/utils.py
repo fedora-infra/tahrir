@@ -4,6 +4,8 @@ import urllib.parse
 from hashlib import sha256
 
 import dateutil.relativedelta
+import dogpile.cache
+import dogpile.cache.util
 import pyramid.threadlocal
 
 libravatar = None
@@ -11,6 +13,11 @@ try:
     import libravatar
 except ImportError:
     pass
+
+
+cache = dogpile.cache.make_region(
+    key_mangler=lambda x: dogpile.cache.util.sha1_mangle_key(str_to_bytes(x))
+)
 
 
 def generate_badge_yaml(postdict):
@@ -45,55 +52,46 @@ def generate_badge_yaml(postdict):
     )
 
 
-def make_avatar_method(cache):
+@cache.cache_on_arguments()
+def get_avatar(email: str, size):
+    request = pyramid.threadlocal.get_current_request()
+    theme_name = request.registry.settings.get("tahrir.theme_name", "tahrir")
+    absolute_default = request.registry.settings.get(
+        "tahrir.default_avatar",
+        request.static_url(f"{theme_name}:static/img/badger_avatar.png"),
+    )
 
-    @cache.cache_on_arguments()
-    def _avatar_function(email: bytes, size):
-        request = pyramid.threadlocal.get_current_request()
-        theme_name = request.registry.settings.get("tahrir.theme_name", "tahrir")
-        absolute_default = request.registry.settings.get(
-            "tahrir.default_avatar",
-            request.static_url(f"{theme_name}:static/img/badger_avatar.png"),
+    query = {
+        "s": size,
+        "d": absolute_default,
+    }
+
+    if size == "responsive":
+        # Make it big so we can downscale it as we please
+        query["s"] = 312
+
+    query = urllib.parse.urlencode(query)
+
+    # Use md5 for emails, and sha256 for openids.
+    # We're really using openids, so...
+    # hash = md5(email).hexdigest()
+    hash = sha256(email.encode("utf-8")).hexdigest()
+
+    # TODO This next line is temporary and can be removed.  We do
+    # libravatar ourselves here by hand to avoid pyDNS issues on epel6.
+    # Once those are resolved we can use pylibravatar again.
+    return f"https://seccdn.libravatar.org/avatar/{hash}?{query}"
+
+    gravatar_url = f"https://secure.gravatar.com/avatar/{hash}?{query}"
+
+    if libravatar:
+        return libravatar.libravatar_url(
+            email=email,
+            size=size,
+            default=gravatar_url,
         )
-
-        query = {
-            "s": size,
-            "d": absolute_default,
-        }
-
-        if size == "responsive":
-            # Make it big so we can downscale it as we please
-            query["s"] = 312
-
-        query = urllib.parse.urlencode(query)
-
-        # Use md5 for emails, and sha256 for openids.
-        # We're really using openids, so...
-        # hash = md5(email).hexdigest()
-        hash = sha256(email).hexdigest()
-
-        # TODO This next line is temporary and can be removed.  We do
-        # libravatar ourselves here by hand to avoid pyDNS issues on epel6.
-        # Once those are resolved we can use pylibravatar again.
-        return f"https://seccdn.libravatar.org/avatar/{hash}?{query}"
-
-        gravatar_url = f"https://secure.gravatar.com/avatar/{hash}?{query}"
-
-        if libravatar:
-            return libravatar.libravatar_url(
-                email=email,
-                size=size,
-                default=gravatar_url,
-            )
-        else:
-            return gravatar_url
-
-    def avatar_method(self, size):
-        # dogpile.cache can barf on unicode, so do this ourselves.
-        # Call the cached workhorse function
-        return _avatar_function(self.email.encode("utf-8"), size)
-
-    return avatar_method
+    else:
+        return gravatar_url
 
 
 def singularize(term, value):
