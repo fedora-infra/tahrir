@@ -20,10 +20,7 @@ from pyramid.httpexceptions import (
     HTTPNotFound,
 )
 from pyramid.response import Response
-from pyramid.settings import asbool
-from pyramid.view import (
-    view_config,
-)
+from pyramid.view import view_config
 from tahrir_api.utils import convert_name_to_id
 
 from tahrir.utils import generate_badge_yaml
@@ -1034,7 +1031,9 @@ def user(request):
         if request.authenticated_userid != user.email:
             raise HTTPForbidden("Unauthorized")
 
-        person = request.db.get_all_persons().filter_by(email=request.authenticated_userid).one()
+        person = request.db.get_person(person_email=request.authenticated_userid)
+        if person is None:
+            raise HTTPNotFound(f"Person with email {request.authenticated_userid} not found")
 
         if request.POST.get("deactivate-account"):
             person.opt_out = True
@@ -1057,58 +1056,6 @@ def user(request):
     user_info.update(_get_user_badge_info(request, user))
 
     return user_info
-
-
-@view_config(route_name="user_edit", renderer="user_edit.mak")
-def user_edit(request):
-    """Render user edit page."""
-
-    # Grab a boolean out of the config
-    settings = request.registry.settings
-    allow_changenick = asbool(settings.get("tahrir.allow_changenick", True))
-
-    # Get awarded assertions.
-    if request.authenticated_userid:
-        awarded_assertions = request.db.get_assertions_by_email(request.authenticated_userid)
-    else:
-        awarded_assertions = None
-
-    user = _get_user(request, request.matchdict.get("id"))
-
-    if request.POST:
-
-        token = request.session.get_csrf_token()
-        if token != request.POST["csrf_token"]:
-            raise HTTPForbidden("CSRF token did not match")
-
-        # Authz check
-        if request.authenticated_userid != user.email:
-            raise HTTPForbidden("Unauthorized")
-
-        person = request.db.get_all_persons().filter_by(email=request.authenticated_userid).one()
-
-        # if this remains None, we don't have to go to a new URL
-        new_nick = None
-        if request.POST.get("edit-profile"):
-            if request.POST.get("new-nickname") and allow_changenick:
-                new_nick = request.POST.get("new-nickname")
-                person.nickname = new_nick
-
-            if request.POST.get("new-website"):
-                person.website = request.POST.get("new-website")
-
-            if request.POST.get("new-bio"):
-                person.bio = request.POST.get("new-bio")
-
-        user_id = new_nick or person.nickname or person.id
-        return HTTPFound(location=request.route_url("user", id=user_id))
-
-    return dict(
-        user=user,
-        auth_principals=request.effective_principals,
-        awarded_assertions=awarded_assertions,
-        allow_changenick=allow_changenick,
-    )
 
 
 def _user_json_generator(request, user):

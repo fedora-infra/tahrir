@@ -113,7 +113,7 @@
                type="submit"
                value="Manage Notifications" />
           </form>
-          <form method="GET" action="${request.route_url('user_edit', id=user.nickname or user.id)}">
+          <form method="GET" action="https://accounts.fedoraproject.org/user/${user.nickname}/settings/profile/">
             <input
                class="pretty-submit"
                style="height: 50px; width: 100%;"
