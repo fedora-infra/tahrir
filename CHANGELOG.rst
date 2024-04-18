@@ -1,3 +1,17 @@
+1.0.0
+-----
+
+- Migrate to Python 3 (`1784110 <https://github.com/fedora-infra/tahrir-api/commit/1784110>`_)
+- Migrate to Fedora Messaging (`897c2aa <https://github.com/fedora-infra/tahrir-api/commit/897c2aa>`_)
+- Migrate to Poetry (`e6f9c3d <https://github.com/fedora-infra/tahrir-api/commit/e6f9c3d>`_)
+- Migrate to OIDC (`7b325d7 <https://github.com/fedora-infra/tahrir-api/commit/7b325d7>`_)
+- Use pre-commit (`7cb6c8f <https://github.com/fedora-infra/tahrir-api/commit/7cb6c8f>`_)
+- Add unit tests, Ruff linter, Black formatter & CI (`daec079 <https://github.com/fedora-infra/tahrir-api/commit/daec079>`_)
+- Improve the Vagrant env
+- Improve the docs
+- Add S2I config for Openshift support (`0a98f79 <https://github.com/fedora-infra/tahrir-api/commit/0a98f79>`_)
+- A lot of smaller updates across the board
+
 
 0.9.2
 -----
