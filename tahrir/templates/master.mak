@@ -15,7 +15,7 @@ import json
     <link rel="stylesheet" media="mobile" href="${request.static_url('%s:static/css/unsemantic-grid-mobile.css' % theme_name)}" />
     <link rel="stylesheet" media="screen" href="${request.static_url('%s:static/css/unsemantic-grid-responsive.css' % theme_name)}" />
     <link rel="shortcut icon" href="${request.static_url('%s:static/img/favicon.ico' % theme_name)}" />
-    <script src="${request.static_url('%s:static/js/jquery-3.1.1.min.js' % theme_name)}"></script>
+    <script src="${request.static_url('%s:static/js/jquery-3.3.1.min.js' % theme_name)}"></script>
     <script src="${request.static_url('%s:static/js/social.js' % theme_name)}"></script>
     <script src="${request.static_url('%s:static/js/favico-0.3.4.min.js' % theme_name)}"></script>
     <script>
