@@ -12,7 +12,6 @@ from pyramid.settings import asbool
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from tahrir_api.dbapi import TahrirDatabase
-from zope.sqlalchemy import register
 
 from . import notifications
 from .app import get_root
@@ -35,7 +34,6 @@ def main(global_config, **settings):
             bind=create_engine(settings["sqlalchemy.url"]),
         )
     )
-    register(session_cls)
 
     def get_db(request):
         """Database retrieval function to be added to the request for
@@ -43,7 +41,7 @@ def main(global_config, **settings):
         """
         session = session_cls()
         return TahrirDatabase(
-            session=session, autocommit=False, notification_callback=notifications.callback
+            session=session, autocommit=True, notification_callback=notifications.callback
         )
 
     required_keys = [

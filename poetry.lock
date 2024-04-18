@@ -2766,28 +2766,7 @@ docs = ["Sphinx", "repoze.sphinx.autointerface", "sphinx_rtd_theme"]
 test = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 
-[[package]]
-name = "zope-sqlalchemy"
-version = "3.1"
-description = "Minimal Zope/SQLAlchemy transaction integration"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "zope.sqlalchemy-3.1-py3-none-any.whl", hash = "sha256:fdc7d65d8da335a34b90fb993e8217ef12808bad3025d2e3a6720db4138e4985"},
-    {file = "zope.sqlalchemy-3.1.tar.gz", hash = "sha256:d9c2c3be695c213c5e22b7f7c6a4a214fa8eb5940b033465ba1c10a9d8b346db"},
-]
-
-[package.dependencies]
-packaging = "*"
-setuptools = "*"
-SQLAlchemy = ">=1.1,<1.4.0 || >1.4.0,<1.4.1 || >1.4.1,<1.4.2 || >1.4.2,<1.4.3 || >1.4.3,<1.4.4 || >1.4.4,<1.4.5 || >1.4.5,<1.4.6 || >1.4.6"
-transaction = ">=1.6.0"
-"zope.interface" = ">=3.6.0"
-
-[package.extras]
-test = ["zope.testing"]
-
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9.0"
-content-hash = "1b66b8cf70252010ce83d06ec32a66d07097b73de78db388bfdc95474842b11b"
+content-hash = "c9a9080e1796fbfe5c5dddcbd628452acc1e85df6b5320b445198b2dcdcbfd48"
