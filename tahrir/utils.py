@@ -50,8 +50,10 @@ def make_avatar_method(cache):
     @cache.cache_on_arguments()
     def _avatar_function(email: bytes, size):
         request = pyramid.threadlocal.get_current_request()
+        theme_name = request.registry.settings.get("tahrir.theme_name", "tahrir")
         absolute_default = request.registry.settings.get(
-            "tahrir.default_avatar", "https://badges.fedoraproject.org/static/img/badger_avatar.png"
+            "tahrir.default_avatar",
+            request.static_url(f"{theme_name}:static/img/badger_avatar.png"),
         )
 
         query = {
