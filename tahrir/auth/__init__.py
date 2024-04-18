@@ -1,15 +1,8 @@
 """This module sets up OpenID Connect authentication"""
 
-from authlib import __version__ as authlib_version
-from packaging.version import parse as parse_version
-
 from .constants import SCOPES
 from .fedora import FedoraApp
-
-if parse_version(authlib_version) >= parse_version("1.0.0"):
-    from .oauth_1 import OAuth
-else:
-    from .oauth_015 import OAuth
+from .oauth_1 import OAuth
 
 
 def includeme(config):
