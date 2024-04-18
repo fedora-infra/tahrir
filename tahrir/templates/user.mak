@@ -85,7 +85,7 @@
             <ul class='pretty-list'>
             % for i in invitations:
             <li>
-              ${i.badge.name}, expires ${i.expires_on | relative_time},
+              ${i.badge.name}, expires ${i.expires_on | n,relative_time},
               <a href="${"/invitations/" + i.id + "/claim"}">[claim link]</a>,
               <a href="${"/invitations/" + i.id + "/qrcode"}">[QR code]</a>.
             </li>

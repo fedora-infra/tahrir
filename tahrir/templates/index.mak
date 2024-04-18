@@ -15,7 +15,7 @@
               <a href="${request.route_url('user', id=assertion.person.nickname or assertion.person.id)}">
                 ${assertion.person.nickname}
               </a>
-              <span class="date">${assertion.issued_on | relative_time}</span>
+              <span class="date">${assertion.issued_on | n,relative_time}</span>
             </div>
             ${self.functions.badge_thumbnail(assertion.badge, 64, 33)}
           </div>
