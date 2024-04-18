@@ -106,7 +106,7 @@
                type="submit"
                value="Change Avatar" />
           </form>
-          <form method="GET" action="https://apps.fedoraproject.org/notifications/${user.nickname}.id.fedoraproject.org">
+          <form method="GET" action="https://notifications.fedoraproject.org/">
             <input
                class="pretty-submit"
                style="height: 50px; width: 100%;"
