@@ -18,11 +18,9 @@
         </div>
         <span property="foaf:account" content="${user.nickname}${request.registry.settings['tahrir.email_domain']}" />
 
-        % if user.bio:
-          <div class="grid-100">
-            <p class="description">${user.bio}</p>
-          </div>
-        % endif
+        <div class="grid-100">
+          <p>Go to <a href="https://accounts.fedoraproject.org/user/${user.nickname}/">${user.nickname}'s Fedora Account</a>
+        </div>
 
         <div class="metadata grid-60">
           <p>Arrived on ${user.created_on.strftime('%Y-%m-%d')}.</p>
@@ -37,17 +35,6 @@
               Ranked ${rank} out of ${user_count} ranked users (top ${"{0:.2f}".format(float(percentile))}%).</p>
           % else:
             <p>Not ranked yet.</p>
-          % endif
-
-          % if user.website:
-            <p>
-              Website:
-              % if user.website.startswith('http'):
-                <a property="foaf:homepage" href="${user.website}">${user.website}</a>
-              % else:
-                <a property="foaf:homepage" href="http://${user.website}">${user.website}</a>
-              % endif
-            </p>
           % endif
 
           <p>

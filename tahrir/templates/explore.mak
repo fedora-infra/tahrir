@@ -87,7 +87,7 @@
                 <label for="person-query">
                   Keyword
                   <span class="sublabel">
-                    Search through person names and bios.</span>
+                    Search through person names.</span>
                 </label>
               </td>
               <td><input name="person-query" required="required" /></td>

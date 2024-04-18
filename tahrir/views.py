@@ -258,8 +258,6 @@ def admin(request):
                 request.db.add_person(
                     email,
                     nickname=request.POST.get("person-nickname"),
-                    website=request.POST.get("person-website"),
-                    bio=request.POST.get("person-bio"),
                 )
                 request.session.flash(
                     "You added a person with email %s" % request.POST.get("person-email")
@@ -612,10 +610,7 @@ def explore(request):
             matching_results = (
                 request.db.get_all_persons()
                 .filter(
-                    (
-                        (m.Person.nickname.like("%" + search_query + "%"))
-                        | (m.Person.bio.like("%" + search_query + "%"))
-                    )
+                    (m.Person.nickname.like("%" + search_query + "%"))
                     & (m.Person.opt_out.is_(False))
                 )
                 .all()

@@ -27,14 +27,6 @@
           <td><input name="person-nickname" placeholder="Badger"/></td>
         </tr>
         <tr>
-          <td><label for="person-website">Website <span class="sublabel">Optional.</span></label></td>
-          <td><input name="person-website" placeholder="asite.tld"/></td>
-        </tr>
-        <tr>
-          <td><label for="person-bio">Bio <span class="sublabel">Optional.</span></label></td>
-          <td><input name="person-bio" placeholder="Just badgin' around"/></td>
-        </tr>
-        <tr>
           <td></td><td>
             <input name="add-person" type="submit" value="Add Person" />
           </td>
