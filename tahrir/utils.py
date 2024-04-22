@@ -55,15 +55,11 @@ def generate_badge_yaml(postdict):
 @cache.cache_on_arguments()
 def get_avatar(email: str, size):
     request = pyramid.threadlocal.get_current_request()
-    theme_name = request.registry.settings.get("tahrir.theme_name", "tahrir")
-    absolute_default = request.registry.settings.get(
-        "tahrir.default_avatar",
-        request.static_url(f"{theme_name}:static/img/badger_avatar.png"),
-    )
+    default = request.registry.settings.get("tahrir.default_avatar", "retro")
 
     query = {
         "s": size,
-        "d": absolute_default,
+        "d": default,
     }
 
     if size == "responsive":
