@@ -6,6 +6,7 @@ on:
       - stable
       - develop
     tags:
+      - "*"
   pull_request:
     branches:
       - stable
