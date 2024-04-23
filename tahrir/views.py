@@ -1036,9 +1036,7 @@ def user(request):
             person.opt_out = False
 
     # Get invitations the user has created.
-    invitations = [
-        i for i in request.db.get_invitations(user.id) if i.expires_on > datetime.now(timezone.utc)
-    ]
+    invitations = [i for i in request.db.get_invitations(user.id) if i.expires_on > datetime.now()]
 
     user_info = dict(
         user=user,
