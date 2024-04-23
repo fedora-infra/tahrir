@@ -429,7 +429,7 @@ def invitation_claim(request):
 
     # settings = request.registry.settings
 
-    if request.context.expires_on < datetime.now(timezone.utc):
+    if request.context.expires_on < datetime.now():
         return HTTPGone("That invitation is expired.")
 
     if not request.authenticated_userid:
@@ -456,7 +456,7 @@ def invitation_claim(request):
 def invitation_qrcode(request):
     """Returns a raw dummy qrcode through to the user."""
 
-    if request.context.expires_on < datetime.now(timezone.utc):
+    if request.context.expires_on < datetime.now():
         return HTTPGone("That invitation is expired.")
 
     target = request.resource_url(request.context, "claim")
