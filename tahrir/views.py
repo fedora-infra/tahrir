@@ -4,7 +4,7 @@ import random
 import types
 from datetime import date, datetime, timedelta, timezone
 from decimal import ROUND_UP, Decimal
-from io import StringIO
+from io import BytesIO
 
 import docutils.examples
 import markupsafe
@@ -461,10 +461,10 @@ def invitation_qrcode(request):
 
     target = request.resource_url(request.context, "claim")
     img = qrcode_module.make(target)
-    stringstream = StringIO()
-    img.save(stringstream)
+    bytestream = BytesIO()
+    img.save(bytestream)
     return Response(
-        body=stringstream.getvalue(),
+        body=bytestream.getvalue(),
         content_type="image/png",
     )
 
