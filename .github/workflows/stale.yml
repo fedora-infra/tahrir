@@ -18,5 +18,7 @@ jobs:
         with:
           exempt-all-assignees: true
           # exclude issues/PRs with the specified labels
-          exempt-issue-labels: good-first-issue
+          # exempt-issue-labels: good-first-issue
+          stale-issue-message: "This issue is stale because it has been open for 60 days with no activity."
+          close-issue-message: "This issue was closed because it has been inactive for 7 days since being marked as stale."
           operations-per-run: 1000
