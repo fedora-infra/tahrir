@@ -910,7 +910,7 @@ def badge_rss(request):
         entry.description(
             description_template
             % (
-                get_avatar(assertion.person.email, 128),
+                get_avatar(assertion.person.avatar, 128),
                 assertion.person.nickname,
                 assertion.person.nickname,
             )
@@ -1063,7 +1063,7 @@ def _user_json_generator(request, user):
 
     return {
         "user": user.nickname,
-        "avatar": get_avatar(user.email, int(request.GET.get("size", 100))),
+        "avatar": get_avatar(user.avatar, int(request.GET.get("size", 100))),
         "percent_earned": user_info["percent_earned"],
         "assertions": assertions,
         "percentile": str(user_info["percentile"]),

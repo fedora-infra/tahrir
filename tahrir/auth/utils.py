@@ -21,16 +21,22 @@ def get_and_store_user(request, access_token, response):
     nickname = userinfo["nickname"]
     if asbool(settings.get("tahrir.use_openid_email")):
         email = userinfo["email"]
+        avatar = None
     else:
         email = nickname + settings.get("tahrir.email_domain")
+        avatar = userinfo["email"]
 
     # Keep adding underscores until we get a default nickname
     # that isn't already used.
     while request.db.get_person(nickname=nickname):
         nickname += "_"
 
-    if not request.db.get_person(person_email=email):
-        request.db.add_person(email=email, nickname=nickname)
+    existing = request.db.get_person(person_email=email)
+    if not existing:
+        request.db.add_person(email=email, nickname=nickname, avatar=avatar)
+    elif existing._avatar != avatar:
+        existing._avatar = avatar
+        request.db.session.commit()
 
     # Note that they have logged in if we are installed with a newer version of
     # the db API that supports this.
