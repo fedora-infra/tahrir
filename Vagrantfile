@@ -14,6 +14,7 @@ Vagrant.configure(2) do |config|
 
     badges.vm.synced_folder '.', '/vagrant', type: "sshfs"
     badges.vm.synced_folder ".", "/home/vagrant/tahrir", type: "sshfs"
+    # badges.vm.synced_folder "../tahrir-api", "/home/vagrant/tahrir-api", type: "sshfs"
 
     badges.vm.provider :libvirt do |libvirt|
       libvirt.cpus = 2

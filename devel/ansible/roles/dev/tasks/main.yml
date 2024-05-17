@@ -51,13 +51,16 @@
     owner: vagrant
 
 
-- name: copy the secret.ini file
+- name: copy the secret.ini and alembic.ini files
   copy:
-    src: secret.ini
-    dest: /home/vagrant/secret.ini
+    src: "{{ item }}"
+    dest: /home/vagrant/{{ item }}
     mode: 0644
     owner: vagrant
     group: vagrant
+  loop:
+    - secret.ini
+    - alembic.ini
 
 - name: get the fedora badges
   git:
