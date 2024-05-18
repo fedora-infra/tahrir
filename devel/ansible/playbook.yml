@@ -5,7 +5,7 @@
   vars_files:
     - vars.yml
   roles:
-    - core
+    - common
     - ipa-client
     - cert
     - oidc-register

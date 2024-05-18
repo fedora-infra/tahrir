@@ -1,0 +1,6 @@
+ipa_admin_user: admin
+ipa_admin_password: password
+krb_master_password: "{{ ipa_admin_password }}"
+krb_realm: "{{ ansible_domain | upper }}"
+python_exec: python
+python_run_dir: null

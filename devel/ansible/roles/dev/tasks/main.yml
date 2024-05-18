@@ -4,6 +4,7 @@
     name:
       - git
       - vim
+      - libpq-devel
       - sqlite3
     state: present
 

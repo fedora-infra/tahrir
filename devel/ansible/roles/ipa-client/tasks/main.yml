@@ -5,6 +5,13 @@
       - ipa-client
     state: present
 
+- name: Install python-certifi
+  dnf:
+    name:
+      - python3-certifi
+    state: present
+  when: "python_exec in ('python', 'python3')"
+
 - name: Enroll system as IPA client
   shell: |
     ipa-client-install \
@@ -17,3 +24,22 @@
       -U -N --force-join
   args:
     creates: /etc/ipa/default.conf
+
+# Add Tinystage's root CA to certifi's bundle
+
+- name: Find where certifi's CA bundle is located
+  command:
+    cmd: "{{ python_exec }} -c 'import certifi; print(certifi.where())'"
+    chdir: "{{ python_run_dir }}"
+  register: _ca_bundle_path
+  changed_when: False
+
+- name: Get the content of the CA cert
+  slurp:
+    src: /etc/ipa/ca.crt
+  register: ca_crt
+
+- name: Put tinystage root CA in the list of CA's for certifi
+  blockinfile:
+    block: "{{ ca_crt.content | b64decode }}"
+    path: "{{ _ca_bundle_path.stdout }}"
