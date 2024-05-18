@@ -14,7 +14,7 @@ class AssertionApp:
                 assertion.__name__ = assertion.recipient
                 return assertion
         else:
-            raise KeyError("Assertion %r not found." % key)
+            raise KeyError(f"Assertion {key!r} not found.")
 
 
 class InvitationApp:
@@ -54,7 +54,7 @@ class RootApp:
 
         badge = self.request.db.get_badge(key)
         if not badge:
-            raise KeyError("No such badge %r" % key)
+            raise KeyError(f"No such badge {key!r}")
         resource = AssertionApp(badge=badge)
         resource.__parent__ = self
         return resource

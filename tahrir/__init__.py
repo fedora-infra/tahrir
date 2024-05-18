@@ -43,7 +43,7 @@ def main(global_config, **settings):
     # validate the config
     for key in required_keys:
         if key not in settings:
-            raise ValueError("%s required in settings." % key)
+            raise ValueError(f"{key} required in settings.")
 
     # Make data dir if it doesn't already exist.
     settings["tahrir.pngs.uri"] = os.path.abspath(settings["tahrir.pngs.uri"])
@@ -55,14 +55,14 @@ def main(global_config, **settings):
         default_path = os.path.abspath("secret.ini")
         secret_path = settings.get("tahrir.secret_config_path", default_path)
         # TODO: There is a better way to log this message than print.
-        print("Reading secrets from %r" % secret_path)
+        print(f"Reading secrets from {secret_path!r}")
         parser = ConfigParser()
         parser.read(secret_path)
         secret_config = dict(parser.items("tahrir"))
         settings.update(secret_config)
     except Exception as e:
         # TODO: There is a better way to log this message than print.
-        print("Failed to load secret.ini.  Reason: %r" % str(e))
+        print(f"Failed to load secret.ini.  Reason: {str(e)!r}")
 
     authn_policy = AuthTktAuthenticationPolicy(
         secret=settings["authnsecret"],

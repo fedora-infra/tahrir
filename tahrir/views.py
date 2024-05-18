@@ -106,18 +106,18 @@ def award(request):
     badge_id = request.POST.get("badge_id")
     badge = request.db.get_badge(badge_id)
     if not badge:
-        raise HTTPNotFound("No such badge %r" % badge_id)
+        raise HTTPNotFound(f"No such badge {badge_id!r}")
 
     if not badge.authorized(agent):
-        raise HTTPForbidden("Unauthorized for %r" % badge_id)
+        raise HTTPForbidden(f"Unauthorized for {badge_id!r}")
 
     nickname = request.POST.get("nickname")
     user = request.db.get_person(nickname=nickname)
     if not user:
-        raise HTTPNotFound("No such user %r" % nickname)
+        raise HTTPNotFound(f"No such user {nickname!r}")
 
     if user.opt_out:
-        raise HTTPNotFound("No such user %r" % nickname)
+        raise HTTPNotFound(f"No such user {nickname!r}")
 
     # OK
     request.db.add_assertion(badge.id, user.email, None)
@@ -141,10 +141,10 @@ def invite(request):
     badge_id = request.POST.get("badge_id")
     badge = request.db.get_badge(badge_id)
     if not badge:
-        raise HTTPNotFound("No such badge %r" % badge_id)
+        raise HTTPNotFound(f"No such badge {badge_id!r}")
 
     if not badge.authorized(agent):
-        raise HTTPForbidden("Unauthorized for %r" % badge_id)
+        raise HTTPForbidden(f"Unauthorized for {badge_id!r}")
 
     try:
         fmt = "%Y-%m-%d %H:%M"
@@ -174,7 +174,7 @@ def add_tag(request):
     badge_id = request.POST.get("badge_id")
     badge = request.db.get_badge(badge_id)
     if not badge:
-        raise HTTPNotFound("No such badge %r" % badge_id)
+        raise HTTPNotFound(f"No such badge {badge_id!r}")
 
     tags = request.POST.get("tags", "")
     new_tags = [tag.strip() for tag in tags.strip().split(",") if tag.strip()]
@@ -260,7 +260,7 @@ def admin(request):
                     nickname=request.POST.get("person-nickname"),
                 )
                 request.session.flash(
-                    "You added a person with email %s" % request.POST.get("person-email")
+                    "You added a person with email {}".format(request.POST.get("person-email"))
                 )
             else:
                 request.session.flash(f"Person with email {email} already exists.")
@@ -277,7 +277,7 @@ def admin(request):
                     request.POST.get("badge-issuer"),
                     request.POST.get("badge-tags"),
                 )
-                request.session.flash("You added a badge with name %s" % name)
+                request.session.flash(f"You added a badge with name {name}")
             else:
                 request.session.flash(f"Badge with id {idx} already exists.")
 
@@ -304,7 +304,9 @@ def admin(request):
                 created_by_email=request.POST.get("invitation-issuer-email"),
             )
             request.session.flash(
-                "You added an invitation for badge %s" % request.POST.get("invitation-badge-id")
+                "You added an invitation for badge {}".format(
+                    request.POST.get("invitation-badge-id")
+                )
             )
         elif request.POST.get("add-issuer"):
             origin = request.POST.get("issuer-origin")
@@ -315,7 +317,7 @@ def admin(request):
                     origin, name, request.POST.get("issuer-org"), request.POST.get("issuer-contact")
                 )
                 request.session.flash(
-                    "You added an issuer with the name %s" % request.POST.get("issuer-name")
+                    "You added an issuer with the name {}".format(request.POST.get("issuer-name"))
                 )
             else:
                 request.session.flash(
@@ -697,7 +699,7 @@ def explore_badges_rss(request):
     for badge in newest_badges:
         url = request.route_url("badge", id=badge.id)
         entry = feed.add_entry()
-        entry.title("New badge: %s !" % badge.name)
+        entry.title(f"New badge: {badge.name} !")
         entry.link(href=url)
         pubdate = badge.created_on.replace(tzinfo=timezone.utc)
         entry.published(pubdate)
@@ -727,7 +729,7 @@ def badge(request):
 
     # if the badge isn't found, raise a 404
     if not badge:
-        raise HTTPNotFound("No such badge %r" % badge_id)
+        raise HTTPNotFound(f"No such badge {badge_id!r}")
 
     # Get awarded assertions.
     if request.authenticated_userid:
@@ -884,7 +886,7 @@ def badge_rss(request):
     badge = request.db.get_badge(badge_id)
 
     if not badge:
-        raise HTTPNotFound("No such badge %r" % badge_id)
+        raise HTTPNotFound(f"No such badge {badge_id!r}")
 
     # this gives us the assertions sorted *earliest first*. feedgen's
     # default when adding entries is to prepend - put the new item at
@@ -893,9 +895,9 @@ def badge_rss(request):
     sorted_assertions = sorted(badge.assertions, key=lambda x: x.issued_on)
 
     feed = FeedGenerator()
-    feed.title("Badges Feed for %s" % badge.name)
+    feed.title(f"Badges Feed for {badge.name}")
     feed.link(href=request.route_url("badge", id=badge.id), rel="self")
-    feed.subtitle("Latest recipients of the badge %s" % badge.name)
+    feed.subtitle(f"Latest recipients of the badge {badge.name}")
     feed.language("en")
 
     description_template = "<img src='%s' alt='%s' />%s"
@@ -931,7 +933,7 @@ def badge_stl(request):
     badge = request.db.get_badge(badge_id)
 
     if not badge:
-        raise HTTPNotFound("No such badge %r" % badge_id)
+        raise HTTPNotFound(f"No such badge {badge_id!r}")
 
     if not badge.stl:
         raise HTTPNotFound("Badge has no stl file.")
@@ -950,10 +952,10 @@ def user_rss(request):
     user = _get_user(request, user_id)
 
     if not user:
-        raise HTTPNotFound("No such user %r" % user_id)
+        raise HTTPNotFound(f"No such user {user_id!r}")
 
     if user.opt_out and user.email != request.authenticated_userid:
-        raise HTTPNotFound("User %r has opted out." % user_id)
+        raise HTTPNotFound(f"User {user_id!r} has opted out.")
 
     # this gives us the assertions sorted *earliest first*. feedgen's
     # default when adding entries is to prepend - put the new item at
@@ -962,9 +964,9 @@ def user_rss(request):
     sorted_assertions = sorted(user.assertions, key=lambda x: x.issued_on)
 
     feed = FeedGenerator()
-    feed.title("Badges Feed for %s" % user.nickname)
+    feed.title(f"Badges Feed for {user.nickname}")
     feed.link(href=request.route_url("user", id=user.nickname or user.id), rel="self")
-    feed.subtitle("The latest Fedora Badges obtained by %s" % user.nickname)
+    feed.subtitle(f"The latest Fedora Badges obtained by {user.nickname}")
     feed.language("en")
 
     description_template = "<img src='%s' alt='%s'/>%s -- %s"
@@ -1011,10 +1013,10 @@ def user(request):
     history_limit = int(request.params.get("history_limit", 10))
 
     if not user:
-        raise HTTPNotFound("No such user %r" % user_id)
+        raise HTTPNotFound(f"No such user {user_id!r}")
 
     if user.opt_out and user.email != request.authenticated_userid:
-        raise HTTPNotFound("User %r has opted out." % user_id)
+        raise HTTPNotFound(f"User {user_id!r} has opted out.")
 
     if request.POST:
 
@@ -1115,14 +1117,14 @@ def diff(request):
     user_b = _get_user(request, user_b_id)
 
     if not user_a:
-        raise HTTPNotFound("No such user %r" % user_a_id)
+        raise HTTPNotFound(f"No such user {user_a_id!r}")
     if not user_b:
-        raise HTTPNotFound("No such user %r" % user_b_id)
+        raise HTTPNotFound(f"No such user {user_b_id!r}")
 
     if user_a.opt_out and user_a.email != request.authenticated_userid:
-        raise HTTPNotFound("User %r has opted out." % user_a_id)
+        raise HTTPNotFound(f"User {user_a_id!r} has opted out.")
     if user_b.opt_out and user_b.email != request.authenticated_userid:
-        raise HTTPNotFound("User %r has opted out." % user_b_id)
+        raise HTTPNotFound(f"User {user_b_id!r} has opted out.")
 
     # Get user badges.
     user_a_badges = [a.badge for a in user_a.assertions]
@@ -1473,7 +1475,7 @@ def award_from_csv(request):
                 request.db.add_assertion(badge_id, email, None)
                 successful_awards += 1
 
-    request.session.flash("Successfully awarded %s badges." % successful_awards)
+    request.session.flash(f"Successfully awarded {successful_awards} badges.")
     return HTTPFound(location=request.route_url("admin"))
 
 
@@ -1505,7 +1507,7 @@ def assertion_widget(request):
     badge_id = request.matchdict.get("badge")
     user = request.db.get_person(id=person_id)
     if not user:
-        raise HTTPNotFound("No such person %r" % person_id)
+        raise HTTPNotFound(f"No such person {person_id!r}")
 
     def get_assertion():
         for assertion in user.assertions:
@@ -1588,7 +1590,7 @@ def load_docs(request, key):
             htmldocs[k] = _load_docs(directory, k)
 
     if key not in htmldocs:
-        raise KeyError("%r is not permitted." % key)
+        raise KeyError(f"{key!r} is not permitted.")
 
     return htmldocs[key]
 
