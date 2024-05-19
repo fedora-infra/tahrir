@@ -68,7 +68,7 @@ jobs:
         id: extract-changelog
         uses: sean0x42/markdown-extract@v2
         with:
-          file: docs/release_notes.md
+          file: CHANGELOG.md
           pattern: 'Version\s+[[:word:].-]+'
           no-print-matched-heading: true
       - name: Show the changelog
