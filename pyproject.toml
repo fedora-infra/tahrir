@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tahrir"
-version = "1.0.0"
+version = "1.1.0"
 description = "A pyramid app for issuing your own Open Badges"
 
 license = "AGPLv3+ with additional permission"

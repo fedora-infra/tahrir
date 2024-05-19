@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 1.1.0
+
+- `Invitation.expires_on` is a naive datetime ([3413cd4](https://github.com/fedora-infra/tahrir-api/commit/3413cd4>))
+- Images are bytes, not strings ([40a9cdb](https://github.com/fedora-infra/tahrir-api/commit/40a9cdb>))
+- Make use of Person.avatar from tahrir-api ([64c3abc](https://github.com/fedora-infra/tahrir-api/commit/64c3abc>))
+- Improve the ansible playbook/roles for Vagrant ([d51911a](https://github.com/fedora-infra/tahrir-api/commit/d51911a>))
+- Linting fixes ([849c393](https://github.com/fedora-infra/tahrir-api/commit/849c393>))
+- Convert the changelog to markdown ([b1c865a](https://github.com/fedora-infra/tahrir-api/commit/b1c865a>))
+- Update dependencies
+
 
 ## Version 1.0.0
 
