@@ -297,17 +297,21 @@ def admin(request):
             except ValueError:
                 expires_on = None  # Will default to datettime.now(timezone.utc)
 
-            request.db.add_invitation(
-                request.POST.get("invitation-badge-id"),
-                created_on=created_on,
-                expires_on=expires_on,
-                created_by_email=request.POST.get("invitation-issuer-email"),
-            )
-            request.session.flash(
-                "You added an invitation for badge {}".format(
-                    request.POST.get("invitation-badge-id")
+            try:
+                request.db.add_invitation(
+                    request.POST.get("invitation-badge-id"),
+                    created_on=created_on,
+                    expires_on=expires_on,
+                    created_by_email=request.POST.get("invitation-issuer-email"),
                 )
-            )
+            except ValueError as e:
+                request.session.flash(str(e))
+            else:
+                request.session.flash(
+                    "You added an invitation for badge {}".format(
+                        request.POST.get("invitation-badge-id")
+                    )
+                )
         elif request.POST.get("add-issuer"):
             origin = request.POST.get("issuer-origin")
             name = request.POST.get("issuer-name")
