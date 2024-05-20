@@ -449,9 +449,7 @@ def invitation_claim(request):
         request.session.flash("You already have " + request.context.badge_id + " badge")
         return HTTPFound(location=request.route_url("home"))
 
-    # result = request.db.add_assertion(
-    #     request.context.badge_id, person.email, datetime.now(timezone.utc)
-    # )
+    request.db.add_assertion(request.context.badge_id, person.email, datetime.now(timezone.utc))
 
     # TODO -- return them to a page that auto-exports their badges.
     request.session.flash("You have earned " + request.context.badge_id + " badge")
