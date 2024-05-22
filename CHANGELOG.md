@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 1.1.1
+
+- Fix github action ([dc8e345](https://github.com/fedora-infra/tahrir-api/commit/dc8e345>))
+- Guard against errors in `add_invitation` ([583aeb4](https://github.com/fedora-infra/tahrir-api/commit/583aeb4>))
+- Fix commented-out `add_assertion` call ([6975157](https://github.com/fedora-infra/tahrir-api/commit/6975157>))
+- Update dependencies in lockfile ([dc95cbf](https://github.com/fedora-infra/tahrir-api/commit/dc95cbf>))
+- Update tahrir-api ([ee4ad19](https://github.com/fedora-infra/tahrir-api/commit/ee4ad19>))
+
+
 ## Version 1.1.0
 
 - `Invitation.expires_on` is a naive datetime ([3413cd4](https://github.com/fedora-infra/tahrir-api/commit/3413cd4>))
