@@ -1,0 +1,11 @@
+{% from '_functions.html' import link_person_nickname with context %}
+{% extends '_badge-base.html' %}
+
+{% block badge_body %}
+    <p>
+        {% for assertion in badge_assertions -%}
+            {{ link_person_nickname(assertion.person) }}
+        {%- endfor -%}
+        {%- if not loop.last %},{% endif %}
+    </p>
+{% endblock %}

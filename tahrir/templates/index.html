@@ -1,0 +1,75 @@
+{% from '_functions.html' import avatar_thumbnail, badge_thumbnail, pluralize with context %}
+
+{% extends '_base.html' %}
+
+{% block body %}
+
+<div class="page">
+  <!-- COLUMN 1 (Left)-->
+  <div class="grid-33">
+    <div class="shadow">
+      <h1 class="section-header">Latest Awards</h1>
+      <div id="latest-awards" class="padded-content">
+        {% for assertion in latest_awards %}
+          <div class="grid-container">
+            {{ avatar_thumbnail(assertion.person, 64, 33) }}
+            <div class="grid-33 text-64">
+              <a href="{{ url_for('tahrir.user', user_id=assertion.person.nickname or assertion.person.id) }}">
+                {{ assertion.person.nickname }}
+              </a>
+              <span class="date">{{ assertion.issued_on | relative_time }}</span>
+            </div>
+            {{ badge_thumbnail(assertion.badge, 64, 33) }}
+          </div>
+        {% endfor %}
+      </div> <!-- End padded content. -->
+    </div> <!-- End shadow -->
+  </div>
+  <!-- COLUMN 2 (Middle)-->
+  <div class="grid-33">
+    <div class="shadow">
+      <h1 class="section-header">Weekly Leaders</h1>
+      <div class="padded-content">
+        {% for person in (weekly_leaders|list)[:n] %}
+          <div class="grid-container">
+            {{ avatar_thumbnail(person, 64, 33) }}
+            <div class="grid-66 text-64">
+              <a href="{{ url_for('tahrir.user', user_id=person.nickname or person.id) }}">
+                {{ person.nickname or person.email }}
+              </a>
+              with <strong>{{ weekly_leaders[person]['badges'] }}</strong>
+              {{ pluralize("badge", weekly_leaders[person]['badges']) }}
+              this week.
+            </div>
+          </div> <!-- end grid-container -->
+        {% endfor %}
+      </div> <!-- End padded content. -->
+    </div> <!-- End shadow -->
+
+  </div>
+  <!-- COLUMN 3 (Right)-->
+  <div class="grid-33">
+    <div class="shadow">
+      <h1 class="section-header">Monthly Leaders</h1>
+      <div class="padded-content">
+        {% for person in (monthly_leaders|list)[:n] %}
+          <div class="grid-container">
+            {{ avatar_thumbnail(person, 64, 33) }}
+            <div class="grid-66 text-64">
+              <a href="{{ url_for('tahrir.user', user_id=person.nickname or person.id) }}">
+                {{ person.nickname or person.email }}
+              </a>
+              with <strong>{{ monthly_leaders[person]['badges'] }}</strong>
+              {{ pluralize("badge", monthly_leaders[person]['badges']) }}
+              this month.
+            </div>
+          </div> <!-- end grid-container -->
+        {% endfor %}
+      </div> <!-- End padded content. -->
+    </div> <!-- End shadow -->
+  </div>
+
+  <div class="clear spacer"></div>
+</div>
+
+{% endblock %}

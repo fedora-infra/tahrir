@@ -9,7 +9,7 @@ Fedora Badges
 How does Badges work?
 ---------------------
 
-It's really easy! Just `sign in to Badges <https://badges.fedoraproject.org/login>`_ with your `Fedora account <https://admin.fedoraproject.org/accounts/>`_, and you'll see you have at least one badge right away. Congratulations - you're a Badger! If you participate in Fedora in any way, you'll probably notice Badges popping up on your profile as you go about your business, though sadly we don't cover every area of Fedora yet - we're doing our best to make sure we reward as many forms of participation as we can!
+It's really easy! Just `sign in to Badges <https://badges.fedoraproject.org/oidc/login>`_ with your `Fedora account <https://admin.fedoraproject.org/accounts/>`_, and you'll see you have at least one badge right away. Congratulations - you're a Badger! If you participate in Fedora in any way, you'll probably notice Badges popping up on your profile as you go about your business, though sadly we don't cover every area of Fedora yet - we're doing our best to make sure we reward as many forms of participation as we can!
 
 Want to see how your badge collection compares with others? Check the `Leaderboard <https://badges.fedoraproject.org/leaderboard>`_. Jonesing for more badges? You can check the `Badge index <https://badges.fedoraproject.org/explore/badges>`_ to see all the badges and get to work on your collection! Click on a badge to see how to get it - but
 we intentionally didn't spell it all out exactly. Part of the fun is figuring it out!

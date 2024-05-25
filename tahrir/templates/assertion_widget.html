@@ -1,0 +1,11 @@
+{% from '_functions.html' import badge_thumbnail, avatar_thumbnail with context %}
+<div class="grid-container">
+  {{ avatar_thumbnail(assertion.person, 64, 33) }}
+  <div class="grid-33 text-64">
+    <a href="{{ url_for('tahrir.user', user_id=assertion.person.nickname or assertion.person.id) }}">
+      {{assertion.person.nickname}}
+    </a>
+    <span class="date">{{assertion.issued_on | relative_time }}</span>
+  </div>
+  {{ badge_thumbnail(assertion.badge, 64, 33) }}
+</div>

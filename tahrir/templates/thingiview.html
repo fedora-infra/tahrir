@@ -1,0 +1,35 @@
+{% extends '_base.html' %}
+
+{% block body %}
+<script src="{{ url_for("static", filename="js/thingiview/Three.js") }}"></script>
+<script src="{{ url_for("static", filename="js/thingiview/plane.js") }}"></script>
+<script src="{{ url_for("static", filename="js/thingiview/thingiview.js") }}"></script>
+<script>
+  window.onload = function() {
+    thingiurlbase = {{ url_for("static", filename="js/thingiview") | tojson }};
+    thingiview = new Thingiview("thingiviewer");
+    thingiview.setObjectColor('#C0D8F0');
+    thingiview.initScene();
+    thingiview.loadSTL({{badge.stl | tojson }});
+  }
+</script>
+
+<div class="page">
+  <!-- COLUMN 1 (Left)-->
+  <div class="grid-70 push-15">
+    <div class="shadow">
+      <h1 class="section-header"> {{badge.name}} </h1>
+      <div class="padded-content">
+        <p class="name centered">
+        <small>Download the <a href="{{badge.stl}}">raw stl file</a> for your
+          3D printer or <a href="{{ url_for('tahrir.badge', badge_id=badge.id) }}">go
+          back</a>.</small>
+        </p>
+        <div class="centered" id="thingiviewer" style="width:450px;height:450px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="clear spacer"></div>
+</div>
+
+{% endblock %}

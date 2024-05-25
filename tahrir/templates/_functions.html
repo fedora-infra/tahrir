@@ -1,0 +1,109 @@
+{% macro avatar_thumbnail(person, size, cell_width, tooltip=True) -%}
+	<div class="grid-{{cell_width}} thumbnail-container">
+		<div class="thumbnail thumbnail-{{size}}">
+      {% if tooltip %}
+			<span class="tooltip tooltip-{{size}}" data-tooltip="{{person.nickname}}">
+      {% endif %}
+				<a href="{{ url_for('tahrir.user', user_id=person.nickname or person.id) }}">
+					<img property="foaf:img schema:image" src="{{ person.avatar | as_avatar(size) }}" />
+				</a>
+      {% if tooltip %}
+			</span>
+      {% endif %}
+		</div>
+	</div>
+{%- endmacro %}
+
+{% macro badge_thumbnail(badge, size, cell_width, position='top') -%}
+	<div class="grid-{{cell_width}} thumbnail-container">
+		<div class="thumbnail thumbnail-{{size}}">
+			<span class="tooltip tooltip-{{size}} tooltip-{{position}}" data-tooltip="{{badge.name}} -- {{badge.description}}">
+				<a href="{{ url_for('tahrir.badge', badge_id=badge.id) }}">
+					<img class="badge-{{size}}"
+		{% if badge.image.startswith("http") %}
+						src="{{badge.image}}"
+		{% else %}
+						src="{{request.root_url}}/pngs/{{badge.image}}"
+		{% endif %}
+						alt="{{badge.id}} icon" />
+				</a>
+			</span>
+		</div>
+	</div>
+{%- endmacro %}
+
+
+{% macro badge_thumbnail_flex(badge, size, cell_width, position='top') -%}
+	<div class="thumbnail-container">
+		<div class="thumbnail thumbnail-{{size}}">
+			<span class="tooltip tooltip-{{size}} tooltip-{{position}}" data-tooltip="{{badge.name}} -- {{badge.description}}">
+				<a href="{{ url_for('tahrir.badge', badge_id=badge.id) }}">
+					<img class="badge-{{size}}"
+		{% if badge.image.startswith("http") %}
+						src="{{badge.image}}"
+		{% else %}
+						src="{{request.root_url}}/pngs/{{badge.image}}"
+		{% endif %}
+						alt="{{badge.id}} icon" />
+				</a>
+			</span>
+		</div>
+	</div>
+{%- endmacro %}
+
+
+{% macro link_person_nickname(person) -%}
+  <a href="{{ url_for('tahrir.user', user_id=person.nickname or person.id) }}">
+    {{ person.nickname }}
+  </a>
+{%- endmacro %}
+
+
+{% macro badge_holders(soft_limit, hard_limit) -%}
+  {% if times_awarded > soft_limit %}
+    {% for i in range(0, soft_limit) %}
+      {{link_person_nickname(badge_assertions[i].person)}}
+    {% endfor %}
+    {% if times_awarded <= hard_limit %}
+      {% for j in range(soft_limit, times_awarded) %}
+        {{link_person_nickname(badge_assertions[j].person)}}
+      {% endfor %}
+    {% else %}
+      ... and <a href="{{ url_for('tahrir.badge_full', badge_id=badge.id) }}">{{ times_awarded - soft_limit }} other people</a>.
+    {% endif %}
+  {% else %}
+    {% for a in badge_assertions %}
+      {{ link_person_nickname(a.person) }}
+    {% endfor %}
+  {% endif %}
+{%- endmacro %}
+
+
+{% macro show_badges_by_tags(by_tag, uncategorized) %}
+        {% for tag in config['TAHRIR_DISPLAY_TAGS'] %}
+        {% if by_tag[tag] %}
+        <h3 class="section-header">{{tag | title }} Badges</h3>
+        <div class="flex-container">
+          {% for badge in by_tag[tag] %}
+            {{ badge_thumbnail_flex(badge, 128, 33) }}
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% if uncategorized %}
+        <h3 class="section-header">Uncategorized Badges</h3>
+        <div class="flex-container">
+          {% for badge in uncategorized %}
+            {{ badge_thumbnail_flex(badge, 128, 33) }}
+          {% endfor %}
+        </div>
+        {% endif %}
+{% endmacro %}
+
+
+{% macro pluralize(word, count) -%}
+	{{- word -}}
+	{%- if count > 1 -%}
+	s
+	{%- endif -%}
+{% endmacro %}

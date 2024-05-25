@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- VIEWPORT STUFF -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1,
+                                   maximum-scale=1" />
+    <!-- end viewport stuff -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tahrir.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/monokai.css') }}" />
+    <link rel="stylesheet" media="mobile" href="{{ url_for('static', filename='css/unsemantic-grid-mobile.css') }}" />
+    <link rel="stylesheet" media="screen" href="{{ url_for('static', filename='css/unsemantic-grid-responsive.css') }}" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" />
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/social.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/favico-0.3.4.min.js') }}"></script>
+    <script>
+        // This is animated by the websocket
+        var notifs_count = 0;
+        var favicon = new Favico({animation : 'popFade'});
+        $(window).bind("focus", function() {
+            // Reset favicon if user switches to this tab.
+            notifs_count = 0;
+            favicon.badge(notifs_count);
+        });
+    </script>
+    {% if g.oidc_user.logged_in and g.oidc_user.awarded_assertions %}
+      <script src="//backpack.openbadges.org/issuer.js"></script>
+      <script>
+        function htmlDecode(value) { return $("<div>").html(value).text(); }
+        function badge_urls() {
+          var urls = [
+            {% for a in g.oidc_user.awarded_assertions %}
+              htmlDecode("{{ url_for('tahrir.assertion', badge_id=a.badge_id, recipient=a.recipient) }}"),
+            {% endfor %}
+          ];
+          return urls;
+        }
+        function claim_badges() {
+          var urls = badge_urls();
+          {% if config['TAHRIR_OPENBADGES_MODAL'] %}
+          var lolback = function(errors, successes) {};
+          OpenBadges.issue(urls, lolback);
+          {% else %}
+          OpenBadges.issue_no_modal(urls);
+          {% endif %}
+        }
+      </script>
+    {% endif %}
+    <title>{{ config["TAHRIR_TITLE"] }}</title>
+
+    {% if user or badge %}
+    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{{ request.base_url }}/rss" />
+    <link rel="alternate" type="application/json" title="JSON" href="{{ request.base_url }}/json" />
+    {% endif %}
+
+    {%if newest_badges %}
+    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{{ request.base_url }}/rss" />
+    {% endif %}
+
+    {% if user %}
+    <link rel="alternate" type="application/rdf" title="RDF+FOAF" href="{{ request.base_url }}/foaf" />
+    {% endif %}
+
+	<script type="text/javascript" src="//apps.fedoraproject.org/global/js/jsautologin.js">
+	</script>
+
+	<script type="text/javascript">
+		function loginSuccess(userdata)
+		{
+			var child = document.getElementById('login-button');
+			child.parentNode.removeChild(child);
+			var list = document.getElementById('login-list');
+
+			var profile_url = document.createElement('li');
+			var profile_url_template = "{{ url_for('tahrir.user', user_id='TEMP') }}";
+			if("nickname" in userdata)
+			{
+				profile_url_template = profile_url_template.replace('TEMP', userdata['nickname']);
+			}
+			else
+			{
+				profile_url_template = profile_url_template.replace('TEMP', userdata['id']);
+			}
+			profile_url.innerHTML = '<a href="' + profile_url_template + '">Profile</a>';
+			list.appendChild(profile_url);
+
+			var logout_url = document.createElement('li');
+			logout_url.innerHTML = '<a href="{{ url_for('oidc_auth.logout') }}">Logout</a>';
+			list.appendChild(logout_url);
+		}
+
+		{% if g.oidc_user.logged_in %}
+		var userdata = {{ g.oidc_user.person.as_dict()|tojson }};
+		{% else %}
+		var userdata = null;
+		{% endif %}
+		var myurl = "{{ request.root_url }}";
+		function handleLogin()
+		{
+			if(userdata != null)
+			{
+				// The user is currently logged in
+				//  If this was a recursive auth attempt, report back
+				respondToLogin(myurl, true, userdata);
+			}
+			else
+			{
+				tryBackgroundLogin({{ url_for("oidc_auth.login") | tojson }}, loginSuccess, null);
+			}
+		}
+	</script>
+  </head>
+  <body onload="handleLogin()">
+    <div class="page clearfix">
+      <div class="page-content grid-container">
+        <div class="header clearfix grid-100">
+          <h1>
+            <a href="{{ url_for('tahrir.home') }}">
+            <div id="site-logo">
+            </div>
+            </a>
+          </h1>
+
+          <form method="POST" action="/explore" id="header-search" class="mobile-hidden">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <input name="badge-query" required="required" />
+            <input name="badge-search" type="submit" value="Search" />
+          </form>
+        </div>
+
+        <ul class="grid-100 navbar" id="login-list">
+          <li><a href="{{ url_for('tahrir.about') }}">About</a></li>
+          <li><a href="{{ url_for('tahrir.explore') }}">Explore</a></li>
+          <li><a href="{{ url_for('tahrir.report_this_month') }}">Leaderboard</a></li>
+          {% if g.oidc_user.logged_in %}
+            <li><a href="{{ url_for('tahrir.user', user_id=g.oidc_user.person.nickname or g.oidc_user.person.id) }}">Profile</a></li>
+          {% endif %}
+          {% if g.oidc_user.logged_in %}
+            {% if g.oidc_user.is_admin %}
+              <li><a href="{{ url_for('tahrir.admin') }}">Admin</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('oidc_auth.logout') }}">Logout</a></li>
+          {% else %}
+            <li id="login-button"><a href="{{ url_for('oidc_auth.login') }}">Login</a></li>
+          {% endif %}
+        </ul>
+
+        {% with flash_messages = get_flashed_messages() %}
+        {% if flash_messages %}
+        <div class="grid-50 push-25">
+          <div class="shadow">
+            <div class="padded-content">
+              <ul class="pretty-list">
+              {% for message in flash_messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        {% endif %}
+        {% endwith %}
+        <!-- End of flash message template -->
+
+        {% block body %}{% endblock %}
+
+      </div> <!-- End grid-container -->
+
+    </div> <!-- End page -->
+
+    <footer>
+    <p>
+	  Running ﺎﻠﺘﺣﺮﻳﺭ (Tahrir) version {{ tahrir_version }}
+	  and Tahrir-API version {{ tahrir_api_version }}.
+    </p>
+
+    <p>
+    You can use the <a href="{{ url_for("tahrir.builder") }}">Badge Builder</a>
+    to help you create YAML files for new badges.
+    </p>
+
+    {{ footer|safe }}
+
+    </footer>
+
+  </body>
+</html>

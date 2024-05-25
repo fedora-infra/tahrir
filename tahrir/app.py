@@ -1,64 +1,126 @@
-from pyramid.security import Allow
+import os
+from logging.config import dictConfig
+
+import flask_talisman
+from flask import Flask
+from flask_healthz import healthz
+from flask_oidc import OpenIDConnect
+from flask_oidc.signals import after_authorize
+from flask_wtf.csrf import CSRFProtect
+from whitenoise import WhiteNoise
+
+from tahrir.cache import cache
+from tahrir.cli import tahrir_cli
+from tahrir.database import db
+from tahrir.l10n import babel, store_locale
+from tahrir.utils import import_all
+from tahrir.utils.avatar import as_avatar
+from tahrir.utils.date_time import relative_time
+from tahrir.utils.templates import templates_context
+from tahrir.utils.user import on_authorized
+from tahrir.views import blueprint as root_bp
+from tahrir.views import internal_server_error, page_not_found
 
 
-class AssertionApp:
-    __name__ = "assertions"
+# Forms
+csrf = CSRFProtect()
 
-    def __init__(self, badge):
-        self.badge = badge
-
-    def __getitem__(self, key):
-        for assertion in self.badge.assertions:
-            if assertion.recipient == key:
-                assertion.__parent__ = self
-                assertion.__name__ = assertion.recipient
-                return assertion
-        else:
-            raise KeyError(f"Assertion {key!r} not found.")
+# Security
+oidc = OpenIDConnect()
+talisman = flask_talisman.Talisman()
 
 
-class InvitationApp:
-    __name__ = "invitations"
-
-    def __init__(self, request):
-        self.request = request
-
-    def __getitem__(self, key):
-        resource = self.request.db.get_invitation(key)
-        resource.__parent__ = self
-        resource.__name__ = resource.id
-        return resource
+REQUIRED_CONFIG = [
+    "TAHRIR_PNGS_PATH",
+    "TAHRIR_ADMIN_GROUPS",
+    "TAHRIR_TITLE",
+]
 
 
-class RootApp:
-    __name__ = None
-    __parent__ = None
+def create_app(config=None):
+    """See https://flask.palletsprojects.com/en/1.1.x/patterns/appfactories/"""
 
-    __acl__ = [
-        (Allow, "group:admins", "admin"),
-    ]
+    app = Flask(__name__)
 
-    def __init__(self, request):
-        self.request = request
+    # Load default configuration
+    app.config.from_object("tahrir.defaults")
 
-    def __getitem__(self, key):
-        if key == "assertions":
-            return self
+    # Load the optional configuration file
+    if "FLASK_CONFIG" in os.environ:
+        app.config.from_envvar("FLASK_CONFIG")
 
-        if key == "invitations":
-            resource = InvitationApp(request=self.request)
-            resource.__parent__ = self
-            return resource
+    # Load the config passed as argument
+    app.config.update(config or {})
 
-        # else
+    # Validate config
+    for key in REQUIRED_CONFIG:
+        if key not in app.config:
+            raise ValueError(f"{key} required in settings.")
 
-        badge = self.request.db.get_badge(key)
-        if not badge:
-            raise KeyError(f"No such badge {key!r}")
-        resource = AssertionApp(badge=badge)
-        resource.__parent__ = self
-        return resource
+    if app.config.get("TEMPLATES_AUTO_RELOAD"):
+        app.jinja_env.auto_reload = True
 
+    # Logging
+    if app.config.get("LOGGING"):
+        dictConfig(app.config["LOGGING"])
 
-def get_root(request):
-    return RootApp(request=request)
+    # Extensions
+    oidc.init_app(app, prefix="/oidc")
+    babel.init_app(app)
+    app.before_request(store_locale)
+    app.jinja_env.add_extension("jinja2.ext.i18n")
+    csrf.init_app(app)
+
+    # Database
+    db.init_app(app)
+
+    # Cache
+    cache.configure(**app.config["CACHE"])
+
+    # Security
+    # talisman.init_app(
+    #     app,
+    #     force_https=app.config.get("SESSION_COOKIE_SECURE", True),
+    #     session_cookie_secure=app.config.get("SESSION_COOKIE_SECURE", True),
+    #     frame_options=flask_talisman.DENY,
+    #     referrer_policy="same-origin",
+    #     content_security_policy={
+    #         "default-src": ["'self'", "apps.fedoraproject.org"],
+    #         "script-src": [
+    #             # https://csp.withgoogle.com/docs/strict-csp.html#example
+    #             "'strict-dynamic'",
+    #         ],
+    #         # "img-src": ["'self'", "seccdn.libravatar.org"],
+    #     },
+    #     content_security_policy_nonce_in=["script-src"],
+    # )
+
+    # Authentication callback
+    after_authorize.connect(on_authorized)
+
+    # Templates
+    app.context_processor(templates_context)
+    app.jinja_env.filters["relative_time"] = relative_time
+    app.jinja_env.filters["as_avatar"] = as_avatar
+
+    # Register views
+    import_all("tahrir.views")
+    app.register_blueprint(root_bp)
+    app.register_blueprint(healthz, url_prefix="/healthz")
+    # Error handlers
+    app.register_error_handler(404, page_not_found)
+    app.register_error_handler(500, internal_server_error)
+
+    # Static files
+    app.wsgi_app = WhiteNoise(
+        app.wsgi_app,
+        root=f"{app.root_path}/static/",
+        prefix="static/",
+        max_age=3600,
+    )
+    app.wsgi_app.add_files(app.config["TAHRIR_PNGS_PATH"], prefix="pngs/")
+
+    # CLI
+    app.cli.add_command(tahrir_cli)
+
+    return app

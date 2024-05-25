@@ -1,0 +1,6 @@
+{% from '_functions.html' import badge_holders with context %}
+{% extends '_badge-base.html' %}
+
+{% block badge_body %}
+    <p>{{ badge_holders(149, 199) }}</p>
+{% endblock %}
