@@ -55,7 +55,7 @@ gevent = "^24.2.1"
 psycopg2 = "^2.9.9"
 fedora-messaging = "^3.5.0"
 backoff = "^2.2.1"
-tahrir-messages = "^1.0.1"
+tahrir-messages = "^1.0.1 || ^2.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
