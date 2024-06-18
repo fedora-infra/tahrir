@@ -35,7 +35,9 @@ OIDC_USER_CLASS = "tahrir.utils.user:User"
 
 TAHRIR_ADMIN_GROUPS = ["sysadmin-main"]
 TAHRIR_TITLE = "Fedora Badges"
-TAHRIR_PNGS_PATH = os.path.join(BASE_PATH, "..", "fedora-badges", "pngs")
+_badges_path = os.path.join(BASE_PATH, "..", "fedora-badges")
+TAHRIR_PNGS_PATH = os.path.join(_badges_path, "pngs")
+TAHRIR_STLS_PATH = os.path.join(_badges_path, "stls")
 TAHRIR_DEFAULT_ISSUER = "fedora-project"
 TAHRIR_DEFAULT_AVATAR = "retro"
 TAHRIR_OPENBADGES_MODAL = True

@@ -119,6 +119,8 @@ def create_app(config=None):
         max_age=3600,
     )
     app.wsgi_app.add_files(app.config["TAHRIR_PNGS_PATH"], prefix="pngs/")
+    if app.config.get("TAHRIR_STLS_PATH"):
+        app.wsgi_app.add_files(app.config["TAHRIR_STLS_PATH"], prefix="stls/")
 
     # CLI
     app.cli.add_command(tahrir_cli)
