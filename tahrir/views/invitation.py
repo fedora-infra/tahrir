@@ -20,14 +20,15 @@ def invitation_claim(claim_id):
         return redirect(url_for("oidc_auth.login"))
 
     # Check to see if the user already has the badge.
-    if claim.badge in [a.badge for a in g.oidc_user.person.assertions]:
+    if g.tahrirdb.assertion_exists(claim.badge_id, g.oidc_user.person.email):
         flash(f"You already have {claim.badge_id} badge")
-        return redirect(url_for("tahrir.home"))
-
-    g.tahrirdb.add_assertion(claim.badge_id, g.oidc_user.person.email, datetime.now(timezone.utc))
+    else:
+        g.tahrirdb.add_assertion(
+            claim.badge_id, g.oidc_user.person.email, datetime.now(timezone.utc)
+        )
+        flash(f"You have earned {claim.badge_id} badge")
 
     # TODO -- return them to a page that auto-exports their badges.
-    flash(f"You have earned {claim.badge_id} badge")
     return redirect(url_for("tahrir.home"))
 
 

@@ -1,6 +1,12 @@
 {% from '_functions.html' import badge_thumbnail_flex, show_badges_by_tags with context %}
 {% extends '_base.html' %}
 
+
+{% block head %}
+<link rel="alternate" type="application/rss+xml" title="Newest badges" href="{{ url_for("tahrir.explore_badges_rss") }}" />
+{% endblock %}
+
+
 {% block body %}
 
 <div class="page">

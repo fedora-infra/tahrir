@@ -49,18 +49,7 @@
     {% endif %}
     <title>{{ config["TAHRIR_TITLE"] }}</title>
 
-    {% if user or badge %}
-    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{{ request.base_url }}/rss" />
-    <link rel="alternate" type="application/json" title="JSON" href="{{ request.base_url }}/json" />
-    {% endif %}
-
-    {%if newest_badges %}
-    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{{ request.base_url }}/rss" />
-    {% endif %}
-
-    {% if user %}
-    <link rel="alternate" type="application/rdf" title="RDF+FOAF" href="{{ request.base_url }}/foaf" />
-    {% endif %}
+    {% block head %}{% endblock %}
 
 	<script type="text/javascript" src="//apps.fedoraproject.org/global/js/jsautologin.js">
 	</script>

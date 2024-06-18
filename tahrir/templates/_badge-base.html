@@ -2,6 +2,13 @@
 
 {% extends '_base.html' %}
 
+
+{% block head %}
+<link rel="alternate" type="application/rss+xml" title="Feed for Badge {{ badge.name }}" href="{{ url_for("tahrir.badge_rss", badge_id=badge.id, _external=True) }}" />
+<link rel="alternate" type="application/json" title="Badge {{ badge.name }} as JSON" href="{{ url_for("tahrir.badge_json", badge_id=badge.id, _external=True) }}" />
+{% endblock %}
+
+
 {% block body %}
 
 <div class="page">

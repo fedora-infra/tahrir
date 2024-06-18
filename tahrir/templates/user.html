@@ -2,6 +2,13 @@
 
 {% extends '_base.html' %}
 
+
+{% block head %}
+<link rel="alternate" type="application/rss+xml" title="Badges Feed for {{ user.nickname }}" href="{{ url_for("tahrir.user_rss", user_id=user.nickname, _external=True) }}" />
+<link rel="alternate" type="application/json" title="User {{ user.nickname }} as JSON" href="{{ url_for("tahrir.user_json", user_id=user.nickname, _external=True) }}" />
+{% endblock %}
+
+
 {% block body %}
 <div class="page"
      prefix="doap: http://usefulinc.com/ns/doap#"
@@ -159,7 +166,7 @@
         <div class="grid-container">
           <div class="grid-100 text-64"><p>
             This is only the last {{history_limit}} entries.
-            <a href="{{ url_for('tahrir.user', user_id=user.nickname or user.id, _query=dict(history_limit=user.assertions|length)) }}">
+            <a href="{{ url_for('tahrir.user', user_id=user.nickname or user.id, history_limit=user.assertions|length) }}">
               Click here to see all of them</a>.
           </p></div>
         </div>

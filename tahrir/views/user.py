@@ -61,7 +61,10 @@ def user(user_id):
 
     person = get_person(user_id)
 
-    history_limit = int(request.args.get("history_limit", 10))
+    try:
+        history_limit = int(request.args.get("history_limit", 10))
+    except ValueError as e:
+        abort(400, f"Wrong value for the 'history_limit' parameter: {e}")
 
     if not person:
         abort(404, f"No such user {user_id!r}")

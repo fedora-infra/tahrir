@@ -4,7 +4,7 @@ import docutils.examples
 import sqlalchemy as sa
 import tahrir_api.model as m
 from feedgen.feed import FeedGenerator
-from flask import abort, g, jsonify, redirect, render_template, request, url_for
+from flask import abort, flash, g, jsonify, redirect, render_template, request, url_for
 
 from tahrir.utils.avatar import get_avatar
 from tahrir.utils.badge import get_badge_or_404
@@ -251,8 +251,11 @@ def award():
     if not user or user.opt_out:
         abort(404, f"No such user {nickname!r}")
 
-    # OK
-    g.tahrirdb.add_assertion(badge.id, user.email, None)
+    if g.tahrirdb.assertion_exists(badge.id, user.email):
+        flash(f"User {user.name} already has the {badge.id} badge")
+    else:
+        g.tahrirdb.add_assertion(badge.id, user.email, None)
+        flash(f"User {user.name} has been awarded the {badge.id} badge")
 
     return redirect(url_for("tahrir.badge", badge_id=badge.id))
 
