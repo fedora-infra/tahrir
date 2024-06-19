@@ -656,23 +656,20 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 name = "flask-babel"
-version = "2.0.0"
-description = "Adds i18n/l10n support to Flask applications"
+version = "3.1.0"
+description = "Adds i18n/l10n support for Flask applications."
 optional = false
-python-versions = "*"
+python-versions = ">=3.7,<4.0"
 files = [
-    {file = "Flask-Babel-2.0.0.tar.gz", hash = "sha256:f9faf45cdb2e1a32ea2ec14403587d4295108f35017a7821a2b1acb8cfd9257d"},
-    {file = "Flask_Babel-2.0.0-py3-none-any.whl", hash = "sha256:e6820a052a8d344e178cdd36dd4bb8aea09b4bda3d5f9fa9f008df2c7f2f5468"},
+    {file = "flask_babel-3.1.0-py3-none-any.whl", hash = "sha256:deb3ee272d5adf97f5974ed09ab501243d63e7fb4a047501a00de4bd4aca4830"},
+    {file = "flask_babel-3.1.0.tar.gz", hash = "sha256:be015772c5d7f046f3b99c508dcf618636eb93d21b713b356db79f3e79f69f39"},
 ]
 
 [package.dependencies]
-Babel = ">=2.3"
-Flask = "*"
-Jinja2 = ">=2.5"
-pytz = "*"
-
-[package.extras]
-dev = ["Pallets-Sphinx-Themes", "bumpversion", "ghp-import", "pytest", "pytest-mock", "sphinx"]
+Babel = ">=2.12"
+Flask = ">=2.0"
+Jinja2 = ">=3.1"
+pytz = ">=2022.7"
 
 [[package]]
 name = "flask-healthz"
@@ -2805,4 +2802,4 @@ deploy = ["gunicorn", "psycopg2"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9.0"
-content-hash = "b829438bd61fcbb0c2801b416393e783295a91224aaa5387c3de92a9e8f5394a"
+content-hash = "e76db264cc91d332ef4dd53ac7fd829a64acc8d00eaf55f957fa1e5343410400"
