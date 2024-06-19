@@ -1,10 +1,10 @@
+import flask_babel
 from flask import g, request
-from flask_babel import Babel, get_locale
 
 
 _LANGUAGES = []
 
-babel = Babel()
+babel = flask_babel.Babel()
 
 
 def _get_accepted_languages():
@@ -15,18 +15,10 @@ def _get_accepted_languages():
     return _LANGUAGES
 
 
-@babel.localeselector
 def pick_locale():
     return request.accept_languages.best_match(_get_accepted_languages())
 
 
-@babel.timezoneselector
-def get_timezone():
-    user = getattr(g, "user", None)
-    if user is not None:
-        return user.timezone
-
-
 def store_locale():
     # Store the current locale in g for access in the templates.
-    g.locale = get_locale()
+    g.locale = flask_babel.get_locale()
