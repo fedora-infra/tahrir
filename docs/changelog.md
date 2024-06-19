@@ -1,5 +1,15 @@
 # Changelog
 
+
+## Version 2.0.0
+
+- Port to Flask ([6a7e0b5](https://github.com/fedora-infra/tahrir-api/commit/6a7e0b5>),
+                 [49cb51b](https://github.com/fedora-infra/tahrir-api/commit/49cb51b>))
+- Update tahrir-api and tahrir-messages ([5303064](https://github.com/fedora-infra/tahrir-api/commit/5303064>))
+- Improve the documentation
+- Update dependencies
+
+
 ## Version 1.1.1
 
 - Fix github action ([dc8e345](https://github.com/fedora-infra/tahrir-api/commit/dc8e345>))
@@ -37,78 +47,73 @@
 
 ### Pull Requests
 
-- \(@fmarier\) #368, Fix for CSRF errors on libravatar.org <https://github.com/fedora-infra/tahrir/pull/368>
-- \(@mavit\) #373, Site fedorahosted.org went away, so update links. <https://github.com/fedora-infra/tahrir/pull/373>
+- \(@fmarier\) #368, Fix for CSRF errors on libravatar.org [#368](https://github.com/fedora-infra/tahrir/pull/368)
+- \(@mavit\) #373, Site fedorahosted.org went away, so update links. [#373](https://github.com/fedora-infra/tahrir/pull/373)
 
 ### Commits
 
-- 97ab9d09f Fix for CSRF errors on libravatar.org <https://github.com/fedora-infra/tahrir/commit/97ab9d09f>
-- 5ea5ae7dc Site fedorahosted.org went away, so update links. <https://github.com/fedora-infra/tahrir/commit/5ea5ae7dc>
+- 97ab9d09f Fix for CSRF errors on libravatar.org [97ab9d09f](https://github.com/fedora-infra/tahrir/commit/97ab9d09f)
+- 5ea5ae7dc Site fedorahosted.org went away, so update links. [5ea5ae7dc](https://github.com/fedora-infra/tahrir/commit/5ea5ae7dc)
 
 ## Version 0.9.1
 
 ### Pull Requests
 
-- (@sayanchowdhury) #350, Convert Decimal to string only when returning json <https://github.com/fedora-infra/tahrir/pull/350>
-- (@dhgutteridge) #356, Fix calculation of percentage of top users in the leaderboard <https://github.com/fedora-infra/tahrir/pull/356>
-- (@puiterwijk) #353, Fix breaking bugs <https://github.com/fedora-infra/tahrir/pull/353>
-- (@ryanlerch) #362, Added Vagrant setup for hacking on Tahrir <https://github.com/fedora-infra/tahrir/pull/362>
-- (@sayanchowdhury) #365, Fix the json output for series <https://github.com/fedora-infra/tahrir/pull/365>
+- (@sayanchowdhury) #350, Convert Decimal to string only when returning json [#350](https://github.com/fedora-infra/tahrir/pull/350)
+- (@dhgutteridge) #356, Fix calculation of percentage of top users in the leaderboard [#356](https://github.com/fedora-infra/tahrir/pull/356)
+- (@puiterwijk) #353, Fix breaking bugs [#353](https://github.com/fedora-infra/tahrir/pull/353)
+- (@ryanlerch) #362, Added Vagrant setup for hacking on Tahrir [#362](https://github.com/fedora-infra/tahrir/pull/362)
+- (@sayanchowdhury) #365, Fix the json output for series [#365](https://github.com/fedora-infra/tahrir/pull/365)
 
 ### Commits
 
-- 480dc9081 Convert Decimal to string when returning json <https://github.com/fedora-infra/tahrir/commit/480dc9081>
-- 67543ff59 Fix breaking bugs <https://github.com/fedora-infra/tahrir/commit/67543ff59>
-- cadb1067a Fix calculation of percentage of top users in the leaderboard <https://github.com/fedora-infra/tahrir/commit/cadb1067a>
-- 5b414c4d7 Added Vagrant setup for hacking on Tahrir <https://github.com/fedora-infra/tahrir/commit/5b414c4d7>
-- 61ed24651 Fix the json out for series <https://github.com/fedora-infra/tahrir/commit/61ed24651>
+- 480dc9081 Convert Decimal to string when returning json [480dc9081](https://github.com/fedora-infra/tahrir/commit/480dc9081)
+- 67543ff59 Fix breaking bugs [67543ff59](https://github.com/fedora-infra/tahrir/commit/67543ff59)
+- cadb1067a Fix calculation of percentage of top users in the leaderboard [cadb1067a](https://github.com/fedora-infra/tahrir/commit/cadb1067a)
+- 5b414c4d7 Added Vagrant setup for hacking on Tahrir [5b414c4d7](https://github.com/fedora-infra/tahrir/commit/5b414c4d7)
+- 61ed24651 Fix the json out for series [61ed24651](https://github.com/fedora-infra/tahrir/commit/61ed24651)
 
 ## Version 0.9.0
 
 ### Pull Requests
 
-- \(@decause\) #310, Free as in Freedom <https://github.com/fedora-infra/tahrir/pull/310>
-- (@ralphbean) #312, Add a search form to the header.. <https://github.com/fedora-infra/tahrir/pull/312>
-- (@trishnaguha) #322, Changes for RPM-based distributions <https://github.com/fedora-infra/tahrir/pull/322>
-- (@trishnaguha) #324, Changes to fix traceback from dependencies <https://github.com/fedora-infra/tahrir/pull/324>
-- (@trishnaguha) #325, Fixes Internal server error #321 <https://github.com/fedora-infra/tahrir/pull/325>
-- (@puiterwijk) #326, The current code crashes in December as 12+1 \> 12 <https://github.com/fedora-infra/tahrir/pull/326>
-- (@puiterwijk) #327, Fix the monthly report, same breakage <https://github.com/fedora-infra/tahrir/pull/327>
-- (@sayanchowdhury) #328, fix the percentile for the top users in the leaderboard <https://github.com/fedora-infra/tahrir/pull/328>
-- (@trishnaguha) #333, Linking GoBack of datagrepper page to user page <https://github.com/fedora-infra/tahrir/pull/333>
-- (@cydrobolt) #335, Change \"add assertion\" to \"award individual badge\" <https://github.com/fedora-infra/tahrir/pull/335>
-- (@sayanchowdhury) #344, Create a function to return a dict of user badge informations <https://github.com/fedora-infra/tahrir/pull/344>
-- (@sayanchowdhury) #347, Forms to create Teams, Series, Perks and json endpoint for the Paths <https://github.com/fedora-infra/tahrir/pull/347>
+- (@decause) #310, Free as in Freedom [#310](https://github.com/fedora-infra/tahrir/pull/310)
+- (@ralphbean) #312, Add a search form to the header.. [#312](https://github.com/fedora-infra/tahrir/pull/312)
+- (@trishnaguha) #322, Changes for RPM-based distributions [#322](https://github.com/fedora-infra/tahrir/pull/322)
+- (@trishnaguha) #324, Changes to fix traceback from dependencies [#324](https://github.com/fedora-infra/tahrir/pull/324)
+- (@trishnaguha) #325, Fixes Internal server error #321 [#325](https://github.com/fedora-infra/tahrir/pull/325)
+- (@puiterwijk) #326, The current code crashes in December as 12+1 \> 12 [#326](https://github.com/fedora-infra/tahrir/pull/326)
+- (@puiterwijk) #327, Fix the monthly report, same breakage [#327](https://github.com/fedora-infra/tahrir/pull/327)
+- (@sayanchowdhury) #328, fix the percentile for the top users in the leaderboard [#328](https://github.com/fedora-infra/tahrir/pull/328)
+- (@trishnaguha) #333, Linking GoBack of datagrepper page to user page [#333](https://github.com/fedora-infra/tahrir/pull/333)
+- (@cydrobolt) #335, Change \"add assertion\" to \"award individual badge\" [#335](https://github.com/fedora-infra/tahrir/pull/335)
+- (@sayanchowdhury) #344, Create a function to return a dict of user badge informations [#344](https://github.com/fedora-infra/tahrir/pull/344)
+- (@sayanchowdhury) #347, Forms to create Teams, Series, Perks and json endpoint for the Paths [#347](https://github.com/fedora-infra/tahrir/pull/347)
 
 ### Commits
 
-- 565a65dda Be more careful with this comprehension. <https://github.com/fedora-infra/tahrir/commit/565a65dda>
-- 59fdefa85 Free as in Freedom <https://github.com/fedora-infra/tahrir/commit/59fdefa85>
-- 54018f713 Add a search form to the header.. <https://github.com/fedora-infra/tahrir/commit/54018f713>
-- c513c3211 Changes for RPM-based distributions <https://github.com/fedora-infra/tahrir/commit/c513c3211>
-- 45d0c3b61 Changes to fix traceback from dependencies <https://github.com/fedora-infra/tahrir/commit/45d0c3b61>
-- 7fb633f3e Fixes Internal server error #321 <https://github.com/fedora-infra/tahrir/commit/7fb633f3e>
-- 11c8da3a7 Add a note about fedora-apps. <https://github.com/fedora-infra/tahrir/commit/11c8da3a7>
-- bc055fda1 Merge branch \'develop\' of github.com:fedora-infra/tahrir into develop <https://github.com/fedora-infra/tahrir/commit/bc055fda1>
-- 90b28c8e3 The current code crashes in December as 12+1 \> 12 <https://github.com/fedora-infra/tahrir/commit/90b28c8e3>
-- 9414d86ae Fix the monthly report, same breakage <https://github.com/fedora-infra/tahrir/commit/9414d86ae>
-- fba45ed4d Also expose tags over the JSON api. <https://github.com/fedora-infra/tahrir/commit/fba45ed4d>
-- 70593ccfe Merge branch \'develop\' of github.com:fedora-infra/tahrir into develop <https://github.com/fedora-infra/tahrir/commit/70593ccfe>
-- 5a198ed36 fix the percentile for the top users in the leaderboard <https://github.com/fedora-infra/tahrir/commit/5a198ed36>
-- 902fe55d3 Linking GoBack of datagrepper page to user page <https://github.com/fedora-infra/tahrir/commit/902fe55d3>
-- 512ac2ccd Change \"add assertion\" to \"award individual badge\" <https://github.com/fedora-infra/tahrir/commit/512ac2ccd>
-- f29b6431b Create a function to return a dict of user badge informations <https://github.com/fedora-infra/tahrir/commit/f29b6431b>
-- 594a8b922 Add the form to add team <https://github.com/fedora-infra/tahrir/commit/594a8b922>
-- a3b5c8965 Add forms for adding perk and series <https://github.com/fedora-infra/tahrir/commit/a3b5c8965>
-- 0e033ce8e Add a new endpoint to pull out the json for team user data <https://github.com/fedora-infra/tahrir/commit/0e033ce8e>
-- 3fd168505 Minor fixes to template and remove redundant code <https://github.com/fedora-infra/tahrir/commit/3fd168505>
-- 70aeaacb7 Explicitly mentions the route name in the template <https://github.com/fedora-infra/tahrir/commit/70aeaacb7>
-
-\- 03040ced0 Change Perk to Milestone
-
-:   <https://github.com/fedora-infra/tahrir/commit/03040ced0>
-
-## Changelog
+- 565a65dda Be more careful with this comprehension. [565a65dda](https://github.com/fedora-infra/tahrir/commit/565a65dda)
+- 59fdefa85 Free as in Freedom [59fdefa85](https://github.com/fedora-infra/tahrir/commit/59fdefa85)
+- 54018f713 Add a search form to the header.. [54018f713](https://github.com/fedora-infra/tahrir/commit/54018f713)
+- c513c3211 Changes for RPM-based distributions [c513c3211](https://github.com/fedora-infra/tahrir/commit/c513c3211)
+- 45d0c3b61 Changes to fix traceback from dependencies [45d0c3b61](https://github.com/fedora-infra/tahrir/commit/45d0c3b61)
+- 7fb633f3e Fixes Internal server error #321 [7fb633f3e](https://github.com/fedora-infra/tahrir/commit/7fb633f3e)
+- 11c8da3a7 Add a note about fedora-apps. [11c8da3a7](https://github.com/fedora-infra/tahrir/commit/11c8da3a7)
+- bc055fda1 Merge branch \'develop\' of github.com:fedora-infra/tahrir into develop [bc055fda1](https://github.com/fedora-infra/tahrir/commit/bc055fda1)
+- 90b28c8e3 The current code crashes in December as 12+1 \> 12 [90b28c8e3](https://github.com/fedora-infra/tahrir/commit/90b28c8e3)
+- 9414d86ae Fix the monthly report, same breakage [9414d86ae](https://github.com/fedora-infra/tahrir/commit/9414d86ae)
+- fba45ed4d Also expose tags over the JSON api. [fba45ed4d](https://github.com/fedora-infra/tahrir/commit/fba45ed4d)
+- 70593ccfe Merge branch \'develop\' of github.com:fedora-infra/tahrir into develop [70593ccfe](https://github.com/fedora-infra/tahrir/commit/70593ccfe)
+- 5a198ed36 fix the percentile for the top users in the leaderboard [5a198ed36](https://github.com/fedora-infra/tahrir/commit/5a198ed36)
+- 902fe55d3 Linking GoBack of datagrepper page to user page [902fe55d3](https://github.com/fedora-infra/tahrir/commit/902fe55d3)
+- 512ac2ccd Change \"add assertion\" to \"award individual badge\" [512ac2ccd](https://github.com/fedora-infra/tahrir/commit/512ac2ccd)
+- f29b6431b Create a function to return a dict of user badge informations [f29b6431b](https://github.com/fedora-infra/tahrir/commit/f29b6431b)
+- 594a8b922 Add the form to add team [594a8b922](https://github.com/fedora-infra/tahrir/commit/594a8b922)
+- a3b5c8965 Add forms for adding perk and series [a3b5c8965](https://github.com/fedora-infra/tahrir/commit/a3b5c8965)
+- 0e033ce8e Add a new endpoint to pull out the json for team user data [0e033ce8e](https://github.com/fedora-infra/tahrir/commit/0e033ce8e)
+- 3fd168505 Minor fixes to template and remove redundant code [3fd168505](https://github.com/fedora-infra/tahrir/commit/3fd168505)
+- 70aeaacb7 Explicitly mentions the route name in the template [70aeaacb7](https://github.com/fedora-infra/tahrir/commit/70aeaacb7)
+- 03040ced0 Change Perk to Milestone [03040ced0](https://github.com/fedora-infra/tahrir/commit/03040ced0)
 
 ## Version 0.8.2
 
@@ -732,7 +737,6 @@
 - Patched table width into css from html. [d79e6ef03](https://github.com/fedora-infra/tahrir/commit/d79e6ef030a7663aee15323742c2c26c6e7d373d)
 - Patched width as % to form tables. [ca44b1b13](https://github.com/fedora-infra/tahrir/commit/ca44b1b134e1be8e6173cc108da0c28d68988280)
 - Set max form table width to pixel value. [6d795a933](https://github.com/fedora-infra/tahrir/commit/6d795a9333d282ceee0845352122699ca3859c8e)
-- Merge branch \'develop\' of <https://github.com/fedora-infra/tahrir> into develop [0380d3b15](https://github.com/fedora-infra/tahrir/commit/0380d3b1537e81a62180197fccbbe383958e1d7c)
 - Link to the staging instance. [09ae0a9a6](https://github.com/fedora-infra/tahrir/commit/09ae0a9a64038a6a5e8ba3ecbf0924f930580f2f)
 - Merge pull request #106 from CDeLorme/develop [ac2046676](https://github.com/fedora-infra/tahrir/commit/ac2046676738715d26a0f6a8b313a6402c63d1b1)
 - Don\'t italicize description, since we want to convert from RST for frmting. [0b3cf6153](https://github.com/fedora-infra/tahrir/commit/0b3cf615352542e81198d12aba0838dd006ef76f)
@@ -815,17 +819,14 @@
 - Remove that old popup stuff. [2103236f4](https://github.com/fedora-infra/tahrir/commit/2103236f4ad5ab3c92e1fdff34527dc08abef2ef)
 - Move \"arrived on\" detail on user view. [c2e253e75](https://github.com/fedora-infra/tahrir/commit/c2e253e750c899d8c3ed983d7792bd0604eeb971)
 - Add missing period. [b4c3473b9](https://github.com/fedora-infra/tahrir/commit/b4c3473b92b6cd111cd8dd9f81058eb06f36899e)
-- Merge branch \'develop\' of <https://github.com/fedora-infra/tahrir> into develop [98f62b1a1](https://github.com/fedora-infra/tahrir/commit/98f62b1a12eca2e21661d01c173fe599407ee4bb)
 - This footer is getting out of control. [859cbab99](https://github.com/fedora-infra/tahrir/commit/859cbab99f4f0b3587be43a2c8ff9977925c94de)
 - Cache a larger fallback image for user avatar. [24a77cc8f](https://github.com/fedora-infra/tahrir/commit/24a77cc8f4a1fe51269a4b349d55807ac9fc37be)
 - Testing patches to header logo. [8bb420b22](https://github.com/fedora-infra/tahrir/commit/8bb420b22d6dbae3bfbe424e998cfd7b595ce0d2)
 - Fixing header section, reducing code complexity & layers. [6ff5826e1](https://github.com/fedora-infra/tahrir/commit/6ff5826e15869c95c9baf1aa4918bf7a9e4c52dd)
 - Removed unnecessary id. [adb23a34c](https://github.com/fedora-infra/tahrir/commit/adb23a34ce14a05de3127265d93b746d55c392cb)
 - Finished cleaning, prepared for merge-request. [0e2fe18dc](https://github.com/fedora-infra/tahrir/commit/0e2fe18dc10a9e1409356d8ff70f907ccfab193e)
-- Merge branch \'develop\' of <https://github.com/fedora-infra/tahrir> into develop [3a40a60a0](https://github.com/fedora-infra/tahrir/commit/3a40a60a0217320b8270409e3ca96f2a953da8c8)
 - A stab at a more flexible gravatar on the user page. [6bb6aaa6f](https://github.com/fedora-infra/tahrir/commit/6bb6aaa6f5ee4a7eeedbd34275a0ae0ee9f8c0c1)
 - Limit badge awarded percentage to 1 decimal place. [e84dbd0bb](https://github.com/fedora-infra/tahrir/commit/e84dbd0bb93e01f49462f3085df5660865de4c6d)
-- Merge branch \'develop\' of <https://github.com/fedora-infra/tahrir> into develop [16f80d30d](https://github.com/fedora-infra/tahrir/commit/16f80d30d95fdfde879309ab23ad0d34fa26cc5b)
 - Merge pull request #104 from CDeLorme/develop [be1b2d63c](https://github.com/fedora-infra/tahrir/commit/be1b2d63c250bf612646e1937326e0e65df3869d)
 - Fixed improper footer closing and disabled some css for test. [5075069c1](https://github.com/fedora-infra/tahrir/commit/5075069c1411533786ca050d5bbe831ba5da218d)
 - Get those badges back in that shadow box. [f41425ddc](https://github.com/fedora-infra/tahrir/commit/f41425ddc4b546ba7ff3faae843a6fd7a37b3b2f)
@@ -833,7 +834,6 @@
 - Testing push tag again with some minor relocation. [20a755505](https://github.com/fedora-infra/tahrir/commit/20a75550554a981a1a7f5ca21f973581261b0411)
 - Get images to be centered on the user view. [f3c956476](https://github.com/fedora-infra/tahrir/commit/f3c956476ebf53509f8ab6b1c3173d694fa82d9f)
 - Added clearfix to page. [ff8b618ff](https://github.com/fedora-infra/tahrir/commit/ff8b618ff2fbb5915887f5e917846fa9ba430e6f)
-- Merge branch \'develop\' of <https://github.com/fedora-infra/tahrir> into develop [2818dec9c](https://github.com/fedora-infra/tahrir/commit/2818dec9c2075d2edf3d13a0f98aa9da8503cbfe)
 - Not sure why this change needs to be made, but the pretty list got messed up somewhere along the way. [109a813eb](https://github.com/fedora-infra/tahrir/commit/109a813ebeb05a0dddca36d13fa92d1d49e86761)
 - Moved clearfix to top element. [4646ac7bc](https://github.com/fedora-infra/tahrir/commit/4646ac7bc56564d5c509bb99a83cb457ad5cd9ce)
 - Criteria should be links. [1e21f292e](https://github.com/fedora-infra/tahrir/commit/1e21f292e064b2bfb29c5a7edb2b497a981c6461)
@@ -849,7 +849,6 @@
 - Try to fix wonky image sizes. [14870c6c2](https://github.com/fedora-infra/tahrir/commit/14870c6c2f760595d17ce534d3209929660f7f00)
 - Reverted back to previous approach for more tests. [e22408de7](https://github.com/fedora-infra/tahrir/commit/e22408de744b30469f26bfbb8b1cbc374ddaa085)
 - Another test of changed tools. [1e8812e5d](https://github.com/fedora-infra/tahrir/commit/1e8812e5d0e5a885b11e2597bcd4b6e3db2907cf)
-- Merge branch \'develop\' of <https://github.com/fedora-infra/tahrir> into develop [9638f1eeb](https://github.com/fedora-infra/tahrir/commit/9638f1eebbc5933022d5900bce15e2f564d889bc)
 - Patched table sticking outside container. [d308db130](https://github.com/fedora-infra/tahrir/commit/d308db13039fc38a7b4de328cb52138cbb4c635a)
 - Work on change nickname button. [285b90d22](https://github.com/fedora-infra/tahrir/commit/285b90d22fc08c1a3250b847778c38036733a274)
 - Merge pull request #105 from CDeLorme/develop [24c1e9913](https://github.com/fedora-infra/tahrir/commit/24c1e9913f1db57fa0678b4edca5d9db27d94c02)

@@ -65,12 +65,15 @@ fedora-messaging = "^3.5.0"
 backoff = "^2.2.1"
 tahrir-messages = "^1.0.1 || ^2.0.0"
 pyyaml = "^6.0.1"
+sphinx = {version = "*", optional = true}
+myst-parser = {version = "*", optional = true}
 
 [tool.poetry.extras]
 deploy = [
     "gunicorn",
     "psycopg2",
 ]
+docs = ["sphinx", "myst-parser"]
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=8.1.1"

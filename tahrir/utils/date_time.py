@@ -5,15 +5,20 @@ import dateutil.relativedelta
 
 
 def get_start_week(year=None, month=None, day=None):
-    """For a given date, retrieve the day the week started.
+    """For a given date, retrieve the day the week started
+
     For any missing parameters (ie: None), use the value of the current
     day.
 
-    :kwarg year: year to consider when searching a week.
-    :kwarg month: month to consider when searching a week.
-    :kwarg day: day to consider when searching a week.
-    :return a Date of the day the week started either based on the
-        current utc date or based on the information.
+    Arguments:
+        year (int): year to consider when searching a week.
+        month (int): month to consider when searching a week.
+        day (int): day to consider when searching a week.
+
+    Returns:
+        A Date of the day the week started either based on the
+            current utc date or based on the information.
+
     """
     now = datetime.now(timezone.utc)
     if not year:

@@ -6,6 +6,7 @@
 coverage.xml
 data
 docs/_build
+docs/_source
 htmlcov
 *.swo
 *.db
