@@ -39,7 +39,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.9.0"
 pydantic-settings = "^2.0.2"
-flask = "^2.0.0 || ^3.0.0"
+flask = "^3.0.0"
 flask-wtf = ">=0.14"
 flask-oidc = "^2.2.0"
 flask-babel = "^4.0.0"
