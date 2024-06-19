@@ -2882,4 +2882,4 @@ docs = ["myst-parser", "sphinx"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9.0"
-content-hash = "dbbbe0e7faffe93960e7bd966bb9ace299ab86572527800b3e4c8862fd106555"
+content-hash = "a83e1ffc1411870a9aac9a833c0e6e7ce261703b492f710d2e436e3f21c59749"
