@@ -4,6 +4,7 @@ from pathlib import Path
 import yaml
 from flask import current_app
 from flask.cli import AppGroup
+from tahrir_api.utils import get_db_manager_from_uri
 
 from tahrir.database import db
 from tahrir.utils.badge import ISSUER
@@ -16,8 +17,8 @@ tahrir_cli = AppGroup("tahrir")
 @tahrir_cli.command("sync-db")
 def sync_db():
     """Initialize or update the database."""
-    tahrir_db = db.get_db()
-    result = tahrir_db.db_mgr.sync()
+    db_mgr = get_db_manager_from_uri(current_app.config["SQLALCHEMY_DATABASE_URI"])
+    result = db_mgr.sync()
     current_app.logger.info("Database was: %s", result.name.lower())
 
 
