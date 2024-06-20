@@ -2529,13 +2529,13 @@ pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 
 [[package]]
 name = "tahrir-api"
-version = "1.1.4"
+version = "1.1.5"
 description = "An API for interacting with the Tahrir database"
 optional = false
 python-versions = "<4.0.0,>=3.9.0"
 files = [
-    {file = "tahrir_api-1.1.4-py3-none-any.whl", hash = "sha256:be8d239c65409ebf13444617ba5a6da2c06bb741d15d51655bf7a7832cae62b5"},
-    {file = "tahrir_api-1.1.4.tar.gz", hash = "sha256:12957dc55bf65be281b531b2744cb1843595a3e75644de0bfd5c7eb7aee830cb"},
+    {file = "tahrir_api-1.1.5-py3-none-any.whl", hash = "sha256:5390f53942e2676119936a21e5d49c32f20a021f2630a02ff3b7be0d6248da1b"},
+    {file = "tahrir_api-1.1.5.tar.gz", hash = "sha256:65e693c39363b5e2614116f88290974e4d2a17091b8e59a095a398067493d1a3"},
 ]
 
 [package.dependencies]
