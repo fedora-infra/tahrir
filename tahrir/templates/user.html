@@ -81,7 +81,7 @@
             {% for i in invitations %}
             <li>
               {{i.badge.name}}, expires {{ i.expires_on | relative_time }},
-              <a href="{{ url_for('tahrir.invitation_claim', claim_id=i.id) }}">[claim link]</a>,
+              <a href="{{ url_for('tahrir.invitation_claim', claim_id=i.id, _external=True) }}">[claim link]</a>,
               <a href="{{ url_for('tahrir.invitation_qrcode', claim_id=i.id) }}">[QR code]</a>.
             </li>
             {% endfor %}

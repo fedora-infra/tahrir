@@ -39,7 +39,7 @@ def invitation_qrcode(claim_id):
     if claim.expires_on < datetime.now():
         return abort(410, "That invitation is expired.")
 
-    target = url_for("tahrir.invitation_claim", claim_id=claim_id)
+    target = url_for("tahrir.invitation_claim", claim_id=claim_id, _external=True)
     img = qrcode_module.make(target)
     bytestream = BytesIO()
     img.save(bytestream)
