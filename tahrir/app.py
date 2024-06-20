@@ -10,6 +10,7 @@ from flask_wtf.csrf import CSRFProtect
 from whitenoise import WhiteNoise
 
 from tahrir import l10n
+from tahrir.admin import admin
 from tahrir.cache import cache
 from tahrir.cli import tahrir_cli
 from tahrir.database import db
@@ -69,6 +70,7 @@ def create_app(config=None):
     l10n.babel.init_app(app, locale_selector=l10n.pick_locale)
     app.before_request(l10n.store_locale)
     app.jinja_env.add_extension("jinja2.ext.i18n")
+    admin.init_app(app)
     csrf.init_app(app)
 
     # Database

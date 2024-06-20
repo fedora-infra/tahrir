@@ -128,6 +128,7 @@
           {% if g.oidc_user.logged_in %}
             {% if g.oidc_user.is_admin %}
               <li><a href="{{ url_for('tahrir.admin') }}">Admin</a></li>
+              <li><a href="{{ url_for('dbadmin.index') }}">Database Admin</a></li>
             {% endif %}
             <li><a href="{{ url_for('oidc_auth.logout') }}">Logout</a></li>
           {% else %}
