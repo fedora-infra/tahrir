@@ -65,3 +65,5 @@ CACHE = {
     #     "filename": "./cache.dbm",
     # },
 }
+
+FLASK_ADMIN_FLUID_LAYOUT = True

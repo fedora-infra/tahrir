@@ -1,0 +1,8 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+  <p>This is the database administration interface. Please be very careful, there are no protections.</p>
+  <p>Tables are available via the top-level menu.</p>
+  <p>If you don't see any links in the top-level menu, then you have nothing to do here and you should go back.</p>
+  <p><a href="{{ url_for("tahrir.home") }}">Go back to the home page</a></p>
+{% endblock %}

@@ -67,6 +67,7 @@ tahrir-messages = "^2.0.0"
 pyyaml = "^6.0.1"
 sphinx = {version = "*", optional = true}
 myst-parser = {version = "*", optional = true}
+flask-admin = "^1.6.1"
 
 [tool.poetry.extras]
 deploy = [
