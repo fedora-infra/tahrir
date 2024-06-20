@@ -1,0 +1,13 @@
+[Unit]
+Description=Wait for sshfs synced folder %i
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStartPre=sh -c "while true; do [ -d /home/vagrant/%I/.git ] && break; sleep 1; done"
+ExecStart=sh -c "while true; do [ -d /home/vagrant/%I/.git ] || exit 1; sleep 1; done"
+Restart=always
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

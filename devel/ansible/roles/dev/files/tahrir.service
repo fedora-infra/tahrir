@@ -2,6 +2,8 @@
 Description=tahrir
 After=network-online.target
 Wants=network-online.target
+After=synced-folder@tahrir.service
+Requires=synced-folder@tahrir.service
 
 [Service]
 AmbientCapabilities = CAP_NET_BIND_SERVICE

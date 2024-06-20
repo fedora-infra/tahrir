@@ -59,15 +59,21 @@
   args:
     chdir: /home/vagrant/tahrir
 
-- name: Install the systemd unit files for tahrir service
+- name: Install the systemd unit files
   copy:
-    src: tahrir.service
-    dest: /etc/systemd/system/tahrir.service
+    src: "{{ item }}"
+    dest: /etc/systemd/system/{{ item }}
     mode: 0644
+  loop:
+    - synced-folder@.service
+    - tahrir.service
 
-- name: Start tahrir service using systemd
+- name: Enable and start services using systemd
   systemd:
-    state: started
-    name: tahrir
+    name: "{{ item }}"
     daemon_reload: yes
     enabled: yes
+    state: started
+  loop:
+    - synced-folder@tahrir.service
+    - tahrir.service
