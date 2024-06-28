@@ -151,11 +151,11 @@
         Take a look at the following examples:</p>
 
         <ul class="pretty-list">
-          <li>Top badge earners <a href="report/2013">for all of 2013</a></li>
-          <li>Top badge earners <a href="report/2013/10">for only October of 2013</a></li>
-          <li>Top badge earners <a href="report/2013/10/2">for just the second day of that October</a></li>
-          <li>Top badge earners <a href="report/2013/week/37">for the 37th week of 2013</a></li>
-          <li>Top badge earners <a href="report">for just this week</a></li>
+          <li>Top badge earners <a href="{{ url_for(".report_year", year=example_date.year) }}">for all of {{ example_date.year }}</a></li>
+          <li>Top badge earners <a href="{{ url_for(".report_year_month", year=example_date.year, month=example_date.month) }}">for only {{ example_date.strftime("%B") }} of {{ example_date.year }}</a></li>
+          <li>Top badge earners <a href="{{ url_for(".report_year_month_day", year=example_date.year, month=example_date.month, day=example_date.day) }}">for just the {{ example_date.strftime("%x") }}</a></li>
+          <li>Top badge earners <a href="{{ url_for(".report_year_week", year=example_date.year, week=example_date.isocalendar().week) }}">for week {{ example_date.strftime("%W") }} of {{ example_date.year }}</a></li>
+          <li>Top badge earners <a href="{{ url_for(".report") }}">for just this week</a></li>
         </ul>
       </div> <!-- End padded content. -->
     </div> <!-- End shadow. -->
