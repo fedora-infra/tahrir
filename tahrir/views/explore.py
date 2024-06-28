@@ -1,5 +1,5 @@
 import random
-from datetime import timezone
+from datetime import date, timedelta, timezone
 
 import sqlalchemy as sa
 import tahrir_api.model as m
@@ -72,6 +72,7 @@ def explore():
         random_persons=random_persons,
         search_results=search_results,
         search_query=search_query,
+        example_date=date.today() - timedelta(days=31),
     )
 
 
