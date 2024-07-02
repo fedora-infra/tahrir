@@ -142,8 +142,10 @@ def generate_badge_yaml(postdict):
         "trigger:\n"
         "  topic:        " + postdict.get("trigger-topic", default="") + "\n"
         "\n"
-        "# Once the check has been triggered, this defines what we\n"
-        "# actually check.\n"
-        "criteria:       " + postdict.get("criteria", default="") + "\n"
+        "# Award the badge under these conditions:\n"
+        "condition:\n" + postdict.get("condition", default="") + "\n"
+        "# If the messages matches for the user for the first time, look into previous messages"
+        " to get the count:\n"
+        "previous:\n" + postdict.get("previous", default="") + "\n"
         "(This section is under construction.)"
     )

@@ -9,7 +9,9 @@ $(document).ready(function() {
     var image = $('input[name=image]').val();
     var issuer = $('input[name=issuer]').val();
     var triggerTopic = $('input[name=triggerTopic]').val();
-    var criteria = $('input[name=criteria]').val();
+    var condition = $('input[name=condition]').val();
+    var previous = $('input[name=previous]').val();
+
 
     function generateOutput() {
         return "%YAML 1.2\n"
@@ -35,9 +37,11 @@ $(document).ready(function() {
              + "trigger:\n"
              + "  topic:        " + triggerTopic + "\n"
              + "\n"
-             + "# Once the check has been triggered, this defines what we"
-             + " actually check.\n"
-             + "criteria:       " + criteria + "\n"
+             + "# Award the badge under these conditions:\n"
+             + "condition:\n" + condition + "\n"
+             + "# If the messages matches for the user for the first time, look into previous messages"
+             + " to get the count:\n"
+             + "previous:\n" + previous + "\n"
              // TODO: Figure out best way to add criteria here.
              + "(This section is under construction.)";
 
@@ -85,8 +89,13 @@ $(document).ready(function() {
         updateTextarea();
     });
 
-    $('input[name=criteria]').keyup(function() {
-        criteria = $(this).val();
+    $('input[name=condition]').keyup(function() {
+        condition = $(this).val();
+        updateTextarea();
+    });
+
+    $('input[name=previous]').keyup(function() {
+        previous = $(this).val();
         updateTextarea();
     });
 

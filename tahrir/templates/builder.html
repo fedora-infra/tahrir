@@ -56,9 +56,24 @@
           <tr>
             <td><label for="trigger-topic">Trigger Topic</label></td>
             <td><input name="trigger-topic" tabindex="7" /></td>
-            <td><label for="criteria">Criteria</label></td>
-            <td><input name="criteria" tabindex="8" /></td>
+            <td><label for="condition">Condition</label></td>
+            <td><input name="condition" tabindex="8" value="greater than or equal to: 10" /></td>
           </tr>
+          <tr>
+            <td>
+              <label for="previous">Previous value</label>
+            </td>
+            <td colspan="3">
+              <textarea name="previous" cols=40 rows=7>
+filter:
+  topics:
+    - message.topic
+  users:
+    - recipient
+  rows_per_page: 0
+operation: count
+</textarea>
+            </td>
           <tr>
             <td colspan="4">
               <input name="generate" type="submit" action="{{ url_for('tahrir.builder') }}" value="Generate" />
