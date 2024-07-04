@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 2.1.0
+
+- Use flask 3.x only to fix build in readthedocs ([ea0c3c7](https://github.com/fedora-infra/tahrir-api/commit/ea0c3c7>))
+- Add links to the README ([bcbe4f3](https://github.com/fedora-infra/tahrir-api/commit/bcbe4f3>))
+- Vagrant: wait for the synced folder to be mounted before starting the service ([8cd09fd](https://github.com/fedora-infra/tahrir-api/commit/8cd09fd>))
+- Fix sync script ([c060520](https://github.com/fedora-infra/tahrir-api/commit/c060520>))
+- Make a fully qualified link for the QR code ([1ac17ef](https://github.com/fedora-infra/tahrir-api/commit/1ac17ef>))
+- Add Flask-Admin ([fcccebe](https://github.com/fedora-infra/tahrir-api/commit/fcccebe>))
+- Make the report dates on the explore page dynamic ([f57ab25](https://github.com/fedora-infra/tahrir-api/commit/f57ab25>))
+- Adapt to the new rules format ([26c765e](https://github.com/fedora-infra/tahrir-api/commit/26c765e>))
+- Update tahrir-api ([0dc38d2](https://github.com/fedora-infra/tahrir-api/commit/0dc38d2>))
+- Update dependencies
 
 ## Version 2.0.0
 
