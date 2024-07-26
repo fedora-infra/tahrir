@@ -23,7 +23,7 @@
 		{% if badge.image.startswith("http") %}
 						src="{{badge.image}}"
 		{% else %}
-						src="{{request.root_url}}/pngs/{{badge.image}}"
+						src="{{url_for('pngs', filename=badge.image)}}"
 		{% endif %}
 						alt="{{badge.id}} icon" />
 				</a>
@@ -42,7 +42,7 @@
 		{% if badge.image.startswith("http") %}
 						src="{{badge.image}}"
 		{% else %}
-						src="{{request.root_url}}/pngs/{{badge.image}}"
+						src="{{url_for('pngs', filename=badge.image)}}"
 		{% endif %}
 						alt="{{badge.id}} icon" />
 				</a>
