@@ -7,7 +7,6 @@ from flask_healthz import healthz
 from flask_oidc import OpenIDConnect
 from flask_oidc.signals import after_authorize
 from flask_wtf.csrf import CSRFProtect
-from whitenoise import WhiteNoise
 
 from tahrir import l10n
 from tahrir.admin import admin
@@ -19,8 +18,8 @@ from tahrir.utils.avatar import as_avatar
 from tahrir.utils.date_time import relative_time
 from tahrir.utils.templates import templates_context
 from tahrir.utils.user import on_authorized
+from tahrir.views import add_static_view, internal_server_error, page_not_found
 from tahrir.views import blueprint as root_bp
-from tahrir.views import internal_server_error, page_not_found
 
 
 # Forms
@@ -114,15 +113,9 @@ def create_app(config=None):
     app.register_error_handler(500, internal_server_error)
 
     # Static files
-    app.wsgi_app = WhiteNoise(
-        app.wsgi_app,
-        root=f"{app.root_path}/static/",
-        prefix="static/",
-        max_age=3600,
-    )
-    app.wsgi_app.add_files(app.config["TAHRIR_PNGS_PATH"], prefix="pngs/")
+    add_static_view(app, app.config["TAHRIR_PNGS_PATH"], prefix="/pngs", endpoint="pngs")
     if app.config.get("TAHRIR_STLS_PATH"):
-        app.wsgi_app.add_files(app.config["TAHRIR_STLS_PATH"], prefix="stls/")
+        add_static_view(app, app.config["TAHRIR_STLS_PATH"], prefix="/stls", endpoint="stls")
 
     # CLI
     app.cli.add_command(tahrir_cli)
