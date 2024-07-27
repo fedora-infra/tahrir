@@ -26,7 +26,10 @@ def invitation_claim(claim_id):
         g.tahrirdb.add_assertion(
             claim.badge_id, g.oidc_user.person.email, datetime.now(timezone.utc)
         )
-        flash(f"You have earned {claim.badge_id} badge")
+        flash(
+            f"You have earned {claim.badge_id} badge.\n"
+            "<small>(your rank will be updated shortly)</small>"
+        )
 
     # TODO -- return them to a page that auto-exports their badges.
     return redirect(url_for("tahrir.home"))
