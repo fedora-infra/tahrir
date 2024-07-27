@@ -2553,13 +2553,13 @@ pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 
 [[package]]
 name = "tahrir-api"
-version = "1.3.0"
+version = "1.4.0"
 description = "An API for interacting with the Tahrir database"
 optional = false
 python-versions = "<4.0.0,>=3.9.0"
 files = [
-    {file = "tahrir_api-1.3.0-py3-none-any.whl", hash = "sha256:6f2d9cd80873e20accbe0f36db1924d88ee7e3a8fb57f8ed10b251a3b7e9a260"},
-    {file = "tahrir_api-1.3.0.tar.gz", hash = "sha256:884abb862884244a42e2c12ec80d6dcfb1a90ee3e2688d0f64114d78c1727c74"},
+    {file = "tahrir_api-1.4.0-py3-none-any.whl", hash = "sha256:7332a39eb77594a998b39ceb3a0804d9e2df559be83e3ff82c989ace339a6ba7"},
+    {file = "tahrir_api-1.4.0.tar.gz", hash = "sha256:2e309b03d4f8163575240df1033de244f03407ae6280d052ae034ce786933630"},
 ]
 
 [package.dependencies]
@@ -2891,4 +2891,4 @@ docs = ["myst-parser", "sphinx"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9.0"
-content-hash = "db010056a1bc09e2b887518741d2be2c4918c962f2e06396deee36dd71efa122"
+content-hash = "57e48deffee4693155dc6ca91fcc1038cc34e5b258b1b4271ff69300c8838858"

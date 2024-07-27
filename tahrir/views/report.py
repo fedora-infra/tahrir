@@ -16,7 +16,7 @@ def report():
     start = get_start_week()
     stop = start + timedelta(days=6)
 
-    user_to_rank = g.tahrirdb._make_leaderboard(
+    user_to_rank = g.tahrirdb.make_leaderboard(
         start=start,
         stop=stop,
     )
@@ -37,7 +37,7 @@ def report_year(year):
     start = date(year, 1, 1)
     stop = date(year, 12, 31)
 
-    user_to_rank = g.tahrirdb._make_leaderboard(
+    user_to_rank = g.tahrirdb.make_leaderboard(
         start=start,
         stop=stop,
     )
@@ -62,7 +62,7 @@ def report_year_month(year, month):
     stop.replace(day=1)
     stop = stop - timedelta(days=1)
 
-    user_to_rank = g.tahrirdb._make_leaderboard(
+    user_to_rank = g.tahrirdb.make_leaderboard(
         start=start,
         stop=stop,
     )
@@ -84,7 +84,7 @@ def report_year_month_day(year, month, day):
     start = date(year, month, day)
     stop = date(year, month, day) + timedelta(days=1)
 
-    user_to_rank = g.tahrirdb._make_leaderboard(
+    user_to_rank = g.tahrirdb.make_leaderboard(
         start=start,
         stop=stop,
     )
@@ -110,7 +110,7 @@ def report_year_week(year, week):
     start = get_start_week(start.year, start.month, start.day)
     stop = start + timedelta(days=6)
 
-    user_to_rank = g.tahrirdb._make_leaderboard(
+    user_to_rank = g.tahrirdb.make_leaderboard(
         start=start,
         stop=stop,
     )

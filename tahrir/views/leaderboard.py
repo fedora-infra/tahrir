@@ -24,7 +24,7 @@ def leaderboard():
     user_count = len(leaderboard)
     leaderboard.extend(query.filter(m.Person.rank.is_(None)).all())
 
-    user_to_rank = g.tahrirdb._make_leaderboard()
+    user_to_rank = g.tahrirdb.make_leaderboard()
 
     if g.oidc_user.person:
         awarded_assertions = g.oidc_user.person.assertions
@@ -83,7 +83,7 @@ def leaderboard_json(user_id=None):
     # user_count = len(leaderboard)
     leaderboard.extend(query.filter(m.Person.rank.is_(None)).all())
 
-    user_to_rank = g.tahrirdb._make_leaderboard()
+    user_to_rank = g.tahrirdb.make_leaderboard()
 
     if user:
         rank = user.rank or 0

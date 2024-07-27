@@ -25,7 +25,7 @@ def home():
 
     start = get_start_week()
     stop = start + timedelta(days=6)
-    weekly_leaders = g.tahrirdb._make_leaderboard(
+    weekly_leaders = g.tahrirdb.make_leaderboard(
         start=start,
         stop=stop,
     )
@@ -36,7 +36,7 @@ def home():
         stop = date(now.year + 1, 1, 1) - timedelta(days=1)
     else:
         stop = date(now.year, now.month + 1, 1) - timedelta(days=1)
-    monthly_leaders = g.tahrirdb._make_leaderboard(
+    monthly_leaders = g.tahrirdb.make_leaderboard(
         start=start,
         stop=stop,
     )
