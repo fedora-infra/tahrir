@@ -11,10 +11,10 @@
     thingiview.setObjectColor('#C0D8F0');
     thingiview.initScene();
     thingiview.loadSTL(
-		  {% if badge.stl.startswith("http") %}
+      {% if badge.stl.startswith("http") %}
       {{ badge.stl | tojson }}
       {% else %}
-      {{ url_for('stls', filename=badge.stl) | tojson }
+      {{ url_for('stls', filename=badge.stl) | tojson }}
       {% endif %}
     );
   }
