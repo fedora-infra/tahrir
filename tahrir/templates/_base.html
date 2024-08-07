@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <!-- VIEWPORT STUFF -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1,
-                                   maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
     <!-- end viewport stuff -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/tahrir.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/monokai.css') }}" />
@@ -51,56 +50,9 @@
 
     {% block head %}{% endblock %}
 
-	<script type="text/javascript" src="//apps.fedoraproject.org/global/js/jsautologin.js">
-	</script>
-
-	<script type="text/javascript">
-		function loginSuccess(userdata)
-		{
-			var child = document.getElementById('login-button');
-			child.parentNode.removeChild(child);
-			var list = document.getElementById('login-list');
-
-			var profile_url = document.createElement('li');
-			var profile_url_template = "{{ url_for('tahrir.user', user_id='TEMP') }}";
-			if("nickname" in userdata)
-			{
-				profile_url_template = profile_url_template.replace('TEMP', userdata['nickname']);
-			}
-			else
-			{
-				profile_url_template = profile_url_template.replace('TEMP', userdata['id']);
-			}
-			profile_url.innerHTML = '<a href="' + profile_url_template + '">Profile</a>';
-			list.appendChild(profile_url);
-
-			var logout_url = document.createElement('li');
-			logout_url.innerHTML = '<a href="{{ url_for('oidc_auth.logout') }}">Logout</a>';
-			list.appendChild(logout_url);
-		}
-
-		{% if g.oidc_user.logged_in %}
-		var userdata = {{ g.oidc_user.person.as_dict()|tojson }};
-		{% else %}
-		var userdata = null;
-		{% endif %}
-		var myurl = "{{ request.root_url }}";
-		function handleLogin()
-		{
-			if(userdata != null)
-			{
-				// The user is currently logged in
-				//  If this was a recursive auth attempt, report back
-				respondToLogin(myurl, true, userdata);
-			}
-			else
-			{
-				tryBackgroundLogin({{ url_for("oidc_auth.login") | tojson }}, loginSuccess, null);
-			}
-		}
 	</script>
   </head>
-  <body onload="handleLogin()">
+  <body>
     <div class="page clearfix">
       <div class="page-content grid-container">
         <div class="header clearfix grid-100">
