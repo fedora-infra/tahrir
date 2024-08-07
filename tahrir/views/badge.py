@@ -252,10 +252,10 @@ def award():
         abort(404, f"No such user {nickname!r}")
 
     if g.tahrirdb.assertion_exists(badge.id, user.email):
-        flash(f"User {user.name} already has the {badge.id} badge")
+        flash(f"User {user.nickname} already has the {badge.id} badge")
     else:
         g.tahrirdb.add_assertion(badge.id, user.email, None)
-        flash(f"User {user.name} has been awarded the {badge.id} badge")
+        flash(f"User {user.nickname} has been awarded the {badge.id} badge")
 
     return redirect(url_for("tahrir.badge", badge_id=badge.id))
 
