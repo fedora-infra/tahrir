@@ -91,7 +91,10 @@ def sort_badges_by_tag(badges):
     by_tag = defaultdict(list)
     uncategorized = []
     for badge in badges:
-        tags = badge.tags.strip(",").split(",")
+        if badge.tags:
+            tags = badge.tags.strip(",").split(",")
+        else:
+            tags = []
         for tag in tags:
             by_tag[tag].append(badge)
         # no tag in TAHRIR_DISPLAY_TAGS => uncategorized
