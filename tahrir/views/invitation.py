@@ -1,8 +1,9 @@
 from datetime import datetime, timezone
 from io import BytesIO
+from urllib.parse import quote_plus
 
 import qrcode as qrcode_module
-from flask import abort, flash, g, redirect, request, session, url_for
+from flask import abort, flash, g, redirect, request, url_for
 
 from . import blueprint as bp
 
@@ -16,8 +17,7 @@ def invitation_claim(claim_id):
 
     email = g.oidc_user.email
     if not email:
-        session["came_from"] = request.url
-        return redirect(url_for("oidc_auth.login"))
+        return redirect(f"{url_for('oidc_auth.login')}?next={quote_plus(request.url)}")
 
     # Check to see if the user already has the badge.
     if g.tahrirdb.assertion_exists(claim.badge_id, g.oidc_user.person.email):

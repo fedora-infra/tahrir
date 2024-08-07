@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import abort, current_app, flash, g, redirect, render_template, request, session, url_for
+from flask import abort, current_app, flash, g, redirect, render_template, request, url_for
 
 from tahrir.app import oidc
 from tahrir.utils.badge import convert_name_to_id, generate_badge_yaml
@@ -15,7 +15,6 @@ from . import blueprint as bp
 def admin():
     if not g.oidc_user.is_admin:
         abort(403, "Unauthorized.")
-    session["came_from"] = url_for("tahrir.admin")
     # Handle any admin actions. These are done through POSTS via the
     # HTML forms on the admin panel.
     if request.method == "POST":
@@ -242,9 +241,6 @@ def add_tag(request):
 
 @bp.route("/builder", methods=["GET", "POST"])
 def builder():
-    # set came_from so we can get back home after openid auth.
-    session["came_from"] = url_for("tahrir.builder")
-
     # get default creator field
     default_creator = None
     if g.oidc_user.person:

@@ -84,7 +84,7 @@
             {% endif %}
             <li><a href="{{ url_for('oidc_auth.logout') }}">Logout</a></li>
           {% else %}
-            <li id="login-button"><a href="{{ url_for('oidc_auth.login') }}">Login</a></li>
+            <li id="login-button"><a href="{{ url_for('oidc_auth.login') }}?next={{ request.url|urlencode }}">Login</a></li>
           {% endif %}
         </ul>
 
