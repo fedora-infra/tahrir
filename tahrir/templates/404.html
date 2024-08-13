@@ -2,17 +2,23 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for("static", filename="css/tahrir.css") }}">
-    <link rel="stylesheet" href="{{ url_for("static", filename="css/monokai.css") }}">
-    <title>404</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tahrir.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/monokai.css') }}">
+    <title>404 - Page Not Found</title>
   </head>
   <body>
     <div class="page">
       <div class="center pane">
         <img
-           src="{{ url_for("static", filename="img/404.png") }}"
-           alt="Achievment Unlocked, 'Failure'"
+           src="{{ url_for('static', filename='img/404.png') }}"
+           alt="Achievement Unlocked, 'Failure'"
            style="display: block; margin-left: auto; margin-right: auto;" />
+        <h1 style="text-align: center; margin-top: 20px;">404 - Page Not Found</h1>
+        <p style="text-align: center; max-width: 600px; margin: 20px auto;">
+          Oops! The page you are looking for doesn't exist. It might have been removed,
+          had its name changed, or is temporarily unavailable. Please check the URL
+          or return to the homepage.
+        </p>
       </div>
     </div>
   </body>

@@ -2,17 +2,22 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for("static", filename="css/tahrir.css") }}">
-    <link rel="stylesheet" href="{{ url_for("static", filename="css/monokai.css") }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tahrir.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/monokai.css') }}">
     <title>500 Error</title>
   </head>
   <body>
     <div class="page">
       <div class="center pane">
         <img
-           src="{{ url_for("static", filename="img/500.png") }}"
-           alt="Achievment Unlocked, 'Failure'"
+           src="{{ url_for('static', filename='img/500.png') }}"
+           alt="Achievement Unlocked, 'Failure'"
            style="display: block; margin-left: auto; margin-right: auto;" />
+        <h1 style="text-align: center; margin-top: 20px;">500 - Internal Server Error</h1>
+        <p style="text-align: center; max-width: 600px; margin: 20px auto;">
+          Something went wrong on our end. Please try refreshing the page or come back later.
+          If the issue persists, feel free to contact our support team.
+        </p>
       </div>
     </div>
   </body>
