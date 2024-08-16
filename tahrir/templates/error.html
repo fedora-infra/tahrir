@@ -1,0 +1,18 @@
+{% extends '_base.html' %}
+
+{% block title %}
+{{ error_code }} error - {{ super() }}
+{% endblock %}
+
+{% block body %}
+      <div class="error-page">
+        <h1>{{ error_title }}</h1>
+        <p>{{ error_message|safe }}</p>
+        <p class="introduce-badgers">Instead, here are <span class="error-code">{{ error_code }}</span> badgers for you:</p>
+        <img
+           src="{{ url_for("static", filename="img/{}.png".format(error_code)) }}"
+           alt="{{ error_code }} badger heads"
+           title="Achievment Unlocked: 'Failure'"
+           class="error-image" />
+      </div>
+{% endblock %}

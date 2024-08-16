@@ -46,7 +46,12 @@
         }
       </script>
     {% endif %}
-    <title>{{ config["TAHRIR_TITLE"] }}</title>
+
+    <title>
+    {% block title %}
+    {{ config["TAHRIR_TITLE"] }}
+    {% endblock %}
+    </title>
 
     {% block head %}{% endblock %}
 
