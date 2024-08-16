@@ -6,6 +6,7 @@
       - vim
       - libpq-devel
       - sqlite3
+      - poetry
     state: present
 
 - name: configure fedora-messaging to point at tinystage rabbitmq
