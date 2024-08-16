@@ -431,3 +431,35 @@ footer > .document {
 .header > h1 {
     display: inline-block;
 }
+
+.error-page {
+    text-align: center;
+    margin-top: 5em;
+    margin-bottom: 5em;
+}
+
+.error-page h1 {
+    font-size: 160%;
+    margin-bottom: 0.5em;
+}
+.error-page p {
+    font-size: 120%;
+}
+.error-page p.introduce-badgers {
+    font-weight: bolder;
+    font-size: 140%;
+    margin-top: 1em;
+}
+
+
+.error-page .error-code {
+    font-weight: bolder;
+    font-size: 160%;
+    color: #db3279;
+    vertical-align: middle;
+    text-shadow: 2px 2px 3px gray
+}
+
+.error-page .error-image {
+    margin-top: 1em;
+}
