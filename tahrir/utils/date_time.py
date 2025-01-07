@@ -64,10 +64,6 @@ def relative_time(value: datetime):
     for denomination in denominations:
         value = getattr(rd, denomination, 0)
         if value:
-            return "%d %s %s" % (
-                value,
-                singularize(SHORT_DENOMINATIONS[denomination], value),
-                suffix,
-            )
+            return f"{value} {singularize(SHORT_DENOMINATIONS[denomination], value)} {suffix}"
 
     return "just now"
