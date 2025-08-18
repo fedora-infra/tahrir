@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     container: fedorapython/fedora-python-tox:latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Mark the directory as safe for git
         run: git config --global --add safe.directory $PWD
       - name: Install RPM dependencies
@@ -46,7 +46,7 @@ jobs:
       release-notes: ${{ steps.extract-changelog.outputs.markdown }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
