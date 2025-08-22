@@ -1,10 +1,12 @@
 import random
-from datetime import date, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
+
+from tahrir.defaults import TAHRIR_DISPLAY_TAGS
 
 import sqlalchemy as sa
 import tahrir_api.model as m
 from feedgen.feed import FeedGenerator
-from flask import g, redirect, render_template, request, url_for
+from flask import g, jsonify, redirect, render_template, request, url_for
 
 from ..utils.badge import sort_badges_by_tag
 from . import blueprint as bp
@@ -93,6 +95,47 @@ def explore_badges():
         newest_uncategorized=newest_uncategorized,
         newest_badges=newest_badges,
     )
+
+
+@bp.route("/json/discover/accolade")
+def json_discover_accolade():
+    all_badges = g.tahrirdb.get_all_badges().all()
+    newest_badges = sorted(all_badges, key=lambda badge: badge.created_on, reverse=True)[:40]
+
+    serializable_all_badges = [
+        {
+            "name": badge.name,
+            "image": badge.image,
+            "description": badge.description,
+            "created_on": badge.created_on.timestamp(),
+            "tags": [item for item in badge.tags.split(",") if item.strip() != ""]
+        } for badge in all_badges
+    ]
+    serializable_newest_badges = [
+        {
+            "name": badge.name,
+            "image": badge.image,
+            "description": badge.description,
+            "created_on": badge.created_on.timestamp(),
+            "tags": [item for item in badge.tags.split(",") if item.strip() != ""]
+        } for badge in newest_badges
+    ]
+
+    serializable_all_badges_by_tag = {name: [indx for indx, item in enumerate(serializable_all_badges) if name in item["tags"]] for name in TAHRIR_DISPLAY_TAGS}
+    serializable_newest_badges_by_tag = {name: [indx for indx, item in enumerate(serializable_newest_badges) if name in item["tags"]] for name in TAHRIR_DISPLAY_TAGS}
+
+    data = {
+        "classified": {
+            "newest": serializable_newest_badges_by_tag,
+            "full": serializable_all_badges_by_tag
+        },
+        "disordered": {
+            "newest": serializable_newest_badges,
+            "full": serializable_all_badges,
+        }
+    }
+
+    return jsonify(data)
 
 
 @bp.route("/explore/badges/rss")
