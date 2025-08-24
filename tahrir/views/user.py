@@ -216,13 +216,13 @@ def user_team_json(user_id, team_id):
     return jsonify(_user_team_json_generator(team, person))
 
 
-@bp.route("/user/<user_id>/json")
+@bp.route("/json/user/<user_id>")
 def user_json(user_id):
     """Render user info JSON dump."""
 
     # So, here they can use their 'id' or their 'nickname'.
     # We'll try nickname first since we want to encourage that (or whatever)
-    # and fall back to id if that fails.  If both fail, raise a 404.
+    # and fall back to id if that fails. If both fail, raise a 404.
     person = get_person(user_id)
 
     if not person:

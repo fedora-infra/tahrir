@@ -95,6 +95,14 @@ def _badge_json_generator(badge, withasserts=True):
         # Fixme -- not sure if this works -- need to check it out.
         assertions = sorted(badge.assertions, key=lambda b: b.issued_on)
 
+        print("IDHAR DEKHO", assertions[0].person.nickname)
+        print("IDHAR DEKHO", assertions[0].person.rank)
+        # print("IDHAR DEKHO", assertions[0].person.created_on.timestamp())
+        # print("IDHAR DATE KA DIR DEKHO", dir(assertions[0].person.created_on))
+
+        print("IDHAR BHI DEKHO", dir(assertions[0]))
+        print(dir(assertions[0]))
+
         times_awarded = len(badge.assertions)
 
         percent_earned = float(times_awarded) / float(g.tahrirdb.get_all_persons().count())
@@ -134,7 +142,7 @@ def _badge_json_generator(badge, withasserts=True):
     if percent_earned:
         percent_earned *= 100
 
-    return {
+    data = {
         "id": badge.id,
         "name": badge.name,
         "description": badge.description,
@@ -146,7 +154,19 @@ def _badge_json_generator(badge, withasserts=True):
         "percent_earned": percent_earned,
         "image": badge.image,
         "tags": badge.tags,
+        "issuer": badge.issuer.name,
+        "criteria": badge.criteria,
+        "assertions": [
+            {
+                "name": i.person.nickname,
+                "rank": i.person.rank,
+                "date": i.issued_on.timestamp(),
+                "mail": i.person.avatar,
+            } for i in assertions
+        ],
     }
+
+    return data
 
 
 @bp.route("/badge/<badge_id>/json")
@@ -256,6 +276,8 @@ def award():
     else:
         g.tahrirdb.add_assertion(badge.id, user.email, None)
         flash(f"User {user.nickname} has been awarded the {badge.id} badge")
+
+    # COMMENT
 
     return redirect(url_for("tahrir.badge", badge_id=badge.id))
 

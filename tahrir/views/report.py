@@ -1,7 +1,8 @@
 from datetime import date, datetime, timedelta, timezone
 
-from flask import g, redirect, render_template, url_for
+from flask import abort, g, jsonify, redirect, render_template, request, url_for
 
+from tahrir.utils.avatar import get_avatar
 from tahrir.utils.date_time import get_start_week
 
 from . import blueprint as bp
@@ -130,3 +131,65 @@ def report_this_month():
     year, month = now.year, now.month
     location = url_for("tahrir.report_year_month", year=year, month=month)
     return redirect(location)
+
+
+@bp.route("/json/report")
+@bp.route("/json/report/y/<int:year>")
+@bp.route("/json/report/y/<int:year>/w/<int:week>")
+@bp.route("/json/report/y/<int:year>/m/<int:month>")
+@bp.route("/json/report/y/<int:year>/m/<int:month>/d/<int:day>")
+def json_report_year(year=None, week=None, month=None, day=None):
+    """The leaderboard."""
+
+    try:
+        begin = int(request.args.get('begin', 0))
+        limit = int(request.args.get('limit', 200))
+        if day is not None:
+            # Daily report
+            start = date(year, month, day)
+            stop = start + timedelta(days=1)
+        elif week is not None:
+            # Weekly report
+            max_week = date(year, 12, 31).isocalendar()[1]
+            if 0 < week < max_week:
+                start = date(year, 1, 1) + timedelta(weeks=week - 1)
+                start = get_start_week(start.year, start.month, start.day)
+                stop = start + timedelta(days=6)
+            else:
+                raise ValueError()
+        elif month is not None:
+            # Monthly report
+            start = date(year, month, 1)
+            stop = start + timedelta(days=32)
+            stop = stop.replace(day=1)
+            stop = stop - timedelta(days=1)
+        elif year is not None:
+            # Yearly report
+            start = date(year, 1, 1)
+            stop = date(year, 12, 31)
+        else:
+            # Default: Complete list
+            start = None
+            stop = None
+
+        # TODO: Modify make_leaderboard to add filter
+        user_to_rank = g.tahrirdb.make_leaderboard(
+            start=start,
+            stop=stop,
+        )
+
+        limited_users = list(user_to_rank)[begin:begin+limit]
+
+        data = [
+            {
+                "email": user.email,
+                "id": user.id,
+                "nickname": user.nickname,
+                "avatar": get_avatar(user.avatar, int(request.args.get("size", 100))),
+                "rank": user.rank,
+                "period_badges": user_to_rank[user]["badges"]
+            } for user in limited_users
+        ]
+        return jsonify(data)
+    except ValueError:
+        abort(422,"Incorrect system input!")
