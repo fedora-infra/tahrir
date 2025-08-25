@@ -10,6 +10,8 @@ const makeunit = createSlice({
     hand: false,
     shut: false,
     anch: null,
+    vibeAnch: false,
+    modeAnch: false,
     acco: {
       assertions: [
         {
@@ -56,6 +58,15 @@ const makeunit = createSlice({
     keepAnch: (area, data) => {
       area.anch = data.payload;
     },
+    keepVibe: (area, data) => {
+      area.vibe = data.payload;
+    },
+    keepVibeAnch: (area, data) => {
+      area.vibeAnch = data.payload;
+    },
+    keepModeAnch: (area, data) => {
+      area.modeAnch = data.payload;
+    },
     makeHand: (area, data) => {
       area.hand = data.payload;
     },
@@ -65,7 +76,19 @@ const makeunit = createSlice({
   },
 });
 
-export const { makeHead, keepAcco, showLoad, hideLoad, keepExpt, wipeExpt, keepAnch, makeHand, makeShut } =
-  makeunit.actions;
+export const {
+  makeHead,
+  keepAcco,
+  showLoad,
+  hideLoad,
+  keepExpt,
+  wipeExpt,
+  keepAnch,
+  keepVibe,
+  keepVibeAnch,
+  keepModeAnch,
+  makeHand,
+  makeShut,
+} = makeunit.actions;
 
 export default makeunit.reducer;

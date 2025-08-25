@@ -22,3 +22,14 @@ export const flawText = [
   "Try refreshing and see if you find it?",
   "We looked everywhere - Even under the couch",
 ];
+
+export const vibeList = {
+  "gridhead Teal": "#008080",
+  "Fedora Modern": "#51a2da",
+  "Fedora Legacy": "#294172",
+  "Freedom Purple": "#a07cbc",
+  "Friends Magenta": "#db3279",
+  "Features Orange": "#e59728",
+  "First Green": "#79db32",
+  "Lifeless Grey": "#888888",
+};
