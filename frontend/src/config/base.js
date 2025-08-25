@@ -6,10 +6,7 @@ export const scheme = createTheme({
   },
   typography: {
     fontSize: 14,
-    fontFamily: [
-      '"Inter"',
-      'sans-serif',
-    ].join(','),
+    fontFamily: ['"Inter"', "sans-serif"].join(","),
   },
 });
 
