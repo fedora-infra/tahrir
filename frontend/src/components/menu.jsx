@@ -15,8 +15,9 @@ import { BrightnessAuto, BrightnessHigh, BrightnessLow, Palette } from "@mui/ico
 import { MenuItem, Menu } from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { keepAnch, makeHand, makeShut } from "../features/part.jsx";
+import { keepAnch, makeHand, makeShut, keepVibe, keepVibeAnch, keepModeAnch } from "../features/part.jsx";
 import { useColorScheme } from "@mui/material";
+import { vibeList } from "../config/base.js";
 
 export default function ResponsiveDrawer() {
   const dispatch = useDispatch();
@@ -26,8 +27,12 @@ export default function ResponsiveDrawer() {
   const load = useSelector((area) => area.area.load);
   const hand = useSelector((area) => area.area.hand);
   const shut = useSelector((area) => area.area.shut);
-  const anch = useSelector((area) => area.area.anch);
+  const vibeAnch = useSelector((area) => area.area.vibeAnch);
+  const modeAnch = useSelector((area) => area.area.modeAnch);
   const { mode, setMode } = useColorScheme();
+  const vibeButn = React.useRef(null);
+  const modeButn = React.useRef(null);
+
   if (!mode) {
     return null;
   }
@@ -47,17 +52,30 @@ export default function ResponsiveDrawer() {
     }
   };
 
-  const modeAnch = (event) => {
-    dispatch(keepAnch(event.currentTarget));
+  const vibeOpen = (event) => {
+    dispatch(keepVibeAnch(true));
+  };
+
+  const vibeShut = () => {
+    dispatch(keepVibeAnch(false));
+  };
+
+  const modeOpen = (event) => {
+    dispatch(keepModeAnch(true));
   };
 
   const modeShut = () => {
-    dispatch(keepAnch(null));
+    dispatch(keepModeAnch(false));
   };
 
   const modeMake = (name) => {
-    dispatch(keepAnch(null));
+    dispatch(keepModeAnch(false));
     setMode(name);
+  };
+
+  const vibeMake = (name) => {
+    dispatch(keepVibeAnch(false));
+    dispatch(keepVibe(name));
   };
 
   return (
@@ -87,28 +105,71 @@ export default function ResponsiveDrawer() {
           </Typography>
           <div>
             <IconButton
+              ref={vibeButn}
               size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
+              aria-controls="vibe-select"
               aria-haspopup="true"
-              onClick={modeAnch}
+              onClick={vibeOpen}
               color="inherit"
-              sx={{ padding: 0 }}
+              sx={{ padding: 0, marginRight: "20px" }}
             >
               <Palette />
             </IconButton>
             <Menu
-              id="menu-appbar"
-              anchorEl={anch}
+              id="vibe-select"
+              anchorEl={vibeButn.current}
               keepMounted
-              open={Boolean(anch)}
-              onClose={modeShut}
+              open={vibeAnch}
+              onClose={vibeShut}
               anchorOrigin={{
-                vertical: "top",
+                vertical: "bottom",
                 horizontal: "right",
               }}
               transformOrigin={{
-                vertical: "top",
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+            >
+              {Object.entries(vibeList).map(([name, color]) => (
+                <MenuItem key={name} onClick={() => vibeMake(color)} sx={{ padding: "5px 7.5px" }}>
+                  <ListItemIcon>
+                    <Box
+                      sx={{
+                        width: 20,
+                        height: 20,
+                        borderRadius: "50%",
+                        backgroundColor: color,
+                        border: "1px solid rgba(0,0,0,0.23)",
+                      }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText>{name}</ListItemText>
+                </MenuItem>
+              ))}
+            </Menu>
+            <IconButton
+              ref={modeButn}
+              size="large"
+              aria-controls="mode-select"
+              aria-haspopup="true"
+              onClick={modeOpen}
+              color="inherit"
+              sx={{ padding: 0 }}
+            >
+              <BrightnessAuto />
+            </IconButton>
+            <Menu
+              id="mode-select"
+              anchorEl={modeButn.current}
+              keepMounted
+              open={modeAnch}
+              onClose={modeShut}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "bottom",
                 horizontal: "right",
               }}
             >
