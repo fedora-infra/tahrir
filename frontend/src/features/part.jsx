@@ -7,6 +7,9 @@ const makeunit = createSlice({
     head: "",
     load: false,
     expt: null,
+    hand: false,
+    shut: false,
+    anch: null,
     acco: {
       assertions: [
         {
@@ -50,9 +53,19 @@ const makeunit = createSlice({
     wipeExpt: (area) => {
       area.expt = null;
     },
+    keepAnch: (area, data) => {
+      area.anch = data.payload;
+    },
+    makeHand: (area, data) => {
+      area.hand = data.payload;
+    },
+    makeShut: (area, data) => {
+      area.shut = data.payload;
+    },
   },
 });
 
-export const { makeHead, keepAcco, showLoad, hideLoad, keepExpt, wipeExpt } = makeunit.actions;
+export const { makeHead, keepAcco, showLoad, hideLoad, keepExpt, wipeExpt, keepAnch, makeHand, makeShut } =
+  makeunit.actions;
 
 export default makeunit.reducer;
