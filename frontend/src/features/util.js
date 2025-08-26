@@ -12,8 +12,8 @@ export function formatTime(epochTime) {
   });
 }
 
-export function PortraitProvider(mail) {
-  return `https://seccdn.libravatar.org/avatar/${md5(mail.trim().toLowerCase()).toString()}?s=40&d=retro`;
+export function PortraitProvider(mail, size) {
+  return `https://seccdn.libravatar.org/avatar/${md5(mail.trim().toLowerCase()).toString()}?s=${size}&d=retro`;
 }
 
 export async function HTTPCall(method, path) {
