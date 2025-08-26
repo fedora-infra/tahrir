@@ -9,6 +9,7 @@ from tahrir.utils.badge import badge_json_generator, sort_badges_by_tag
 from tahrir.utils.user import get_person
 
 from . import blueprint as bp
+from ..defaults import TAHRIR_DISPLAY_TAGS
 
 
 def _get_user_badge_info(person):
@@ -155,18 +156,26 @@ def user_rss(user_id):
 def _user_json_generator(person):
     """Generates a json of user data"""
     user_info = _get_user_badge_info(person)
+    assertions = sorted(person.assertions, key=lambda item: item.issued_on, reverse=True)
 
-    assertions = []
-    for assertion in person.assertions:
-        issued = {"issued": float(assertion.issued_on.strftime("%s"))}
-        _badged = badge_json_generator(assertion.badge, withasserts=False)
-        assertions.append({**issued, **_badged})
+    serialized = []
+    classified = {name: [] for name in TAHRIR_DISPLAY_TAGS}
+
+    for indx, item in enumerate(assertions):
+        issued = {"issued": float(item.issued_on.strftime("%s"))}
+        reason = {"reason": item.issued_for or None}
+        badged = badge_json_generator(item.badge, withasserts=False)
+        serialized.append({**issued, **badged, **reason})
+        for name in classified.keys():
+            if name in item.badge.tags:
+                classified[name].append(indx)
 
     return {
         "user": person.nickname,
-        "avatar": get_avatar(person.avatar, int(request.args.get("size", 100))),
+        "mail": person.avatar,
         "percent_earned": user_info["percent_earned"],
-        "assertions": assertions,
+        "classified": classified,
+        "serialized": serialized,
         "percentile": str(user_info["percentile"]),
         "rank": user_info["rank"],
         "user_count": user_info["user_count"],
