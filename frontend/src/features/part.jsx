@@ -35,6 +35,23 @@ const makeunit = createSlice({
       tags: "nulldata",
       times_awarded: 0,
     },
+    user: {
+      classified: {
+        community: [],
+        content: [],
+        development: [],
+        event: [],
+        miscellaneous: [],
+      },
+      serialized: [],
+      mail: "nulldata",
+      percent_earned: 0.0,
+      percentile: 0.0,
+      rank: 0,
+      user: "nulldata",
+      user_count: 0,
+      awards: 0,
+    },
   },
   reducers: {
     makeHead: (area, data) => {
@@ -55,9 +72,6 @@ const makeunit = createSlice({
     wipeExpt: (area) => {
       area.expt = null;
     },
-    keepAnch: (area, data) => {
-      area.anch = data.payload;
-    },
     keepVibe: (area, data) => {
       area.vibe = data.payload;
     },
@@ -73,6 +87,9 @@ const makeunit = createSlice({
     makeShut: (area, data) => {
       area.shut = data.payload;
     },
+    keepUser: (area, data) => {
+      area.user = data.payload;
+    },
   },
 });
 
@@ -83,12 +100,12 @@ export const {
   hideLoad,
   keepExpt,
   wipeExpt,
-  keepAnch,
   keepVibe,
   keepVibeAnch,
   keepModeAnch,
   makeHand,
   makeShut,
+  keepUser,
 } = makeunit.actions;
 
 export default makeunit.reducer;

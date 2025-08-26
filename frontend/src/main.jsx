@@ -10,6 +10,7 @@ import { ThemeProvider } from "@mui/material";
 import { scheme } from "./config/base.js";
 import AccoList from "./components/list.jsx";
 import Mistaken from "./components/flaw.jsx";
+import Identity from "./components/user.jsx";
 
 createRoot(document.getElementById("root")).render(
   <Provider store={data}>
@@ -27,6 +28,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="/discover">
               <Route element={<AccoList />} index />
               <Route element={<Accolade />} path="accolade/:slugdata" />
+              <Route element={<Identity />} path="identity/:slugdata" />
             </Route>
             <Route element={<Mistaken />} path="*" />
           </Route>
