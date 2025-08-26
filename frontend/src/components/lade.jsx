@@ -12,6 +12,7 @@ import Divider from "@mui/material/Divider";
 import { formatTime } from "../features/util.js";
 import { PortraitProvider, HTTPCall } from "../features/util.js";
 import CustomListItem from "./item.jsx";
+import CustomListLink from "./link.jsx";
 import Mistaken from "./flaw.jsx";
 
 import { makeHead, keepAcco, showLoad, hideLoad, keepExpt, wipeExpt } from "../features/part.jsx";
@@ -157,12 +158,13 @@ export default function Accolade() {
             <CardContent style={{ padding: "6px 10px 6px 10px" }}>
               <List sx={{ paddingTop: "0px", paddingBottom: "0px" }}>
                 {acco.assertions?.map((assertion, iter) => (
-                  <CustomListItem
+                  <CustomListLink
                     key={iter}
-                    logo={<Avatar src={PortraitProvider(assertion.mail)} />}
+                    logo={<Avatar src={PortraitProvider(assertion.mail, 40)} />}
                     head={assertion.name}
                     body={`Awarded on ${formatTime(assertion.date)}`}
                     side={`#${assertion.rank}`}
+                    href={`/discover/identity/${assertion.name}`}
                   />
                 )) || (
                   <CustomListItem

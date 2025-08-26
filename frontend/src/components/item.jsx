@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 
 export default function CustomListItem({ logo, head, body, side }) {
   return (
-    <ListItem disableGutters={true} disablePadding={true} dense={true}>
+    <ListItem disableGutters={true} dense={true} sx={{ padding: "0px" }}>
       <ListItemAvatar>{logo}</ListItemAvatar>
       <ListItemText primary={head} secondary={body} />
       <IconButton edge="end" disabled={true}>
