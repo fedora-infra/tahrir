@@ -1,0 +1,114 @@
+@font-face {
+  font-family: "Inter";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/font/sans_rlar.ttf");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  src: url("/font/sans_bold.ttf");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-weight: 400;
+  font-style: italic;
+  src: url("/font/sans_rlit.ttf");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: italic;
+  src: url("/font/sans_bdit.ttf");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/font/mono_rlar.ttf");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 700;
+  font-style: normal;
+  src: url("/font/mono_bold.ttf");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 400;
+  font-style: italic;
+  src: url("/font/mono_rlit.ttf");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 700;
+  font-style: italic;
+  src: url("/font/mono_bdit.ttf");
+}
+
+@font-face {
+  font-family: "Alte 1451 Standard";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/font/1451_rlar.otf");
+}
+
+@font-face {
+  font-family: "Alte 1451 Standard";
+  font-weight: 700;
+  font-style: normal;
+  src: url("/font/1451_bold.otf");
+}
+
+@font-face {
+  font-family: "Alte 1451 Condensed";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/font/cond_rlar.otf");
+}
+
+@font-face {
+  font-family: "Alte 1451 Condensed";
+  font-weight: 700;
+  font-style: normal;
+  src: url("/font/cond_bold.otf");
+}
+
+.dataelem {
+  font-family: "Alte 1451 Condensed", sans-serif !important;
+}
+
+.monoelem {
+  font-family: "JetBrains Mono", monospace !important;
+}
+
+.bodyelem {
+  font-family: "Inter", sans-serif;
+}
+
+.dropdown-menu {
+  padding: 2px;
+}
+
+.logo {
+  filter: invert(73%) sepia(10%) saturate(5496%) hue-rotate(176deg) brightness(86%) contrast(99%);
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  overflow-y: scroll;
+}
+
+/* Workaround to vertically center the mode icon on the navbar */
+a.dropdown-toggle {
+  display: flex;
+  align-items: center;
+}
