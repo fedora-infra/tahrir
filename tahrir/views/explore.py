@@ -108,7 +108,8 @@ def json_discover_accolade():
             "image": badge.image,
             "description": badge.description,
             "created_on": badge.created_on.timestamp(),
-            "tags": [item for item in badge.tags.split(",") if item.strip() != ""]
+            "tags": [item for item in badge.tags.split(",") if item.strip() != ""],
+            "id": badge.id,
         } for badge in all_badges
     ]
     serializable_newest_badges = [
@@ -117,7 +118,8 @@ def json_discover_accolade():
             "image": badge.image,
             "description": badge.description,
             "created_on": badge.created_on.timestamp(),
-            "tags": [item for item in badge.tags.split(",") if item.strip() != ""]
+            "tags": [item for item in badge.tags.split(",") if item.strip() != ""],
+            "id": badge.id,
         } for badge in newest_badges
     ]
 
