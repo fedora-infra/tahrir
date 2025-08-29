@@ -1,9 +1,6 @@
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Popover from "react-bootstrap/Popover";
 import CryptoJS from "crypto-js";
-import Col from "react-bootstrap/Col";
+import { Col, Image, OverlayTrigger, Popover } from "react-bootstrap";
 import { Link } from "react-router";
-import Image from "react-bootstrap/Image";
 
 export default function AccoItem({ iden, name, body, foot, shot }) {
   return (

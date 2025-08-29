@@ -1,7 +1,7 @@
-import { Link } from "react-router";
-import ListGroup from "react-bootstrap/ListGroup";
-import Badge from "react-bootstrap/Badge";
 import CryptoJS from "crypto-js";
+import { Badge, ListGroup } from "react-bootstrap";
+import { Link } from "react-router";
+
 import { formatTime } from "../features/util.js";
 
 export default function PastItem({ iden, name, shot, link, time }) {
