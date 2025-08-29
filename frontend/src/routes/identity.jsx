@@ -12,14 +12,14 @@ import Mistaken from "./mistaken.jsx";
 
 export default function Identity() {
   const dispatch = useDispatch();
-  const { slugdata } = useParams();
+  const { slugdata: identity } = useParams();
 
   const {
     data: user,
     isLoading,
     error,
-  } = useRetrieveIdentityQuery(slugdata, {
-    skip: !slugdata,
+  } = useRetrieveIdentityQuery(identity, {
+    skip: !identity,
   });
 
   // Show or Hide LoadNote
@@ -57,7 +57,7 @@ export default function Identity() {
             </Card.Text>
           </Card.Body>
         </Card>
-        <Button as={Link} to={`/discover/userpast/${slugdata}`} variant="secondary" className="d-grid" size="sm">
+        <Button as={Link} to={`/discover/userpast/${identity}`} variant="secondary" className="d-grid" size="sm">
           History
         </Button>
       </div>

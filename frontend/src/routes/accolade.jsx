@@ -12,14 +12,14 @@ import Mistaken from "./mistaken.jsx";
 
 export default function Accolade() {
   const dispatch = useDispatch();
-  const { slugdata } = useParams();
+  const { slugdata: accolade } = useParams();
 
   const {
     data: acco,
     isLoading,
     error,
-  } = useRetrieveAccoladeQuery(slugdata, {
-    skip: !slugdata,
+  } = useRetrieveAccoladeQuery(accolade, {
+    skip: !accolade,
   });
 
   // Show or Hide LoadNote
