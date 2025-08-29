@@ -1,4 +1,4 @@
-import { mdiMemory, mdiWeatherNight, mdiWeatherSunny } from "@mdi/js";
+import { mdiCircleOutline, mdiCircleSlice4, mdiCircleSlice8 } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Container, Navbar, NavDropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,7 +27,7 @@ export default function Navigate() {
             <NavDropdown
               title={
                 <Icon
-                  path={mode === "lite" ? mdiWeatherSunny : mode === "dark" ? mdiWeatherNight : mdiMemory}
+                  path={mode === "light" ? mdiCircleSlice8 : mode === "dark" ? mdiCircleOutline : mdiCircleSlice4}
                   size={1}
                 />
               }
@@ -39,27 +39,21 @@ export default function Navigate() {
                 onClick={() => dispatch(keepMode("auto"))}
                 className="small d-flex align-items-center p-1"
               >
-                <Icon className="me-1" size={0.75} path={mdiMemory} />
+                <Icon className="me-1" size={0.75} path={mdiCircleSlice4} />
                 System
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => {
-                  dispatch(keepMode("lite"));
-                  document.body.setAttribute("data-bs-theme", "light");
-                }}
+                onClick={() => dispatch(keepMode("light"))}
                 className="small d-flex align-items-center p-1"
               >
-                <Icon className="me-1" size={0.75} path={mdiWeatherSunny} />
+                <Icon className="me-1" size={0.75} path={mdiCircleSlice8} />
                 Light
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => {
-                  dispatch(keepMode("dark"));
-                  document.body.setAttribute("data-bs-theme", "dark");
-                }}
+                onClick={() => dispatch(keepMode("dark"))}
                 className="small d-flex align-items-center p-1"
               >
-                <Icon className="me-1" size={0.75} path={mdiWeatherNight} />
+                <Icon className="me-1" size={0.75} path={mdiCircleOutline} />
                 Dark
               </NavDropdown.Item>
             </NavDropdown>
