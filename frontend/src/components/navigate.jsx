@@ -1,9 +1,8 @@
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
-import { useSelector, useDispatch } from "react-redux";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import { mdiMemory, mdiWeatherNight, mdiWeatherSunny } from "@mdi/js";
 import Icon from "@mdi/react";
-import { mdiWeatherSunny, mdiWeatherNight, mdiMemory } from "@mdi/js";
+import { Container, Navbar, NavDropdown } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+
 import { keepMode } from "../features/part.js";
 
 export default function Navigate() {

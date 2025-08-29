@@ -1,13 +1,12 @@
 import { useEffect } from "react";
-import { Link, useParams } from "react-router";
+import { Button, Card, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { hideLoad, keepUser, showLoad, wipeExpt, keepExpt } from "../features/part.js";
+import { Link, useParams } from "react-router";
+
+import PastItem from "../components/pastitem.jsx";
+import { hideLoad, keepExpt, keepUser, showLoad, wipeExpt } from "../features/part.js";
 import { httpCall, portraitProvider } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
-import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
-import Button from "react-bootstrap/Button";
-import PastItem from "./pastitem.jsx";
 
 export default function UserPast() {
   const { slugdata } = useParams();

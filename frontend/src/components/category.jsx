@@ -1,6 +1,5 @@
-import Card from "react-bootstrap/Card";
-import Row from "react-bootstrap/Row";
 import CryptoJS from "crypto-js";
+import { Card, Row } from "react-bootstrap";
 
 export default function Category({ name, wide, children }) {
   return (

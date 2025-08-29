@@ -1,18 +1,17 @@
 import { useEffect } from "react";
-import { useParams, Link } from "react-router";
+import { Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { hideLoad, keepUser, showLoad, wipeExpt, keepExpt } from "../features/part.js";
-import { formatTime, httpCall, portraitProvider } from "../features/util.js";
-import Mistaken from "./mistaken.jsx";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Category from "./category.jsx";
-import AccoItem from "./accoitem.jsx";
+import { Link } from "react-router";
 
-export default function Identity() {
-  const { slugdata } = useParams();
+import AccoItem from "../components/accoitem.jsx";
+import Category from "../components/category.jsx";
+import { hideLoad, keepExpt, keepList, showLoad, wipeExpt } from "../features/part.js";
+import { formatTime, httpCall } from "../features/util.js";
+import Mistaken from "./mistaken.jsx";
+
+export default function AccoList() {
   const dispatch = useDispatch();
-  const user = useSelector((area) => area.area.user);
+  const list = useSelector((area) => area.area.list);
   const load = useSelector((area) => area.area.load);
   const expt = useSelector((area) => area.area.expt);
 
@@ -21,8 +20,8 @@ export default function Identity() {
       try {
         dispatch(showLoad());
         dispatch(wipeExpt());
-        const data = await httpCall("GET", `/json/user/${slugdata}`);
-        dispatch(keepUser(data));
+        const data = await httpCall("GET", `/json/discover/accolade`);
+        dispatch(keepList(data));
       } catch (fail) {
         console.log(fail.message);
         dispatch(keepExpt(fail.message));
@@ -31,10 +30,8 @@ export default function Identity() {
       }
     };
 
-    if (slugdata) {
-      makeUnitData();
-    }
-  }, [dispatch, slugdata]);
+    makeUnitData();
+  }, [dispatch]);
 
   if (expt) {
     return <Mistaken />;
@@ -44,39 +41,30 @@ export default function Identity() {
     <div className="row g-2">
       <div className="col-12 col-lg-3">
         <Card className="mb-2">
-          <Card.Img variant="top" src={portraitProvider(user.mail, 512)} />
           <Card.Body className="p-2">
-            <Card.Title className="dataelem text-truncate">{user.user}</Card.Title>
-            <Card.Text className="small">
-              Rank #{user.rank}
-              <br />
-              Top {parseFloat(user.percentile).toFixed(2)}%
-              <br />
-              Collected {user.serialized.length} badge(s)
-              <br />
-              Has {parseFloat(user.percent_earned).toFixed(2)}%
-            </Card.Text>
+            <Card.Title className="dataelem text-truncate">Complete collection</Card.Title>
+            <Card.Text className="small">{list.disordered.full.length} badge(s)</Card.Text>
           </Card.Body>
         </Card>
-        <Button as={Link} to={`/discover/userpast/${slugdata}`} variant="secondary" className="d-grid" size="sm">
-          History
+        <Button as={Link} to={`/discover/recently`} variant="secondary" className="d-grid" size="sm">
+          Recent
         </Button>
       </div>
       <div className="col-12 col-lg-9">
-        {user.classified &&
-          Object.entries(user.classified).map(
+        {list.classified.full &&
+          Object.entries(list.classified.full).map(
             ([category, iterlist]) =>
               iterlist.length > 0 && (
                 <Category key={category} name={category} wide={iterlist.length}>
                   {iterlist.map((indx) => {
-                    const item = user.serialized[indx];
+                    const item = list.disordered.full[indx];
                     return item ? (
                       <AccoItem
                         key={item.id}
                         iden={item.id}
                         name={item.name}
                         body={item.description}
-                        foot={`Awarded on ${formatTime(item.issued)}`}
+                        foot={`Created on ${formatTime(item.created_on)}`}
                         shot={item.image}
                       />
                     ) : null;
