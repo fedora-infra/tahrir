@@ -7,15 +7,14 @@ import AccoItem from "../components/accoitem.jsx";
 import Category from "../components/category.jsx";
 import { useRetrieveAccoListQuery } from "../features/call.js";
 import { hideLoad, showLoad } from "../features/part.js";
-import { formatTime } from "../features/util.js";
+import { formatTime, generateIdentity } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function Recently() {
   const dispatch = useDispatch();
-
   const { data: list, isLoading, error } = useRetrieveAccoListQuery();
 
-  // Sync loading state with global LoadNote component
+  // Show or Hide LoadNote
   useEffect(() => {
     if (isLoading) {
       dispatch(showLoad());
@@ -50,12 +49,12 @@ export default function Recently() {
           Object.entries(list.classified.newest).map(
             ([category, iterlist]) =>
               iterlist.length > 0 && (
-                <Category key={category} name={category} wide={iterlist.length}>
+                <Category key={generateIdentity(category)} name={category} wide={iterlist.length}>
                   {iterlist.map((indx) => {
                     const item = list.disordered.newest[indx];
                     return item ? (
                       <AccoItem
-                        key={item.id}
+                        key={generateIdentity(item.id)}
                         iden={item.id}
                         name={item.name}
                         body={item.description}

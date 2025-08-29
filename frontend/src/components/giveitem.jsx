@@ -1,4 +1,3 @@
-import CryptoJS from "crypto-js";
 import { Badge, ListGroup } from "react-bootstrap";
 import { Link } from "react-router";
 
@@ -6,13 +5,7 @@ import { portraitProvider } from "../features/util.js";
 
 export default function GiveItem({ name, mail, rank, body }) {
   return (
-    <ListGroup.Item
-      key={CryptoJS.SHA256(name).toString()}
-      className="p-2"
-      action
-      as={Link}
-      to={`/discover/identity/${name}`}
-    >
+    <ListGroup.Item className="p-2" action as={Link} to={`/discover/identity/${name}`}>
       <div className="d-flex w-100" style={{ gap: "0.5rem" }}>
         <div style={{ aspectRatio: "1/1", height: "45px" }}>
           <img src={portraitProvider(mail, 45)} className="w-100 h-100" alt={name} />

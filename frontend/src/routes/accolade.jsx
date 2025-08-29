@@ -1,4 +1,3 @@
-import CryptoJS from "crypto-js";
 import { useEffect } from "react";
 import { Badge, Button, Card, ListGroup, Stack } from "react-bootstrap";
 import { useDispatch } from "react-redux";
@@ -7,6 +6,7 @@ import { Link, useParams } from "react-router";
 import GiveItem from "../components/giveitem.jsx";
 import { useRetrieveAccoladeQuery } from "../features/call.js";
 import { hideLoad, showLoad } from "../features/part.js";
+import { generateIdentity } from "../features/util.js";
 import { formatTime } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
@@ -22,7 +22,7 @@ export default function Accolade() {
     skip: !slugdata,
   });
 
-  // Sync loading state with global LoadNote component
+  // Show or Hide LoadNote
   useEffect(() => {
     if (isLoading) {
       dispatch(showLoad());
@@ -51,9 +51,9 @@ export default function Accolade() {
               {acco.tags &&
                 acco.tags.map((name) => (
                   <Badge
+                    key={generateIdentity(name)}
                     as={Link}
                     to={`/category/${name}`}
-                    key={CryptoJS.SHA256(name).toString()}
                     bg="secondary"
                     className="monoelem text-capitalize text-decoration-none"
                   >
@@ -69,7 +69,6 @@ export default function Accolade() {
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush">
               <GiveItem
-                key={acco.assertions[0].name}
                 name={acco.assertions[0].name}
                 mail={acco.assertions[0].mail}
                 rank={acco.assertions[0].rank}
@@ -84,7 +83,6 @@ export default function Accolade() {
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush">
               <GiveItem
-                key={acco.assertions[acco.assertions.length - 1].name}
                 name={acco.assertions[acco.assertions.length - 1].name}
                 mail={acco.assertions[acco.assertions.length - 1].mail}
                 rank={acco.assertions[acco.assertions.length - 1].rank}
@@ -120,7 +118,7 @@ export default function Accolade() {
               {acco.assertions &&
                 acco.assertions.map((assertion) => (
                   <GiveItem
-                    key={assertion.name}
+                    key={generateIdentity(assertion.name)}
                     name={assertion.name}
                     mail={assertion.mail}
                     rank={assertion.rank}

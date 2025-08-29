@@ -7,7 +7,7 @@ import AccoItem from "../components/accoitem.jsx";
 import Category from "../components/category.jsx";
 import { useRetrieveIdentityQuery } from "../features/call.js";
 import { hideLoad, showLoad } from "../features/part.js";
-import { formatTime, portraitProvider } from "../features/util.js";
+import { formatTime, generateIdentity, portraitProvider } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function Identity() {
@@ -22,7 +22,7 @@ export default function Identity() {
     skip: !slugdata,
   });
 
-  // Sync loading state with global LoadNote component
+  // Show or Hide LoadNote
   useEffect(() => {
     if (isLoading) {
       dispatch(showLoad());
@@ -66,12 +66,12 @@ export default function Identity() {
           Object.entries(user.classified).map(
             ([category, iterlist]) =>
               iterlist.length > 0 && (
-                <Category key={category} name={category} wide={iterlist.length}>
+                <Category key={generateIdentity(category)} name={category} wide={iterlist.length}>
                   {iterlist.map((indx) => {
                     const item = user.serialized[indx];
                     return item ? (
                       <AccoItem
-                        key={item.id}
+                        key={generateIdentity(item.id)}
                         iden={item.id}
                         name={item.name}
                         body={item.description}

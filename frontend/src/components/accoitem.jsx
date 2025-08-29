@@ -1,4 +1,3 @@
-import CryptoJS from "crypto-js";
 import { Col, Image, OverlayTrigger, Popover } from "react-bootstrap";
 import { Link } from "react-router";
 
@@ -7,7 +6,7 @@ export default function AccoItem({ iden, name, body, foot, shot }) {
     <OverlayTrigger
       placement="auto"
       overlay={
-        <Popover id={CryptoJS.SHA256(`over-${iden}`).toString()} className="bodyelem">
+        <Popover className="bodyelem">
           <Popover.Header className="p-2">{name}</Popover.Header>
           <Popover.Body className="p-2 small">
             <p>{body}</p>
@@ -16,7 +15,7 @@ export default function AccoItem({ iden, name, body, foot, shot }) {
         </Popover>
       }
     >
-      <Col key={CryptoJS.SHA256(iden).toString()} xs={3} md={1} lg={1}>
+      <Col xs={3} md={1} lg={1}>
         <Link to={`/discover/accolade/${iden}`}>
           <Image src={shot} className="w-100 h-100" alt={name} />
         </Link>
