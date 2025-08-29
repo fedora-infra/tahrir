@@ -153,7 +153,7 @@ def _badge_json_generator(badge, withasserts=True):
         "first_awarded_person": first_awarded_person,
         "percent_earned": percent_earned,
         "image": badge.image,
-        "tags": badge.tags,
+        "tags": [item.strip() for item in badge.tags.split(",") if item.strip() != ""],
         "issuer": badge.issuer.name,
         "criteria": badge.criteria,
         "assertions": [
