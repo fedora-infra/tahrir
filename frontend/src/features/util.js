@@ -1,4 +1,5 @@
 import md5 from "crypto-js/md5";
+import sha256 from "crypto-js/sha256";
 
 export function formatTime(epochTime) {
   const date = new Date(epochTime * 1000);
@@ -16,14 +17,6 @@ export function portraitProvider(mail, size) {
   return `https://seccdn.libravatar.org/avatar/${md5(mail.trim().toLowerCase()).toString()}?s=${size}&d=retro`;
 }
 
-export async function httpCall(method, path) {
-  const response = await fetch(path, {
-    method: method,
-  });
-  if (!response.ok) {
-    const expt = (await response.json()).detail;
-    throw new Error(`${response.status}: ${expt}`, { cause: response });
-  }
-  const data = await response.json();
-  return data;
+export function generateIdentity(text, size = 8) {
+  return sha256(text).toString().substring(0, size);
 }

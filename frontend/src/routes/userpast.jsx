@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router";
 import PastItem from "../components/pastitem.jsx";
 import { useRetrieveIdentityQuery } from "../features/call.js";
 import { hideLoad, showLoad } from "../features/part.js";
-import { portraitProvider } from "../features/util.js";
+import { generateIdentity, portraitProvider } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function UserPast() {
@@ -21,7 +21,7 @@ export default function UserPast() {
     skip: !slugdata,
   });
 
-  // Sync loading state with global LoadNote component
+  // Show or Hide LoadNote
   useEffect(() => {
     if (isLoading) {
       dispatch(showLoad());
@@ -72,7 +72,7 @@ export default function UserPast() {
               {user.serialized &&
                 user.serialized.map((item) => (
                   <PastItem
-                    key={item.id}
+                    key={generateIdentity(item.id)}
                     iden={item.id}
                     name={item.name}
                     shot={item.image}
