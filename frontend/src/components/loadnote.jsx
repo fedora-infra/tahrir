@@ -20,7 +20,7 @@ export default function LoadNote() {
     "Harvesting",
     "Journaling",
     "Networking",
-    "Versioning",
+    "Yakshaving",
     "Qualifying",
     "Monitoring",
     "Organizing",

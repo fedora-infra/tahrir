@@ -1,46 +1,45 @@
 import { useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
 import Category from "../components/category.jsx";
-import { hideLoad, keepExpt, keepUser, showLoad, wipeExpt } from "../features/part.js";
-import { formatTime, httpCall, portraitProvider } from "../features/util.js";
+import { useRetrieveIdentityQuery } from "../features/call.js";
+import { hideLoad, showLoad } from "../features/part.js";
+import { formatTime, portraitProvider } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function Identity() {
-  const { slugdata } = useParams();
   const dispatch = useDispatch();
-  const user = useSelector((area) => area.area.user);
-  const load = useSelector((area) => area.area.load);
-  const expt = useSelector((area) => area.area.expt);
+  const { slugdata } = useParams();
 
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useRetrieveIdentityQuery(slugdata, {
+    skip: !slugdata,
+  });
+
+  // Sync loading state with global LoadNote component
   useEffect(() => {
-    const makeUnitData = async () => {
-      try {
-        dispatch(showLoad());
-        dispatch(wipeExpt());
-        const data = await httpCall("GET", `/json/user/${slugdata}`);
-        dispatch(keepUser(data));
-      } catch (fail) {
-        console.log(fail.message);
-        dispatch(keepExpt(fail.message));
-      } finally {
-        dispatch(hideLoad());
-      }
-    };
-
-    if (slugdata) {
-      makeUnitData();
+    if (isLoading) {
+      dispatch(showLoad());
+    } else {
+      dispatch(hideLoad());
     }
-  }, [dispatch, slugdata]);
+  }, [isLoading, dispatch]);
 
-  if (expt) {
+  if (error) {
     return <Mistaken />;
   }
 
-  return !load ? (
+  if (isLoading || !user) {
+    return null;
+  }
+
+  return (
     <div className="row g-2">
       <div className="col-12 col-lg-3">
         <Card className="mb-2">
@@ -86,5 +85,5 @@ export default function Identity() {
           )}
       </div>
     </div>
-  ) : null;
+  );
 }
