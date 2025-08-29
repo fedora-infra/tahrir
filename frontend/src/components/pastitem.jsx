@@ -1,4 +1,3 @@
-import CryptoJS from "crypto-js";
 import { Badge, ListGroup } from "react-bootstrap";
 import { Link } from "react-router";
 
@@ -6,13 +5,7 @@ import { formatTime } from "../features/util.js";
 
 export default function PastItem({ iden, name, shot, link, time }) {
   return (
-    <ListGroup.Item
-      key={CryptoJS.SHA256(iden).toString()}
-      className="p-2"
-      action
-      as={Link}
-      to={`/discover/accolade/${iden}`}
-    >
+    <ListGroup.Item className="p-2" action as={Link} to={`/discover/accolade/${iden}`}>
       <div className="d-flex w-100" style={{ gap: "0.5rem" }}>
         <div style={{ aspectRatio: "1/1", height: "45px" }}>
           <img src={shot} className="w-100 h-100" alt={name} />

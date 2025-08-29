@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router";
 
 import ModeWrap from "./components/modewrap.jsx";
+import { data } from "./features/data.js";
 import Accolade from "./routes/accolade.jsx";
 import AccoList from "./routes/accolist.jsx";
 import Identity from "./routes/identity.jsx";
@@ -13,7 +14,6 @@ import MainArea from "./routes/mainarea.jsx";
 import Mistaken from "./routes/mistaken.jsx";
 import Recently from "./routes/recently.jsx";
 import UserPast from "./routes/userpast.jsx";
-import { data } from "./features/data.js";
 
 createRoot(document.getElementById("root")).render(
   <Provider store={data}>
