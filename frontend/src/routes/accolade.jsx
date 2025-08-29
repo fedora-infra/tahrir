@@ -1,46 +1,45 @@
 import CryptoJS from "crypto-js";
 import { useEffect } from "react";
 import { Badge, Button, Card, ListGroup, Stack } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router";
 
 import GiveItem from "../components/giveitem.jsx";
-import { hideLoad, keepAcco, keepExpt, showLoad, wipeExpt } from "../features/part.js";
-import { formatTime, httpCall } from "../features/util.js";
+import { useRetrieveAccoladeQuery } from "../features/call.js";
+import { hideLoad, showLoad } from "../features/part.js";
+import { formatTime } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function Accolade() {
-  const { slugdata } = useParams();
   const dispatch = useDispatch();
-  const acco = useSelector((area) => area.area.acco);
-  const load = useSelector((area) => area.area.load);
-  const expt = useSelector((area) => area.area.expt);
+  const { slugdata } = useParams();
 
+  const {
+    data: acco,
+    isLoading,
+    error,
+  } = useRetrieveAccoladeQuery(slugdata, {
+    skip: !slugdata,
+  });
+
+  // Sync loading state with global LoadNote component
   useEffect(() => {
-    const makeUnitData = async () => {
-      try {
-        dispatch(showLoad());
-        dispatch(wipeExpt());
-        const data = await httpCall("GET", `/badge/${slugdata}/json`);
-        dispatch(keepAcco(data));
-      } catch (fail) {
-        console.log(fail.message);
-        dispatch(keepExpt(fail.message));
-      } finally {
-        dispatch(hideLoad());
-      }
-    };
-
-    if (slugdata) {
-      makeUnitData();
+    if (isLoading) {
+      dispatch(showLoad());
+    } else {
+      dispatch(hideLoad());
     }
-  }, [dispatch, slugdata]);
+  }, [isLoading, dispatch]);
 
-  if (expt) {
+  if (error) {
     return <Mistaken />;
   }
 
-  return !load ? (
+  if (isLoading || !acco) {
+    return null;
+  }
+
+  return (
     <div className="row g-2">
       <div className="col-12 col-lg-3">
         <Card className="mb-2">
@@ -133,5 +132,5 @@ export default function Accolade() {
         </Card>
       </div>
     </div>
-  ) : null;
+  );
 }
