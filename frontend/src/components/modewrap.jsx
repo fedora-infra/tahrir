@@ -7,11 +7,16 @@ export default function ModeWrap({ children }) {
   useEffect(() => {
     const updateMode = () => {
       if (mode === "auto") {
-        const mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        document.body.setAttribute("data-bs-theme", mode);
+        document.documentElement.setAttribute(
+          "data-bs-theme",
+          window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+        );
+      } else {
+        document.documentElement.setAttribute("data-bs-theme", mode);
       }
     };
     updateMode();
+
     const styles = window.matchMedia("(prefers-color-scheme: dark)");
     styles.addEventListener("change", updateMode);
     return () => styles.removeEventListener("change", updateMode);
