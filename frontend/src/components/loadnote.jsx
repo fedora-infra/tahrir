@@ -1,6 +1,4 @@
-import ToastContainer from "react-bootstrap/ToastContainer";
-import Toast from "react-bootstrap/Toast";
-import Spinner from "react-bootstrap/Spinner";
+import { Spinner, Toast, ToastContainer } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 export default function LoadNote() {
