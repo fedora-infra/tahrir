@@ -1,43 +1,38 @@
 import { useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
 import Category from "../components/category.jsx";
-import { hideLoad, keepExpt, keepList, showLoad, wipeExpt } from "../features/part.js";
-import { formatTime, httpCall } from "../features/util.js";
+import { useRetrieveAccoListQuery } from "../features/call.js";
+import { hideLoad, showLoad } from "../features/part.js";
+import { formatTime } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function AccoList() {
   const dispatch = useDispatch();
-  const list = useSelector((area) => area.area.list);
-  const load = useSelector((area) => area.area.load);
-  const expt = useSelector((area) => area.area.expt);
 
+  const { data: list, isLoading, error } = useRetrieveAccoListQuery();
+
+  // Sync loading state with global LoadNote component
   useEffect(() => {
-    const makeUnitData = async () => {
-      try {
-        dispatch(showLoad());
-        dispatch(wipeExpt());
-        const data = await httpCall("GET", `/json/discover/accolade`);
-        dispatch(keepList(data));
-      } catch (fail) {
-        console.log(fail.message);
-        dispatch(keepExpt(fail.message));
-      } finally {
-        dispatch(hideLoad());
-      }
-    };
+    if (isLoading) {
+      dispatch(showLoad());
+    } else {
+      dispatch(hideLoad());
+    }
+  }, [isLoading, dispatch]);
 
-    makeUnitData();
-  }, [dispatch]);
-
-  if (expt) {
+  if (error) {
     return <Mistaken />;
   }
 
-  return !load ? (
+  if (isLoading || !list) {
+    return null;
+  }
+
+  return (
     <div className="row g-2">
       <div className="col-12 col-lg-3">
         <Card className="mb-2">
@@ -74,5 +69,5 @@ export default function AccoList() {
           )}
       </div>
     </div>
-  ) : null;
+  );
 }
