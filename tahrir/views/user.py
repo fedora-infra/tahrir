@@ -4,12 +4,11 @@ from decimal import Decimal, ROUND_UP
 from feedgen.feed import FeedGenerator
 from flask import abort, g, jsonify, render_template, request, url_for
 
-from tahrir.utils.avatar import get_avatar
 from tahrir.utils.badge import badge_json_generator, sort_badges_by_tag
 from tahrir.utils.user import get_person
 
-from . import blueprint as bp
 from ..defaults import TAHRIR_DISPLAY_TAGS
+from . import blueprint as bp
 
 
 def _get_user_badge_info(person):
