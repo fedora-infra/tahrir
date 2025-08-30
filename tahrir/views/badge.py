@@ -253,6 +253,30 @@ def tags(tags, match):
     )
 
 
+@bp.route("/json/category/<string:name>")
+def json_badges_from_tag(name):
+    """Endpoint to fetch the badges based on matching tag."""
+
+    tag = [name.strip()]
+    badges = g.tahrirdb.get_badges_from_tags(tags=tag, match_all=False)
+
+    serializable_badges = sorted(
+        [
+            {
+                "name": badge.name,
+                "image": badge.image,
+                "description": badge.description,
+                "created_on": badge.created_on.timestamp(),
+                "tags": [item for item in badge.tags.split(",") if item.strip() != ""],
+                "id": badge.id,
+            } for badge in badges
+        ],
+        key= lambda x: x["name"]
+    )
+
+    return jsonify(serializable_badges)
+
+
 # delegated admin endpoints
 
 
