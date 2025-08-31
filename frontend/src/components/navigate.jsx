@@ -1,9 +1,10 @@
 import { mdiCircleOutline, mdiCircleSlice4, mdiCircleSlice8 } from "@mdi/js";
 import Icon from "@mdi/react";
-import { Container, Navbar, NavDropdown } from "react-bootstrap";
+import { Container, Form, Navbar, NavDropdown, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import { keepMode } from "../features/part.js";
+import Discover from "./discover.jsx";
 
 export default function Navigate() {
   const dispatch = useDispatch();
@@ -23,6 +24,9 @@ export default function Navigate() {
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
+          <Form className="me-2">
+            <Discover />
+          </Form>
           <Navbar.Text className="p-0">
             <NavDropdown
               title={
