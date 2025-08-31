@@ -5,7 +5,7 @@ export const callUnit = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "/json/",
   }),
-  tagTypes: ["Identity", "Accolade", "AccoList"],
+  tagTypes: ["Identity", "Accolade", "AccoList", "Search"],
   endpoints: (builder) => ({
     retrieveIdentity: builder.query({
       query: (identity) => `user/${identity}`,
@@ -13,15 +13,24 @@ export const callUnit = createApi({
     }),
     retrieveAccolade: builder.query({
       query: (accolade) => `../badge/${accolade}/json`,
-      providesTags: (result, error, badgeId) => [{ type: "Accolade", id: badgeId }],
+      providesTags: (result, error, accolade) => [{ type: "Accolade", id: accolade }],
     }),
     retrieveAccoList: builder.query({
       query: () => "discover/accolade",
       providesTags: ["AccoList"],
     }),
+    retrieveDiscover: builder.query({
+      query: (searchQuery) => `search/${searchQuery}`,
+      providesTags: (result, error, findtext) => [{ type: "Search", id: findtext }],
+    }),
   }),
 });
 
-export const { useRetrieveIdentityQuery, useRetrieveAccoladeQuery, useRetrieveAccoListQuery } = callUnit;
+export const {
+  useRetrieveIdentityQuery,
+  useRetrieveAccoladeQuery,
+  useRetrieveAccoListQuery,
+  useRetrieveDiscoverQuery,
+} = callUnit;
 
 export default callUnit.reducer;
