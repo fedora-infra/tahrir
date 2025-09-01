@@ -13,7 +13,7 @@ export default function FindList({ type, list, hide }) {
           onClick={() => hide()}
           className="small d-flex align-items-center p-1"
           as={Link}
-          to={`/discover/${type}/${type === "accolade" ? unit.id : unit.nickname}`}
+          to={`/${type}/${type === "accolade" ? unit.id : unit.nickname}`}
         >
           <Image
             rounded={true}
