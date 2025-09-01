@@ -113,7 +113,7 @@ def json_explore(search_query):
             "id": person.id,
             "bio": person.bio if person.bio else None,
             "created_on": person.created_on.timestamp() if person.created_on else None,
-            "email": person.email,
+            "email": person.avatar,
             "last_login": person.last_login.timestamp() if person.last_login else None,
             "nickname": person.nickname,
             "rank": person.rank,
