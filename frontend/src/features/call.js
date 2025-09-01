@@ -5,7 +5,7 @@ export const callUnit = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "/json/",
   }),
-  tagTypes: ["Identity", "Accolade", "AccoList", "Search"],
+  tagTypes: ["Identity", "Accolade", "AccoList", "Search", "Category"],
   endpoints: (builder) => ({
     retrieveIdentity: builder.query({
       query: (identity) => `user/${identity}`,
@@ -23,6 +23,13 @@ export const callUnit = createApi({
       query: (searchQuery) => `search/${searchQuery}`,
       providesTags: (result, error, findtext) => [{ type: "Search", id: findtext }],
     }),
+    retrieveCategory: builder.query({
+      query: (category) => ({
+        url: `https://badges.gridhead.net/json/category/${category}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, category) => [{ type: "Category", id: category }],
+    }),
   }),
 });
 
@@ -31,6 +38,7 @@ export const {
   useRetrieveAccoladeQuery,
   useRetrieveAccoListQuery,
   useRetrieveDiscoverQuery,
+  useRetrieveCategoryQuery,
 } = callUnit;
 
 export default callUnit.reducer;

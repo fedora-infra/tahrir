@@ -1,6 +1,6 @@
 import { Card, Row } from "react-bootstrap";
 
-export default function Category({ name, wide, children }) {
+export default function Grouping({ name, wide, children }) {
   return (
     <Card className="mb-2">
       <Card.Body className="ps-0 pe-0 pt-2 pb-0">
