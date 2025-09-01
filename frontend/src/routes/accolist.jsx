@@ -41,7 +41,7 @@ export default function AccoList() {
             <Card.Text className="small">{list.disordered.full.length} badge(s)</Card.Text>
           </Card.Body>
         </Card>
-        <Button as={Link} to={`/discover/recently`} variant="secondary" className="d-grid" size="sm">
+        <Button as={Link} to={`/recently`} variant="secondary" className="d-grid" size="sm">
           Recent
         </Button>
       </div>

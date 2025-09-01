@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { Button, Card, ListGroup } from "react-bootstrap";
+import { Badge, Button, Card, ListGroup } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router";
 
-import PastItem from "../components/pastitem.jsx";
+import VertItem from "../components/vertitem.jsx";
 import { useRetrieveIdentityQuery } from "../features/call.js";
 import { hideLoad, showLoad } from "../features/part.js";
-import { generateIdentity, portraitProvider } from "../features/util.js";
+import { formatTime, generateIdentity, portraitProvider } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function UserPast() {
@@ -56,7 +56,7 @@ export default function UserPast() {
             </Card.Text>
           </Card.Body>
         </Card>
-        <Button as={Link} to={`/discover/identity/${identity}`} variant="secondary" className="d-grid" size="sm">
+        <Button as={Link} to={`/identity/${identity}`} variant="secondary" className="d-grid" size="sm">
           Collection
         </Button>
       </div>
@@ -71,13 +71,32 @@ export default function UserPast() {
             <ListGroup variant="flush" className="mb-0">
               {user.serialized &&
                 user.serialized.map((item) => (
-                  <PastItem
+                  <VertItem
                     key={generateIdentity(item.id)}
-                    iden={item.id}
-                    name={item.name}
+                    link={`/accolade/${item.id}`}
+                    head={item.name}
+                    body={`Awarded on ${formatTime(item.issued)}`}
                     shot={item.image}
-                    link={item.reason}
-                    time={item.issued}
+                    hand={
+                      item.reason ? (
+                        <Badge
+                          as="a"
+                          href={item.reason}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          bg="success"
+                          text="light"
+                          className="monoelem text-decoration-none"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          AUTO
+                        </Badge>
+                      ) : (
+                        <Badge bg="warning" text="dark" className="monoelem">
+                          HAND
+                        </Badge>
+                      )
+                    }
                   />
                 ))}
             </ListGroup>

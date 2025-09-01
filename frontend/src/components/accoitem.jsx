@@ -16,7 +16,7 @@ export default function AccoItem({ iden, name, body, foot, shot }) {
       }
     >
       <Col xs={3} md={1} lg={1}>
-        <Link to={`/discover/accolade/${iden}`}>
+        <Link to={`/accolade/${iden}`}>
           <Image src={shot} className="w-100 h-100" alt={name} />
         </Link>
       </Col>

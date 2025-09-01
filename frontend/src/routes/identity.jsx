@@ -57,7 +57,7 @@ export default function Identity() {
             </Card.Text>
           </Card.Body>
         </Card>
-        <Button as={Link} to={`/discover/userpast/${identity}`} variant="secondary" className="d-grid" size="sm">
+        <Button as={Link} to={`/userpast/${identity}`} variant="secondary" className="d-grid" size="sm">
           History
         </Button>
       </div>
