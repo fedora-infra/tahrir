@@ -9,6 +9,7 @@ import ModeWrap from "./components/modewrap.jsx";
 import { data } from "./features/data.js";
 import Accolade from "./routes/accolade.jsx";
 import AccoList from "./routes/accolist.jsx";
+import Category from "./routes/category.jsx";
 import FindPage from "./routes/findpage.jsx";
 import Identity from "./routes/identity.jsx";
 import MainArea from "./routes/mainarea.jsx";
@@ -29,9 +30,9 @@ createRoot(document.getElementById("root")).render(
             <Route element="" path="/operator" />
             <Route element="" path="/database" />
             <Route element="" path="/settings" />
-            <Route element="" path="category/:slugdata" />
             <Route element={<AccoList />} path="assembly" />
             <Route element={<Recently />} path="recently" />
+            <Route element={<Category />} path="category/:slugdata" />
             <Route element={<FindPage />} path="discover/:slugdata" />
             <Route element={<Accolade />} path="accolade/:slugdata" />
             <Route element={<Identity />} path="identity/:slugdata" />

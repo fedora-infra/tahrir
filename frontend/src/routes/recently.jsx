@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
-import Category from "../components/category.jsx";
+import Grouping from "../components/grouping.jsx";
 import { useRetrieveAccoListQuery } from "../features/call.js";
 import { hideLoad, showLoad } from "../features/part.js";
 import { formatTime, generateIdentity } from "../features/util.js";
@@ -49,7 +49,7 @@ export default function Recently() {
           Object.entries(list.classified.newest).map(
             ([category, iterlist]) =>
               iterlist.length > 0 && (
-                <Category key={generateIdentity(category)} name={category} wide={iterlist.length}>
+                <Grouping key={generateIdentity(category)} name={category} wide={iterlist.length}>
                   {iterlist.map((indx) => {
                     const item = list.disordered.newest[indx];
                     return item ? (
@@ -63,7 +63,7 @@ export default function Recently() {
                       />
                     ) : null;
                   })}
-                </Category>
+                </Grouping>
               )
           )}
       </div>

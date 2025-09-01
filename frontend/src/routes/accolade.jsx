@@ -47,7 +47,7 @@ export default function Accolade() {
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate mb-1">{acco.name}</Card.Title>
             <Card.Text className="small mb-2">{acco.description}</Card.Text>
-            <Stack direction="horizontal" gap={2}>
+            <div>
               {acco.tags &&
                 acco.tags.map((name) => (
                   <Badge
@@ -55,12 +55,12 @@ export default function Accolade() {
                     as={Link}
                     to={`/category/${name}`}
                     bg="secondary"
-                    className="monoelem text-capitalize text-decoration-none"
+                    className="monoelem text-capitalize text-decoration-none me-1"
                   >
                     {name}
                   </Badge>
                 ))}
-            </Stack>
+            </div>
           </Card.Body>
         </Card>
         <Card className="mb-2">
