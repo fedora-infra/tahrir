@@ -274,6 +274,9 @@ def json_badges_from_tag(name):
         key= lambda x: x["name"]
     )
 
+    if len(serializable_badges) == 0:
+        abort(404, "Category not found.")
+
     return jsonify(serializable_badges)
 
 
