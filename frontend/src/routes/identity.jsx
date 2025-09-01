@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
-import Category from "../components/category.jsx";
+import Grouping from "../components/grouping.jsx";
 import { useRetrieveIdentityQuery } from "../features/call.js";
 import { hideLoad, showLoad } from "../features/part.js";
 import { formatTime, generateIdentity, portraitProvider } from "../features/util.js";
@@ -66,7 +66,7 @@ export default function Identity() {
           Object.entries(user.classified).map(
             ([category, iterlist]) =>
               iterlist.length > 0 && (
-                <Category key={generateIdentity(category)} name={category} wide={iterlist.length}>
+                <Grouping key={generateIdentity(category)} name={category} wide={iterlist.length}>
                   {iterlist.map((indx) => {
                     const item = user.serialized[indx];
                     return item ? (
@@ -80,7 +80,7 @@ export default function Identity() {
                       />
                     ) : null;
                   })}
-                </Category>
+                </Grouping>
               )
           )}
       </div>
