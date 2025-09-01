@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Dropdown, Form, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 import { useRetrieveDiscoverQuery } from "../features/call.js";
 import FindList from "./findlist.jsx";
@@ -8,6 +9,7 @@ export default function Discover() {
   const [findText, makeFindText] = useState("");
   const [dropSeen, makeDropSeen] = useState(false);
   const dropDown = useRef(null);
+  const navigate = useNavigate();
   const doLookup = findText.length >= 4;
 
   const {
@@ -41,6 +43,20 @@ export default function Discover() {
     makeFindText("");
   };
 
+  const handleSubmit = () => {
+    if (findText.trim().length >= 4) {
+      navigate(`/discover/${encodeURIComponent(findText.trim())}`);
+      handleResult();
+    }
+  };
+
+  const handleReturn = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
+
   const hasResults = searchResults && (searchResults.badges?.length > 0 || searchResults.users?.length > 0);
 
   return (
@@ -51,6 +67,7 @@ export default function Discover() {
         size="sm"
         value={findText}
         onChange={handleChange}
+        onKeyDown={handleReturn}
         onFocus={() => doLookup && makeDropSeen(true)}
       />
 
