@@ -13,7 +13,7 @@ export function formatTime(epochTime) {
   });
 }
 
-export function portraitProvider(mail, size) {
+export function portraitProvider(mail, size = 40) {
   return `https://seccdn.libravatar.org/avatar/${md5(mail.trim().toLowerCase()).toString()}?s=${size}&d=retro`;
 }
 

@@ -40,7 +40,7 @@ export default function Recently() {
             <Card.Text className="small">{list.disordered.newest.length} badge(s)</Card.Text>
           </Card.Body>
         </Card>
-        <Button as={Link} to={`/discover/accolade`} variant="secondary" className="d-grid" size="sm">
+        <Button as={Link} to={`/assembly`} variant="secondary" className="d-grid" size="sm">
           Entire
         </Button>
       </div>

@@ -3,10 +3,10 @@ import { Badge, Button, Card, ListGroup, Stack } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router";
 
-import GiveItem from "../components/giveitem.jsx";
+import VertItem from "../components/vertitem.jsx";
 import { useRetrieveAccoladeQuery } from "../features/call.js";
 import { hideLoad, showLoad } from "../features/part.js";
-import { generateIdentity } from "../features/util.js";
+import { generateIdentity, portraitProvider } from "../features/util.js";
 import { formatTime } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
@@ -68,11 +68,16 @@ export default function Accolade() {
             <Card.Title className="mb-0 ps-2 dataelem">First awarded</Card.Title>
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush">
-              <GiveItem
-                name={acco.assertions[0].name}
-                mail={acco.assertions[0].mail}
-                rank={acco.assertions[0].rank}
+              <VertItem
+                link={`/identity/${acco.assertions[0].name}`}
+                head={acco.assertions[0].name}
                 body={`On ${formatTime(acco.assertions[0].date)}`}
+                shot={portraitProvider(acco.assertions[0].mail)}
+                hand={
+                  <Badge bg="secondary" className="monoelem">
+                    #{acco.assertions[0].rank}
+                  </Badge>
+                }
               />
             </ListGroup>
           </Card.Body>
@@ -82,11 +87,16 @@ export default function Accolade() {
             <Card.Title className="mb-0 ps-2 dataelem">Last awarded</Card.Title>
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush">
-              <GiveItem
-                name={acco.assertions[acco.assertions.length - 1].name}
-                mail={acco.assertions[acco.assertions.length - 1].mail}
-                rank={acco.assertions[acco.assertions.length - 1].rank}
+              <VertItem
+                link={`/identity/${acco.assertions[acco.assertions.length - 1].name}`}
+                head={acco.assertions[acco.assertions.length - 1].name}
                 body={`On ${formatTime(acco.assertions[acco.assertions.length - 1].date)}`}
+                shot={portraitProvider(acco.assertions[acco.assertions.length - 1].mail)}
+                hand={
+                  <Badge bg="secondary" className="monoelem">
+                    #{acco.assertions[acco.assertions.length - 1].rank}
+                  </Badge>
+                }
               />
             </ListGroup>
           </Card.Body>
@@ -102,7 +112,7 @@ export default function Accolade() {
         >
           Criteria
         </Button>
-        <Button as={Link} to="/discover/accolade" variant="secondary" className="d-grid" size="sm">
+        <Button as={Link} to="/assembly" variant="secondary" className="d-grid" size="sm">
           Collection
         </Button>
       </div>
@@ -116,13 +126,18 @@ export default function Accolade() {
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush">
               {acco.assertions &&
-                acco.assertions.map((assertion) => (
-                  <GiveItem
-                    key={generateIdentity(assertion.name)}
-                    name={assertion.name}
-                    mail={assertion.mail}
-                    rank={assertion.rank}
-                    body={`Awarded on ${formatTime(assertion.date)}`}
+                acco.assertions.map((item) => (
+                  <VertItem
+                    key={generateIdentity(item.name)}
+                    link={`/identity/${item.name}`}
+                    head={item.name}
+                    body={`On ${formatTime(item.date)}`}
+                    shot={portraitProvider(item.mail)}
+                    hand={
+                      <Badge bg="secondary" className="monoelem">
+                        #{item.rank}
+                      </Badge>
+                    }
                   />
                 ))}
             </ListGroup>
