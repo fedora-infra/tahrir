@@ -14,6 +14,7 @@ import FindPage from "./routes/findpage.jsx";
 import Identity from "./routes/identity.jsx";
 import MainArea from "./routes/mainarea.jsx";
 import Mistaken from "./routes/mistaken.jsx";
+import Rankings from "./routes/rankings.jsx";
 import Rarities from "./routes/rarities.jsx";
 import Recently from "./routes/recently.jsx";
 import UserPast from "./routes/userpast.jsx";
@@ -25,7 +26,6 @@ createRoot(document.getElementById("root")).render(
         <Routes>
           <Route element={<MainArea />} path="/">
             <Route element="" index />
-            <Route element="" path="/rankings" />
             <Route element="" path="/profiles" />
             <Route element="" path="/userdata" />
             <Route element="" path="/operator" />
@@ -33,6 +33,19 @@ createRoot(document.getElementById("root")).render(
             <Route element="" path="/settings" />
             <Route element={<AccoList />} path="assembly" />
             <Route element={<Recently />} path="recently" />
+            <Route path="rankings">
+              <Route element={<Rankings />} index />
+              <Route path="y/:y">
+                <Route element={<Rankings />} index />
+                <Route path="m/:m">
+                  <Route element={<Rankings />} index />
+                  <Route path="d/:d">
+                    <Route element={<Rankings />} index />
+                    <Route element={<Rankings />} path="week" />
+                  </Route>
+                </Route>
+              </Route>
+            </Route>
             <Route element={<Category />} path="category/:slugdata" />
             <Route element={<FindPage />} path="discover/:slugdata" />
             <Route element={<Accolade />} path="accolade/:slugdata" />

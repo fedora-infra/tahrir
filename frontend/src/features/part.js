@@ -6,6 +6,7 @@ const makeUnit = createSlice({
     vibe: "#008080",
     mode: "auto",
     load: false,
+    date: null,
   },
   reducers: {
     keepVibe: (area, data) => {
@@ -20,9 +21,12 @@ const makeUnit = createSlice({
     hideLoad: (area) => {
       area.load = false;
     },
+    keepDate: (area, data) => {
+      area.date = data.payload;
+    },
   },
 });
 
-export const { keepVibe, keepMode, showLoad, hideLoad } = makeUnit.actions;
+export const { keepVibe, keepMode, showLoad, hideLoad, keepDate } = makeUnit.actions;
 
 export default makeUnit.reducer;
