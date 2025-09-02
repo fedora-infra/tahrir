@@ -5,31 +5,69 @@ export const callUnit = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "/json/",
   }),
-  tagTypes: ["Identity", "Accolade", "AccoList", "Search", "Category", "Rarities"],
+  tagTypes: ["Identity", "Accolade", "AccoList", "Discover", "Category", "Rarities"],
   endpoints: (builder) => ({
     retrieveIdentity: builder.query({
-      query: (identity) => `user/${identity}`,
+      query: (identity) => ({
+        url: `user/${identity}`,
+        method: "GET",
+      }),
       providesTags: (result, error, username) => [{ type: "Identity", id: username }],
     }),
     retrieveAccolade: builder.query({
-      query: (accolade) => `../badge/${accolade}/json`,
+      query: (accolade) => ({
+        url: `../badge/${accolade}/json`,
+        method: "GET",
+      }),
       providesTags: (result, error, accolade) => [{ type: "Accolade", id: accolade }],
     }),
     retrieveAccoList: builder.query({
-      query: () => "discover/accolade",
+      query: () => ({
+        url: "discover/accolade",
+        method: "GET",
+      }),
       providesTags: ["AccoList"],
     }),
     retrieveDiscover: builder.query({
-      query: (findtext) => `search/${findtext}`,
-      providesTags: (result, error, findtext) => [{ type: "Search", id: findtext }],
-    }),
-    retrieveCategory: builder.query({
-      query: (category) => `category/${category}`,
-      providesTags: (result, error, category) => [{ type: "Category", id: category }],
+      query: (discover) => ({
+        url: `search/${discover}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, discover) => [{ type: "Discover", id: discover }],
     }),
     retrieveRarities: builder.query({
       query: (rarities) => `rarities/${rarities}`,
       providesTags: (result, error, rarities) => [{ type: "Rarities", id: rarities }],
+    }),
+    retrieveCategory: builder.query({
+      query: (category) => ({
+        url: `category/${category}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, category) => [{ type: "Category", id: category }],
+    }),
+    retrieveRankings: builder.query({
+      query: ({ y, w, m, d, begin = 0, limit = 200 } = {}) => {
+        let url = "report";
+        if (y) {
+          url += `/y/${y}`;
+          if (m) {
+            url += `/m/${m}`;
+            if (d) {
+              url += `/d/${d}`;
+              if (w) {
+                url += `/week`;
+              }
+            }
+          }
+        }
+        return {
+          url,
+          method: "GET",
+          params: { begin, limit },
+        };
+      },
+      providesTags: ["Rankings"],
     }),
   }),
 });
@@ -41,6 +79,7 @@ export const {
   useRetrieveDiscoverQuery,
   useRetrieveCategoryQuery,
   useRetrieveRaritiesQuery,
+  useRetrieveRankingsQuery,
 } = callUnit;
 
 export default callUnit.reducer;
