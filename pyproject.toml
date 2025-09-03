@@ -67,6 +67,7 @@ pyyaml = "^6.0.1"
 sphinx = {version = "*", optional = true}
 myst-parser = {version = "*", optional = true}
 flask-admin = "^1.6.1"
+tqdm = "^4.67.1"
 
 [tool.poetry.extras]
 deploy = [
@@ -82,7 +83,6 @@ coverage = {extras = ["toml"], version = ">=7.0.0"}
 ruff = ">=0.3.5"
 black = ">=24.3.0"
 sphinx = ">=7.2.6"
-
 
 [build-system]
 requires = ["poetry-core"]
@@ -104,6 +104,9 @@ order-by-type = false
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101", "E501"]
 "tahrir/__init__.py" = ["F401"]
+
+[tool.poetry.scripts]
+rarities = "tahrir.utils.rarities:main"
 
 [tool.coverage.run]
 branch = true
