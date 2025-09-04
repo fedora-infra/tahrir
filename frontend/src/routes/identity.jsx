@@ -75,8 +75,9 @@ export default function Identity() {
                         iden={item.id}
                         name={item.name}
                         body={item.description}
-                        foot={`Awarded on ${formatTime(item.issued)}`}
+                        foot={formatTime(item.issued)}
                         shot={item.image}
+                        rare={item.rarity}
                       />
                     ) : null;
                   })}

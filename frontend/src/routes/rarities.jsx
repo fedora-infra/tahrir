@@ -1,0 +1,90 @@
+import { useEffect } from "react";
+import { Button, Card, Image, ListGroup } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { Link, useParams } from "react-router";
+
+import AccoItem from "../components/accoitem.jsx";
+import Grouping from "../components/grouping.jsx";
+import { useRetrieveRaritiesQuery } from "../features/call.js";
+import { hideLoad, showLoad } from "../features/part.js";
+import { formatTime, generateIdentity, obtainRarityText, rarities } from "../features/util.js";
+import Mistaken from "./mistaken.jsx";
+
+export default function Rarities() {
+  const dispatch = useDispatch();
+  const { slugdata: rareunit } = useParams();
+
+  const { data: list, isLoading, error } = useRetrieveRaritiesQuery(rareunit);
+
+  // Show or Hide LoadNote
+  useEffect(() => {
+    if (isLoading) {
+      dispatch(showLoad());
+    } else {
+      dispatch(hideLoad());
+    }
+  }, [isLoading, dispatch]);
+
+  if (error) {
+    return <Mistaken />;
+  }
+
+  if (isLoading || !list) {
+    return null;
+  }
+
+  const page = [...list].sort((a, b) => a.rate - b.rate);
+
+  return (
+    <div className="row g-2">
+      <div className="col-12 col-lg-3">
+        <Card className="mb-2">
+          <Card.Img variant="top" src={`/imgs/rare_${rareunit.toLowerCase()}.png`} />
+          <Card.Body className="p-2">
+            <Card.Title className="dataelem text-truncate">{rarities[rareunit.toUpperCase()]}</Card.Title>
+            <Card.Text className="small">
+              {`${parseFloat(page[0].rate).toFixed(4)}% - ${parseFloat(page[page.length - 1].rate).toFixed(4)}% collectorship`}
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        <ListGroup variant="flush">
+          {Object.keys(rarities)
+            .filter((unit) => unit !== rareunit?.toUpperCase())
+            .map((item) => (
+              <Button
+                key={generateIdentity(item)}
+                as={Link}
+                to={`/rarities/${item}`}
+                variant="outline-secondary"
+                className="d-grid mb-2 d-inline-flex align-items-center ps-1"
+                size="sm"
+              >
+                <Image className="rarity-icon circle-border" src={`/imgs/rare_${item.toLowerCase()}.png`} />
+                &nbsp;&nbsp;
+                <span>
+                  Tier {item}
+                  &nbsp;•&nbsp;
+                  <span className={`fw-bold ${obtainRarityText(item)}`}>{rarities[item]}</span>
+                </span>
+              </Button>
+            ))}
+        </ListGroup>
+      </div>
+      <div className="col-12 col-lg-9">
+        <Grouping name={`Tier ${rareunit}`} wide={page.length}>
+          {page.map((item) => (
+            <AccoItem
+              key={generateIdentity(item.id)}
+              iden={item.id}
+              name={item.name}
+              body={item.desc}
+              foot={formatTime(item.date)}
+              shot={item.shot}
+              rare={item.rare}
+            />
+          ))}
+        </Grouping>
+      </div>
+    </div>
+  );
+}

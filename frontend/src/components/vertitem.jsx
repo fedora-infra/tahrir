@@ -7,7 +7,7 @@ export default function VertItem({ link, head, body, shot, hand }) {
       <div className="d-flex w-100" style={{ gap: "0.5rem" }}>
         {shot ? (
           <div style={{ aspectRatio: "1/1", height: "45px" }}>
-            <Image src={shot} className="w-100 h-100" />
+            <Image src={shot} className="w-100 h-100 circle-border" />
           </div>
         ) : null}
         <div className="d-flex flex-column flex-grow-1 text-truncate m-0">
