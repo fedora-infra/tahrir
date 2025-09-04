@@ -59,8 +59,9 @@ export default function AccoList() {
                         iden={item.id}
                         name={item.name}
                         body={item.description}
-                        foot={`Created on ${formatTime(item.created_on)}`}
+                        foot={formatTime(item.created_on)}
                         shot={item.image}
+                        rare={item.rarity}
                       />
                     ) : null;
                   })}
