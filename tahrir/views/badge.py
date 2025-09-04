@@ -1,10 +1,12 @@
+import json
+import os
 from datetime import datetime, timezone
 
 import docutils.examples
 import sqlalchemy as sa
 import tahrir_api.model as m
 from feedgen.feed import FeedGenerator
-from flask import abort, flash, g, jsonify, redirect, render_template, request, url_for
+from flask import abort, current_app, flash, g, jsonify, redirect, render_template, request, url_for
 
 from tahrir.utils.avatar import get_avatar
 from tahrir.utils.badge import get_badge_or_404
@@ -142,6 +144,12 @@ def _badge_json_generator(badge, withasserts=True):
     if percent_earned:
         percent_earned *= 100
 
+    try:
+        with open(os.path.join(current_app.static_folder, "rarities.json"), "r") as file:
+            raredata = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        abort(500, "Mistaken or absent rarities file")
+
     data = {
         "id": badge.id,
         "name": badge.name,
@@ -156,6 +164,7 @@ def _badge_json_generator(badge, withasserts=True):
         "tags": [item.strip() for item in badge.tags.split(",") if item.strip() != ""],
         "issuer": badge.issuer.name,
         "criteria": badge.criteria,
+        "rarity": raredata["badges"][badge.id]["rare"],
         "assertions": [
             {
                 "name": i.person.nickname,
@@ -260,6 +269,12 @@ def json_badges_from_tag(name):
     tag = [name.strip()]
     badges = g.tahrirdb.get_badges_from_tags(tags=tag, match_all=False)
 
+    try:
+        with open(os.path.join(current_app.static_folder, "rarities.json"), "r") as file:
+            raredata = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        abort(500, "Mistaken or absent rarities file")
+
     serializable_badges = sorted(
         [
             {
@@ -268,6 +283,7 @@ def json_badges_from_tag(name):
                 "description": badge.description,
                 "created_on": badge.created_on.timestamp(),
                 "tags": [item for item in badge.tags.split(",") if item.strip() != ""],
+                "rarity": raredata["badges"][badge.id]["rare"],
                 "id": badge.id,
             } for badge in badges
         ],

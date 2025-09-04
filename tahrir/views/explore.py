@@ -1,10 +1,12 @@
+import json
+import os
 import random
 from datetime import date, timedelta, timezone
 
 import sqlalchemy as sa
 import tahrir_api.model as m
 from feedgen.feed import FeedGenerator
-from flask import g, jsonify, redirect, render_template, request, url_for
+from flask import abort, current_app, g, jsonify, redirect, render_template, request, url_for
 
 from tahrir.defaults import TAHRIR_DISPLAY_TAGS
 
@@ -151,6 +153,12 @@ def json_discover_accolade():
     all_badges = g.tahrirdb.get_all_badges().all()
     newest_badges = sorted(all_badges, key=lambda badge: badge.created_on, reverse=True)[:40]
 
+    try:
+        with open(os.path.join(current_app.static_folder, "rarities.json"), "r") as file:
+            raredata = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        abort(500, "Mistaken or absent rarities file")
+
     serializable_all_badges = [
         {
             "name": badge.name,
@@ -159,6 +167,7 @@ def json_discover_accolade():
             "created_on": badge.created_on.timestamp(),
             "tags": [item for item in badge.tags.split(",") if item.strip() != ""],
             "id": badge.id,
+            "rarity": raredata["badges"][badge.id]["rare"],
         } for badge in all_badges
     ]
     serializable_newest_badges = [
@@ -169,6 +178,7 @@ def json_discover_accolade():
             "created_on": badge.created_on.timestamp(),
             "tags": [item for item in badge.tags.split(",") if item.strip() != ""],
             "id": badge.id,
+            "rarity": raredata["badges"][badge.id]["rare"],
         } for badge in newest_badges
     ]
 
@@ -233,3 +243,40 @@ def explore_badges_rss():
         "content-type": "application/rss+xml",
         "charset": "utf-8",
     }
+
+
+@bp.route("/json/rarities", methods=["GET"])
+@bp.route("/json/rarities/<rare>", methods=["GET"])
+def json_rarities(rare=None):
+    """
+    Endpoint that reads and delivers the accolade rarities
+    """
+
+    data = {}
+    try:
+        with open(os.path.join(current_app.static_folder, "rarities.json"), "r") as file:
+            data = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        abort(500, "Mistaken or absent rarities file")
+
+    if rare:
+        if rare.upper() in data["rarity"]:
+            rslt = []
+            for item in data["rarity"][rare.upper()]:
+                objc = g.tahrirdb.get_badge(item)
+                if objc:
+                    base = {
+                        "desc": objc.description,
+                        "name": objc.name,
+                        "shot": objc.image,
+                        "date": objc.created_on.timestamp(),
+                    }
+                    rslt.append({"id": item, **base, **data["badges"][item]})
+                else:
+                    continue
+            return jsonify(rslt)
+        else:
+            abort(404, "No such rarity")
+    else:
+        rslt = {rare: [{"id": item, **data["badges"][item]} for item in data["rarity"][rare]] for rare in data["rarity"]}
+        return jsonify(rslt)
