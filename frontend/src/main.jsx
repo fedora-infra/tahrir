@@ -14,6 +14,7 @@ import FindPage from "./routes/findpage.jsx";
 import Identity from "./routes/identity.jsx";
 import MainArea from "./routes/mainarea.jsx";
 import Mistaken from "./routes/mistaken.jsx";
+import Rarities from "./routes/rarities.jsx";
 import Recently from "./routes/recently.jsx";
 import UserPast from "./routes/userpast.jsx";
 
@@ -37,6 +38,7 @@ createRoot(document.getElementById("root")).render(
             <Route element={<Accolade />} path="accolade/:slugdata" />
             <Route element={<Identity />} path="identity/:slugdata" />
             <Route element={<UserPast />} path="userpast/:slugdata" />
+            <Route element={<Rarities />} path="rarities/:slugdata" />
             <Route element={<Mistaken />} path="*" />
           </Route>
         </Routes>

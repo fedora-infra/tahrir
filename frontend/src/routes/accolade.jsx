@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router";
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveAccoladeQuery } from "../features/call.js";
 import { hideLoad, showLoad } from "../features/part.js";
-import { generateIdentity, portraitProvider } from "../features/util.js";
+import { generateIdentity, portraitProvider, rarities } from "../features/util.js";
 import { formatTime } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
@@ -61,6 +61,20 @@ export default function Accolade() {
                   </Badge>
                 ))}
             </div>
+          </Card.Body>
+        </Card>
+        <Card className="mb-2">
+          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+            <Card.Title className="mb-0 ps-2 dataelem">Tier</Card.Title>
+            <hr className="mt-2 mb-0" />
+            <ListGroup variant="flush">
+              <VertItem
+                link={`/rarities/${acco.rarity}`}
+                head={rarities[acco.rarity]}
+                body={`${parseFloat(acco.percent_earned).toFixed(4)}% earned`}
+                shot={`/imgs/rare_${acco.rarity.toLowerCase()}.png`}
+              />
+            </ListGroup>
           </Card.Body>
         </Card>
         <Card className="mb-2">

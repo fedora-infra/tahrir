@@ -112,3 +112,66 @@ a.dropdown-toggle {
   display: flex;
   align-items: center;
 }
+
+.circle-border {
+  border-radius: 10%;
+}
+
+.rarity-x-bg {
+  background-color: #51a2da !important;
+  color: #ffffff !important;
+}
+
+.rarity-s-bg {
+  background-color: #c3a27f !important;
+  color: #ffffff !important;
+}
+
+.rarity-a-bg {
+  background-color: #ab94c0 !important;
+  color: #ffffff !important;
+}
+
+.rarity-b-bg {
+  background-color: #7ca0b4 !important;
+  color: #ffffff !important;
+}
+
+.rarity-c-bg {
+  background-color: #7f9a8c !important;
+  color: #ffffff !important;
+}
+
+.rarity-d-bg {
+  background-color: #90989e !important;
+  color: #ffffff !important;
+}
+
+.rarity-x-text {
+  color: #51a2da !important;
+}
+
+.rarity-s-text {
+  color: #c3a27f !important;
+}
+
+.rarity-a-text {
+  color: #ab94c0 !important;
+}
+
+.rarity-b-text {
+  color: #7ca0b4 !important;
+}
+
+.rarity-c-text {
+  color: #7f9a8c !important;
+}
+
+.rarity-d-text {
+  color: #90989e !important;
+}
+
+.rarity-icon {
+  height: 20px;
+  width: 20px;
+}

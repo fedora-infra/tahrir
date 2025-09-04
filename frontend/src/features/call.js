@@ -5,7 +5,7 @@ export const callUnit = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "/json/",
   }),
-  tagTypes: ["Identity", "Accolade", "AccoList", "Search", "Category"],
+  tagTypes: ["Identity", "Accolade", "AccoList", "Search", "Category", "Rarities"],
   endpoints: (builder) => ({
     retrieveIdentity: builder.query({
       query: (identity) => `user/${identity}`,
@@ -20,15 +20,16 @@ export const callUnit = createApi({
       providesTags: ["AccoList"],
     }),
     retrieveDiscover: builder.query({
-      query: (searchQuery) => `search/${searchQuery}`,
+      query: (findtext) => `search/${findtext}`,
       providesTags: (result, error, findtext) => [{ type: "Search", id: findtext }],
     }),
     retrieveCategory: builder.query({
-      query: (category) => ({
-        url: `https://badges.gridhead.net/json/category/${category}`,
-        method: "GET",
-      }),
+      query: (category) => `category/${category}`,
       providesTags: (result, error, category) => [{ type: "Category", id: category }],
+    }),
+    retrieveRarities: builder.query({
+      query: (rarities) => `rarities/${rarities}`,
+      providesTags: (result, error, rarities) => [{ type: "Rarities", id: rarities }],
     }),
   }),
 });
@@ -39,6 +40,7 @@ export const {
   useRetrieveAccoListQuery,
   useRetrieveDiscoverQuery,
   useRetrieveCategoryQuery,
+  useRetrieveRaritiesQuery,
 } = callUnit;
 
 export default callUnit.reducer;
