@@ -1,12 +1,10 @@
-import json
-import os
 from datetime import datetime, timezone
 
 import docutils.examples
 import sqlalchemy as sa
 import tahrir_api.model as m
 from feedgen.feed import FeedGenerator
-from flask import abort, current_app, flash, g, jsonify, redirect, render_template, request, url_for
+from flask import abort, flash, g, redirect, render_template, request, url_for
 
 from tahrir.utils.avatar import get_avatar
 from tahrir.utils.badge import get_badge_or_404
@@ -83,114 +81,6 @@ def badge(badge_id):
     )
 
 
-def _badge_json_generator(badge, withasserts=True):
-    if not withasserts:
-        return {
-            "id": badge.id,
-            "name": badge.name,
-            "description": badge.description,
-            "image": badge.image,
-            "tags": badge.tags,
-        }
-
-    try:
-        # Fixme -- not sure if this works -- need to check it out.
-        assertions = sorted(badge.assertions, key=lambda b: b.issued_on)
-
-        print("IDHAR DEKHO", assertions[0].person.nickname)
-        print("IDHAR DEKHO", assertions[0].person.rank)
-        # print("IDHAR DEKHO", assertions[0].person.created_on.timestamp())
-        # print("IDHAR DATE KA DIR DEKHO", dir(assertions[0].person.created_on))
-
-        print("IDHAR BHI DEKHO", dir(assertions[0]))
-        print(dir(assertions[0]))
-
-        times_awarded = len(badge.assertions)
-
-        percent_earned = float(times_awarded) / float(g.tahrirdb.get_all_persons().count())
-
-        if assertions:
-            last_awarded = assertions[-1]
-            last_awarded_person = last_awarded.person
-
-            first_awarded = assertions[0]
-            first_awarded_person = first_awarded.person
-        else:
-            last_awarded = None
-            last_awarded_person = None
-            first_awarded = None
-            first_awarded_person = None
-
-    except sa.orm.exc.NoResultFound:  # This badge has never been awarded.
-        times_awarded = 0
-        last_awarded = None
-        last_awarded_person = None
-        first_awarded = None
-        first_awarded_person = None
-        percent_earned = 0
-
-    if last_awarded:
-        last_awarded = float(last_awarded.issued_on.strftime("%s"))
-
-    if last_awarded_person:
-        last_awarded_person = last_awarded_person.nickname
-
-    if first_awarded:
-        first_awarded = float(first_awarded.issued_on.strftime("%s"))
-
-    if first_awarded_person:
-        first_awarded_person = first_awarded_person.nickname
-
-    if percent_earned:
-        percent_earned *= 100
-
-    try:
-        with open(os.path.join(current_app.static_folder, "rarities.json"), "r") as file:
-            raredata = json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        abort(500, "Mistaken or absent rarities file")
-
-    data = {
-        "id": badge.id,
-        "name": badge.name,
-        "description": badge.description,
-        "times_awarded": times_awarded,
-        "last_awarded": last_awarded,
-        "last_awarded_person": last_awarded_person,
-        "first_awarded": first_awarded,
-        "first_awarded_person": first_awarded_person,
-        "percent_earned": percent_earned,
-        "image": badge.image,
-        "tags": [item.strip() for item in badge.tags.split(",") if item.strip() != ""],
-        "issuer": badge.issuer.name,
-        "criteria": badge.criteria,
-        "rarity": raredata["badges"][badge.id]["rare"],
-        "assertions": [
-            {
-                "name": i.person.nickname,
-                "rank": i.person.rank,
-                "date": i.issued_on.timestamp(),
-                "mail": i.person.avatar,
-            } for i in assertions
-        ],
-    }
-
-    return data
-
-
-@bp.route("/badge/<badge_id>/json")
-def badge_json(badge_id):
-    """Render badge JSON dump."""
-    # Get the badge to render info about.
-    badge = g.tahrirdb.get_badge(badge_id)
-
-    # if the badge isn't found, raise a 404
-    if not badge:
-        return {"error": "No such badge exists."}, 404
-
-    return jsonify(_badge_json_generator(badge))
-
-
 @bp.route("/badge/<badge_id>/rss")
 def badge_rss(badge_id):
     """Render per-badge rss."""
@@ -260,40 +150,6 @@ def tags(tags, match):
         tags=tags,
         badges=badges,
     )
-
-
-@bp.route("/json/category/<string:name>")
-def json_badges_from_tag(name):
-    """Endpoint to fetch the badges based on matching tag."""
-
-    tag = [name.strip()]
-    badges = g.tahrirdb.get_badges_from_tags(tags=tag, match_all=False)
-
-    try:
-        with open(os.path.join(current_app.static_folder, "rarities.json"), "r") as file:
-            raredata = json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        abort(500, "Mistaken or absent rarities file")
-
-    serializable_badges = sorted(
-        [
-            {
-                "name": badge.name,
-                "image": badge.image,
-                "description": badge.description,
-                "created_on": badge.created_on.timestamp(),
-                "tags": [item for item in badge.tags.split(",") if item.strip() != ""],
-                "rarity": raredata["badges"][badge.id]["rare"],
-                "id": badge.id,
-            } for badge in badges
-        ],
-        key= lambda x: x["name"]
-    )
-
-    if len(serializable_badges) == 0:
-        abort(404, "Category not found.")
-
-    return jsonify(serializable_badges)
 
 
 # delegated admin endpoints

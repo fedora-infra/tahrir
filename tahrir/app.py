@@ -13,6 +13,8 @@ from tahrir.admin import admin
 from tahrir.cache import cache
 from tahrir.cli import tahrir_cli
 from tahrir.database import db
+from tahrir.endpoints import blueprint as endpoint_bp
+from tahrir.endpoints.admin import blueprint as admin_bp
 from tahrir.utils import import_all
 from tahrir.utils.avatar import as_avatar
 from tahrir.utils.date_time import relative_time
@@ -107,6 +109,13 @@ def create_app(config=None):
     # Register views
     import_all("tahrir.views")
     app.register_blueprint(root_bp)
+
+    import_all("tahrir.endpoints")
+    app.register_blueprint(endpoint_bp)
+
+    import_all("tahrir.endpoints.admin")
+    app.register_blueprint(admin_bp)
+
     app.register_blueprint(healthz, url_prefix="/healthz")
     # Error handlers
     app.register_error_handler(404, page_not_found)
