@@ -1,5 +1,5 @@
-import os
 import json
+import os
 from datetime import datetime, timezone
 from decimal import Decimal, ROUND_UP
 
@@ -163,7 +163,7 @@ def _user_json_generator(person):
     classified = {name: [] for name in TAHRIR_DISPLAY_TAGS}
 
     try:
-        with open(os.path.join(current_app.static_folder, "rarities.json"), "r") as file:
+        with open(os.path.join(current_app.static_folder, "rarities.json")) as file:
             raredata = json.load(file)
     except (FileNotFoundError, json.JSONDecodeError):
         abort(500, "Mistaken or absent rarities file")

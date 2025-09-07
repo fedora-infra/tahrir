@@ -1,8 +1,7 @@
 from datetime import date, datetime, timedelta, timezone
 
-from flask import abort, g, jsonify, redirect, render_template, request, url_for
+from flask import g, jsonify, redirect, render_template, request, url_for
 
-from tahrir.utils.avatar import get_avatar
 from tahrir.utils.date_time import get_start_week
 
 from . import blueprint as bp
@@ -140,9 +139,9 @@ def report_this_month():
 @bp.route("/json/report/y/<int:year>/m/<int:month>/d/<int:day>/week")
 def json_report_year(year=None, week=None, month=None, day=None):
     """The leaderboard."""
-    begin = int(request.args.get('begin', 0))
-    limit = int(request.args.get('limit', 200))
-    if request.path.endswith('/week'):
+    begin = int(request.args.get("begin", 0))
+    limit = int(request.args.get("limit", 200))
+    if request.path.endswith("/week"):
         # Weekly report
         start = get_start_week(year, month, day)
         stop = start + timedelta(days=6)
@@ -181,7 +180,7 @@ def json_report_year(year=None, week=None, month=None, day=None):
         stop=stop,
     )
 
-    limited_users = list(user_to_rank)[begin:begin+limit]
+    limited_users = list(user_to_rank)[begin : begin + limit]
 
     data = [
         {
@@ -192,6 +191,7 @@ def json_report_year(year=None, week=None, month=None, day=None):
                 "global": user.rank,
                 "period": user_to_rank[user]["rank"],
             },
-        } for user in limited_users
+        }
+        for user in limited_users
     ]
     return jsonify(data)

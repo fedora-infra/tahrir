@@ -1,0 +1,57 @@
+from flask import abort, g, jsonify, request
+
+from ...app import csrf, oidc
+from ...utils.badge import convert_name_to_id
+from ...utils.user import require_admin
+from . import blueprint as bp
+
+
+@bp.route("/api/admin/badges", methods=["POST"])
+@csrf.exempt
+@oidc.require_login
+@require_admin
+def create_badge():
+    """Endpoint to create new badge"""
+
+    data = request.get_json()
+    if not data:
+        return abort(400, "No details provided")
+
+    required_fields = ["name", "image", "description", "criteria", "issuer_id"]
+    for field in required_fields:
+        if not data.get(field):
+            return abort(400, f"No detail provided for {field!r}")
+
+    badge_id = convert_name_to_id(data.get("name"))
+
+    if g.tahrirdb.badge_exists(badge_id):
+        return abort(409, f"Badge {badge_id!r} already exists")
+
+    g.tahrirdb.add_badge(
+        name=data.get("name"),
+        image=data.get("image"),
+        desc=data.get("description"),
+        criteria=data.get("criteria"),
+        issuer_id=data.get("issuer_id"),
+        tags=data.get("tags"),
+    )
+
+    return jsonify({"message": f"Badge {badge_id!r} created successfully"}), 201
+
+
+@bp.route("/api/admin/badges/<badge_id>", methods=["DELETE"])
+@csrf.exempt
+@oidc.require_login
+@require_admin
+def delete_badge(badge_id):
+    """Endpoint to delete a badge"""
+
+    if not badge_id:
+        return abort(400, "No ID provided")
+
+    result = g.tahrirdb.delete_badge(badge_id)
+
+    if not result:
+        return abort(404, f"Badge {badge_id!r} not found")
+
+    return jsonify({"message": f"Badge {badge_id!r} deleted successfully"})
