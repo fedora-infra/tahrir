@@ -77,44 +77,48 @@ export default function Accolade() {
             </ListGroup>
           </Card.Body>
         </Card>
-        <Card className="mb-2">
-          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-            <Card.Title className="mb-0 ps-2 dataelem">First awarded</Card.Title>
-            <hr className="mt-2 mb-0" />
-            <ListGroup variant="flush">
-              <VertItem
-                link={`/identity/${acco.assertions[0].name}`}
-                head={acco.assertions[0].name}
-                body={`On ${formatTime(acco.assertions[0].date)}`}
-                shot={portraitProvider(acco.assertions[0].mail)}
-                hand={
-                  <Badge bg="secondary" className="monoelem">
-                    #{acco.assertions[0].rank}
-                  </Badge>
-                }
-              />
-            </ListGroup>
-          </Card.Body>
-        </Card>
-        <Card className="mb-2">
-          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-            <Card.Title className="mb-0 ps-2 dataelem">Last awarded</Card.Title>
-            <hr className="mt-2 mb-0" />
-            <ListGroup variant="flush">
-              <VertItem
-                link={`/identity/${acco.assertions[acco.assertions.length - 1].name}`}
-                head={acco.assertions[acco.assertions.length - 1].name}
-                body={`On ${formatTime(acco.assertions[acco.assertions.length - 1].date)}`}
-                shot={portraitProvider(acco.assertions[acco.assertions.length - 1].mail)}
-                hand={
-                  <Badge bg="secondary" className="monoelem">
-                    #{acco.assertions[acco.assertions.length - 1].rank}
-                  </Badge>
-                }
-              />
-            </ListGroup>
-          </Card.Body>
-        </Card>
+        {acco.assertions && acco.assertions.length > 0 && (
+          <>
+            <Card className="mb-2">
+              <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+                <Card.Title className="mb-0 ps-2 dataelem">First awarded</Card.Title>
+                <hr className="mt-2 mb-0" />
+                <ListGroup variant="flush">
+                  <VertItem
+                    link={`/identity/${acco.assertions[0].name}`}
+                    head={acco.assertions[0].name}
+                    body={`On ${formatTime(acco.assertions[0].date)}`}
+                    shot={portraitProvider(acco.assertions[0].mail)}
+                    hand={
+                      <Badge bg="secondary" className="monoelem">
+                        #{acco.assertions[0].rank}
+                      </Badge>
+                    }
+                  />
+                </ListGroup>
+              </Card.Body>
+            </Card>
+            <Card className="mb-2">
+              <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+                <Card.Title className="mb-0 ps-2 dataelem">Last awarded</Card.Title>
+                <hr className="mt-2 mb-0" />
+                <ListGroup variant="flush">
+                  <VertItem
+                    link={`/identity/${acco.assertions[acco.assertions.length - 1].name}`}
+                    head={acco.assertions[acco.assertions.length - 1].name}
+                    body={`On ${formatTime(acco.assertions[acco.assertions.length - 1].date)}`}
+                    shot={portraitProvider(acco.assertions[acco.assertions.length - 1].mail)}
+                    hand={
+                      <Badge bg="secondary" className="monoelem">
+                        #{acco.assertions[acco.assertions.length - 1].rank}
+                      </Badge>
+                    }
+                  />
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          </>
+        )}
         <Button
           as="a"
           href={acco.criteria}
@@ -139,7 +143,7 @@ export default function Accolade() {
             <Card.Text className="mb-0 ps-2 small">Awarded {acco.assertions.length} time(s)</Card.Text>
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush">
-              {acco.assertions &&
+              {acco.assertions && acco.assertions.length > 0 ? (
                 acco.assertions.map((item) => (
                   <VertItem
                     key={generateIdentity(item.name)}
@@ -153,7 +157,10 @@ export default function Accolade() {
                       </Badge>
                     }
                   />
-                ))}
+                ))
+              ) : (
+                <VertItem head="No awardees found" body="Be the first one to earn the badge" />
+              )}
             </ListGroup>
           </Card.Body>
         </Card>
