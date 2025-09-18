@@ -1,8 +1,11 @@
 import { Card, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 export default function Grouping({ name, wide, children }) {
+  const vibe = useSelector((data) => data.area.vibe);
+
   return (
-    <Card className="mb-2">
+    <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
       <Card.Body className="ps-0 pe-0 pt-2 pb-0">
         <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
           {name}

@@ -1,14 +1,14 @@
 import { Col, Image, OverlayTrigger, Popover } from "react-bootstrap";
 import { Link } from "react-router";
 
-import { obtainRarityBack, obtainRarityText } from "../features/util.js";
+import { obtainRarityBack, obtainRarityEdge, obtainRarityText } from "../features/util.js";
 
 export default function AccoItem({ iden, name, body, foot, shot, rare }) {
   return (
     <OverlayTrigger
       placement="auto"
       overlay={
-        <Popover className="bodyelem">
+        <Popover className={`bodyelem ${obtainRarityEdge(rare)}`}>
           <Popover.Header
             className={`p-2 fw-bold text-truncate ${obtainRarityBack(rare) || "bg-secondary text-white"}`}
           >
