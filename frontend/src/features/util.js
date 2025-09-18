@@ -21,6 +21,18 @@ export function generateIdentity(text, size = 8) {
   return sha256(text).toString().substring(0, size);
 }
 
+// See https://github.com/fedora-infra/tahrir/pull/720#issuecomment-3307684713
+export const mainColors = {
+  "Legacy Blue": "#294172", // ORIGIN [0]
+  "Modern Blue": "#3D7AA8", // DARKER [-1]
+  "Deep Blue": "#2D5387", // DARKER [-1]
+  "Freedom Pink": "#6E5685", // DARKER [-1]
+  "Friends Magenta": "#B32963", // DARKER [-1]
+  "Features Orange": "#AC721E", // DARKER [-1]
+  "First Green": "#589F25", // DARKER [-1]
+  "Gridhead Teal": "#008080", // ORIGIN [0]
+};
+
 // COLORS DERIVED FROM GENSHIN IMPACT
 export const rareColors = {
   X: "#51A2DA",
@@ -48,4 +60,9 @@ export function obtainRarityBack(rarity) {
 export function obtainRarityText(rarity) {
   if (!rarity) return "";
   return `rarity-${rarity.toLowerCase()}-text`;
+}
+
+export function obtainRarityEdge(rarity) {
+  if (!rarity) return "";
+  return `rarity-${rarity.toLowerCase()}-border`;
 }

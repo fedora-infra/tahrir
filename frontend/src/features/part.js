@@ -1,9 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initVibe = () => {
+  try {
+    const savedVibe = localStorage.getItem("tahrir-vibe");
+    return savedVibe || "#008080";
+  } catch {
+    return "#008080";
+  }
+};
+
 const makeUnit = createSlice({
   name: "area",
   initialState: {
-    vibe: "#008080",
+    vibe: initVibe(),
     mode: "auto",
     load: false,
     date: null,
@@ -11,6 +20,11 @@ const makeUnit = createSlice({
   reducers: {
     keepVibe: (area, data) => {
       area.vibe = data.payload;
+      try {
+        localStorage.setItem("tahrir-vibe", data.payload);
+      } catch (error) {
+        console.warn("Failed to save vibe to localStorage:", error);
+      }
     },
     keepMode: (area, data) => {
       area.mode = data.payload;
