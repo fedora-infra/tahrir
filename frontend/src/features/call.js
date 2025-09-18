@@ -16,14 +16,14 @@ export const callUnit = createApi({
     }),
     retrieveAccolade: builder.query({
       query: (accolade) => ({
-        url: `../badge/${accolade}/json`,
+        url: `../api/badges/${accolade}`,
         method: "GET",
       }),
       providesTags: (result, error, accolade) => [{ type: "Accolade", id: accolade }],
     }),
     retrieveAccoList: builder.query({
       query: () => ({
-        url: "discover/accolade",
+        url: "../api/badges",
         method: "GET",
       }),
       providesTags: ["AccoList"],
@@ -41,7 +41,7 @@ export const callUnit = createApi({
     }),
     retrieveCategory: builder.query({
       query: (category) => ({
-        url: `category/${category}`,
+        url: `../api/badges/category/${category}`,
         method: "GET",
       }),
       providesTags: (result, error, category) => [{ type: "Category", id: category }],
