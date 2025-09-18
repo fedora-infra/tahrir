@@ -178,9 +178,7 @@ def generate_badge_yaml(postdict):
 
 def serialize_badges(badges):
     """Helper function to serialize badge objects to dictionaries."""
-    return [
-        badge_json_generator(badge, withasserts=False) for badge in badges
-    ]
+    return [badge_json_generator(badge, withasserts=False) for badge in badges]
 
 
 def organize_badges_by_tags(serialized_badges):
