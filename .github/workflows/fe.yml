@@ -1,0 +1,21 @@
+name: Checking frontend code quality
+on: [push, pull_request]
+jobs:
+  ci-fe:
+    runs-on: ubuntu-latest
+    container: fedorapython/fedora-python-tox:latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout the codebase current state
+        uses: actions/checkout@v5
+      - name: Install the base required dependencies
+        run: dnf install --assumeyes --setopt=install_weak_deps=False npm
+      - name: Mark this directory as safe for Git
+        run: git config --global --add safe.directory $PWD
+      - name: Install the frontend project service
+        run: cd frontend && npm install
+      - name: Execute the frontend quality checks
+        run: cd frontend && npm run lint
+      - name: Execute the frontend formatting checks
+        run: cd frontend && npm run format
