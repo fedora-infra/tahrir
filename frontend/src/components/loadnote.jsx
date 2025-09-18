@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 export default function LoadNote() {
   const load = useSelector((area) => area.area.load);
+  const vibe = useSelector((data) => data.area.vibe);
   const list = [
     "Assembling",
     "Committing",
@@ -30,7 +31,7 @@ export default function LoadNote() {
 
   return (
     <ToastContainer position="bottom-center" style={{ position: "fixed", zIndex: 2000 }}>
-      <Toast className="d-inline-block m-2" show={load}>
+      <Toast className="d-inline-block m-2 vibe-border" show={load} style={{ "--vibe": vibe }}>
         <Toast.Body className="text-center p-1">
           <Spinner animation="border" size="sm" />
           &nbsp;&nbsp;{text}
