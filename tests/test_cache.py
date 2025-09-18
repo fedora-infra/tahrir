@@ -2,7 +2,6 @@
 
 """Test tahrir.cache."""
 
-
 from tahrir.cache import str_to_bytes
 
 
