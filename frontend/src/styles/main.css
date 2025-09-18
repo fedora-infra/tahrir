@@ -99,7 +99,7 @@
 }
 
 .logo {
-  filter: invert(73%) sepia(10%) saturate(5496%) hue-rotate(176deg) brightness(86%) contrast(99%);
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
 }
 
 body {
@@ -111,6 +111,22 @@ body {
 a.dropdown-toggle {
   display: flex;
   align-items: center;
+}
+
+/* Vibe selector should be WHITE regardless of the color mode */
+.vibe-dropdown a.dropdown-toggle {
+  color: #ffffff !important;
+}
+
+/* This also includes the DOWN arrow beside the vibe selector */
+.vibe-dropdown a.dropdown-toggle::after {
+  border-top-color: #ffffff !important;
+}
+
+/* Override the search styling to play well with vibe theming */
+.form-control:focus {
+  border-color: var(--bs-border-color) !important;
+  box-shadow: none !important;
 }
 
 .circle-border {
@@ -177,7 +193,67 @@ a.dropdown-toggle {
   color: #90989e !important;
 }
 
+.rarity-x-border {
+  border-color: #51a2da !important;
+}
+
+.rarity-s-border {
+  border-color: #c3a27f !important;
+}
+
+.rarity-a-border {
+  border-color: #ab94c0 !important;
+}
+
+.rarity-b-border {
+  border-color: #7ca0b4 !important;
+}
+
+.rarity-c-border {
+  border-color: #7f9a8c !important;
+}
+
+.rarity-d-border {
+  border-color: #90989e !important;
+}
+
 .rarity-icon {
   height: 20px;
   width: 20px;
+}
+
+/* Dynamic vibe badge styling */
+.vibe-badge {
+  background-color: var(--vibe) !important;
+  border-color: var(--vibe) !important;
+}
+
+.vibe-border {
+  border-color: var(--vibe) !important;
+}
+
+/* Button with vibe-border gets background highlighting */
+button.vibe-border,
+a.vibe-border {
+  background: none !important;
+}
+
+[data-bs-theme="light"] button.vibe-border,
+[data-bs-theme="light"] a.vibe-border {
+  color: #222222 !important;
+}
+
+[data-bs-theme="dark"] button.vibe-border,
+[data-bs-theme="dark"] a.vibe-border {
+  color: #dddddd !important;
+}
+
+[data-bs-theme="light"] button.vibe-border:hover,
+[data-bs-theme="light"] a.vibe-border:hover {
+  background-color: rgba(224, 224, 224, 0.4) !important;
+}
+
+[data-bs-theme="dark"] button.vibe-border:hover,
+[data-bs-theme="dark"] a.vibe-border:hover {
+  background-color: rgba(224, 224, 224, 0.05) !important;
 }
