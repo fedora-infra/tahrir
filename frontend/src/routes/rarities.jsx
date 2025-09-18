@@ -1,20 +1,20 @@
 import { useEffect } from "react";
 import { Button, Card, Image, ListGroup } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
 import Grouping from "../components/grouping.jsx";
 import { useRetrieveRaritiesQuery } from "../features/call.js";
 import { hideLoad, showLoad } from "../features/part.js";
-import { formatTime, generateIdentity, obtainRarityText, rarities } from "../features/util.js";
+import { formatTime, generateIdentity, obtainRarityText, rareColors, rarities } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function Rarities() {
   const dispatch = useDispatch();
   const { slugdata: rareunit } = useParams();
-
   const { data: list, isLoading, error } = useRetrieveRaritiesQuery(rareunit);
+  const vibe = useSelector((data) => data.area.vibe);
 
   // Show or Hide LoadNote
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function Rarities() {
   return (
     <div className="row g-2">
       <div className="col-12 col-lg-3">
-        <Card className="mb-2">
+        <Card className="mb-2 vibe-border" style={{ "--vibe": rareColors[rareunit.toUpperCase()] }}>
           <Card.Img variant="top" src={`/imgs/rare_${rareunit.toLowerCase()}.png`} />
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">{rarities[rareunit.toUpperCase()]}</Card.Title>
@@ -56,8 +56,9 @@ export default function Rarities() {
                 as={Link}
                 to={`/rarities/${item}`}
                 variant="outline-secondary"
-                className="d-grid mb-2 d-inline-flex align-items-center ps-1"
+                className="d-grid mb-2 d-inline-flex align-items-center ps-1 vibe-border"
                 size="sm"
+                style={{ "--vibe": vibe }}
               >
                 <Image className="rarity-icon circle-border" src={`/imgs/rare_${item.toLowerCase()}.png`} />
                 &nbsp;&nbsp;

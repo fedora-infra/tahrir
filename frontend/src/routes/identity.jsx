@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
@@ -13,6 +13,7 @@ import Mistaken from "./mistaken.jsx";
 export default function Identity() {
   const dispatch = useDispatch();
   const { slugdata: identity } = useParams();
+  const vibe = useSelector((data) => data.area.vibe);
 
   const {
     data: user,
@@ -42,7 +43,7 @@ export default function Identity() {
   return (
     <div className="row g-2">
       <div className="col-12 col-lg-3">
-        <Card className="mb-2">
+        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Img variant="top" src={portraitProvider(user.mail, 512)} />
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">{user.user}</Card.Title>
@@ -57,7 +58,14 @@ export default function Identity() {
             </Card.Text>
           </Card.Body>
         </Card>
-        <Button as={Link} to={`/userpast/${identity}`} variant="secondary" className="d-grid" size="sm">
+        <Button
+          as={Link}
+          to={`/userpast/${identity}`}
+          variant="outline-secondary"
+          className="d-grid vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
           History
         </Button>
       </div>
