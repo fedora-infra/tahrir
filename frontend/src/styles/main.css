@@ -117,6 +117,12 @@ a.dropdown-toggle {
   border-radius: 10%;
 }
 
+/* Fix for Bootstrap ListGroup removing border-radius from last item */
+.list-group-item:last-child {
+  border-bottom-left-radius: var(--bs-list-group-border-radius) !important;
+  border-bottom-right-radius: var(--bs-list-group-border-radius) !important;
+}
+
 .rarity-x-bg {
   background-color: #51a2da !important;
   color: #ffffff !important;
