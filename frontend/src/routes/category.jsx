@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Card } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
@@ -13,8 +13,8 @@ import Mistaken from "./mistaken.jsx";
 export default function Category() {
   const dispatch = useDispatch();
   const { slugdata: category } = useParams();
-
   const { data: list, isLoading, error } = useRetrieveCategoryQuery(category);
+  const vibe = useSelector((data) => data.area.vibe);
 
   // Show or Hide LoadNote
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function Category() {
   return (
     <div className="row g-2">
       <div className="col-12 col-lg-3">
-        <Card>
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">Category</Card.Title>
             <Card.Text className="small">Find badges using the associated labels</Card.Text>

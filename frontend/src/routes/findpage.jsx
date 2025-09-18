@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Badge, Card, ListGroup } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
 import VertItem from "../components/vertitem.jsx";
@@ -12,8 +12,8 @@ import Mistaken from "./mistaken.jsx";
 export default function FindPage() {
   const dispatch = useDispatch();
   const { slugdata: findtext } = useParams();
-
   const { data: dict, isLoading, error } = useRetrieveDiscoverQuery(findtext, { skip: false });
+  const vibe = useSelector((data) => data.area.vibe);
 
   // Show or Hide LoadNote
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function FindPage() {
   return (
     <div className="row g-2">
       <div className="col-12 col-lg-3">
-        <Card>
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">Search result</Card.Title>
             <Card.Text className="small">For "{findtext}"</Card.Text>
@@ -47,7 +47,7 @@ export default function FindPage() {
         </Card>
       </div>
       <div className="col-12 col-lg-9">
-        <Card className="mb-2">
+        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               Badges
@@ -64,7 +64,7 @@ export default function FindPage() {
                     body={item.description}
                     shot={item.image}
                     hand={
-                      <Badge bg="secondary" className="monoelem">
+                      <Badge className="monoelem vibe-badge" style={{ "--vibe": vibe }}>
                         BADGE
                       </Badge>
                     }
@@ -76,7 +76,7 @@ export default function FindPage() {
             </ListGroup>
           </Card.Body>
         </Card>
-        <Card className="mb-2">
+        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               Users
@@ -93,7 +93,7 @@ export default function FindPage() {
                     body={`Last seen on ${formatTime(item.last_login)}`}
                     shot={portraitProvider(item.email)}
                     hand={
-                      <Badge bg="secondary" className="monoelem">
+                      <Badge className="monoelem vibe-badge" style={{ "--vibe": vibe }}>
                         #{item.rank}
                       </Badge>
                     }

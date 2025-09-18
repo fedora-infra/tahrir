@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
@@ -12,8 +12,8 @@ import Mistaken from "./mistaken.jsx";
 
 export default function AccoList() {
   const dispatch = useDispatch();
-
   const { data: list, isLoading, error } = useRetrieveAccoListQuery();
+  const vibe = useSelector((data) => data.area.vibe);
 
   // Show or Hide LoadNote
   useEffect(() => {
@@ -35,13 +35,20 @@ export default function AccoList() {
   return (
     <div className="row g-2">
       <div className="col-12 col-lg-3">
-        <Card className="mb-2">
+        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">Complete collection</Card.Title>
             <Card.Text className="small">{list.disordered.full.length} badge(s)</Card.Text>
           </Card.Body>
         </Card>
-        <Button as={Link} to={`/recently`} variant="secondary" className="d-grid" size="sm">
+        <Button
+          as={Link}
+          to={`/recently`}
+          variant="outline-secondary"
+          className="d-grid vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
           Recent
         </Button>
       </div>
