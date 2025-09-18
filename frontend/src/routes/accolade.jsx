@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Badge, Button, Card, ListGroup } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router";
 
 import VertItem from "../components/vertitem.jsx";
@@ -13,6 +13,7 @@ import Mistaken from "./mistaken.jsx";
 export default function Accolade() {
   const dispatch = useDispatch();
   const { slugdata: accolade } = useParams();
+  const vibe = useSelector((data) => data.area.vibe);
 
   const {
     data: acco,
@@ -42,7 +43,7 @@ export default function Accolade() {
   return (
     <div className="row g-2">
       <div className="col-12 col-lg-3">
-        <Card className="mb-2">
+        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Img variant="top" src={acco.image} />
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate mb-1">{acco.name}</Card.Title>
@@ -54,8 +55,8 @@ export default function Accolade() {
                     key={generateIdentity(name)}
                     as={Link}
                     to={`/category/${name}`}
-                    bg="secondary"
-                    className="monoelem text-capitalize text-decoration-none me-1"
+                    className="monoelem vibe-badge text-capitalize text-decoration-none me-1"
+                    style={{ "--vibe": vibe }}
                   >
                     {name}
                   </Badge>
@@ -63,7 +64,7 @@ export default function Accolade() {
             </div>
           </Card.Body>
         </Card>
-        <Card className="mb-2">
+        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem">Tier</Card.Title>
             <hr className="mt-2 mb-0" />
@@ -79,7 +80,7 @@ export default function Accolade() {
         </Card>
         {acco.assertions && acco.assertions.length > 0 && (
           <>
-            <Card className="mb-2">
+            <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
               <Card.Body className="ps-0 pe-0 pt-2 pb-0">
                 <Card.Title className="mb-0 ps-2 dataelem">First awarded</Card.Title>
                 <hr className="mt-2 mb-0" />
@@ -90,7 +91,7 @@ export default function Accolade() {
                     body={`On ${formatTime(acco.assertions[0].date)}`}
                     shot={portraitProvider(acco.assertions[0].mail)}
                     hand={
-                      <Badge bg="secondary" className="monoelem">
+                      <Badge className="monoelem vibe-badge" style={{ "--vibe": vibe }}>
                         #{acco.assertions[0].rank}
                       </Badge>
                     }
@@ -98,7 +99,7 @@ export default function Accolade() {
                 </ListGroup>
               </Card.Body>
             </Card>
-            <Card className="mb-2">
+            <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
               <Card.Body className="ps-0 pe-0 pt-2 pb-0">
                 <Card.Title className="mb-0 ps-2 dataelem">Last awarded</Card.Title>
                 <hr className="mt-2 mb-0" />
@@ -109,7 +110,7 @@ export default function Accolade() {
                     body={`On ${formatTime(acco.assertions[acco.assertions.length - 1].date)}`}
                     shot={portraitProvider(acco.assertions[acco.assertions.length - 1].mail)}
                     hand={
-                      <Badge bg="secondary" className="monoelem">
+                      <Badge className="monoelem vibe-badge" style={{ "--vibe": vibe }}>
                         #{acco.assertions[acco.assertions.length - 1].rank}
                       </Badge>
                     }
@@ -124,18 +125,25 @@ export default function Accolade() {
           href={acco.criteria}
           target="_blank"
           rel="noopener noreferrer"
-          variant="secondary"
-          className="d-grid mb-2"
+          className="d-grid mb-2 vibe-border"
           size="sm"
+          style={{ "--vibe": vibe }}
         >
           Criteria
         </Button>
-        <Button as={Link} to="/assembly" variant="secondary" className="d-grid" size="sm">
+        <Button
+          as={Link}
+          to="/assembly"
+          variant="outline-secondary"
+          className="d-grid vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
           Collection
         </Button>
       </div>
       <div className="col-12 col-lg-9">
-        <Card className="mb-2">
+        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               History
@@ -152,7 +160,7 @@ export default function Accolade() {
                     body={`On ${formatTime(item.date)}`}
                     shot={portraitProvider(item.mail)}
                     hand={
-                      <Badge bg="secondary" className="monoelem">
+                      <Badge className="monoelem vibe-badge" style={{ "--vibe": vibe }}>
                         #{item.rank}
                       </Badge>
                     }

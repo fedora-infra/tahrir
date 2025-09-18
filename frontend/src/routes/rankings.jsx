@@ -17,6 +17,7 @@ export default function Rankings() {
   const { y, m, d } = useParams();
   const isweekly = location.pathname.endsWith("/week");
   const pickdate = useSelector((state) => state.area.date);
+  const vibe = useSelector((data) => data.area.vibe);
 
   const readDate = () => {
     if (y && m && d) {
@@ -132,7 +133,7 @@ export default function Rankings() {
   return (
     <div className="row g-2">
       <div className="col-12 col-lg-3">
-        <Card className="mb-2">
+        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">Rankings</Card.Title>
             <Card.Text className="small">{showDate()}</Card.Text>
@@ -141,19 +142,54 @@ export default function Rankings() {
             </Card.Text>
           </Card.Body>
         </Card>
-        <Button as={Link} to={readLink("d")} variant="secondary" className="d-grid mb-2" size="sm">
+        <Button
+          as={Link}
+          to={readLink("d")}
+          variant="outline-secondary"
+          className="d-grid mb-2 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
           For today
         </Button>
-        <Button as={Link} to={readLink("w")} variant="secondary" className="d-grid mb-2" size="sm">
+        <Button
+          as={Link}
+          to={readLink("w")}
+          variant="outline-secondary"
+          className="d-grid mb-2 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
           This week
         </Button>
-        <Button as={Link} to={readLink("m")} variant="secondary" className="d-grid mb-2" size="sm">
+        <Button
+          as={Link}
+          to={readLink("m")}
+          variant="outline-secondary"
+          className="d-grid mb-2 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
           This month
         </Button>
-        <Button as={Link} to={readLink("y")} variant="secondary" className="d-grid mb-2" size="sm">
+        <Button
+          as={Link}
+          to={readLink("y")}
+          variant="outline-secondary"
+          className="d-grid mb-2 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
           This year
         </Button>
-        <Button as={Link} to={readLink()} variant="secondary" className="d-grid mb-2" size="sm">
+        <Button
+          as={Link}
+          to={readLink()}
+          variant="outline-secondary"
+          className="d-grid mb-2 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
           All time
         </Button>
         {scanDate("y") || scanDate("m") || scanDate("w") || scanDate("d") ? <hr className="mt-0 mb-2" /> : null}
@@ -161,9 +197,10 @@ export default function Rankings() {
           <Button
             as={Link}
             to={`/rankings/y/${params.y}/m/${params.m}/d/${params.d}/week`}
-            variant="secondary"
-            className="d-grid mb-2"
+            variant="outline-secondary"
+            className="d-grid mb-2 vibe-border"
             size="sm"
+            style={{ "--vibe": vibe }}
           >
             That week
           </Button>
@@ -172,9 +209,10 @@ export default function Rankings() {
           <Button
             as={Link}
             to={`/rankings/y/${params.y}/m/${params.m}/d/${params.d}`}
-            variant="secondary"
-            className="d-grid mb-2"
+            variant="outline-secondary"
+            className="d-grid mb-2 vibe-border"
             size="sm"
+            style={{ "--vibe": vibe }}
           >
             That date
           </Button>
@@ -183,21 +221,29 @@ export default function Rankings() {
           <Button
             as={Link}
             to={`/rankings/y/${params.y}/m/${params.m}`}
-            variant="secondary"
-            className="d-grid mb-2"
+            variant="outline-secondary"
+            className="d-grid mb-2 vibe-border"
             size="sm"
+            style={{ "--vibe": vibe }}
           >
             For {new Date(params.y, params.m - 1).toLocaleDateString("en-US", { month: "long" })}
           </Button>
         ) : null}
         {scanDate("y") ? (
-          <Button as={Link} to={`/rankings/y/${params.y}`} variant="secondary" className="d-grid" size="sm">
+          <Button
+            as={Link}
+            to={`/rankings/y/${params.y}`}
+            variant="outline-secondary"
+            className="d-grid vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
             For {params.y}
           </Button>
         ) : null}
       </div>
       <div className="col-12 col-lg-9">
-        <Card className="mb-2">
+        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               {showHead()}
@@ -214,7 +260,7 @@ export default function Rankings() {
                     head={item.nickname}
                     body={`Collected ${item.badges} badge(s) ${y || m || d || isweekly ? `during this period • Global rank #${item.rank.global}` : ""}`}
                     hand={
-                      <Badge bg="secondary" className="monoelem">
+                      <Badge className="monoelem vibe-badge" style={{ "--vibe": vibe }}>
                         #{item.rank.period}
                       </Badge>
                     }
