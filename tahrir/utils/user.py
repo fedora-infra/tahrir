@@ -6,7 +6,6 @@ from flask_oidc.model import User as OIDCUser
 
 
 class User(OIDCUser):
-
     def __init__(self, ext):
         super().__init__(ext)
         self._person = None
