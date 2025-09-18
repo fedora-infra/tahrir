@@ -48,21 +48,21 @@ export const callUnit = createApi({
     }),
     retrieveRankings: builder.query({
       query: ({ y, w, m, d, begin = 0, limit = 200 } = {}) => {
-        let url = "report";
+        let link = "report";
         if (y) {
-          url += `/y/${y}`;
+          link += `/y/${y}`;
           if (m) {
-            url += `/m/${m}`;
+            link += `/m/${m}`;
             if (d) {
-              url += `/d/${d}`;
+              link += `/d/${d}`;
               if (w) {
-                url += `/week`;
+                link += `/week`;
               }
             }
           }
         }
         return {
-          url,
+          url: link,
           method: "GET",
           params: { begin, limit },
         };
