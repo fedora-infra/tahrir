@@ -19,6 +19,12 @@ export default defineConfig({
         secure: false,
         rewrite: (path) => path.replace(/^\/json/, "/json"),
       },
+      "/api": {
+        target: "https://badges.tinystage.test",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, "/api"),
+      },
     },
   },
 });
