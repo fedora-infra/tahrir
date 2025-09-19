@@ -46,7 +46,7 @@ def get_badge_by_id(badge_id: str):
 
     badge = get_badge_or_404(badge_id)
 
-    return jsonify(badge_json_generator(badge))
+    return jsonify(badge_json_generator(badge, withasserts=False))
 
 
 @bp.route("/api/badges/category/<string:name>", methods=["GET"])
