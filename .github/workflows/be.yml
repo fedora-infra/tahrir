@@ -1,7 +1,7 @@
 name: Checking backend code quality
 on: [push, pull_request]
 jobs:
-  ci-fe:
+  ci-be:
     runs-on: ubuntu-latest
     container: fedorapython/fedora-python-tox:latest
     strategy:
