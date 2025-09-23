@@ -4,6 +4,8 @@ import { Link } from "react-router";
 import { obtainRarityBack, obtainRarityEdge, obtainRarityText } from "../features/util.js";
 
 export default function AccoItem({ iden, name, body, foot, shot, rare }) {
+  shot = shot.toString().replace("https://badges.fedoraproject.org", "");
+
   return (
     <OverlayTrigger
       placement="auto"
