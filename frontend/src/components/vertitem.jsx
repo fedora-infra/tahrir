@@ -2,6 +2,10 @@ import { Image, ListGroup } from "react-bootstrap";
 import { Link } from "react-router";
 
 export default function VertItem({ link, head, body, shot, hand }) {
+  if (shot) {
+    shot = shot.toString().replace("https://badges.fedoraproject.org", "");
+  }
+
   return (
     <ListGroup.Item className="p-2" action={link} as={link ? Link : undefined} to={link}>
       <div className="d-flex w-100" style={{ gap: "0.5rem" }}>

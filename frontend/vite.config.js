@@ -25,6 +25,12 @@ export default defineConfig({
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, "/api"),
       },
+      "/pngs": {
+        target: "http://localhost:9999",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/pngs/, "/pngs"),
+      },
     },
   },
 });
