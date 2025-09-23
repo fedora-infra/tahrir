@@ -44,7 +44,7 @@ export default function Accolade() {
     <div className="row g-2">
       <div className="col-12 col-lg-3">
         <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
-          <Card.Img variant="top" src={acco.image} />
+          <Card.Img variant="top" src={acco.image.toString().replace("https://badges.fedoraproject.org", "")} />
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate mb-1">{acco.name}</Card.Title>
             <Card.Text className="small mb-2">{acco.description}</Card.Text>

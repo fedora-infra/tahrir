@@ -17,7 +17,11 @@ export default function FindList({ type, list, hide }) {
         >
           <Image
             rounded={true}
-            src={type === "accolade" ? unit.image : portraitProvider(unit.email, 40)}
+            src={
+              type === "accolade"
+                ? unit.image.toString().replace("https://badges.fedoraproject.org", "")
+                : portraitProvider(unit.email, 40)
+            }
             width="40"
             height="40"
             className="me-2"
