@@ -9,6 +9,7 @@ import ModeWrap from "./components/modewrap.jsx";
 import { data } from "./features/data.js";
 import Accolade from "./routes/accolade.jsx";
 import AccoList from "./routes/accolist.jsx";
+import Callback from "./routes/callback.jsx";
 import Category from "./routes/category.jsx";
 import FindPage from "./routes/findpage.jsx";
 import Identity from "./routes/identity.jsx";
@@ -24,6 +25,7 @@ createRoot(document.getElementById("root")).render(
     <ModeWrap>
       <BrowserRouter>
         <Routes>
+          <Route element={<Callback />} path="/callback" />
           <Route element={<MainArea />} path="/">
             <Route element="" index />
             <Route element="" path="/profiles" />

@@ -1,8 +1,12 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { loadUserData } from "../features/auth.js";
 
 export default function ModeWrap({ children }) {
+  const dispatch = useDispatch();
   const mode = useSelector((data) => data.area.mode);
+  const stat = useSelector((data) => data.auth.status);
 
   useEffect(() => {
     const updateMode = () => {
@@ -21,6 +25,12 @@ export default function ModeWrap({ children }) {
     styles.addEventListener("change", updateMode);
     return () => styles.removeEventListener("change", updateMode);
   }, [mode]);
+
+  useEffect(() => {
+    if (stat === "idle") {
+      dispatch(loadUserData());
+    }
+  }, [dispatch, stat]);
 
   return children;
 }
