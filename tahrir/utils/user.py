@@ -4,6 +4,10 @@ from urllib.parse import quote_plus
 from flask import abort, current_app, g, redirect, request, session, url_for
 from flask_oidc.model import User as OIDCUser
 
+from tahrir.defaults import TAHRIR_DISPLAY_TAGS
+
+from .badge import badge_json_generator
+
 
 class User(OIDCUser):
     def __init__(self, ext):
@@ -152,3 +156,50 @@ def require_admin(view_func):
         return view_func(*args, **kwargs)
 
     return decorated
+
+
+def get_user_badge_info(user):
+    """Returns a dictionary of the user badge information with serialized badges"""
+
+    # Get user badges
+    badges = [assertion.badge for assertion in user.assertions]
+
+    # Get total number of unique badges in the system
+    total_badges = g.tahrirdb.get_all_badges().count()
+
+    # Get percentage of badges earned by user
+    percent_earned = (float(len(badges)) / float(total_badges)) * 100 if total_badges > 0 else 0
+
+    # Get rank of user
+    rank = user.rank or 0
+
+    # Get total number of users
+    user_count = g.tahrirdb.get_all_persons().count()
+
+    # Get users standing
+    percentile = round((rank / user_count) * 100, 2) if user_count > 0 else 0
+
+    # Get user assertions
+    assertions = sorted(user.assertions, key=lambda item: item.issued_on, reverse=True)
+
+    # Initialize empty list to store serailized badges
+    serialized_badges = []
+
+    # Set the classifications of the badges
+    classified = {name: [] for name in TAHRIR_DISPLAY_TAGS}
+
+    for indx, item in enumerate(assertions):
+        badge = badge_json_generator(item.badge, withasserts=False)
+        serialized_badges.append({**badge})
+        for name in classified.keys():
+            if name in item.badge.tags:
+                classified[name].append(indx)
+
+    return {
+        "badges": serialized_badges,
+        "classified": classified,
+        "percentile": percentile,
+        "percent_earned": round(percent_earned, 2),
+        "rank": rank,
+        "total_badges": total_badges,
+    }
