@@ -7,15 +7,15 @@ from . import blueprint as bp
 def get_assertions_by_badge(badge_id: str):
     """Endpoint to fetch all assertions for a specific badge."""
 
-    assertions = sorted(
-        g.tahrirdb.get_assertions_by_badge(badge_id), key=lambda assertion: assertion.issued_on
-    )
+    assertions = g.tahrirdb.get_assertions_by_badge(badge_id)
 
     if assertions is False:
         return abort(404, f"No such badge {badge_id!r}")
 
     if not assertions:
         return jsonify([])
+
+    assertions = sorted(assertions, key=lambda assertion: assertion.issued_on)
 
     # This is a very unoptimised implementation for achieving pagination.
     # The implementation should have been there in the upstream `tahrir-api` at database level.
