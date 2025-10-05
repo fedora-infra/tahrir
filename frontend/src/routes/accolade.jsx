@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { mdiArrowLeft, mdiArrowRight } from "@mdi/js";
+import Icon from "@mdi/react";
+import { useEffect, useMemo, useState } from "react";
 import { Badge, Button, Card, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router";
+import { Link, useParams, useSearchParams } from "react-router";
 
 import VertItem from "../components/vertitem.jsx";
-import { useRetrieveAccoladeQuery } from "../features/call.js";
+import { useRetrieveAccoladeQuery, useRetrieveAvermentQuery } from "../features/call.js";
 import { hideLoad, showLoad } from "../features/part.js";
 import { generateIdentity, portraitProvider, rarities } from "../features/util.js";
 import { formatTime } from "../features/util.js";
@@ -15,28 +17,105 @@ export default function Accolade() {
   const { slugdata: accolade } = useParams();
   const vibe = useSelector((data) => data.area.vibe);
 
+  // URL-based pagination and obtain page number called by user
+  const [pageCall, setPageCall] = useSearchParams();
+  const currPage = Math.max(0, parseInt(pageCall.get("page") || "1", 10) - 1);
+  const [paginating, setPaginating] = useState(false);
+  const pageSize = 100;
+
   const {
     data: acco,
-    isLoading,
-    error,
+    isLoading: mainLoad,
+    error: mainFlaw,
   } = useRetrieveAccoladeQuery(accolade, {
     skip: !accolade,
   });
 
+  const {
+    data: averment,
+    isLoading: averLoad,
+    error: averFlaw,
+  } = useRetrieveAvermentQuery(
+    {
+      accolade,
+      begin: currPage * pageSize,
+      limit: pageSize,
+    },
+    {
+      skip: !accolade,
+    }
+  );
+
+  // Transform averment data to match expected structure
+  const averlist = useMemo(() => {
+    if (!averment || !Array.isArray(averment)) return [];
+
+    return averment.map((item) => ({
+      name: item.person?.nickname,
+      date: item.issued_on,
+      mail: item.person?.mail,
+      rank: item.person?.rank,
+    }));
+  }, [averment]);
+
+  const progress = mainLoad || averLoad || paginating;
+  const haveError = mainFlaw || averFlaw;
+
+  // Pagination handlers
+  const handleNextPage = () => {
+    setPaginating(true);
+    const nextPage = currPage + 2; // Convert back to 1-based for URL
+    setPageCall({ page: nextPage.toString() });
+  };
+
+  const handlePrevPage = () => {
+    setPaginating(true);
+    if (currPage === 1) {
+      setPageCall({}); // Remove page param for page 1
+    } else {
+      setPageCall({ page: currPage.toString() }); // currPage is 0-based, so this gives us the correct 1-based previous page
+    }
+  };
+
+  const awardees = acco?.times_awarded || 0;
+  const pagePoll = Math.ceil(awardees / pageSize);
+  const haveNextPage = currPage + 1 < pagePoll;
+  const havePrevPage = currPage > 0;
+
+  // Reset paginating state when data changes
+  useEffect(() => {
+    setPaginating(false);
+  }, [averlist]);
+
+  // Validate page parameter and redirect if invalid
+  useEffect(() => {
+    const calledPage = pageCall.get("page");
+    if (calledPage) {
+      const pageIter = parseInt(calledPage, 10);
+      if (isNaN(pageIter) || pageIter < 1) {
+        setPageCall({}); // Redirect to page 1 (no param)
+        return;
+      }
+      if (awardees > 0 && pagePoll > 0 && pageIter > pagePoll) {
+        setPageCall({ page: pagePoll.toString() }); // Redirect to last valid page
+      }
+    }
+  }, [pageCall, awardees, pagePoll, setPageCall]);
+
   // Show or Hide LoadNote
   useEffect(() => {
-    if (isLoading) {
+    if (progress) {
       dispatch(showLoad());
     } else {
       dispatch(hideLoad());
     }
-  }, [isLoading, dispatch]);
+  }, [progress, dispatch]);
 
-  if (error) {
+  if (haveError) {
     return <Mistaken />;
   }
 
-  if (isLoading || !acco) {
+  if (mainLoad || averLoad || !acco) {
     return null;
   }
 
@@ -78,46 +157,40 @@ export default function Accolade() {
             </ListGroup>
           </Card.Body>
         </Card>
-        {acco.assertions && acco.assertions.length > 0 && (
+        {acco.assertions && (
           <>
-            <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
-              <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-                <Card.Title className="mb-0 ps-2 dataelem">First awarded</Card.Title>
-                <hr className="mt-2 mb-0" />
-                <ListGroup variant="flush">
-                  <VertItem
-                    link={`/identity/${acco.assertions[0].name}`}
-                    head={acco.assertions[0].name}
-                    body={`On ${formatTime(acco.assertions[0].date)}`}
-                    shot={portraitProvider(acco.assertions[0].mail)}
-                    hand={
-                      <Badge className="monoelem vibe-badge" style={{ "--vibe": vibe }}>
-                        #{acco.assertions[0].rank}
-                      </Badge>
-                    }
-                  />
-                </ListGroup>
-              </Card.Body>
-            </Card>
-            <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
-              <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-                <Card.Title className="mb-0 ps-2 dataelem">Last awarded</Card.Title>
-                <hr className="mt-2 mb-0" />
-                <ListGroup variant="flush">
-                  <VertItem
-                    link={`/identity/${acco.assertions[acco.assertions.length - 1].name}`}
-                    head={acco.assertions[acco.assertions.length - 1].name}
-                    body={`On ${formatTime(acco.assertions[acco.assertions.length - 1].date)}`}
-                    shot={portraitProvider(acco.assertions[acco.assertions.length - 1].mail)}
-                    hand={
-                      <Badge className="monoelem vibe-badge" style={{ "--vibe": vibe }}>
-                        #{acco.assertions[acco.assertions.length - 1].rank}
-                      </Badge>
-                    }
-                  />
-                </ListGroup>
-              </Card.Body>
-            </Card>
+            {acco.assertions.origin.person && (
+              <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+                <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+                  <Card.Title className="mb-0 ps-2 dataelem">First awarded</Card.Title>
+                  <hr className="mt-2 mb-0" />
+                  <ListGroup variant="flush">
+                    <VertItem
+                      link={`/identity/${acco.assertions.origin.person.nickname}`}
+                      head={acco.assertions.origin.person.nickname}
+                      body={`On ${formatTime(acco.assertions.origin.issued_on)}`}
+                      shot={portraitProvider(acco.assertions.origin.person.mail)}
+                    />
+                  </ListGroup>
+                </Card.Body>
+              </Card>
+            )}
+            {acco.assertions.recent.person && (
+              <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+                <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+                  <Card.Title className="mb-0 ps-2 dataelem">Last awarded</Card.Title>
+                  <hr className="mt-2 mb-0" />
+                  <ListGroup variant="flush">
+                    <VertItem
+                      link={`/identity/${acco.assertions.recent.person.nickname}`}
+                      head={acco.assertions.recent.person.nickname}
+                      body={`On ${formatTime(acco.assertions.recent.issued_on)}`}
+                      shot={portraitProvider(acco.assertions.recent.person.mail)}
+                    />
+                  </ListGroup>
+                </Card.Body>
+              </Card>
+            )}
           </>
         )}
         <Button
@@ -141,6 +214,33 @@ export default function Accolade() {
         >
           Collection
         </Button>
+        {(havePrevPage || haveNextPage) && (
+          <div className="d-flex justify-content-between align-items-center mt-2">
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              onClick={handlePrevPage}
+              disabled={!havePrevPage || averLoad || paginating}
+              className="vibe-border d-flex align-items-center justify-content-center"
+              style={{ "--vibe": vibe }}
+            >
+              <Icon path={mdiArrowLeft} size={0.875} />
+            </Button>
+            <span className="small text-muted">
+              {pagePoll > 1 ? `${currPage + 1} of ${pagePoll}` : `Page ${currPage + 1}`}
+            </span>
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              onClick={handleNextPage}
+              disabled={!haveNextPage || averLoad || paginating}
+              className="vibe-border d-flex align-items-center justify-content-center"
+              style={{ "--vibe": vibe }}
+            >
+              <Icon path={mdiArrowRight} size={0.875} />
+            </Button>
+          </div>
+        )}
       </div>
       <div className="col-12 col-lg-9">
         <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
@@ -148,11 +248,21 @@ export default function Accolade() {
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               History
             </Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Awarded {acco.assertions.length} time(s)</Card.Text>
+            <Card.Text className="mb-0 ps-2 small">
+              {awardees > 0 ? (
+                <>
+                  {awardees} total awards • Page {currPage + 1} of {pagePoll}
+                  {averlist.length > 0 &&
+                    ` • Showing ${currPage * pageSize + 1}-${currPage * pageSize + averlist.length}`}
+                </>
+              ) : (
+                "Be the first one to earn the badge"
+              )}
+            </Card.Text>
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush">
-              {acco.assertions && acco.assertions.length > 0 ? (
-                acco.assertions.map((item) => (
+              {averlist && averlist.length > 0 ? (
+                averlist.map((item) => (
                   <VertItem
                     key={generateIdentity(item.name)}
                     link={`/identity/${item.name}`}
