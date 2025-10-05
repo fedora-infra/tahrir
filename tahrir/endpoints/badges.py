@@ -46,7 +46,39 @@ def get_badge_by_id(badge_id: str):
 
     badge = get_badge_or_404(badge_id)
 
-    return jsonify(badge_json_generator(badge, withasserts=False))
+    # This is a very unoptimised implementation for achieving pagination.
+    # The implementation should have been there in the upstream `tahrir-api` at database level.
+    assertions = sorted(
+        g.tahrirdb.get_assertions_by_badge(badge_id), key=lambda assertion: assertion.issued_on
+    )
+
+    data = badge_json_generator(badge)
+    data["assertions"] = {"origin": {}, "recent": {}}
+    if assertions:
+        # Process first assertion
+        origin_assertion_data = assertions[0].as_dict()
+        origin_assertion_data.pop("badge", None)  # Remove unwanted fields
+        origin_assertion_data["person"] = assertions[0].person.as_dict()  # Add user info
+        origin_assertion_data["person"].pop("email", None)  # Remove email field
+        origin_assertion_data["person"]["mail"] = assertions[0].person.avatar  # Add user avatar
+        origin_assertion_data["issued_on"] = assertions[0].issued_on.timestamp()
+        data["assertions"]["origin"] = origin_assertion_data
+
+        if len(assertions) > 1:
+            # Process last assertion
+            recent_assertion_data = assertions[-1].as_dict()
+            recent_assertion_data.pop("badge", None)  # Remove unwanted fields
+            recent_assertion_data["person"] = assertions[-1].person.as_dict()  # Add user info
+            recent_assertion_data["person"].pop("email", None)  # Remove email field
+            recent_assertion_data["person"]["mail"] = assertions[
+                -1
+            ].person.avatar  # Add user avatar
+            recent_assertion_data["issued_on"] = assertions[-1].issued_on.timestamp()
+            data["assertions"]["recent"] = recent_assertion_data
+        else:
+            data["assertions"]["recent"] = origin_assertion_data
+
+    return jsonify(data)
 
 
 @bp.route("/api/badges/category/<string:name>", methods=["GET"])
