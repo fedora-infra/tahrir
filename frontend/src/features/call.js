@@ -5,7 +5,7 @@ export const callUnit = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "/json/",
   }),
-  tagTypes: ["Identity", "Accolade", "AccoList", "Discover", "Category", "Rarities"],
+  tagTypes: ["Identity", "Accolade", "AccoList", "Discover", "Category", "Rarities", "Averment"],
   endpoints: (builder) => ({
     retrieveIdentity: builder.query({
       query: (identity) => ({
@@ -69,6 +69,14 @@ export const callUnit = createApi({
       },
       providesTags: ["Rankings"],
     }),
+    retrieveAverment: builder.query({
+      query: ({ accolade, begin = 0, limit = 100 } = {}) => ({
+        url: `../api/assertions/${accolade}`,
+        method: "GET",
+        params: { begin, limit },
+      }),
+      providesTags: (result, error, { accolade }) => [{ type: "Averment", id: accolade }],
+    }),
   }),
 });
 
@@ -80,6 +88,7 @@ export const {
   useRetrieveCategoryQuery,
   useRetrieveRaritiesQuery,
   useRetrieveRankingsQuery,
+  useRetrieveAvermentQuery,
 } = callUnit;
 
 export default callUnit.reducer;

@@ -68,6 +68,7 @@ def create_app(config=None):
 
     # Extensions
     oidc.init_app(app, prefix="/oidc")
+    # app.before_request(oidc._before_request)
     l10n.babel.init_app(app, locale_selector=l10n.pick_locale)
     app.before_request(l10n.store_locale)
     app.jinja_env.add_extension("jinja2.ext.i18n")
