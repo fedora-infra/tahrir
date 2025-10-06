@@ -433,7 +433,7 @@ footer > .document {
     align-items: center;
 }
 
-/* Rounded search input with inside-right SVG icon */
+
 .search-input {
     padding: 10px 40px 10px 12px; /* room on right for the icon */
     border-radius: 999px; /* pill shape */
@@ -457,6 +457,23 @@ footer > .document {
 
 .search-input::placeholder {
     color: #999;
+}
+
+.search-submit {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: none;
+    background-color: #3158AF;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .12s ease, box-shadow .12s ease;
+}
+
+.search-submit:hover,
+.search-submit:focus {
+    background-color: #27478A;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 
 /* Search button styling (kept visible, adjust as desired) */
