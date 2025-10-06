@@ -6,15 +6,17 @@ import {
   mdiLogin,
   mdiLogout,
   mdiPalette,
+  mdiShield,
 } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Container, Form, Image, Navbar, NavDropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router";
 
 import { userManager } from "../config/oidc.js";
 import { wipeUserData } from "../features/auth.js";
 import { keepMode, keepVibe } from "../features/part.js";
-import { mainColors } from "../features/util.js";
+import { mainColors, owners } from "../features/util.js";
 import Discover from "./discover.jsx";
 
 export default function Navigate() {
@@ -108,6 +110,12 @@ export default function Navigate() {
                   <Icon className="me-1" size={0.75} path={mdiAccountCircle} />
                   {user.preferred_username}
                 </NavDropdown.Item>
+                {user.groups && user.groups.includes(owners) && (
+                  <NavDropdown.Item as={Link} to="/governor" className="small d-flex align-items-center p-1">
+                    <Icon className="me-1" size={0.75} path={mdiShield} />
+                    Admin
+                  </NavDropdown.Item>
+                )}
                 <NavDropdown.Divider className="mt-1 mb-1 ms-0 me-0" />
                 <NavDropdown.Item onClick={handleLogout} className="small d-flex align-items-center p-1">
                   <Icon className="me-1" size={0.75} path={mdiLogout} />
