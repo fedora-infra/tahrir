@@ -1,4 +1,6 @@
-from flask import g, jsonify
+import sqlalchemy as sa
+import tahrir_api.model as m
+from flask import g, jsonify, request
 
 from ..utils.badge import (
     badge_json_generator,
@@ -97,3 +99,47 @@ def get_badges_by_tags(name: str):
     )
 
     return jsonify(serializable_badges)
+
+
+@bp.route("/api/badges/search/<search_string>", methods=["GET"])
+def search_badges_by_string(search_string: str):
+    """
+    Search endpoint that returns badges matching the search string
+    """
+
+    # We need to have a function for searching badges in Tahrir API
+    # Instead of doing this over here like this
+    begin = request.args.get("begin", 0, type=int)
+    limit = request.args.get("limit", 100, type=int)
+
+    collection = (
+        g.tahrirdb.get_all_badges()
+        .filter(
+            sa.func.lower(m.Badge.name).like(f"%{search_string.lower()}%")
+            | sa.func.lower(m.Badge.description).like(f"%{search_string.lower()}%")
+            | sa.func.lower(m.Badge.tags).like(f"%{search_string.lower()}%")
+        )
+        .all()
+    )
+
+    # Suggested function should also include pagination feature
+    result = {
+        "badges": [
+            {
+                "id": item.id,
+                "created_on": item.created_on.timestamp() if item.created_on else None,
+                "description": item.description,
+                "image": item.image,
+                "name": item.name,
+                "tags": (
+                    [text.strip() for text in item.tags.split(",") if text.strip()]
+                    if item.tags
+                    else []
+                ),
+            }
+            for item in collection[begin : begin + (limit if limit < 100 else 100)]
+        ],
+        "castup": len(collection),
+    }
+
+    return jsonify(result)
