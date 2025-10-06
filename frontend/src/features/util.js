@@ -66,3 +66,5 @@ export function obtainRarityEdge(rarity) {
   if (!rarity) return "";
   return `rarity-${rarity.toLowerCase()}-border`;
 }
+
+export const owners = "fi-apprentice";
