@@ -423,10 +423,72 @@ footer > .document {
     flex-wrap: wrap;
 }
 
+/* Header search container */
 #header-search {
     margin-top: 35px;
     float: right;
+    background-color: transparent; /* keep container transparent so input looks integrated */
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
+
+
+.search-input {
+    padding: 10px 40px 10px 12px; /* room on right for the icon */
+    border-radius: 999px; /* pill shape */
+    border: 1px solid rgba(0,0,0,0.12);
+    background-color: #fff;
+    width: 220px;
+    box-sizing: border-box;
+    transition: box-shadow .12s ease, border-color .12s ease;
+    /* inline SVG magnifier on the right (light gray) */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'><path d='M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5C16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zM9.5 14C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 18px 18px;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: rgba(0,0,0,0.25);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.search-input::placeholder {
+    color: #999;
+}
+
+.search-submit {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: none;
+    background-color: #3158AF;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .12s ease, box-shadow .12s ease;
+}
+
+.search-submit:hover,
+.search-submit:focus {
+    background-color: #27478A;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+/* Search button styling (kept visible, adjust as desired) */
+.search-button {
+    padding: 8px 14px;
+    background: #3158AF;
+    color: white;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.search-button:hover { background: #284f9a; }
+
+
 
 .header > h1 {
     display: inline-block;
