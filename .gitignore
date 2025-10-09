@@ -24,4 +24,3 @@ tahrir.ini
 coverage.xml
 htmlcov/
 .vagrant
-run_dev.py
