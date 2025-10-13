@@ -113,7 +113,7 @@ def convert_name_to_id(name):
 
     badge_id = name.lower().replace(" ", "-")
     bad = ['"', "'", "(", ")", "*", "&", "?"]
-    replacements = dict(zip(bad, [""] * len(bad)))
+    replacements = dict(zip(bad, [""] * len(bad), strict=False))
     for a, b in replacements.items():
         badge_id = badge_id.replace(a, b)
 
