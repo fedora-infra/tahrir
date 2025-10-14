@@ -1,165 +1,126 @@
-{% from '_functions.html' import avatar_thumbnail, badge_thumbnail with context %}
-{% extends '_base.html' %}
-
-{% block body %}
+{% extends "base.html" %}
+{% block content %}
 
 <div class="page">
-
-  {% if search_query %}
-    <div class="grid-100">
-      <div class="shadow">
-        <h1 class="section-header">Search Results</h1>
-        <div class="padded-content">
-          {% if search_results|length > 0 %}
-            <p>
-              Your search for <strong>{{search_query}}</strong>
-              returned the following results:
-            </p>
+  <div class="grid-100">
+    <div class="shadow">
+      <h1 class="section-header">Search Results</h1>
+      <div class="padded-content">
+        {% if query %}
+          <p>
+            Your search for <strong>{{ query }}</strong>
+            returned the following results:
+          </p>
+          {% if results %}
             <ul class="pretty-list">
-              {% for r in search_results %}
-                <li><a href="{{search_results[r]}}">{{r}}</a></li>
+              {% for badge in results %}
+                <li><a href="{{ url_for('badge', badge_id=badge.id) }}">{{ badge.name }}</a></li>
               {% endfor %}
             </ul>
-            {% else %}
-              <p>
-                Your search for <strong>{{search_query}}</strong>
-                returned no results.
-              </p>
+          {% else %}
+            <p>No results found.</p>
           {% endif %}
-        </div> <!-- End padded-content. -->
-      </div> <!-- End shadow. -->
-    </div> <!-- End grid-100. -->
-  {% endif %}
+        {% else %}
+          <p>Search for badges, people, or tags below.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 
   <div class="clear spacer"></div>
 
-  <!-- COLUMN 1 (Left)-->
+  <!-- COLUMN 1 -->
   <div class="grid-50">
     <div class="shadow">
       <h1 class="section-header">Explore Badges</h1>
       <p style="margin-left: 20px;">
-        Visit the <a href="{{ url_for('tahrir.explore_badges') }}">badge index</a>
-        to see <strong>every badge</strong>,
-        as well as the <strong>newest badges</strong>.
+        Visit the <a href="{{ url_for('badge_index') }}">badge index</a>
+        to see <strong>every badge</strong> and the <strong>newest badges</strong>.
       </p>
       <div class="clear"></div>
       <div class="padded-content">
         <h2>Random Badges</h2>
         {% for badge in random_badges %}
-          {{ badge_thumbnail(badge, 64, 15) }}
+          <img src="{{ badge.image }}" width="64" alt="{{ badge.name }}">
         {% endfor %}
         <div class="clear"></div>
+
         <h2>Badge Search</h2>
-        <form method="POST">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <form action="{{ url_for('explore_badges') }}" method="get">
           <table>
             <tr>
-              <td>
-                <label for="badge-query">
-                  Keyword
-                  <span class="sublabel">Search through badge names, descriptions, and tags.</span>
-                </label>
-              </td>
-              <td><input name="badge-query" required="required" /></td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <input name="badge-search" type="submit" value="Search" />
-              </td>
+              <td><label>Keyword</label></td>
+              <td><input class="inp-field" type="text" name="badge-query" required placeholder="Search through badge names and tags"></td>
+              <td colspan="2"><input class="sub-button" type="submit" value="Search"></td>
             </tr>
           </table>
         </form>
-      </div> <!-- End padded content. -->
-    </div> <!-- End shadow. -->
+      </div>
+    </div>
   </div>
 
+  <!-- COLUMN 2 -->
   <div class="grid-50">
     <div class="shadow">
       <h1 class="section-header">Explore People</h1>
       <div class="padded-content">
         <h2>Random People</h2>
-        {% for person in random_persons %}
-          {{ avatar_thumbnail(person, 64, 15) }}
+        {% for user in random_people %}
+          <img src="{{ user.avatar }}" width="64" alt="{{ user.name }}">
         {% endfor %}
         <div class="clear"></div>
+
         <h2>Person Search</h2>
-        <form method="POST">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <form action="{{ url_for('explore_people') }}" method="get">
           <table>
             <tr>
-              <td>
-                <label for="person-query">
-                  Keyword
-                  <span class="sublabel">
-                    Search through person names.</span>
-                </label>
-              </td>
-              <td><input name="person-query" required="required" /></td>
-            </tr>
-            <tr>
-              <td colspan="2"><input name="person-search" type="submit" value="Search" /></td>
+              <td><label>Keyword</label></td>
+              <td><input class="inp-field" type="text" name="person-query" required placeholder="Search through names"></td>
+              <td colspan="2"><input class="sub-button" type="submit" value="Search"></td>
             </tr>
           </table>
         </form>
-      </div> <!-- End padded content -->
-    </div> <!-- End shadow. -->
-  </div> <!-- End grid-50 -->
+      </div>
+    </div>
+  </div>
 
   <div class="clear spacer"></div>
 
+  <!-- COLUMN 3 -->
   <div class="grid-50">
     <div class="shadow">
       <h1 class="section-header">Explore Tags</h1>
       <div class="padded-content">
-        <h2>View Tags</h2>
-        <form method="POST">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <form action="{{ url_for('explore_tags') }}" method="get">
           <table>
             <tr>
-              <td>
-                <label for="tag-query">
-                  Tags
-                  <span class="sublabel">Separate tags with commas.</span>
-                </label>
-              </td>
-              <td><input name="tag-query" required="required" /></td>
+              <td><label>Tags</label></td>
+              <td><input class="inp-field" type="text" name="tag-query" required placeholder="Separate tags with commas"></td>
+              <td colspan="2"><input class="sub-button" type="submit" value="Search"></td>
             </tr>
             <tr>
-              <td>
-                <label for="tag-match-all">
-                  Match all tags?
-                  <span class="sublabel">Otherwise, match any tags.</span>
-                </label>
-              </td>
-              <td><input name="tag-match-all" type="checkbox" /></td>
-            </tr>
-            <tr>
-              <td colspan="2"><input name="tag-search" type="submit" value="Search" /></td>
+              <td><label>Match all tags?</label></td>
+              <td><input type="checkbox" name="match_all"></td>
             </tr>
           </table>
         </form>
-      </div> <!-- End padded content. -->
-    </div> <!-- End shadow. -->
-  </div> <!-- End grid-50. -->
+      </div>
+    </div>
+  </div>
 
-
+  <!-- COLUMN 4 -->
   <div class="grid-50">
     <div class="shadow">
       <h1 class="section-header">Reports</h1>
       <div class="padded-content">
-        <p>You can construct URLs to generate reports on almost any time frame.
-        Take a look at the following examples:</p>
-
         <ul class="pretty-list">
-          <li>Top badge earners <a href="{{ url_for(".report_year", year=example_date.year) }}">for all of {{ example_date.year }}</a></li>
-          <li>Top badge earners <a href="{{ url_for(".report_year_month", year=example_date.year, month=example_date.month) }}">for only {{ example_date.strftime("%B") }} of {{ example_date.year }}</a></li>
-          <li>Top badge earners <a href="{{ url_for(".report_year_month_day", year=example_date.year, month=example_date.month, day=example_date.day) }}">for just the {{ example_date.strftime("%x") }}</a></li>
-          <li>Top badge earners <a href="{{ url_for(".report_year_week", year=example_date.year, week=example_date.isocalendar().week) }}">for week {{ example_date.strftime("%W") }} of {{ example_date.year }}</a></li>
-          <li>Top badge earners <a href="{{ url_for(".report") }}">for just this week</a></li>
+          <li><a href="{{ url_for('report', report_type='yearly') }}">Top badge earners for {{ current_year }}</a></li>
+          <li><a href="{{ url_for('report', report_type='monthly') }}">Top badge earners for {{ current_month }}</a></li>
+          <li><a href="{{ url_for('report', report_type='weekly') }}">Top badge earners for this week</a></li>
         </ul>
-      </div> <!-- End padded content. -->
-    </div> <!-- End shadow. -->
-  </div> <!-- End grid-50. -->
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
