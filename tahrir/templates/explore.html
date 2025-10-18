@@ -57,15 +57,11 @@
               <td>
                 <label for="badge-query">
                   Keyword
-                  <span class="sublabel">Search through badge names, descriptions, and tags.</span>
+                  <span class="sublabel"></span>
                 </label>
               </td>
-              <td><input name="badge-query" required="required" /></td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <input name="badge-search" type="submit" value="Search" />
-              </td>
+              <td><input class="inp-field" name="badge-query" required="required" placeholder="Search through badge names and tags." /></td>
+              <td> <input class="sub-button" name="badge-search" type="submit" value="Search" /></td>
             </tr>
           </table>
         </form>
@@ -91,13 +87,11 @@
                 <label for="person-query">
                   Keyword
                   <span class="sublabel">
-                    Search through person names.</span>
+                   </span>
                 </label>
               </td>
-              <td><input name="person-query" required="required" /></td>
-            </tr>
-            <tr>
-              <td colspan="2"><input name="person-search" type="submit" value="Search" /></td>
+              <td><input class="inp-field" name="person-query" required="required" placeholder=" Search through person names." /></td>
+              <td><input class="sub-button" name="person-search" type="submit" value="Search" /></td>
             </tr>
           </table>
         </form>
@@ -119,10 +113,11 @@
               <td>
                 <label for="tag-query">
                   Tags
-                  <span class="sublabel">Separate tags with commas.</span>
+                  <span class="sublabel"></span>
                 </label>
               </td>
-              <td><input name="tag-query" required="required" /></td>
+              <td><input class="inp-field" name="tag-query" required="required" placeholder="Separate tags with commas." /></td>
+              <td><input class="sub-button" name="tag-search" type="submit" value="Search" /></td>
             </tr>
             <tr>
               <td>
@@ -132,9 +127,6 @@
                 </label>
               </td>
               <td><input name="tag-match-all" type="checkbox" /></td>
-            </tr>
-            <tr>
-              <td colspan="2"><input name="tag-search" type="submit" value="Search" /></td>
             </tr>
           </table>
         </form>
