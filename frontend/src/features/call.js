@@ -77,6 +77,18 @@ export const callUnit = createApi({
       }),
       providesTags: (result, error, { accolade }) => [{ type: "Averment", id: accolade }],
     }),
+    creationAccolade: builder.mutation({
+      query: (badgeData) => ({
+        url: "../api/admin/badges",
+        method: "POST",
+        body: badgeData,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ["AccoList"], // Reload AccoList on creation
+    }),
   }),
 });
 
@@ -89,6 +101,7 @@ export const {
   useRetrieveRaritiesQuery,
   useRetrieveRankingsQuery,
   useRetrieveAvermentQuery,
+  useCreationAccoladeMutation,
 } = callUnit;
 
 export default callUnit.reducer;
