@@ -5,6 +5,9 @@ import { Button, Card, Col, FloatingLabel, Form, ListGroup, Row } from "react-bo
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 
+import BaseNote from "../components/basenote.jsx";
+import BadgeCreationForm from "../crud/badges/create.jsx";
+import BadgeUpdateForm from "../crud/badges/update.jsx";
 import { loadUserData } from "../features/auth.js";
 import { hideLoad, showLoad } from "../features/part.js";
 import { owners } from "../features/util.js";
@@ -42,406 +45,309 @@ export default function Governor() {
   }
 
   return (
-    <div className="row g-2">
-      <div className="col-12 col-lg-3">
-        <Card className="vibe-border" style={{ "--vibe": vibe }}>
-          <Card.Body className="p-2">
-            <Card.Title className="dataelem text-truncate">Governor</Card.Title>
-            <Card.Text className="small">
-              <div>
-                You have access to administrative functions because you belong to the{" "}
-                <span className="fw-bold">{owners}</span> group.
-              </div>
-              <div className="mt-2">
-                Please be extremely careful about the changes you make as there are zero protections whatsoever to
-                mishaps.
-              </div>
-            </Card.Text>
-          </Card.Body>
-        </Card>
+    <>
+      <div className="row g-2">
+        <div className="col-12 col-lg-3">
+          <Card className="vibe-border" style={{ "--vibe": vibe }}>
+            <Card.Body className="p-2">
+              <Card.Title className="dataelem text-truncate">Governor</Card.Title>
+              <Card.Text className="small">
+                <div>
+                  You have access to administrative functions because you belong to the{" "}
+                  <span className="fw-bold">{owners}</span> group.
+                </div>
+                <div className="mt-2">
+                  Please be extremely careful about the changes you make as there are zero protections whatsoever to
+                  mishaps.
+                </div>
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </div>
+        <div className="col-12 col-lg-9">
+          <ListGroup className="mb-2">
+            <ListGroup.Item
+              className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
+              style={{ "--vibe": vibe }}
+            >
+              Assertions
+              <Icon path={mdiMedal} size={1} />
+            </ListGroup.Item>
+          </ListGroup>
+          <Card className="mb-2">
+            <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+              <Card.Title className="mb-0 ps-2 dataelem">Create assertions</Card.Title>
+              <Card.Text className="mb-0 ps-2 small">
+                Felicitate participants on performing contributing activities
+              </Card.Text>
+              <hr className="mt-2 mb-0" />
+              <Row className="mt-0 mb-2 ms-1 me-1 g-2">
+                <Col lg="6">
+                  <FloatingLabel controlId="feliCreateAcco" label="Badge">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+                <Col lg="6">
+                  <FloatingLabel controlId="feliCreateUser" label="User">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+              </Row>
+              <hr className="mt-2 mb-0" />
+              <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
+                Create
+              </Button>
+            </Card.Body>
+          </Card>
+          <Card className="mb-2">
+            <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+              <Card.Title className="mb-0 ps-2 dataelem">Remove assertions</Card.Title>
+              <Card.Text className="mb-0 ps-2 small">Remedy mistaken awards made toward contributors</Card.Text>
+              <hr className="mt-2 mb-0" />
+              <Row className="mt-0 mb-2 ms-1 me-1 g-2">
+                <Col lg="6">
+                  <FloatingLabel controlId="feliRemoveAcco" label="Badge">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+                <Col lg="6">
+                  <FloatingLabel controlId="feliRemoveUser" label="User">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+              </Row>
+              <hr className="mt-2 mb-0" />
+              <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
+                Remove
+              </Button>
+            </Card.Body>
+          </Card>
+          <hr className="mt-2 mb-2" />
+          <ListGroup className="mb-2">
+            <ListGroup.Item
+              className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
+              style={{ "--vibe": vibe }}
+            >
+              Authorizations
+              <Icon path={mdiCrown} size={1} />
+            </ListGroup.Item>
+          </ListGroup>
+          <Card className="mb-2">
+            <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+              <Card.Title className="mb-0 ps-2 dataelem">Create authorizations</Card.Title>
+              <Card.Text className="mb-0 ps-2 small">Permit contributors to felicitate fellow participants</Card.Text>
+              <hr className="mt-2 mb-0" />
+              <Row className="mt-0 mb-2 ms-1 me-1 g-2">
+                <Col lg="6">
+                  <FloatingLabel controlId="authCreateAcco" label="Badge">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+                <Col lg="6">
+                  <FloatingLabel controlId="authCreateUser" label="User">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+              </Row>
+              <hr className="mt-2 mb-0" />
+              <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
+                Create
+              </Button>
+            </Card.Body>
+          </Card>
+          <Card className="mb-2">
+            <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+              <Card.Title className="mb-0 ps-2 dataelem">Remove authorizations</Card.Title>
+              <Card.Text className="mb-0 ps-2 small">Remedy mistaken and/or outdated badges authorizations</Card.Text>
+              <hr className="mt-2 mb-0" />
+              <Row className="mt-0 mb-2 ms-1 me-1 g-2">
+                <Col lg="6">
+                  <FloatingLabel controlId="authRemoveAcco" label="Badge">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+                <Col lg="6">
+                  <FloatingLabel controlId="authRemoveUser" label="User">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+              </Row>
+              <hr className="mt-2 mb-0" />
+              <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
+                Remove
+              </Button>
+            </Card.Body>
+          </Card>
+          <hr className="mt-2 mb-2" />
+          <ListGroup className="mb-2">
+            <ListGroup.Item
+              className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
+              style={{ "--vibe": vibe }}
+            >
+              Invitations
+              <Icon path={mdiCubeScan} size={1} />
+            </ListGroup.Item>
+          </ListGroup>
+          <Card className="mb-2">
+            <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+              <Card.Title className="mb-0 ps-2 dataelem">Create invitations</Card.Title>
+              <Card.Text className="mb-0 ps-2 small">Create granting link with QR code</Card.Text>
+              <hr className="mt-2 mb-0" />
+              <Row className="mt-0 mb-2 ms-1 me-1 g-2">
+                <Col lg="6">
+                  <FloatingLabel controlId="inviCreateAcco" label="Badge">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+                <Col lg="6">
+                  <FloatingLabel controlId="inviCreateUser" label="Owner">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+                <Col lg="6">
+                  <FloatingLabel controlId="inviCreateFrom" label="Valid from">
+                    <Form.Control type="datetime-local" />
+                  </FloatingLabel>
+                </Col>
+                <Col lg="6">
+                  <FloatingLabel controlId="inviCreateThru" label="Valid thru">
+                    <Form.Control type="datetime-local" />
+                  </FloatingLabel>
+                </Col>
+              </Row>
+              <hr className="mt-2 mb-2" />
+              <p className="small ps-2 pe-2 m-0">
+                Valid from defaults to <span className="fw-bold">current time</span> unless provided
+              </p>
+              <p className="small ps-2 pe-2 m-0">
+                Valid thru defaults to <span className="fw-bold">two hours</span> from now unless provided
+              </p>
+              <hr className="mt-2 mb-0" />
+              <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
+                Create
+              </Button>
+            </Card.Body>
+          </Card>
+          <Card className="mb-2">
+            <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+              <Card.Title className="mb-0 ps-2 dataelem">Remove invitations</Card.Title>
+              <Card.Text className="mb-0 ps-2 small">Remove granting link with QR code</Card.Text>
+              <hr className="mt-2 mb-0" />
+              <Row className="mt-0 mb-2 ms-1 me-1 g-2">
+                <Col lg="6">
+                  <FloatingLabel controlId="codeRemoveAcco" label="Badge">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+                <Col lg="6">
+                  <FloatingLabel controlId="codeRemoveUser" label="Owner">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+              </Row>
+              <hr className="mt-2 mb-0" />
+              <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
+                Remove
+              </Button>
+            </Card.Body>
+          </Card>
+          <hr className="mt-2 mb-2" />
+          <ListGroup className="mb-2">
+            <ListGroup.Item
+              className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
+              style={{ "--vibe": vibe }}
+            >
+              Users
+              <Icon path={mdiAccountCircle} size={1} />
+            </ListGroup.Item>
+          </ListGroup>
+          <Card className="mb-2">
+            <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+              <Card.Title className="mb-0 ps-2 dataelem">Create users</Card.Title>
+              <Card.Text className="mb-0 ps-2 small">Create accounts that will obtain felicitation</Card.Text>
+              <hr className="mt-2 mb-0" />
+              <Row className="mt-0 mb-2 ms-1 me-1 g-2">
+                <Col lg="6">
+                  <FloatingLabel controlId="userCreateName" label="Nickname">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+                <Col lg="6">
+                  <FloatingLabel controlId="userCreateMail" label="Email">
+                    <Form.Control type="email" />
+                  </FloatingLabel>
+                </Col>
+              </Row>
+              <hr className="mt-2 mb-0" />
+              <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
+                Create
+              </Button>
+            </Card.Body>
+          </Card>
+          <Card className="mb-2">
+            <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+              <Card.Title className="mb-0 ps-2 dataelem">Update users</Card.Title>
+              <Card.Text className="mb-0 ps-2 small">Update accounts that will obtain felicitation</Card.Text>
+              <hr className="mt-2 mb-0" />
+              <Row className="mt-0 mb-2 ms-1 me-1 g-2">
+                <Col lg="6">
+                  <FloatingLabel controlId="userUpdateName" label="Nickname">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+                <Col lg="6">
+                  <FloatingLabel controlId="userUpdateMail" label="Email">
+                    <Form.Control type="email" />
+                  </FloatingLabel>
+                </Col>
+                <Col lg="6">
+                  <FloatingLabel controlId="userUpdateSite" label="Website">
+                    <Form.Control type="url" />
+                  </FloatingLabel>
+                </Col>
+                <Col lg="6">
+                  <FloatingLabel controlId="userUpdateInfo" label="Bio">
+                    <Form.Control type="text" />
+                  </FloatingLabel>
+                </Col>
+              </Row>
+              <hr className="mt-2 mb-2" />
+              <p className="small ps-2 pe-2 m-0">
+                Last seen on <span className="fw-bold">December 12, 2025 at 00:00 AM GMT+5:30</span>
+              </p>
+              <p className="small ps-2 pe-2 m-0">
+                Account created on <span className="fw-bold">December 12, 2025 at 00:00 AM GMT+5:30</span>
+              </p>
+              <hr className="mt-2 mb-0" />
+              <Row className="mt-0 mb-0 ms-1 me-1 g-2">
+                <Col lg="6">
+                  <Button as={Link} to="" variant="outline-secondary" className="d-grid" size="sm">
+                    Update
+                  </Button>
+                </Col>
+                <Col lg="6">
+                  <Button as={Link} to="" variant="outline-secondary" className="d-grid mb-2" size="sm">
+                    Deactivate
+                  </Button>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+          <hr className="mt-2 mb-2" />
+          <ListGroup className="mb-2">
+            <ListGroup.Item
+              className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
+              style={{ "--vibe": vibe }}
+            >
+              Badges
+              <Icon path={mdiShieldStarOutline} size={1} />
+            </ListGroup.Item>
+          </ListGroup>
+          <BadgeCreationForm />
+          <BadgeUpdateForm />
+        </div>
       </div>
-      <div className="col-12 col-lg-9">
-        <ListGroup className="mb-2">
-          <ListGroup.Item
-            className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
-            style={{ "--vibe": vibe }}
-          >
-            Assertions
-            <Icon path={mdiMedal} size={1} />
-          </ListGroup.Item>
-        </ListGroup>
-        <Card className="mb-2">
-          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-            <Card.Title className="mb-0 ps-2 dataelem">Create assertions</Card.Title>
-            <Card.Text className="mb-0 ps-2 small">
-              Felicitate participants on performing contributing activities
-            </Card.Text>
-            <hr className="mt-2 mb-0" />
-            <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-              <Col lg="6">
-                <FloatingLabel controlId="feliCreateAcco" label="Badge">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="feliCreateUser" label="User">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <hr className="mt-2 mb-0" />
-            <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
-              Create
-            </Button>
-          </Card.Body>
-        </Card>
-        <Card className="mb-2">
-          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-            <Card.Title className="mb-0 ps-2 dataelem">Remove assertions</Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Remedy mistaken awards made toward contributors</Card.Text>
-            <hr className="mt-2 mb-0" />
-            <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-              <Col lg="6">
-                <FloatingLabel controlId="feliRemoveAcco" label="Badge">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="feliRemoveUser" label="User">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <hr className="mt-2 mb-0" />
-            <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
-              Remove
-            </Button>
-          </Card.Body>
-        </Card>
-        <hr className="mt-2 mb-2" />
-        <ListGroup className="mb-2">
-          <ListGroup.Item
-            className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
-            style={{ "--vibe": vibe }}
-          >
-            Authorizations
-            <Icon path={mdiCrown} size={1} />
-          </ListGroup.Item>
-        </ListGroup>
-        <Card className="mb-2">
-          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-            <Card.Title className="mb-0 ps-2 dataelem">Create authorizations</Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Permit contributors to felicitate fellow participants</Card.Text>
-            <hr className="mt-2 mb-0" />
-            <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-              <Col lg="6">
-                <FloatingLabel controlId="authCreateAcco" label="Badge">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="authCreateUser" label="User">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <hr className="mt-2 mb-0" />
-            <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
-              Create
-            </Button>
-          </Card.Body>
-        </Card>
-        <Card className="mb-2">
-          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-            <Card.Title className="mb-0 ps-2 dataelem">Remove authorizations</Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Remedy mistaken and/or outdated badges authorizations</Card.Text>
-            <hr className="mt-2 mb-0" />
-            <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-              <Col lg="6">
-                <FloatingLabel controlId="authRemoveAcco" label="Badge">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="authRemoveUser" label="User">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <hr className="mt-2 mb-0" />
-            <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
-              Remove
-            </Button>
-          </Card.Body>
-        </Card>
-        <hr className="mt-2 mb-2" />
-        <ListGroup className="mb-2">
-          <ListGroup.Item
-            className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
-            style={{ "--vibe": vibe }}
-          >
-            Invitations
-            <Icon path={mdiCubeScan} size={1} />
-          </ListGroup.Item>
-        </ListGroup>
-        <Card className="mb-2">
-          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-            <Card.Title className="mb-0 ps-2 dataelem">Create invitations</Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Create granting link with QR code</Card.Text>
-            <hr className="mt-2 mb-0" />
-            <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-              <Col lg="6">
-                <FloatingLabel controlId="inviCreateAcco" label="Badge">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="inviCreateUser" label="Owner">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="inviCreateFrom" label="Valid from">
-                  <Form.Control type="datetime-local" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="inviCreateThru" label="Valid thru">
-                  <Form.Control type="datetime-local" />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <hr className="mt-2 mb-2" />
-            <p className="small ps-2 pe-2 m-0">
-              Valid from defaults to <span className="fw-bold">current time</span> unless provided
-            </p>
-            <p className="small ps-2 pe-2 m-0">
-              Valid thru defaults to <span className="fw-bold">two hours</span> from now unless provided
-            </p>
-            <hr className="mt-2 mb-0" />
-            <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
-              Create
-            </Button>
-          </Card.Body>
-        </Card>
-        <Card className="mb-2">
-          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-            <Card.Title className="mb-0 ps-2 dataelem">Remove invitations</Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Remove granting link with QR code</Card.Text>
-            <hr className="mt-2 mb-0" />
-            <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-              <Col lg="6">
-                <FloatingLabel controlId="codeRemoveAcco" label="Badge">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="codeRemoveUser" label="Owner">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <hr className="mt-2 mb-0" />
-            <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
-              Remove
-            </Button>
-          </Card.Body>
-        </Card>
-        <hr className="mt-2 mb-2" />
-        <ListGroup className="mb-2">
-          <ListGroup.Item
-            className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
-            style={{ "--vibe": vibe }}
-          >
-            Users
-            <Icon path={mdiAccountCircle} size={1} />
-          </ListGroup.Item>
-        </ListGroup>
-        <Card className="mb-2">
-          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-            <Card.Title className="mb-0 ps-2 dataelem">Create users</Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Create accounts that will obtain felicitation</Card.Text>
-            <hr className="mt-2 mb-0" />
-            <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-              <Col lg="6">
-                <FloatingLabel controlId="userCreateName" label="Nickname">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="userCreateMail" label="Email">
-                  <Form.Control type="email" />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <hr className="mt-2 mb-0" />
-            <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
-              Create
-            </Button>
-          </Card.Body>
-        </Card>
-        <Card className="mb-2">
-          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-            <Card.Title className="mb-0 ps-2 dataelem">Update users</Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Update accounts that will obtain felicitation</Card.Text>
-            <hr className="mt-2 mb-0" />
-            <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-              <Col lg="6">
-                <FloatingLabel controlId="userUpdateName" label="Nickname">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="userUpdateMail" label="Email">
-                  <Form.Control type="email" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="userUpdateSite" label="Website">
-                  <Form.Control type="url" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="userUpdateInfo" label="Bio">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <hr className="mt-2 mb-2" />
-            <p className="small ps-2 pe-2 m-0">
-              Last seen on <span className="fw-bold">December 12, 2025 at 00:00 AM GMT+5:30</span>
-            </p>
-            <p className="small ps-2 pe-2 m-0">
-              Account created on <span className="fw-bold">December 12, 2025 at 00:00 AM GMT+5:30</span>
-            </p>
-            <hr className="mt-2 mb-0" />
-            <Row className="mt-0 mb-0 ms-1 me-1 g-2">
-              <Col lg="6">
-                <Button as={Link} to="" variant="outline-secondary" className="d-grid" size="sm">
-                  Update
-                </Button>
-              </Col>
-              <Col lg="6">
-                <Button as={Link} to="" variant="outline-secondary" className="d-grid mb-2" size="sm">
-                  Deactivate
-                </Button>
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
-        <hr className="mt-2 mb-2" />
-        <ListGroup className="mb-2">
-          <ListGroup.Item
-            className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
-            style={{ "--vibe": vibe }}
-          >
-            Badges
-            <Icon path={mdiShieldStarOutline} size={1} />
-          </ListGroup.Item>
-        </ListGroup>
-        <Card className="mb-2">
-          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-            <Card.Title className="mb-0 ps-2 dataelem">Create badges</Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Create badges that will be handed</Card.Text>
-            <hr className="mt-2 mb-0" />
-            <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-              <Col lg="6">
-                <FloatingLabel controlId="accoCreateName" label="Name">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="accoCreateDesc" label="Description">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="accoCreateShot" label="Image">
-                  <Form.Control type="url" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="accoCreateCrit" label="Criteria">
-                  <Form.Control type="url" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="accoCreateAuth" label="Issuer">
-                  <Form.Control type="text" value="Fedora Project" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="accoCreateTags" label="Tags">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <hr className="mt-2 mb-0" />
-            <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
-              Create
-            </Button>
-          </Card.Body>
-        </Card>
-        <Card className="mb-2">
-          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-            <Card.Title className="mb-0 ps-2 dataelem">Update badges</Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Update badges that have been handed</Card.Text>
-            <hr className="mt-2 mb-0" />
-            <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-              <Col lg="6">
-                <FloatingLabel controlId="accoUpdateName" label="Name">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="accoUpdateDesc" label="Description">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="accoUpdateShot" label="Image">
-                  <Form.Control type="url" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="accoUpdateCrit" label="Criteria">
-                  <Form.Control type="url" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="accoUpdateAuth" label="Issuer">
-                  <Form.Control type="text" value="Fedora Project" />
-                </FloatingLabel>
-              </Col>
-              <Col lg="6">
-                <FloatingLabel controlId="accoUpdateTags" label="Tags">
-                  <Form.Control type="text" />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <hr className="mt-2 mb-2" />
-            <p className="small ps-2 pe-2 m-0">
-              Item identified by <span className="fw-bold">identity</span>
-            </p>
-            <p className="small ps-2 pe-2 m-0">
-              Item created on <span className="fw-bold">December 12, 2025 at 00:00 AM GMT+5:30</span>
-            </p>
-            <hr className="mt-2 mb-0" />
-            <Row className="mt-0 mb-0 ms-1 me-1 g-2">
-              <Col lg="6">
-                <Button as={Link} to="" variant="outline-secondary" className="d-grid" size="sm">
-                  Update
-                </Button>
-              </Col>
-              <Col lg="6">
-                <Button as={Link} to="" variant="outline-secondary" className="d-grid mb-2" size="sm">
-                  Deactivate
-                </Button>
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
-      </div>
-    </div>
+      <BaseNote />
+    </>
   );
 }
