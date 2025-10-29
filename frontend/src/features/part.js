@@ -16,6 +16,11 @@ const makeUnit = createSlice({
     mode: "auto",
     load: false,
     date: null,
+    baseNote: {
+      show: false,
+      pass: true,
+      data: "",
+    },
   },
   reducers: {
     keepVibe: (area, data) => {
@@ -38,9 +43,17 @@ const makeUnit = createSlice({
     keepDate: (area, data) => {
       area.date = data.payload;
     },
+    showBaseNote: (area, data) => {
+      area.baseNote.show = true;
+      area.baseNote.pass = data.payload.pass;
+      area.baseNote.data = data.payload.data;
+    },
+    hideBaseNote: (area) => {
+      area.baseNote.show = false;
+    },
   },
 });
 
-export const { keepVibe, keepMode, showLoad, hideLoad, keepDate } = makeUnit.actions;
+export const { keepVibe, keepMode, showLoad, hideLoad, keepDate, showBaseNote, hideBaseNote } = makeUnit.actions;
 
 export default makeUnit.reducer;
