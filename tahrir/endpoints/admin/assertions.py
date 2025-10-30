@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import abort, g, jsonify, request
 
 from ...app import csrf, oidc
@@ -16,13 +18,23 @@ def create_assertion():
     if not data:
         return abort(400, "No details provided")
 
-    required_fields = ["badge_id", "person_email"]
+    required_fields = ["badge_id", "username"]
     for field in required_fields:
         if not data.get(field):
             return abort(400, f"No detail provided for {field!r}")
 
     badge_id = data.get("badge_id")
-    person_email = data.get("person_email")
+    username = data.get("username")
+
+    # TODO: Modularize this to variable
+    person_email = f"{username}@fedoraproject.org"
+
+    issued_on = data.get("issued_on")
+    if issued_on is not None:
+        try:
+            issued_on = datetime.fromtimestamp(issued_on)
+        except (ValueError, TypeError, OSError):
+            return abort(400, "Invalid issued_on timestamp")
 
     # Check if assertion already exists
     if g.tahrirdb.assertion_exists(badge_id, person_email):
@@ -31,7 +43,7 @@ def create_assertion():
     result = g.tahrirdb.add_assertion(
         badge_id=badge_id,
         person_email=person_email,
-        issued_on=data.get("issued_on"),
+        issued_on=issued_on,
         issued_for=data.get("issued_for"),
     )
 

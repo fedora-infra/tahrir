@@ -5,7 +5,17 @@ export const callUnit = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "/json/",
   }),
-  tagTypes: ["Identity", "Accolade", "AccoList", "Discover", "Category", "Rarities", "Averment"],
+  tagTypes: [
+    "Identity",
+    "Accolade",
+    "AccoList",
+    "Discover",
+    "Category",
+    "Rarities",
+    "Averment",
+    "AccoladeSearch",
+    "IdentitySearch",
+  ],
   endpoints: (builder) => ({
     retrieveIdentity: builder.query({
       query: (identity) => ({
@@ -89,6 +99,32 @@ export const callUnit = createApi({
       }),
       invalidatesTags: ["AccoList"], // Reload AccoList on creation
     }),
+    creationAverment: builder.mutation({
+      query: (assertionData) => ({
+        url: "../api/admin/assertions",
+        method: "POST",
+        body: assertionData,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ["Averment"], // Reload Averment on creation
+    }),
+    searchAccolade: builder.query({
+      query: (searchString) => ({
+        url: `../api/badges/search/${encodeURIComponent(searchString)}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, searchString) => [{ type: "AccoladeSearch", id: searchString }],
+    }),
+    searchIdentity: builder.query({
+      query: (searchString) => ({
+        url: `../api/users/search/${encodeURIComponent(searchString)}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, searchString) => [{ type: "IdentitySearch", id: searchString }],
+    }),
   }),
 });
 
@@ -102,6 +138,9 @@ export const {
   useRetrieveRankingsQuery,
   useRetrieveAvermentQuery,
   useCreationAccoladeMutation,
+  useCreationAvermentMutation,
+  useSearchAccoladeQuery,
+  useSearchIdentityQuery,
 } = callUnit;
 
 export default callUnit.reducer;
