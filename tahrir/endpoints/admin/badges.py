@@ -39,7 +39,33 @@ def create_badge():
     return jsonify({"message": f"Badge {badge_id!r} created successfully"}), 201
 
 
-@bp.route("/api/admin/badges/<badge_id>", methods=["DELETE"])
+@bp.route("/api/admin/badges/<string:badge_id>", methods=["PUT"])
+@csrf.exempt
+@oidc.require_login
+@require_admin
+def update_badge(badge_id):
+    """Endpoint to update existing badge"""
+
+    if not badge_id:
+        return abort(400, "No badge ID provided")
+
+    data = request.get_json()
+    if not data:
+        return abort(400, "No details provided")
+
+    try:
+        result = g.tahrirdb.update_badge(badge_id, **data)
+
+        if not result:
+            return abort(404, f"Badge {badge_id!r} not found")
+
+        return jsonify({"message": f"Badge {badge_id!r} updated successfully"})
+
+    except KeyError as e:
+        return abort(400, str(e))
+
+
+@bp.route("/api/admin/badges/<string:badge_id>", methods=["DELETE"])
 @csrf.exempt
 @oidc.require_login
 @require_admin
