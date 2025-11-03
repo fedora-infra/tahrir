@@ -15,6 +15,7 @@ export const callUnit = createApi({
     "Averment",
     "AccoladeSearch",
     "IdentitySearch",
+    "QRInvite",
   ],
   endpoints: (builder) => ({
     retrieveIdentity: builder.query({
@@ -111,19 +112,51 @@ export const callUnit = createApi({
       }),
       invalidatesTags: ["Averment"], // Reload Averment on creation
     }),
-    searchAccolade: builder.query({
+    lookupAccolade: builder.query({
       query: (searchString) => ({
         url: `../api/badges/search/${encodeURIComponent(searchString)}`,
         method: "GET",
       }),
       providesTags: (result, error, searchString) => [{ type: "AccoladeSearch", id: searchString }],
     }),
-    searchIdentity: builder.query({
+    lookupIdentity: builder.query({
       query: (searchString) => ({
         url: `../api/users/search/${encodeURIComponent(searchString)}`,
         method: "GET",
       }),
       providesTags: (result, error, searchString) => [{ type: "IdentitySearch", id: searchString }],
+    }),
+    creationQRInvite: builder.mutation({
+      query: (invitationData) => ({
+        url: "../api/admin/invitations",
+        method: "POST",
+        body: invitationData,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ["QRInvite"], // Reload QRInvite on creation
+    }),
+    deletionQRInvite: builder.mutation({
+      query: (invitationId) => ({
+        url: "../api/admin/invitations",
+        method: "DELETE",
+        body: { invitation_id: invitationId },
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ["QRInvite"], // Reload QRInvite on deletion
+    }),
+    retrieveQRInvite: builder.query({
+      query: (username) => ({
+        url: `../api/admin/invitations/${username}`,
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: (result, error, username) => [{ type: "QRInvite", id: username }],
     }),
   }),
 });
@@ -137,10 +170,13 @@ export const {
   useRetrieveRaritiesQuery,
   useRetrieveRankingsQuery,
   useRetrieveAvermentQuery,
+  useRetrieveQRInviteQuery,
   useCreationAccoladeMutation,
   useCreationAvermentMutation,
-  useSearchAccoladeQuery,
-  useSearchIdentityQuery,
+  useLookupAccoladeQuery,
+  useLookupIdentityQuery,
+  useCreationQRInviteMutation,
+  useDeletionQRInviteMutation,
 } = callUnit;
 
 export default callUnit.reducer;
