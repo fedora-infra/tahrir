@@ -10,6 +10,8 @@ import AssertionCreationForm from "../crud/assertions/create.jsx";
 import AssertionUpdateForm from "../crud/assertions/update.jsx";
 import BadgeCreationForm from "../crud/badges/create.jsx";
 import BadgeUpdateForm from "../crud/badges/update.jsx";
+import InvitationCreationForm from "../crud/invitations/create.jsx";
+import InvitationDeletionForm from "../crud/invitations/delete.jsx";
 import { loadUserData } from "../features/auth.js";
 import { hideLoad, showLoad } from "../features/part.js";
 import { owners } from "../features/util.js";
@@ -144,69 +146,8 @@ export default function Governor() {
               <Icon path={mdiCubeScan} size={1} />
             </ListGroup.Item>
           </ListGroup>
-          <Card className="mb-2">
-            <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-              <Card.Title className="mb-0 ps-2 dataelem">Create invitations</Card.Title>
-              <Card.Text className="mb-0 ps-2 small">Create granting link with QR code</Card.Text>
-              <hr className="mt-2 mb-0" />
-              <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-                <Col lg="6">
-                  <FloatingLabel controlId="inviCreateAcco" label="Badge">
-                    <Form.Control type="text" />
-                  </FloatingLabel>
-                </Col>
-                <Col lg="6">
-                  <FloatingLabel controlId="inviCreateUser" label="Owner">
-                    <Form.Control type="text" />
-                  </FloatingLabel>
-                </Col>
-                <Col lg="6">
-                  <FloatingLabel controlId="inviCreateFrom" label="Valid from">
-                    <Form.Control type="datetime-local" />
-                  </FloatingLabel>
-                </Col>
-                <Col lg="6">
-                  <FloatingLabel controlId="inviCreateThru" label="Valid thru">
-                    <Form.Control type="datetime-local" />
-                  </FloatingLabel>
-                </Col>
-              </Row>
-              <hr className="mt-2 mb-2" />
-              <p className="small ps-2 pe-2 m-0">
-                Valid from defaults to <span className="fw-bold">current time</span> unless provided
-              </p>
-              <p className="small ps-2 pe-2 m-0">
-                Valid thru defaults to <span className="fw-bold">two hours</span> from now unless provided
-              </p>
-              <hr className="mt-2 mb-0" />
-              <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
-                Create
-              </Button>
-            </Card.Body>
-          </Card>
-          <Card className="mb-2">
-            <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-              <Card.Title className="mb-0 ps-2 dataelem">Remove invitations</Card.Title>
-              <Card.Text className="mb-0 ps-2 small">Remove granting link with QR code</Card.Text>
-              <hr className="mt-2 mb-0" />
-              <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-                <Col lg="6">
-                  <FloatingLabel controlId="codeRemoveAcco" label="Badge">
-                    <Form.Control type="text" />
-                  </FloatingLabel>
-                </Col>
-                <Col lg="6">
-                  <FloatingLabel controlId="codeRemoveUser" label="Owner">
-                    <Form.Control type="text" />
-                  </FloatingLabel>
-                </Col>
-              </Row>
-              <hr className="mt-2 mb-0" />
-              <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
-                Remove
-              </Button>
-            </Card.Body>
-          </Card>
+          <InvitationCreationForm />
+          <InvitationDeletionForm />
           <hr className="mt-2 mb-2" />
           <ListGroup className="mb-2">
             <ListGroup.Item
