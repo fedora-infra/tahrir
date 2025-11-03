@@ -67,4 +67,4 @@ export function obtainRarityEdge(rarity) {
   return `rarity-${rarity.toLowerCase()}-border`;
 }
 
-export const owners = "fi-apprentice";
+export const owners = "signed_fpca";

@@ -20,7 +20,6 @@ const authData = createSlice({
       auth.user = null;
       auth.disp = "https://seccdn.libravatar.org/avatar/40f8d096a3777232204cb3f796c577b7?s=30";
       auth.status = "idle";
-      console.log("WIPED");
     },
   },
   extraReducers: (plan) => {
