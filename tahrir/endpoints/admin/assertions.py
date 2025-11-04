@@ -51,3 +51,36 @@ def create_assertion():
         return abort(400, "Failed to create assertion")
 
     return jsonify({"message": f"Badge {badge_id!r} awarded to {person_email!r}"}), 201
+
+
+@bp.route("/api/admin/assertions", methods=["DELETE"])
+@csrf.exempt
+@oidc.require_login
+@require_admin
+def remove_assertion():
+    """Endpoint to remove an assertion (retract awarded badge)."""
+
+    data = request.get_json()
+    if not data:
+        return abort(400, "No details provided")
+
+    required_fields = ["badge_id", "username"]
+    for field in required_fields:
+        if not data.get(field):
+            return abort(400, f"No detail provided for {field!r}")
+
+    badge_id = data.get("badge_id")
+    username = data.get("username")
+
+    # TODO: Modularize this to variable
+    person_email = f"{username}@fedoraproject.org"
+
+    result = g.tahrirdb.remove_assertion(
+        badge_id=badge_id,
+        person_email=person_email,
+    )
+
+    if not result:
+        return abort(404, f"Badge {badge_id!r} or User {person_email!r} or Assertion not found")
+
+    return jsonify({"message": f"Badge {badge_id!r} retracted from {person_email!r}"})
