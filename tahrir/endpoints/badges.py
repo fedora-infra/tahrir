@@ -128,6 +128,7 @@ def search_badges_by_string(search_string: str):
             {
                 "id": item.id,
                 "created_on": item.created_on.timestamp() if item.created_on else None,
+                "criteria": item.criteria,
                 "description": item.description,
                 "image": item.image,
                 "name": item.name,
