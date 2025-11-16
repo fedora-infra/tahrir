@@ -158,6 +158,23 @@ export const callUnit = createApi({
       }),
       providesTags: (result, error, username) => [{ type: "QRInvite", id: username }],
     }),
+    updationAccolade: builder.mutation({
+      query: ({ accolade, filldata }) => ({
+        url: `../api/admin/badges/${accolade}`,
+        method: "PUT",
+        body: filldata,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: (result, error, { accolade }) => [
+        { type: "Accolade", id: accolade },
+        { type: "Averment", id: accolade },
+        "AccoList",
+        "Discover",
+      ],
+    }),
   }),
 });
 
@@ -177,6 +194,7 @@ export const {
   useLookupIdentityQuery,
   useCreationQRInviteMutation,
   useDeletionQRInviteMutation,
+  useUpdationAccoladeMutation,
 } = callUnit;
 
 export default callUnit.reducer;
