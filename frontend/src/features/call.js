@@ -112,6 +112,18 @@ export const callUnit = createApi({
       }),
       invalidatesTags: ["Averment"], // Reload Averment on creation
     }),
+    deletionAverment: builder.mutation({
+      query: ({ badge_id, username }) => ({
+        url: "../api/admin/assertions",
+        method: "DELETE",
+        body: { badge_id, username },
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ["Averment", "Discover"], // Reload Averment and Discover on deletion
+    }),
     lookupAccolade: builder.query({
       query: (searchString) => ({
         url: `../api/badges/search/${encodeURIComponent(searchString)}`,
@@ -190,6 +202,7 @@ export const {
   useRetrieveQRInviteQuery,
   useCreationAccoladeMutation,
   useCreationAvermentMutation,
+  useDeletionAvermentMutation,
   useLookupAccoladeQuery,
   useLookupIdentityQuery,
   useCreationQRInviteMutation,

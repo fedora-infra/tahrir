@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router";
 
 import BaseNote from "../components/basenote.jsx";
 import AssertionCreationForm from "../crud/assertions/create.jsx";
-import AssertionUpdateForm from "../crud/assertions/update.jsx";
+import AssertionUpdateForm from "../crud/assertions/delete.jsx";
 import BadgeCreationForm from "../crud/badges/create.jsx";
 import BadgeUpdateForm from "../crud/badges/update.jsx";
 import InvitationCreationForm from "../crud/invitations/create.jsx";
