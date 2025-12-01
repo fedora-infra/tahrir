@@ -31,3 +31,21 @@ def add_user():
     )
 
     return jsonify({"message": f"User {data.get('email')!r} added successfully"}), 201
+
+
+@bp.route("/api/admin/users/<string:user_id>", methods=["DELETE"])
+@csrf.exempt
+@oidc.require_login
+@require_admin
+def delete_user(user_id):
+    """Endpoint to delete an existing user"""
+
+    if not user_id:
+        return abort(400, "No ID provided")
+
+    result = g.tahrirdb.delete_person(f"{user_id}@fedoraproject.org")
+
+    if not result:
+        return abort(404, f"User {user_id!r} not found")
+
+    return jsonify({"message": f"User {user_id!r} deleted successfully"})
