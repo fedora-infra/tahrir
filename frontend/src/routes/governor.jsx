@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router";
 import BaseNote from "../components/basenote.jsx";
 import AssertionCreationForm from "../crud/assertions/create.jsx";
 import AssertionUpdateForm from "../crud/assertions/delete.jsx";
+import AuthorizationCreationForm from "../crud/authorizations/create.jsx";
 import BadgeCreationForm from "../crud/badges/create.jsx";
 import BadgeUpdateForm from "../crud/badges/update.jsx";
 import InvitationCreationForm from "../crud/invitations/create.jsx";
@@ -90,29 +91,7 @@ export default function Governor() {
               <Icon path={mdiCrown} size={1} />
             </ListGroup.Item>
           </ListGroup>
-          <Card className="mb-2">
-            <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-              <Card.Title className="mb-0 ps-2 dataelem">Create authorizations</Card.Title>
-              <Card.Text className="mb-0 ps-2 small">Permit contributors to felicitate fellow participants</Card.Text>
-              <hr className="mt-2 mb-0" />
-              <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-                <Col lg="6">
-                  <FloatingLabel controlId="authCreateAcco" label="Badge">
-                    <Form.Control type="text" />
-                  </FloatingLabel>
-                </Col>
-                <Col lg="6">
-                  <FloatingLabel controlId="authCreateUser" label="User">
-                    <Form.Control type="text" />
-                  </FloatingLabel>
-                </Col>
-              </Row>
-              <hr className="mt-2 mb-0" />
-              <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
-                Create
-              </Button>
-            </Card.Body>
-          </Card>
+          <AuthorizationCreationForm />
           <Card className="mb-2">
             <Card.Body className="ps-0 pe-0 pt-2 pb-0">
               <Card.Title className="mb-0 ps-2 dataelem">Remove authorizations</Card.Title>

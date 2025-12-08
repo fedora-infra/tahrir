@@ -16,6 +16,7 @@ export const callUnit = createApi({
     "AccoladeSearch",
     "IdentitySearch",
     "QRInvite",
+    "Sanction",
   ],
   endpoints: (builder) => ({
     retrieveIdentity: builder.query({
@@ -187,6 +188,18 @@ export const callUnit = createApi({
         "Discover",
       ],
     }),
+    creationSanction: builder.mutation({
+      query: (sanctionData) => ({
+        url: "../api/admin/authorization",
+        method: "POST",
+        body: sanctionData,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ["Sanction"], // Reload Sanction on creation
+    }),
   }),
 });
 
@@ -208,6 +221,7 @@ export const {
   useCreationQRInviteMutation,
   useDeletionQRInviteMutation,
   useUpdationAccoladeMutation,
+  useCreationSanctionMutation,
 } = callUnit;
 
 export default callUnit.reducer;
