@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="csrf-token" content="{{ csrf_token }}"></head>
+<body>
+<button onclick="createBadge()">Create Test Badge</button>
+<button onclick="deleteBadge()">Delete Test Badge</button>
+<button onclick="createAssertion()">Create Test Assertion</button>
+<button onclick="addUser()">Create Test User</button>
+<button onclick="createInvitation()">Create Test Invitation</button>
+<button onclick="deleteInvitation()">Delete Test Invitation</button>
+
+<script>
+function createBadge() {
+    fetch('/api/admin/badges', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            "name": "baccha",
+            "image": "https://example.com/test-badge.png",
+            "description": "Test badge baccha",
+            "criteria": "Test criteria",
+            "issuer_id": 1,
+            "tags": "test"
+        })
+    })
+    .then(r => r.text())
+    .then(d => {
+        console.log('Response:', d);
+        alert('Response: ' + d.substring(0, 200));
+    })
+    .catch(e => alert('Error: ' + e));
+}
+
+function deleteBadge() {
+    const badgeId = 'baccha'; // Using the same badge ID from create function
+
+    fetch(`/api/admin/badges/${badgeId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    })
+    .then(r => r.text())
+    .then(d => {
+        console.log('Response:', d);
+        alert('Response: ' + d.substring(0, 200));
+    })
+    .catch(e => alert('Error: ' + e));
+}
+
+function createAssertion() {
+    fetch('/api/admin/assertions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            "badge_id": "baccha",
+            "person_email": "sdglitched@fedoraproject.org",
+            "issued_for": "Testing assertion creation"
+        })
+    })
+    .then(r => r.text())
+    .then(d => {
+        console.log('Response:', d);
+        alert('Response: ' + d.substring(0, 200));
+    })
+    .catch(e => alert('Error: ' + e));
+}
+
+function addUser() {
+    fetch('/api/admin/users', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            "email": "baccha@fedoraproject.com",
+            "nickname": "baccha",
+            "website": "Test user baccha website",
+            "bio": "Test user bio",
+            "avatar": "Test user avatar",
+        })
+    })
+    .then(r => r.text())
+    .then(d => {
+        console.log('Response:', d);
+        alert('Response: ' + d.substring(0, 200));
+    })
+    .catch(e => alert('Error: ' + e));
+}
+
+function createInvitation() {
+    const now = Math.floor(Date.now() / 1000);
+    const expiresIn7Days = now + (7 * 24 * 60 * 60);
+
+    fetch('/api/admin/invitations', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            "badge_id": "dancing-with-toshio",
+            "created_on": now,
+            "expires_on": expiresIn7Days,
+            "issuer_email": "aaronhale"
+        })
+    })
+    .then(r => r.text())
+    .then(d => {
+        console.log('Response:', d);
+        alert('Response: ' + d.substring(0, 200));
+    })
+    .catch(e => alert('Error: ' + e));
+}
+
+function deleteInvitation() {
+    const invitationId = prompt("Enter invitation ID to delete:");
+    if (!invitationId) return;
+
+    fetch('/api/admin/invitations', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            "invitation_id": invitationId
+        })
+    })
+    .then(r => r.text())
+    .then(d => {
+        console.log('Response:', d);
+        alert('Response: ' + d.substring(0, 200));
+    })
+    .catch(e => alert('Error: ' + e));
+}
+
+</script>
+</body>
+</html>
