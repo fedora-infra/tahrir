@@ -106,7 +106,7 @@ export default function Navigate() {
                 align="end"
                 className="p-0"
               >
-                <NavDropdown.Item className="small d-flex align-items-center p-1" disabled>
+                <NavDropdown.Item as={Link} to={`/identity/${user.preferred_username}`} className="small d-flex align-items-center p-1">
                   <Icon className="me-1" size={0.75} path={mdiAccountCircle} />
                   {user.preferred_username}
                 </NavDropdown.Item>
