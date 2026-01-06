@@ -13,6 +13,7 @@ export const callUnit = createApi({
     "Category",
     "Rarities",
     "Averment",
+    "Granting",
     "AccoladeSearch",
     "IdentitySearch",
     "QRInvite",
@@ -88,6 +89,20 @@ export const callUnit = createApi({
         params: { begin, limit },
       }),
       providesTags: (result, error, { accolade }) => [{ type: "Averment", id: accolade }],
+    }),
+    retrieveGranting: builder.query({
+      query: ({ begin = 0, limit } = {}) => {
+        const params = { begin };
+        if (limit !== undefined) {
+          params.limit = limit;
+        }
+        return {
+          url: "../api/assertions",
+          method: "GET",
+          params,
+        };
+      },
+      providesTags: ["Granting"],
     }),
     creationAccolade: builder.mutation({
       query: (badgeData) => ({
@@ -212,6 +227,7 @@ export const {
   useRetrieveRaritiesQuery,
   useRetrieveRankingsQuery,
   useRetrieveAvermentQuery,
+  useRetrieveGrantingQuery,
   useRetrieveQRInviteQuery,
   useCreationAccoladeMutation,
   useCreationAvermentMutation,

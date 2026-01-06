@@ -8,7 +8,7 @@ def get_recent_assertions():
     """Endpoint to fetch all recent assertions across all badges."""
 
     begin = request.args.get("begin", 0, type=int)
-    limit = min(request.args.get("limit", 50, type=int), 50)
+    limit = min(request.args.get("limit", 40, type=int), 40)
 
     assertions = list(g.tahrirdb.get_all_assertions(begin, limit))
     if not assertions:
@@ -20,6 +20,7 @@ def get_recent_assertions():
         item_data["person"] = item.person.as_dict()
         item_data["person"]["mail"] = item.person.avatar
         item_data["issued_on"] = item.issued_on.timestamp()
+        item_data["badge"]["id"] = item.badge.id
         result.append(item_data)
 
     return jsonify(result)

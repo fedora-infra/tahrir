@@ -13,6 +13,7 @@ import Callback from "./routes/callback.jsx";
 import Category from "./routes/category.jsx";
 import FindPage from "./routes/findpage.jsx";
 import Governor from "./routes/governor.jsx";
+import Homepage from "./routes/homepage.jsx";
 import Identity from "./routes/identity.jsx";
 import MainArea from "./routes/mainarea.jsx";
 import Mistaken from "./routes/mistaken.jsx";
@@ -28,7 +29,7 @@ createRoot(document.getElementById("root")).render(
         <Routes>
           <Route element={<Callback />} path="/callback" />
           <Route element={<MainArea />} path="/">
-            <Route element="" index />
+            <Route element={<Homepage />} index />
             <Route element="" path="/profiles" />
             <Route element="" path="/userdata" />
             <Route element="" path="/operator" />
