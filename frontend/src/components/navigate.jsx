@@ -38,7 +38,7 @@ export default function Navigate() {
   return (
     <Navbar bg={`${vibe}`} className="shadow-sm sticky-top p-0" style={{ background: `${vibe}` }}>
       <Container>
-        <Navbar.Brand className="d-flex align-items-center flex-grow-1">
+        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center flex-grow-1">
           <img
             alt=""
             src={`${import.meta.env.BASE_URL}fedora.svg`}
@@ -106,7 +106,11 @@ export default function Navigate() {
                 align="end"
                 className="p-0"
               >
-                <NavDropdown.Item as={Link} to={`/identity/${user.preferred_username}`} className="small d-flex align-items-center p-1">
+                <NavDropdown.Item
+                  as={Link}
+                  to={`/identity/${user.preferred_username}`}
+                  className="small d-flex align-items-center p-1"
+                >
                   <Icon className="me-1" size={0.75} path={mdiAccountCircle} />
                   {user.preferred_username}
                 </NavDropdown.Item>
