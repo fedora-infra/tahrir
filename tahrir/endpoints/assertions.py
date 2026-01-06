@@ -3,6 +3,28 @@ from flask import abort, g, jsonify, request
 from . import blueprint as bp
 
 
+@bp.route("/api/assertions", methods=["GET"])
+def get_recent_assertions():
+    """Endpoint to fetch all recent assertions across all badges."""
+
+    begin = request.args.get("begin", 0, type=int)
+    limit = min(request.args.get("limit", 50, type=int), 50)
+
+    assertions = list(g.tahrirdb.get_all_assertions(begin, limit))
+    if not assertions:
+        return jsonify([])
+
+    result = []
+    for item in assertions:
+        item_data = item.as_dict()
+        item_data["person"] = item.person.as_dict()
+        item_data["person"]["mail"] = item.person.avatar
+        item_data["issued_on"] = item.issued_on.timestamp()
+        result.append(item_data)
+
+    return jsonify(result)
+
+
 @bp.route("/api/assertions/<string:badge_id>", methods=["GET"])
 def get_assertions_by_badge(badge_id: str):
     """Endpoint to fetch all assertions for a specific badge."""
