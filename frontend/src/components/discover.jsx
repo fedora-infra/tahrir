@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Dropdown, Form, Spinner } from "react-bootstrap";
+import { Dropdown, Form } from "react-bootstrap";
 import { useNavigate } from "react-router";
 
 import { useRetrieveDiscoverQuery } from "../features/call.js";
@@ -73,13 +73,6 @@ export default function Discover() {
 
       {dropSeen && doLookup && (
         <Dropdown.Menu show className="position-absolute w-100 mt-1" style={{ zIndex: 1050 }}>
-          {isLoading && (
-            <Dropdown.Item disabled className="small d-flex align-items-center">
-              <Spinner size="sm" className="me-2" />
-              Searching...
-            </Dropdown.Item>
-          )}
-
           {error && (
             <Dropdown.Item disabled className="small text-danger">
               Search failed
