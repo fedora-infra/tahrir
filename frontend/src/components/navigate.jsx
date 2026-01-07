@@ -11,7 +11,7 @@ import {
 import Icon from "@mdi/react";
 import { Container, Form, Image, Navbar, NavDropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import { userManager } from "../config/oidc.js";
 import { wipeUserData } from "../features/auth.js";
@@ -21,6 +21,7 @@ import Discover from "./discover.jsx";
 
 export default function Navigate() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const mode = useSelector((data) => data.area.mode);
   const vibe = useSelector((data) => data.area.vibe);
   const user = useSelector((data) => data.auth.user);
@@ -33,6 +34,7 @@ export default function Navigate() {
   const handleLogout = async () => {
     await userManager.removeUser();
     dispatch(wipeUserData());
+    navigate("/");
   };
 
   return (
