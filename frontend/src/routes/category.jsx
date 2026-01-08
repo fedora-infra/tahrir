@@ -1,7 +1,9 @@
+import { mdiViewGridPlus } from "@mdi/js";
+import Icon from "@mdi/react";
 import { useEffect } from "react";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
 import Grouping from "../components/grouping.jsx";
@@ -36,12 +38,25 @@ export default function Category() {
   return (
     <div className="row g-2">
       <div className="col-12 col-lg-3">
-        <Card className="vibe-border" style={{ "--vibe": vibe }}>
+        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">Category</Card.Title>
             <Card.Text className="small">Find badges using the associated labels</Card.Text>
           </Card.Body>
         </Card>
+        <div className="d-grid gap-2">
+          <Button
+            as={Link}
+            to="/assembly"
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiViewGridPlus} size={0.875} className="me-1" />
+            Complete collection
+          </Button>
+        </div>
       </div>
       <div className="col-12 col-lg-9">
         <Grouping name={category} wide={list.length}>

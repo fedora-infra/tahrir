@@ -1,3 +1,5 @@
+import { mdiCrosshairsGps, mdiHeart, mdiHistory, mdiStarFourPoints, mdiTrophy, mdiViewGridPlus } from "@mdi/js";
+import Icon from "@mdi/react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useEffect } from "react";
@@ -75,50 +77,55 @@ export default function Homepage() {
           <Button
             as={Link}
             to="/recently"
-            variant="outline-primary"
-            className="vibe-border"
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"
             style={{ "--vibe": vibe }}
           >
+            <Icon path={mdiHistory} size={0.875} className="me-1" />
             Recently introduced
           </Button>
           <Button
             as={Link}
             to="/assembly"
             variant="outline-secondary"
-            className="vibe-border"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"
             style={{ "--vibe": vibe }}
           >
+            <Icon path={mdiViewGridPlus} size={0.875} className="me-1" />
             Complete collection
           </Button>
           <Button
             as={Link}
             to="/rankings"
-            variant="outline-success"
-            className="vibe-border"
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"
             style={{ "--vibe": vibe }}
           >
+            <Icon path={mdiTrophy} size={0.875} className="me-1" />
             Platform rankings
           </Button>
           <Button
             as={Link}
             to="/rarities/X"
-            variant="outline-success"
-            className="vibe-border"
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"
             style={{ "--vibe": vibe }}
           >
+            <Icon path={mdiStarFourPoints} size={0.875} className="me-1" />
             Discover rarities
           </Button>
           <Button
             onClick={handleRandomAccolade}
-            variant="outline-success"
-            className="vibe-border"
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"
             style={{ "--vibe": vibe }}
           >
+            <Icon path={mdiCrosshairsGps} size={0.875} className="me-1" />
             Explore badges
           </Button>
           <Button
@@ -126,11 +133,12 @@ export default function Homepage() {
             href="https://chat.fedoraproject.org/#/room/#badges:fedoraproject.org"
             target="_blank"
             rel="noopener noreferrer"
-            variant="outline-success"
-            className="vibe-border"
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"
             style={{ "--vibe": vibe }}
           >
+            <Icon path={mdiHeart} size={0.875} className="me-1" />
             Contribute now
           </Button>
         </div>

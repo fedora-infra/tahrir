@@ -1,3 +1,5 @@
+import { mdiBookAccount } from "@mdi/js";
+import Icon from "@mdi/react";
 import { useEffect } from "react";
 import { Badge, Button, Card, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,16 +59,19 @@ export default function UserPast() {
             </Card.Text>
           </Card.Body>
         </Card>
-        <Button
-          as={Link}
-          to={`/identity/${identity}`}
-          variant="outline-secondary"
-          className="d-grid vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          Collection
-        </Button>
+        <div className="d-grid gap-2">
+          <Button
+            as={Link}
+            to={`/identity/${identity}`}
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiBookAccount} size={0.875} className="me-1" />
+            Collection
+          </Button>
+        </div>
       </div>
       <div className="col-12 col-lg-9">
         <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>

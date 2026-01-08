@@ -40,14 +40,16 @@ export default function Navigate() {
   return (
     <Navbar bg={`${vibe}`} className="shadow-sm sticky-top p-0" style={{ background: `${vibe}` }}>
       <Container>
-        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center flex-grow-1">
-          <img
-            alt=""
-            src={`${import.meta.env.BASE_URL}fedora.svg`}
-            width="30"
-            height="30"
-            className="d-inline-block align-top p-0 logo"
-          />
+        <Navbar.Brand className="d-flex align-items-center flex-grow-1">
+          <Link to="/">
+            <img
+              alt=""
+              src={`${import.meta.env.BASE_URL}fedora.svg`}
+              width="30"
+              height="30"
+              className="d-inline-block align-top p-0 logo"
+            />
+          </Link>
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
