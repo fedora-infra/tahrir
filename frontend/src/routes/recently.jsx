@@ -1,3 +1,5 @@
+import { mdiViewGridPlus } from "@mdi/js";
+import Icon from "@mdi/react";
 import { useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,20 +39,23 @@ export default function Recently() {
       <div className="col-12 col-lg-3">
         <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
-            <Card.Title className="dataelem text-truncate">Recently included</Card.Title>
+            <Card.Title className="dataelem text-truncate">Recently introduced</Card.Title>
             <Card.Text className="small">{list.disordered.newest.length} badge(s)</Card.Text>
           </Card.Body>
         </Card>
-        <Button
-          as={Link}
-          to={`/assembly`}
-          variant="outline-secondary"
-          className="d-grid vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          Entire
-        </Button>
+        <div className="d-grid gap-2">
+          <Button
+            as={Link}
+            to="/assembly"
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiViewGridPlus} size={0.875} className="me-1" />
+            Complete collection
+          </Button>
+        </div>
       </div>
       <div className="col-12 col-lg-9">
         {list.classified.newest &&

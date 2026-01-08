@@ -1,3 +1,5 @@
+import { mdiHistory } from "@mdi/js";
+import Icon from "@mdi/react";
 import { useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,16 +60,19 @@ export default function Identity() {
             </Card.Text>
           </Card.Body>
         </Card>
-        <Button
-          as={Link}
-          to={`/userpast/${identity}`}
-          variant="outline-secondary"
-          className="d-grid vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          History
-        </Button>
+        <div className="d-grid gap-2">
+          <Button
+            as={Link}
+            to={`/userpast/${identity}`}
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiHistory} size={0.875} className="me-1" />
+            History
+          </Button>
+        </div>
       </div>
       <div className="col-12 col-lg-9">
         {user.classified &&

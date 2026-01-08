@@ -1,4 +1,4 @@
-import { mdiArrowLeft, mdiArrowRight } from "@mdi/js";
+import { mdiArrowLeft, mdiArrowRight, mdiLink, mdiViewGridPlus } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect, useMemo, useState } from "react";
 import { Badge, Button, Card, ListGroup } from "react-bootstrap";
@@ -193,27 +193,31 @@ export default function Accolade() {
             )}
           </>
         )}
-        <Button
-          as="a"
-          href={acco.criteria}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="d-grid mb-2 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          Criteria
-        </Button>
-        <Button
-          as={Link}
-          to="/assembly"
-          variant="outline-secondary"
-          className="d-grid vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          Collection
-        </Button>
+        <div className="d-grid gap-2">
+          <Button
+            as="a"
+            href={acco.criteria}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiLink} size={0.875} className="me-1" />
+            Criteria
+          </Button>
+          <Button
+            as={Link}
+            to="/assembly"
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiViewGridPlus} size={0.875} className="me-1" />
+            Collection
+          </Button>
+        </div>
         {(havePrevPage || haveNextPage) && (
           <div className="d-flex justify-content-between align-items-center mt-2">
             <Button
