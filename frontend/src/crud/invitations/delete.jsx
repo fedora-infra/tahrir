@@ -113,6 +113,7 @@ export default function InvitationDeletionForm() {
                   }}
                   onFocus={() => identitySearch.length >= 4 && makeIdentityDropdownShow(true)}
                   onBlur={() => setTimeout(() => makeIdentityDropdownShow(false), 150)}
+                  autoComplete="off"
                   required
                 />
               </FloatingLabel>
@@ -192,6 +193,7 @@ export default function InvitationDeletionForm() {
                     !userInvitations ||
                     !Object.values(userInvitations).some((badge) => badge.invitations && badge.invitations.length > 0)
                   }
+                  autoComplete="off"
                   required
                 />
               </FloatingLabel>

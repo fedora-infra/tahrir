@@ -80,6 +80,7 @@ export default function BadgeCreationForm() {
                 type="text"
                 value={form.name}
                 onChange={(e) => handleFormChange("name", e.target.value)}
+                autoComplete="off"
                 required
               />
             </FloatingLabel>
@@ -90,6 +91,7 @@ export default function BadgeCreationForm() {
                 type="text"
                 value={form.description}
                 onChange={(e) => handleFormChange("description", e.target.value)}
+                autoComplete="off"
                 required
               />
             </FloatingLabel>
@@ -100,6 +102,7 @@ export default function BadgeCreationForm() {
                 type="url"
                 value={form.image}
                 onChange={(e) => handleFormChange("image", e.target.value)}
+                autoComplete="off"
                 required
               />
             </FloatingLabel>
@@ -110,6 +113,7 @@ export default function BadgeCreationForm() {
                 type="text"
                 value={form.criteria}
                 onChange={(e) => handleFormChange("criteria", e.target.value)}
+                autoComplete="off"
                 required
               />
             </FloatingLabel>
@@ -121,7 +125,12 @@ export default function BadgeCreationForm() {
           </Col>
           <Col lg="6">
             <FloatingLabel controlId="accoCreateTags" label="Tags">
-              <Form.Control type="text" value={form.tags} onChange={(e) => handleFormChange("tags", e.target.value)} />
+              <Form.Control
+                type="text"
+                value={form.tags}
+                onChange={(e) => handleFormChange("tags", e.target.value)}
+                autoComplete="off"
+              />
             </FloatingLabel>
           </Col>
         </Row>
