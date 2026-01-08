@@ -105,6 +105,7 @@ export default function AssertionDeleteForm() {
                   }}
                   onFocus={() => accoladeLookup.length >= 4 && setAccoladeDropdownShow(true)}
                   onBlur={() => setTimeout(() => setAccoladeDropdownShow(false), 150)}
+                  autoComplete="off"
                   required
                 />
               </FloatingLabel>
@@ -155,6 +156,7 @@ export default function AssertionDeleteForm() {
                   }}
                   onFocus={() => identityLookup.length >= 4 && setIdentityDropdownShow(true)}
                   onBlur={() => setTimeout(() => setIdentityDropdownShow(false), 150)}
+                  autoComplete="off"
                   required
                 />
               </FloatingLabel>

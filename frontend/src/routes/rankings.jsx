@@ -140,7 +140,7 @@ export default function Rankings() {
             <Card.Title className="dataelem text-truncate">Rankings</Card.Title>
             <Card.Text className="small">{showDate()}</Card.Text>
             <Card.Text>
-              <Form.Control type="date" value={readDate()} onChange={handleChange} size="sm" />
+              <Form.Control type="date" value={readDate()} onChange={handleChange} size="sm" autoComplete="off" />
             </Card.Text>
           </Card.Body>
         </Card>

@@ -124,12 +124,12 @@ export default function Governor() {
               <Row className="mt-0 mb-2 ms-1 me-1 g-2">
                 <Col lg="6">
                   <FloatingLabel controlId="userCreateName" label="Nickname">
-                    <Form.Control type="text" />
+                    <Form.Control type="text" autoComplete="off" />
                   </FloatingLabel>
                 </Col>
                 <Col lg="6">
                   <FloatingLabel controlId="userCreateMail" label="Email">
-                    <Form.Control type="email" />
+                    <Form.Control type="email" autoComplete="off" />
                   </FloatingLabel>
                 </Col>
               </Row>
@@ -147,22 +147,22 @@ export default function Governor() {
               <Row className="mt-0 mb-2 ms-1 me-1 g-2">
                 <Col lg="6">
                   <FloatingLabel controlId="userUpdateName" label="Nickname">
-                    <Form.Control type="text" />
+                    <Form.Control type="text" autoComplete="off" />
                   </FloatingLabel>
                 </Col>
                 <Col lg="6">
                   <FloatingLabel controlId="userUpdateMail" label="Email">
-                    <Form.Control type="email" />
+                    <Form.Control type="email" autoComplete="off" />
                   </FloatingLabel>
                 </Col>
                 <Col lg="6">
                   <FloatingLabel controlId="userUpdateSite" label="Website">
-                    <Form.Control type="url" />
+                    <Form.Control type="url" autoComplete="off" />
                   </FloatingLabel>
                 </Col>
                 <Col lg="6">
                   <FloatingLabel controlId="userUpdateInfo" label="Bio">
-                    <Form.Control type="text" />
+                    <Form.Control type="text" autoComplete="off" />
                   </FloatingLabel>
                 </Col>
               </Row>
