@@ -9,6 +9,7 @@ import BaseNote from "../components/basenote.jsx";
 import AssertionCreationForm from "../crud/assertions/create.jsx";
 import AssertionUpdateForm from "../crud/assertions/delete.jsx";
 import AuthorizationCreationForm from "../crud/authorizations/create.jsx";
+import AuthorizationDeletionForm from "../crud/authorizations/delete.jsx";
 import BadgeCreationForm from "../crud/badges/create.jsx";
 import BadgeUpdateForm from "../crud/badges/update.jsx";
 import InvitationCreationForm from "../crud/invitations/create.jsx";
@@ -92,29 +93,7 @@ export default function Governor() {
             </ListGroup.Item>
           </ListGroup>
           <AuthorizationCreationForm />
-          <Card className="mb-2">
-            <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-              <Card.Title className="mb-0 ps-2 dataelem">Remove authorizations</Card.Title>
-              <Card.Text className="mb-0 ps-2 small">Remedy mistaken and/or outdated badges authorizations</Card.Text>
-              <hr className="mt-2 mb-0" />
-              <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-                <Col lg="6">
-                  <FloatingLabel controlId="authRemoveAcco" label="Badge">
-                    <Form.Control type="text" />
-                  </FloatingLabel>
-                </Col>
-                <Col lg="6">
-                  <FloatingLabel controlId="authRemoveUser" label="User">
-                    <Form.Control type="text" />
-                  </FloatingLabel>
-                </Col>
-              </Row>
-              <hr className="mt-2 mb-0" />
-              <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
-                Remove
-              </Button>
-            </Card.Body>
-          </Card>
+          <AuthorizationDeletionForm />
           <hr className="mt-2 mb-2" />
           <ListGroup className="mb-2">
             <ListGroup.Item
