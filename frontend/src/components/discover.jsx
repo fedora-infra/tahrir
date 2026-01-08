@@ -69,6 +69,7 @@ export default function Discover() {
         onChange={handleChange}
         onKeyDown={handleReturn}
         onFocus={() => doLookup && makeDropSeen(true)}
+        autoComplete="off"
       />
 
       {dropSeen && doLookup && (

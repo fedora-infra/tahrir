@@ -153,6 +153,7 @@ export default function BadgeUpdateForm() {
                   }}
                   onFocus={() => accoladeLookup.length >= 4 && setAccoladeDropdownShow(true)}
                   onBlur={() => setTimeout(() => setAccoladeDropdownShow(false), 150)}
+                  autoComplete="off"
                 />
               </FloatingLabel>
               {accoladeLookup.length >= 4 &&
@@ -197,6 +198,7 @@ export default function BadgeUpdateForm() {
                 value={form.description}
                 onChange={(e) => handleFormChange("description", e.target.value)}
                 placeholder="Badge description"
+                autoComplete="off"
               />
             </FloatingLabel>
           </Col>
@@ -207,6 +209,7 @@ export default function BadgeUpdateForm() {
                 value={form.image}
                 onChange={(e) => handleFormChange("image", e.target.value)}
                 placeholder="Badge image URL"
+                autoComplete="off"
               />
             </FloatingLabel>
           </Col>
@@ -217,6 +220,7 @@ export default function BadgeUpdateForm() {
                 value={form.criteria}
                 onChange={(e) => handleFormChange("criteria", e.target.value)}
                 placeholder="Badge criteria URL"
+                autoComplete="off"
               />
             </FloatingLabel>
           </Col>
@@ -232,6 +236,7 @@ export default function BadgeUpdateForm() {
                 value={form.tags}
                 onChange={(e) => handleFormChange("tags", e.target.value)}
                 placeholder="Badge tags (comma-separated)"
+                autoComplete="off"
               />
             </FloatingLabel>
           </Col>

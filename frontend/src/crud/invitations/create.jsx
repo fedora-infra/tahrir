@@ -119,6 +119,7 @@ export default function InvitationCreationForm() {
                   }}
                   onFocus={() => accoladeLookup.length >= 4 && makeAccoladeDropdownShow(true)}
                   onBlur={() => setTimeout(() => makeAccoladeDropdownShow(false), 150)}
+                  autoComplete="off"
                   required
                 />
               </FloatingLabel>
@@ -169,6 +170,7 @@ export default function InvitationCreationForm() {
                   }}
                   onFocus={() => identityLookup.length >= 4 && makeIdentityDropdownShow(true)}
                   onBlur={() => setTimeout(() => makeIdentityDropdownShow(false), 150)}
+                  autoComplete="off"
                   required
                 />
               </FloatingLabel>

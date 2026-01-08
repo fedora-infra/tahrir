@@ -2,30 +2,29 @@ import { useEffect, useState } from "react";
 import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
-import { useCreationAvermentMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
+import { useDeletionSanctionMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
 import { hideLoad, showBaseNote, showLoad } from "../../features/part.js";
 import { portraitProvider } from "../../features/util.js";
 
-export default function AssertionCreationForm() {
+export default function AuthorizationDeletionForm() {
   const dispatch = useDispatch();
-  const [creationAverment, { isLoading }] = useCreationAvermentMutation();
-  const [accoladeLookup, makeAccoladeLookup] = useState("");
-  const [identityLookup, makeIdentityLookup] = useState("");
-  const [accoladeDropdownShow, makeAccoladeDropdownShow] = useState(false);
-  const [identityDropdownShow, makeIdentityDropdownShow] = useState(false);
+  const [deletionSanction, { isLoading }] = useDeletionSanctionMutation();
+
+  const [form, makeForm] = useState({
+    badge_id: "",
+    user: "",
+  });
+
+  const [accoladeLookup, setAccoladeLookup] = useState("");
+  const [identityLookup, setIdentityLookup] = useState("");
+  const [accoladeDropdownShow, setAccoladeDropdownShow] = useState(false);
+  const [identityDropdownShow, setIdentityDropdownShow] = useState(false);
 
   const { data: accoladeResult } = useLookupAccoladeQuery(accoladeLookup, {
     skip: accoladeLookup.length < 4,
   });
   const { data: identityResult } = useLookupIdentityQuery(identityLookup, {
     skip: identityLookup.length < 4,
-  });
-
-  const [form, makeForm] = useState({
-    badge_id: "",
-    username: "",
-    issued_on: "",
-    issued_for: "",
   });
 
   useEffect(() => {
@@ -36,41 +35,30 @@ export default function AssertionCreationForm() {
     }
   }, [isLoading, dispatch]);
 
-  const handleFormChange = (field, value) => {
-    makeForm((prev) => ({ ...prev, [field]: value }));
-  };
-
   const handleAccoladeSelect = (accolade) => {
-    makeAccoladeLookup(accolade.name);
+    setAccoladeLookup(accolade.name);
     makeForm((prev) => ({ ...prev, badge_id: accolade.id }));
-    makeAccoladeDropdownShow(false); // Hide dropdown on selection
+    setAccoladeDropdownShow(false);
   };
 
   const handleIdentitySelect = (identity) => {
-    makeIdentityLookup(identity.nickname);
-    makeForm((prev) => ({ ...prev, username: identity.nickname }));
-    makeIdentityDropdownShow(false); // Hide dropdown on selection
+    setIdentityLookup(identity.nickname);
+    makeForm((prev) => ({ ...prev, user: identity.nickname }));
+    setIdentityDropdownShow(false);
   };
 
   const handleTask = async () => {
     try {
-      const data = {
-        ...form,
-        issued_on: form.issued_on ? new Date(form.issued_on).getTime() / 1000 : Math.floor(Date.now() / 1000),
-        issued_for: form.issued_for || "",
-      };
-      await creationAverment(data).unwrap();
-      dispatch(showBaseNote({ pass: true, data: "Badge awarded successfully" }));
+      await deletionSanction(form).unwrap();
+      dispatch(showBaseNote({ pass: true, data: "Authorization was revoked successfully" }));
       makeForm({
         badge_id: "",
-        username: "",
-        issued_on: "",
-        issued_for: "",
+        user: "",
       });
-      makeAccoladeLookup("");
-      makeIdentityLookup("");
-      makeAccoladeDropdownShow(false);
-      makeIdentityDropdownShow(false);
+      setAccoladeLookup("");
+      setIdentityLookup("");
+      setAccoladeDropdownShow(false);
+      setIdentityDropdownShow(false);
     } catch (error) {
       let expt;
       switch (error?.status) {
@@ -78,22 +66,22 @@ export default function AssertionCreationForm() {
           expt = "Verify the requested fields";
           break;
         case 401:
-          expt = "Try authenticating before awarding";
+          expt = "Try authenticating before removing";
           break;
         case 403:
           expt = "Ensure permissions are available";
           break;
         case 404:
-          expt = "Badge or user unavailable";
+          expt = "Authorization not found or failed to remove";
           break;
-        case 409:
-          expt = "Badge already awarded to this user";
+        case 410:
+          expt = "Authorization has expired or been deleted";
           break;
         case 500:
-          expt = "Attempt awarding again later";
+          expt = "Attempt removal again later";
           break;
         default:
-          expt = "Failed during badge awarding";
+          expt = "Failed during authorization removal";
       }
       dispatch(showBaseNote({ pass: false, data: expt }));
     }
@@ -102,22 +90,22 @@ export default function AssertionCreationForm() {
   return (
     <Card className="mb-2">
       <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-        <Card.Title className="mb-0 ps-2 dataelem">Create assertions</Card.Title>
-        <Card.Text className="mb-0 ps-2 small">Felicitate participants on performing contributing activities</Card.Text>
+        <Card.Title className="mb-0 ps-2 dataelem">Remove authorizations</Card.Title>
+        <Card.Text className="mb-0 ps-2 small">Revoke badge administration permissions from contributors</Card.Text>
         <hr className="mt-2 mb-0" />
         <Row className="mt-0 mb-2 ms-1 me-1 g-2">
           <Col lg="6">
             <div className="position-relative">
-              <FloatingLabel controlId="assertCreateBadge" label="Badge*">
+              <FloatingLabel controlId="authRemoveBadge" label="Badge*">
                 <Form.Control
                   type="text"
                   value={accoladeLookup}
                   onChange={(e) => {
-                    makeAccoladeLookup(e.target.value);
-                    makeAccoladeDropdownShow(e.target.value.length >= 4);
+                    setAccoladeLookup(e.target.value);
+                    setAccoladeDropdownShow(e.target.value.length >= 4);
                   }}
-                  onFocus={() => accoladeLookup.length >= 4 && makeAccoladeDropdownShow(true)}
-                  onBlur={() => setTimeout(() => makeAccoladeDropdownShow(false), 150)}
+                  onFocus={() => accoladeLookup.length >= 4 && setAccoladeDropdownShow(true)}
+                  onBlur={() => setTimeout(() => setAccoladeDropdownShow(false), 150)}
                   autoComplete="off"
                   required
                 />
@@ -159,16 +147,16 @@ export default function AssertionCreationForm() {
           </Col>
           <Col lg="6">
             <div className="position-relative">
-              <FloatingLabel controlId="assertCreateUser" label="User*">
+              <FloatingLabel controlId="authRemoveUser" label="User*">
                 <Form.Control
                   type="text"
                   value={identityLookup}
                   onChange={(e) => {
-                    makeIdentityLookup(e.target.value);
-                    makeIdentityDropdownShow(e.target.value.length >= 4);
+                    setIdentityLookup(e.target.value);
+                    setIdentityDropdownShow(e.target.value.length >= 4);
                   }}
-                  onFocus={() => identityLookup.length >= 4 && makeIdentityDropdownShow(true)}
-                  onBlur={() => setTimeout(() => makeIdentityDropdownShow(false), 150)}
+                  onFocus={() => identityLookup.length >= 4 && setIdentityDropdownShow(true)}
+                  onBlur={() => setTimeout(() => setIdentityDropdownShow(false), 150)}
                   autoComplete="off"
                   required
                 />
@@ -208,25 +196,6 @@ export default function AssertionCreationForm() {
                 )}
             </div>
           </Col>
-          <Col lg="6">
-            <FloatingLabel controlId="assertCreateDate" label="Date">
-              <Form.Control
-                type="datetime-local"
-                value={form.issued_on}
-                onChange={(e) => handleFormChange("issued_on", e.target.value)}
-              />
-            </FloatingLabel>
-          </Col>
-          <Col lg="6">
-            <FloatingLabel controlId="assertCreateGoal" label="Reason">
-              <Form.Control
-                type="text"
-                value={form.issued_for}
-                onChange={(e) => handleFormChange("issued_for", e.target.value)}
-                autoComplete="off"
-              />
-            </FloatingLabel>
-          </Col>
         </Row>
         <hr className="mt-2 mb-0" />
         <Row className="mt-0 mb-0 ms-1 me-1 g-2">
@@ -236,9 +205,9 @@ export default function AssertionCreationForm() {
               className="d-grid w-100 mb-2"
               size="sm"
               onClick={handleTask}
-              disabled={!form.badge_id.trim() || !form.username.trim() || isLoading}
+              disabled={!form.badge_id.trim() || !form.user.trim() || isLoading}
             >
-              {isLoading ? "Creating..." : "Create"}
+              {isLoading ? "Removing..." : "Remove"}
             </Button>
           </Col>
         </Row>
