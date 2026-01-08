@@ -1,3 +1,5 @@
+import { mdiCalendarCheck, mdiCalendarHeart, mdiCalendarMonth, mdiCalendarRange, mdiCalendarWeek } from "@mdi/js";
+import Icon from "@mdi/react";
 import { useEffect } from "react";
 import { Badge, Button, Card, Form, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -142,105 +144,116 @@ export default function Rankings() {
             </Card.Text>
           </Card.Body>
         </Card>
-        <Button
-          as={Link}
-          to={readLink("d")}
-          variant="outline-secondary"
-          className="d-grid mb-2 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          For today
-        </Button>
-        <Button
-          as={Link}
-          to={readLink("w")}
-          variant="outline-secondary"
-          className="d-grid mb-2 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          This week
-        </Button>
-        <Button
-          as={Link}
-          to={readLink("m")}
-          variant="outline-secondary"
-          className="d-grid mb-2 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          This month
-        </Button>
-        <Button
-          as={Link}
-          to={readLink("y")}
-          variant="outline-secondary"
-          className="d-grid mb-2 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          This year
-        </Button>
-        <Button
-          as={Link}
-          to={readLink()}
-          variant="outline-secondary"
-          className="d-grid mb-2 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          All time
-        </Button>
-        {scanDate("y") || scanDate("m") || scanDate("w") || scanDate("d") ? <hr className="mt-0 mb-2" /> : null}
-        {scanDate("w") ? (
+        <div className="d-grid gap-2">
           <Button
             as={Link}
-            to={`/rankings/y/${params.y}/m/${params.m}/d/${params.d}/week`}
+            to={readLink("d")}
             variant="outline-secondary"
-            className="d-grid mb-2 vibe-border"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"
             style={{ "--vibe": vibe }}
           >
-            That week
+            <Icon path={mdiCalendarRange} size={0.875} className="me-1" />
+            For today
           </Button>
-        ) : null}
-        {scanDate("d") ? (
           <Button
             as={Link}
-            to={`/rankings/y/${params.y}/m/${params.m}/d/${params.d}`}
+            to={readLink("w")}
             variant="outline-secondary"
-            className="d-grid mb-2 vibe-border"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"
             style={{ "--vibe": vibe }}
           >
-            That date
+            <Icon path={mdiCalendarWeek} size={0.875} className="me-1" />
+            This week
           </Button>
-        ) : null}
-        {scanDate("m") ? (
           <Button
             as={Link}
-            to={`/rankings/y/${params.y}/m/${params.m}`}
+            to={readLink("m")}
             variant="outline-secondary"
-            className="d-grid mb-2 vibe-border"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"
             style={{ "--vibe": vibe }}
           >
-            For {new Date(params.y, params.m - 1).toLocaleDateString("en-US", { month: "long" })}
+            <Icon path={mdiCalendarMonth} size={0.875} className="me-1" />
+            This month
           </Button>
-        ) : null}
-        {scanDate("y") ? (
           <Button
             as={Link}
-            to={`/rankings/y/${params.y}`}
+            to={readLink("y")}
             variant="outline-secondary"
-            className="d-grid vibe-border"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"
             style={{ "--vibe": vibe }}
           >
-            For {params.y}
+            <Icon path={mdiCalendarCheck} size={0.875} className="me-1" />
+            This year
           </Button>
-        ) : null}
+          <Button
+            as={Link}
+            to={readLink()}
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiCalendarHeart} size={0.875} className="me-1" />
+            All time
+          </Button>
+          {scanDate("y") || scanDate("m") || scanDate("w") || scanDate("d") ? <hr className="m-0" /> : null}
+          {scanDate("w") ? (
+            <Button
+              as={Link}
+              to={`/rankings/y/${params.y}/m/${params.m}/d/${params.d}/week`}
+              variant="outline-secondary"
+              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+              size="sm"
+              style={{ "--vibe": vibe }}
+            >
+              <Icon path={mdiCalendarWeek} size={0.875} className="me-1" />
+              That week
+            </Button>
+          ) : null}
+          {scanDate("d") ? (
+            <Button
+              as={Link}
+              to={`/rankings/y/${params.y}/m/${params.m}/d/${params.d}`}
+              variant="outline-secondary"
+              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+              size="sm"
+              style={{ "--vibe": vibe }}
+            >
+              <Icon path={mdiCalendarRange} size={0.875} className="me-1" />
+              That date
+            </Button>
+          ) : null}
+          {scanDate("m") ? (
+            <Button
+              as={Link}
+              to={`/rankings/y/${params.y}/m/${params.m}`}
+              variant="outline-secondary"
+              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+              size="sm"
+              style={{ "--vibe": vibe }}
+            >
+              <Icon path={mdiCalendarMonth} size={0.875} className="me-1" />
+              For {new Date(params.y, params.m - 1).toLocaleDateString("en-US", { month: "long" })}
+            </Button>
+          ) : null}
+          {scanDate("y") ? (
+            <Button
+              as={Link}
+              to={`/rankings/y/${params.y}`}
+              variant="outline-secondary"
+              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+              size="sm"
+              style={{ "--vibe": vibe }}
+            >
+              <Icon path={mdiCalendarCheck} size={0.875} className="me-1" />
+              For {params.y}
+            </Button>
+          ) : null}
+        </div>
       </div>
       <div className="col-12 col-lg-9">
         <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
