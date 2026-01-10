@@ -70,8 +70,8 @@
 
           <form method="POST" action="/explore" id="header-search" class="mobile-hidden">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <input name="badge-query" required="required" />
-            <input name="badge-search" type="submit" value="Search" />
+            <input class="search-input" name="badge-query" placeholder="Search badges" required="required" />
+            <button class="search-submit" type="submit" name="badge-search" value="Search">Search</button>
           </form>
         </div>
 
