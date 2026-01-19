@@ -78,7 +78,7 @@ def get_user_by_id(user_id: str):
 
 @bp.route("/api/users/opt_out", methods=["PUT"])
 @require_login
-def update_user_by_id():
+def user_opt_out():
     """Endpoint to update user account settings."""
 
     data = request.get_json()
