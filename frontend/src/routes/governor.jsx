@@ -14,6 +14,7 @@ import BadgeCreationForm from "../crud/badges/create.jsx";
 import BadgeUpdateForm from "../crud/badges/update.jsx";
 import InvitationCreationForm from "../crud/invitations/create.jsx";
 import InvitationDeletionForm from "../crud/invitations/delete.jsx";
+import UserCreationForm from "../crud/users/create.jsx";
 import { loadUserData } from "../features/auth.js";
 import { hideLoad, showLoad } from "../features/part.js";
 import { owners } from "../features/util.js";
@@ -116,29 +117,7 @@ export default function Governor() {
               <Icon path={mdiAccountCircle} size={1} />
             </ListGroup.Item>
           </ListGroup>
-          <Card className="mb-2">
-            <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-              <Card.Title className="mb-0 ps-2 dataelem">Create users</Card.Title>
-              <Card.Text className="mb-0 ps-2 small">Create accounts that will obtain felicitation</Card.Text>
-              <hr className="mt-2 mb-0" />
-              <Row className="mt-0 mb-2 ms-1 me-1 g-2">
-                <Col lg="6">
-                  <FloatingLabel controlId="userCreateName" label="Nickname">
-                    <Form.Control type="text" autoComplete="off" />
-                  </FloatingLabel>
-                </Col>
-                <Col lg="6">
-                  <FloatingLabel controlId="userCreateMail" label="Email">
-                    <Form.Control type="email" autoComplete="off" />
-                  </FloatingLabel>
-                </Col>
-              </Row>
-              <hr className="mt-2 mb-0" />
-              <Button as={Link} to="" variant="outline-secondary" className="d-grid m-2" size="sm">
-                Create
-              </Button>
-            </Card.Body>
-          </Card>
+          <UserCreationForm />
           <Card className="mb-2">
             <Card.Body className="ps-0 pe-0 pt-2 pb-0">
               <Card.Title className="mb-0 ps-2 dataelem">Update users</Card.Title>
