@@ -227,6 +227,18 @@ export const callUnit = createApi({
       }),
       invalidatesTags: ["Sanction"], // Reload Sanction on deletion
     }),
+    creationIdentity: builder.mutation({
+      query: (userData) => ({
+        url: "../api/admin/users",
+        method: "POST",
+        body: userData,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ["IdentitySearch"],
+    }),
   }),
 });
 
@@ -251,6 +263,7 @@ export const {
   useUpdationAccoladeMutation,
   useCreationSanctionMutation,
   useDeletionSanctionMutation,
+  useCreationIdentityMutation,
 } = callUnit;
 
 export default callUnit.reducer;
