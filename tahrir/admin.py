@@ -1,12 +1,15 @@
 from flask import g
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from flask_admin.theme import Bootstrap4Theme
 from tahrir_api import model
 
 from .database import db
 
 
-admin = Admin(name="Database", url="/dbadmin", endpoint="dbadmin", template_mode="bootstrap4")
+admin = Admin(
+    name="Database", url="/dbadmin", endpoint="dbadmin", theme=Bootstrap4Theme(fluid=True)
+)
 
 
 class LazyModelView(ModelView):

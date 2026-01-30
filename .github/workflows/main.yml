@@ -29,9 +29,10 @@ jobs:
     strategy:
       matrix:
         tox_env:
-          - py39
           - py310
           - py311
+          - py312
+          - py313
           - docs
           - lint
           - format
