@@ -18,11 +18,8 @@ def search_users_by_string(search_string: str):
     limit = request.args.get("limit", 100, type=int)
 
     collection = (
-        g.tahrirdb.get_all_persons()
-        .filter(
-            m.Person.opt_out.is_(False)
-            & sa.func.lower(m.Person.nickname).like(f"%{search_string.lower()}%")
-        )
+        g.tahrirdb.get_all_persons(include_opted_out=True)
+        .filter(sa.func.lower(m.Person.nickname).like(f"%{search_string.lower()}%"))
         .all()
     )
 
@@ -36,6 +33,7 @@ def search_users_by_string(search_string: str):
                 "email": item.avatar,
                 "last_login": item.last_login.timestamp() if item.last_login else None,
                 "nickname": item.nickname,
+                "opt_out": item.opt_out,
                 "rank": item.rank,
                 "website": item.website,
             }
