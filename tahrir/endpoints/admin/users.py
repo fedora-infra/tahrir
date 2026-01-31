@@ -1,7 +1,7 @@
 from flask import abort, g, jsonify, request
 
 from ...app import csrf, oidc
-from ...utils.user import require_admin
+from ...utils.user import get_person, require_admin
 from . import blueprint as bp
 
 
@@ -57,3 +57,26 @@ def update_user(user_id: str):
         return abort(404, f"User {user_id!r} not found")
 
     return jsonify({"message": f"User {user_id!r} updated successfully"})
+
+
+@bp.route("/api/admin/users/<string:user_id>/opt_out", methods=["PUT"])
+@csrf.exempt
+@oidc.require_login
+@require_admin
+def user_opt_out(user_id: str):
+    """Endpoint to update user account settings."""
+
+    user = get_person(user_id)
+
+    if not user:
+        abort(404, f"No such user {user_id!r}")
+
+    data = request.get_json()
+    if data is None or "opt_out" not in data:
+        abort(400, "No opt_out status provided")
+
+    # Opt Out functionality should be made available in tahrir-api
+    user.opt_out = data.get("opt_out")
+    g.tahrirdb.session.commit()
+
+    return jsonify({"message": "User updated successfully"})
