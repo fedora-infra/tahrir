@@ -239,6 +239,36 @@ export const callUnit = createApi({
       }),
       invalidatesTags: ["IdentitySearch"],
     }),
+    updationIdentity: builder.mutation({
+      query: ({ user_id, filldata }) => ({
+        url: `../api/admin/users/${user_id}`,
+        method: "PUT",
+        body: filldata,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: (result, error, { user_id }) => [
+        { type: "Identity", id: user_id },
+        "IdentitySearch",
+      ],
+    }),
+    toggleIdentityOptOut: builder.mutation({
+      query: ({ user_id, opt_out }) => ({
+        url: `../api/admin/users/${user_id}/opt_out`,
+        method: "PUT",
+        body: { opt_out },
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: (result, error, { user_id }) => [
+        { type: "Identity", id: user_id },
+        "IdentitySearch",
+      ],
+    }),
   }),
 });
 
@@ -264,6 +294,8 @@ export const {
   useCreationSanctionMutation,
   useDeletionSanctionMutation,
   useCreationIdentityMutation,
+  useUpdationIdentityMutation,
+  useToggleIdentityOptOutMutation,
 } = callUnit;
 
 export default callUnit.reducer;
