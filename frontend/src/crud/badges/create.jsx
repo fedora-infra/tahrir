@@ -80,6 +80,7 @@ export default function BadgeCreationForm() {
                 type="text"
                 value={form.name}
                 onChange={(e) => handleFormChange("name", e.target.value)}
+                placeholder="Name"
                 autoComplete="off"
                 required
               />
@@ -91,28 +92,31 @@ export default function BadgeCreationForm() {
                 type="text"
                 value={form.description}
                 onChange={(e) => handleFormChange("description", e.target.value)}
+                placeholder="Description"
                 autoComplete="off"
                 required
               />
             </FloatingLabel>
           </Col>
           <Col lg="6">
-            <FloatingLabel controlId="accoCreateShot" label="Image">
+            <FloatingLabel controlId="accoCreateShot" label="Image URL">
               <Form.Control
                 type="url"
                 value={form.image}
                 onChange={(e) => handleFormChange("image", e.target.value)}
+                placeholder="Image URL"
                 autoComplete="off"
                 required
               />
             </FloatingLabel>
           </Col>
           <Col lg="6">
-            <FloatingLabel controlId="accoCreateCrit" label="Criteria">
+            <FloatingLabel controlId="accoCreateCrit" label="Criteria URL">
               <Form.Control
                 type="text"
                 value={form.criteria}
                 onChange={(e) => handleFormChange("criteria", e.target.value)}
+                placeholder="Criteria URL"
                 autoComplete="off"
                 required
               />
@@ -124,11 +128,12 @@ export default function BadgeCreationForm() {
             </FloatingLabel>
           </Col>
           <Col lg="6">
-            <FloatingLabel controlId="accoCreateTags" label="Tags">
+            <FloatingLabel controlId="accoCreateTags" label="Comma Separated Tags">
               <Form.Control
                 type="text"
                 value={form.tags}
                 onChange={(e) => handleFormChange("tags", e.target.value)}
+                placeholder="Comma Separated Tags"
                 autoComplete="off"
               />
             </FloatingLabel>

@@ -249,10 +249,7 @@ export const callUnit = createApi({
           "Content-Type": "application/json",
         },
       }),
-      invalidatesTags: (result, error, { user_id }) => [
-        { type: "Identity", id: user_id },
-        "IdentitySearch",
-      ],
+      invalidatesTags: (result, error, { user_id }) => [{ type: "Identity", id: user_id }, "IdentitySearch"],
     }),
     toggleIdentityOptOut: builder.mutation({
       query: ({ user_id, opt_out }) => ({
@@ -264,10 +261,7 @@ export const callUnit = createApi({
           "Content-Type": "application/json",
         },
       }),
-      invalidatesTags: (result, error, { user_id }) => [
-        { type: "Identity", id: user_id },
-        "IdentitySearch",
-      ],
+      invalidatesTags: (result, error, { user_id }) => [{ type: "Identity", id: user_id }, "IdentitySearch"],
     }),
   }),
 });

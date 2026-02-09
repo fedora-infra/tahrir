@@ -79,6 +79,7 @@ export default function UserCreationForm() {
                 value={form.nickname}
                 onChange={(e) => handleFormChange("nickname", e.target.value)}
                 autoComplete="off"
+                placeholder="Nickname"
                 required
               />
             </FloatingLabel>
@@ -90,6 +91,7 @@ export default function UserCreationForm() {
                 value={form.email}
                 onChange={(e) => handleFormChange("email", e.target.value)}
                 autoComplete="off"
+                placeholder="Email"
                 required
               />
             </FloatingLabel>
@@ -100,26 +102,29 @@ export default function UserCreationForm() {
                 type="text"
                 value={form.website}
                 onChange={(e) => handleFormChange("website", e.target.value)}
+                placeholder="Website"
                 autoComplete="off"
               />
             </FloatingLabel>
           </Col>
           <Col lg="6">
-            <FloatingLabel controlId="userCreateAvatar" label="Avatar">
+            <FloatingLabel controlId="userCreateAvatar" label="Avatar URL">
               <Form.Control
                 type="text"
                 value={form.avatar}
                 onChange={(e) => handleFormChange("avatar", e.target.value)}
+                placeholder="Avatar URL"
                 autoComplete="off"
               />
             </FloatingLabel>
           </Col>
           <Col lg="12">
-            <FloatingLabel controlId="userCreateBio" label="Bio">
+            <FloatingLabel controlId="userCreateBio" label="Biography">
               <Form.Control
                 type="text"
                 value={form.bio}
                 onChange={(e) => handleFormChange("bio", e.target.value)}
+                placeholder="Biography"
                 autoComplete="off"
               />
             </FloatingLabel>
@@ -133,11 +138,7 @@ export default function UserCreationForm() {
               className="d-grid w-100 mb-2"
               size="sm"
               onClick={handleTask}
-              disabled={
-                !form.nickname.trim() ||
-                !form.email.trim() ||
-                isLoading
-              }
+              disabled={!form.nickname.trim() || !form.email.trim() || isLoading}
             >
               {isLoading ? "Creating..." : "Create"}
             </Button>
