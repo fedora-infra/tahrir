@@ -1,4 +1,4 @@
-import { mdiHistory } from "@mdi/js";
+import { mdiHistory, mdiSend } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
@@ -16,6 +16,7 @@ export default function Identity() {
   const dispatch = useDispatch();
   const { slugdata: identity } = useParams();
   const vibe = useSelector((data) => data.area.vibe);
+  const authUser = useSelector((data) => data.auth.user);
 
   const {
     data: user,
@@ -72,6 +73,19 @@ export default function Identity() {
             <Icon path={mdiHistory} size={0.875} className="me-1" />
             History
           </Button>
+          {authUser && authUser.preferred_username === identity && (
+            <Button
+              as={Link}
+              to="/campaign"
+              variant="outline-secondary"
+              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+              size="sm"
+              style={{ "--vibe": vibe }}
+            >
+              <Icon path={mdiSend} size={0.875} className="me-1" />
+              Campaign
+            </Button>
+          )}
         </div>
       </div>
       <div className="col-12 col-lg-9">
