@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
-import { useLookupIdentityQuery, useToggleIdentityOptOutMutation, useUpdationIdentityMutation } from "../../features/call.js";
+import {
+  useLookupIdentityQuery,
+  useToggleIdentityOptOutMutation,
+  useUpdationIdentityMutation,
+} from "../../features/call.js";
 import { hideLoad, showBaseNote, showLoad } from "../../features/part.js";
 import { formatTime, portraitProvider } from "../../features/util.js";
 
@@ -23,20 +27,20 @@ export default function UserUpdateForm() {
     opt_out: false,
   });
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [userLookup, setUserLookup] = useState("");
   const [userDropdownShow, setUserDropdownShow] = useState(false);
 
-  const { data: searchResults, isLoading: isSearching } = useLookupIdentityQuery(searchTerm, {
-    skip: searchTerm.length < 4,
+  const { data: searchResults } = useLookupIdentityQuery(userLookup, {
+    skip: userLookup.length < 4,
   });
 
   useEffect(() => {
-    if (isUpdating || isSearching || isToggling) {
+    if (isUpdating || isToggling) {
       dispatch(showLoad());
     } else {
       dispatch(hideLoad());
     }
-  }, [isUpdating, isSearching, isToggling, dispatch]);
+  }, [isUpdating, isToggling, dispatch]);
 
   const handleFormChange = (field, value) => {
     makeForm((prev) => ({ ...prev, [field]: value }));
@@ -54,11 +58,11 @@ export default function UserUpdateForm() {
       last_login: user.last_login || "",
       opt_out: user.opt_out || false,
     });
-    setSearchTerm(user.nickname || "");
+    setUserLookup(user.nickname || "");
     setUserDropdownShow(false);
   };
 
-  const handleTask = async () => {
+  const handleUpdate = async () => {
     if (!form.id) {
       dispatch(showBaseNote({ pass: false, data: "No user selected" }));
       return;
@@ -113,31 +117,29 @@ export default function UserUpdateForm() {
         user_id: form.nickname,
         opt_out: newOptOutStatus,
       }).unwrap();
-
       makeForm((prev) => ({ ...prev, opt_out: newOptOutStatus }));
-
       const action = newOptOutStatus ? "deactivated" : "activated";
       dispatch(showBaseNote({ pass: true, data: `User ${action} successfully` }));
     } catch (error) {
       let expt;
       switch (error?.status) {
         case 400:
-          expt = "Invalid request";
+          expt = "Verify the requested fields";
           break;
         case 401:
-          expt = "Authentication required";
+          expt = "Try authenticating before toggling";
           break;
         case 403:
-          expt = "Admin permissions required";
+          expt = "Ensure permissions are available";
           break;
         case 404:
           expt = "User not found";
           break;
         case 500:
-          expt = "Server error - try again later";
+          expt = "Attempt toggling again later";
           break;
         default:
-          expt = "Failed to toggle user status";
+          expt = "Failed during user toggling";
       }
       dispatch(showBaseNote({ pass: false, data: expt }));
     }
@@ -155,9 +157,9 @@ export default function UserUpdateForm() {
               <FloatingLabel controlId="userUpdateName" label="Nickname">
                 <Form.Control
                   type="text"
-                  value={searchTerm}
+                  value={userLookup}
                   onChange={(e) => {
-                    setSearchTerm(e.target.value);
+                    setUserLookup(e.target.value);
                     setUserDropdownShow(e.target.value.length >= 4);
                     if (e.target.value === "") {
                       makeForm({
@@ -173,12 +175,13 @@ export default function UserUpdateForm() {
                       });
                     }
                   }}
-                  onFocus={() => searchTerm.length >= 4 && setUserDropdownShow(true)}
+                  onFocus={() => userLookup.length >= 4 && setUserDropdownShow(true)}
                   onBlur={() => setTimeout(() => setUserDropdownShow(false), 150)}
+                  placeholder="Nickname"
                   autoComplete="off"
                 />
               </FloatingLabel>
-              {searchTerm.length >= 2 &&
+              {userLookup.length >= 4 &&
                 searchResults &&
                 searchResults.users &&
                 searchResults.users.length > 0 &&
@@ -215,12 +218,7 @@ export default function UserUpdateForm() {
           </Col>
           <Col lg="6">
             <FloatingLabel controlId="userUpdateMail" label="Email">
-              <Form.Control
-                type="email"
-                value={form.email}
-                autoComplete="off"
-                readOnly
-              />
+              <Form.Control type="email" value={form.email} placeholder="Email" autoComplete="off" readOnly />
             </FloatingLabel>
           </Col>
           <Col lg="6">
@@ -229,6 +227,7 @@ export default function UserUpdateForm() {
                 type="url"
                 value={form.website}
                 onChange={(e) => handleFormChange("website", e.target.value)}
+                placeholder="Website"
                 autoComplete="off"
               />
             </FloatingLabel>
@@ -239,16 +238,18 @@ export default function UserUpdateForm() {
                 type="url"
                 value={form.avatar}
                 onChange={(e) => handleFormChange("avatar", e.target.value)}
+                placeholder="Avatar URL"
                 autoComplete="off"
               />
             </FloatingLabel>
           </Col>
           <Col lg="12">
-            <FloatingLabel controlId="userUpdateInfo" label="Bio">
+            <FloatingLabel controlId="userUpdateInfo" label="Biography">
               <Form.Control
                 type="text"
                 value={form.bio}
                 onChange={(e) => handleFormChange("bio", e.target.value)}
+                placeholder="Biography"
                 autoComplete="off"
               />
             </FloatingLabel>
@@ -256,25 +257,20 @@ export default function UserUpdateForm() {
         </Row>
         <hr className="mt-2 mb-2" />
         <p className="small ps-2 pe-2 m-0">
-          Last seen on{" "}
-          <span className="fw-bold">
-            {form.last_login ? formatTime(form.last_login) : "Never"}
-          </span>
+          Last seen on <span className="fw-bold">{form.last_login ? formatTime(form.last_login) : "Never"}</span>
         </p>
         <p className="small ps-2 pe-2 m-0">
           Account created on{" "}
-          <span className="fw-bold">
-            {form.created_on ? formatTime(form.created_on) : "Unknown"}
-          </span>
+          <span className="fw-bold">{form.created_on ? formatTime(form.created_on) : "Unknown"}</span>
         </p>
         <hr className="mt-2 mb-0" />
         <Row className="mt-0 mb-0 ms-1 me-1 g-2">
           <Col lg="6">
             <Button
               variant="outline-secondary"
-              className="d-grid"
+              className="d-grid w-100"
               size="sm"
-              onClick={handleTask}
+              onClick={handleUpdate}
               disabled={!form.id || isUpdating}
             >
               {isUpdating ? "Updating..." : "Update"}
@@ -283,7 +279,7 @@ export default function UserUpdateForm() {
           <Col lg="6">
             <Button
               variant="outline-secondary"
-              className="d-grid mb-2"
+              className="d-grid w-100 mb-2"
               size="sm"
               onClick={handleToggleOptOut}
               disabled={!form.id || isToggling}

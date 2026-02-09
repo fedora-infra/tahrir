@@ -41,7 +41,7 @@ def update_user(user_id: str):
     """Endpoint to update existing user"""
 
     if not user_id:
-        return abort(400, "No badge ID provided")
+        return abort(400, "No user ID provided")
 
     data = request.get_json()
     if not data:
@@ -75,7 +75,7 @@ def user_opt_out(user_id: str):
     if data is None or "opt_out" not in data:
         abort(400, "No opt_out status provided")
 
-    # Opt Out functionality should be made available in tahrir-api
+    # Opt out functionality should be made available in tahrir-api
     user.opt_out = data.get("opt_out")
     g.tahrirdb.session.commit()
 

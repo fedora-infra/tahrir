@@ -12,7 +12,7 @@ export default function BadgeUpdateForm() {
   const { slugdata: accolade } = useParams();
   const [updationAccolade, { isLoading: isUpdating }] = useUpdationAccoladeMutation();
 
-  const [form, setForm] = useState({
+  const [form, makeForm] = useState({
     name: "",
     description: "",
     image: "",
@@ -47,7 +47,7 @@ export default function BadgeUpdateForm() {
 
   useEffect(() => {
     if (badge) {
-      setForm({
+      makeForm({
         name: badge.name || "",
         description: badge.description || "",
         image: badge.image || "",
@@ -61,11 +61,11 @@ export default function BadgeUpdateForm() {
   }, [badge]);
 
   const handleFormChange = (field, value) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
+    makeForm((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleAccoladeSelect = (accolade) => {
-    setForm({
+    makeForm({
       name: accolade.name || "",
       description: accolade.description || "",
       image: accolade.image || "",
@@ -94,27 +94,27 @@ export default function BadgeUpdateForm() {
       };
       const updateData = Object.fromEntries(Object.entries(filldata).filter(([, value]) => value !== ""));
       await updationAccolade({ accolade: form.id, filldata: updateData }).unwrap();
-      dispatch(showBaseNote({ pass: true, data: "Badge updated successfully" }));
+      dispatch(showBaseNote({ pass: true, data: "Badge was updated successfully" }));
     } catch (error) {
       let expt;
       switch (error?.status) {
         case 400:
-          expt = "Invalid field names or values provided";
+          expt = "Verify the requested fields";
           break;
         case 401:
-          expt = "Authentication required";
+          expt = "Try authenticating before updating";
           break;
         case 403:
-          expt = "Admin permissions required";
+          expt = "Ensure permissions are available";
           break;
         case 404:
           expt = "Badge not found";
           break;
         case 500:
-          expt = "Server error - try again later";
+          expt = "Attempt update again later";
           break;
         default:
-          expt = "Failed to update badge";
+          expt = "Failed during badge update";
       }
       dispatch(showBaseNote({ pass: false, data: expt }));
     }
@@ -150,9 +150,21 @@ export default function BadgeUpdateForm() {
                     setAccoladeLookup(e.target.value);
                     handleFormChange("name", e.target.value);
                     setAccoladeDropdownShow(e.target.value.length >= 4);
+                    if (e.target.value === "") {
+                      makeForm({
+                        name: "",
+                        description: "",
+                        image: "",
+                        criteria: "",
+                        tags: "",
+                        created_on: "",
+                        id: "",
+                      });
+                    }
                   }}
                   onFocus={() => accoladeLookup.length >= 4 && setAccoladeDropdownShow(true)}
                   onBlur={() => setTimeout(() => setAccoladeDropdownShow(false), 150)}
+                  placeholder="Name"
                   autoComplete="off"
                 />
               </FloatingLabel>
@@ -197,45 +209,45 @@ export default function BadgeUpdateForm() {
                 type="text"
                 value={form.description}
                 onChange={(e) => handleFormChange("description", e.target.value)}
-                placeholder="Badge description"
+                placeholder="Description"
                 autoComplete="off"
               />
             </FloatingLabel>
           </Col>
           <Col lg="6">
-            <FloatingLabel controlId="accoUpdateShot" label="Image">
+            <FloatingLabel controlId="accoUpdateShot" label="Image URL">
               <Form.Control
                 type="url"
                 value={form.image}
                 onChange={(e) => handleFormChange("image", e.target.value)}
-                placeholder="Badge image URL"
+                placeholder="Image URL"
                 autoComplete="off"
               />
             </FloatingLabel>
           </Col>
           <Col lg="6">
-            <FloatingLabel controlId="accoUpdateCrit" label="Criteria">
+            <FloatingLabel controlId="accoUpdateCrit" label="Criteria URL">
               <Form.Control
                 type="url"
                 value={form.criteria}
                 onChange={(e) => handleFormChange("criteria", e.target.value)}
-                placeholder="Badge criteria URL"
+                placeholder="Criteria URL"
                 autoComplete="off"
               />
             </FloatingLabel>
           </Col>
           <Col lg="6">
             <FloatingLabel controlId="accoUpdateAuth" label="Issuer">
-              <Form.Control type="text" value="Fedora Project" disabled />
+              <Form.Control type="text" value="Fedora Project" readOnly />
             </FloatingLabel>
           </Col>
           <Col lg="6">
-            <FloatingLabel controlId="accoUpdateTags" label="Tags">
+            <FloatingLabel controlId="accoUpdateTags" label="Comma Separated Tags">
               <Form.Control
                 type="text"
                 value={form.tags}
                 onChange={(e) => handleFormChange("tags", e.target.value)}
-                placeholder="Badge tags (comma-separated)"
+                placeholder="Comma Separated Tags"
                 autoComplete="off"
               />
             </FloatingLabel>
