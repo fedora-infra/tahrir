@@ -1,13 +1,19 @@
 import { Image, ListGroup } from "react-bootstrap";
 import { Link } from "react-router";
 
-export default function VertItem({ link, head, body, shot, hand }) {
+export default function VertItem({ link, head, body, shot, hand, onClick }) {
   if (shot) {
     shot = shot.toString().replace("https://badges.fedoraproject.org", "");
   }
 
   return (
-    <ListGroup.Item className="p-2" action={link} as={link ? Link : undefined} to={link}>
+    <ListGroup.Item
+      className="p-2"
+      action={!!link || !!onClick}
+      as={link ? Link : undefined}
+      to={link}
+      onClick={onClick}
+    >
       <div className="d-flex w-100" style={{ gap: "0.5rem" }}>
         {shot ? (
           <div style={{ aspectRatio: "1/1", height: "45px" }}>

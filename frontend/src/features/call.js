@@ -18,6 +18,7 @@ export const callUnit = createApi({
     "IdentitySearch",
     "QRInvite",
     "Sanction",
+    "Campaign",
   ],
   endpoints: (builder) => ({
     retrieveIdentity: builder.query({
@@ -164,7 +165,7 @@ export const callUnit = createApi({
           "Content-Type": "application/json",
         },
       }),
-      invalidatesTags: ["QRInvite"], // Reload QRInvite on creation
+      invalidatesTags: ["QRInvite", "Campaign"], // Reload QRInvite and Campaign on creation
     }),
     deletionQRInvite: builder.mutation({
       query: (invitationId) => ({
@@ -176,7 +177,7 @@ export const callUnit = createApi({
           "Content-Type": "application/json",
         },
       }),
-      invalidatesTags: ["QRInvite"], // Reload QRInvite on deletion
+      invalidatesTags: ["QRInvite", "Campaign"], // Reload QRInvite and Campaign on deletion
     }),
     retrieveQRInvite: builder.query({
       query: (username) => ({
@@ -251,6 +252,13 @@ export const callUnit = createApi({
       }),
       invalidatesTags: (result, error, { user_id }) => [{ type: "Identity", id: user_id }, "IdentitySearch"],
     }),
+    retrieveCampaign: builder.query({
+      query: (username) => ({
+        url: `../api/invitations/${username}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, username) => [{ type: "Campaign", id: username }],
+    }),
     toggleIdentityOptOut: builder.mutation({
       query: ({ user_id, opt_out }) => ({
         url: `../api/admin/users/${user_id}/opt_out`,
@@ -289,6 +297,7 @@ export const {
   useDeletionSanctionMutation,
   useCreationIdentityMutation,
   useUpdationIdentityMutation,
+  useRetrieveCampaignQuery,
   useToggleIdentityOptOutMutation,
 } = callUnit;
 
