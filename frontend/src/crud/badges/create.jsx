@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Card, Col, FloatingLabel, Form, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 import { useCreationAccoladeMutation } from "../../features/call.js";
-import { hideLoad, showBaseNote, showLoad } from "../../features/part.js";
+import { showBaseNote } from "../../features/part.js";
+import { useLoadingState } from "../../features/hooks.js";
 
 export default function BadgeCreationForm() {
   const dispatch = useDispatch();
@@ -18,13 +19,7 @@ export default function BadgeCreationForm() {
     tags: "",
   });
 
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoad());
-    } else {
-      dispatch(hideLoad());
-    }
-  }, [isLoading, dispatch]);
+  useLoadingState(isLoading);
 
   const handleFormChange = (field, value) => {
     makeForm((prev) => ({ ...prev, [field]: value }));

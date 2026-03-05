@@ -3,7 +3,8 @@ import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "re
 import { useDispatch } from "react-redux";
 
 import { useCreationSanctionMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
-import { hideLoad, showBaseNote, showLoad } from "../../features/part.js";
+import { showBaseNote } from "../../features/part.js";
+import { useLoadingState } from "../../features/hooks.js";
 import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 
 export default function AuthorizationCreationForm() {
@@ -40,13 +41,7 @@ export default function AuthorizationCreationForm() {
     }
   }, [identityResult, identityLookup]);
 
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoad());
-    } else {
-      dispatch(hideLoad());
-    }
-  }, [isLoading, dispatch]);
+  useLoadingState(isLoading);
 
   const handleAccoladeSelect = (accolade) => {
     console.log("Selected badge:", JSON.stringify(accolade, null, 2));
