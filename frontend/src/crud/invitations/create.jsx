@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 import { useCreationQRInviteMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
-import { hideLoad, showBaseNote, showLoad } from "../../features/part.js";
+import { showBaseNote } from "../../features/part.js";
+import { useLoadingState } from "../../features/hooks.js";
 import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 
 export default function InvitationCreationForm() {
@@ -28,13 +29,7 @@ export default function InvitationCreationForm() {
     expires_on: "",
   });
 
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoad());
-    } else {
-      dispatch(hideLoad());
-    }
-  }, [isLoading, dispatch]);
+  useLoadingState(isLoading);
 
   const handleFormChange = (field, value) => {
     makeForm((prev) => ({ ...prev, [field]: value }));

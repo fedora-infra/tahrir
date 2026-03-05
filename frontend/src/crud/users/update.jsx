@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
@@ -7,7 +7,8 @@ import {
   useToggleIdentityOptOutMutation,
   useUpdationIdentityMutation,
 } from "../../features/call.js";
-import { hideLoad, showBaseNote, showLoad } from "../../features/part.js";
+import { showBaseNote } from "../../features/part.js";
+import { useLoadingState } from "../../features/hooks.js";
 import { formatTime, portraitProvider } from "../../features/util.js";
 
 export default function UserUpdateForm() {
@@ -34,13 +35,7 @@ export default function UserUpdateForm() {
     skip: userLookup.length < 4,
   });
 
-  useEffect(() => {
-    if (isUpdating || isToggling) {
-      dispatch(showLoad());
-    } else {
-      dispatch(hideLoad());
-    }
-  }, [isUpdating, isToggling, dispatch]);
+  useLoadingState(isUpdating, isToggling);
 
   const handleFormChange = (field, value) => {
     makeForm((prev) => ({ ...prev, [field]: value }));

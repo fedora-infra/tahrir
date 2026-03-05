@@ -4,7 +4,8 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 
 import { useLookupAccoladeQuery, useRetrieveAccoladeQuery, useUpdationAccoladeMutation } from "../../features/call.js";
-import { hideLoad, showBaseNote, showLoad } from "../../features/part.js";
+import { showBaseNote } from "../../features/part.js";
+import { useLoadingState } from "../../features/hooks.js";
 import { formatTime, relativeImageUrl } from "../../features/util.js";
 
 export default function BadgeUpdateForm() {
@@ -37,13 +38,7 @@ export default function BadgeUpdateForm() {
     skip: accoladeLookup.length < 4,
   });
 
-  useEffect(() => {
-    if (isFetching || isUpdating) {
-      dispatch(showLoad());
-    } else {
-      dispatch(hideLoad());
-    }
-  }, [isFetching, isUpdating, dispatch]);
+  useLoadingState(isFetching, isUpdating);
 
   useEffect(() => {
     if (badge) {
