@@ -1,7 +1,7 @@
 import { Dropdown, Image } from "react-bootstrap";
 import { Link } from "react-router";
 
-import { generateIdentity, portraitProvider } from "../features/util.js";
+import { generateIdentity, portraitProvider, relativeImageUrl } from "../features/util.js";
 
 export default function FindList({ type, list, hide }) {
   return (
@@ -19,7 +19,7 @@ export default function FindList({ type, list, hide }) {
             rounded={true}
             src={
               type === "accolade"
-                ? unit.image.toString().replace("https://badges.fedoraproject.org", "")
+                ? relativeImageUrl(unit.image)
                 : portraitProvider(unit.email, 40)
             }
             width="40"

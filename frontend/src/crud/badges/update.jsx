@@ -5,7 +5,7 @@ import { useParams } from "react-router";
 
 import { useLookupAccoladeQuery, useRetrieveAccoladeQuery, useUpdationAccoladeMutation } from "../../features/call.js";
 import { hideLoad, showBaseNote, showLoad } from "../../features/part.js";
-import { formatTime } from "../../features/util.js";
+import { formatTime, relativeImageUrl } from "../../features/util.js";
 
 export default function BadgeUpdateForm() {
   const dispatch = useDispatch();
@@ -183,7 +183,7 @@ export default function BadgeUpdateForm() {
                       >
                         <Image
                           rounded={true}
-                          src={accolade.image.toString().replace("https://badges.fedoraproject.org", "")}
+                          src={relativeImageUrl(accolade.image)}
                           width="40"
                           height="40"
                           className="me-2"

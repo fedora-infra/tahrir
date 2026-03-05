@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 
 import { useDeletionAvermentMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
 import { hideLoad, showBaseNote, showLoad } from "../../features/part.js";
-import { portraitProvider } from "../../features/util.js";
+import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 
 export default function AssertionDeleteForm() {
   const dispatch = useDispatch();
@@ -124,7 +124,7 @@ export default function AssertionDeleteForm() {
                       >
                         <Image
                           rounded={true}
-                          src={accolade.image.toString().replace("https://badges.fedoraproject.org", "")}
+                          src={relativeImageUrl(accolade.image)}
                           width="40"
                           height="40"
                           className="me-2"

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 
 import { useDeletionQRInviteMutation, useLookupIdentityQuery, useRetrieveQRInviteQuery } from "../../features/call.js";
 import { hideLoad, showBaseNote, showLoad } from "../../features/part.js";
-import { portraitProvider } from "../../features/util.js";
+import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 
 export default function InvitationDeletionForm() {
   const dispatch = useDispatch();
@@ -215,7 +215,7 @@ export default function InvitationDeletionForm() {
                         >
                           <Image
                             rounded={true}
-                            src={badgeData.image.toString().replace("https://badges.fedoraproject.org", "")}
+                            src={relativeImageUrl(badgeData.image)}
                             width="40"
                             height="40"
                             className="me-2"
