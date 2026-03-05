@@ -8,8 +8,7 @@ import { Link, useParams, useSearchParams } from "react-router";
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveAccoladeQuery, useRetrieveAvermentQuery } from "../features/call.js";
 import { hideLoad, showLoad } from "../features/part.js";
-import { generateIdentity, portraitProvider, rarities } from "../features/util.js";
-import { formatTime } from "../features/util.js";
+import { formatTime, generateIdentity, portraitProvider, rarities, relativeImageUrl } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function Accolade() {
@@ -123,7 +122,7 @@ export default function Accolade() {
     <div className="row g-2">
       <div className="col-12 col-lg-3">
         <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
-          <Card.Img variant="top" src={acco.image.toString().replace("https://badges.fedoraproject.org", "")} />
+          <Card.Img variant="top" src={relativeImageUrl(acco.image)} />
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate mb-1">{acco.name}</Card.Title>
             <Card.Text className="small mb-2">{acco.description}</Card.Text>

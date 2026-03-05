@@ -1,9 +1,11 @@
 import { Image, ListGroup } from "react-bootstrap";
 import { Link } from "react-router";
 
+import { relativeImageUrl } from "../features/util";
+
 export default function VertItem({ link, head, body, shot, hand, onClick }) {
   if (shot) {
-    shot = shot.toString().replace("https://badges.fedoraproject.org", "");
+    shot = relativeImageUrl(shot);
   }
 
   return (
