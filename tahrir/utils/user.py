@@ -1,4 +1,5 @@
 from functools import wraps
+from hashlib import sha256
 from urllib.parse import quote_plus
 
 from flask import abort, current_app, g, redirect, request, session, url_for
@@ -54,12 +55,12 @@ class User(OIDCUser):
 
 def on_authorized(sender, **kwargs):
     nickname = g.oidc_user.name
+    openid_email = g.oidc_user.profile["email"]
+    avatar = sha256(openid_email.encode("utf-8")).hexdigest()
     if current_app.config["TAHRIR_USE_OPENID_EMAIL"]:
-        email = g.oidc_user.profile["email"]
-        avatar = None
+        email = openid_email
     else:
         email = f"{nickname}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
-        avatar = g.oidc_user.profile["email"]
 
     existing = g.tahrirdb.get_person(person_email=email)
     if not existing:

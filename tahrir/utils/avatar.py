@@ -1,3 +1,4 @@
+import re
 import urllib.parse
 from hashlib import sha256
 
@@ -11,6 +12,8 @@ try:
     import libravatar
 except ImportError:
     pass
+
+_SHA256_RE = re.compile(r"^[a-f0-9]{64}$")
 
 
 @cache.cache_on_arguments()
@@ -28,10 +31,12 @@ def get_avatar(email: str, size):
 
     query = urllib.parse.urlencode(query)
 
-    # Use md5 for emails, and sha256 for openids.
-    # We're really using openids, so...
-    # hash = md5(email).hexdigest()
-    hash = sha256(email.encode("utf-8")).hexdigest()
+    # If the value is already a SHA256 hash (e.g. stored as hashed email),
+    # use it directly; otherwise hash it.
+    if _SHA256_RE.match(email):
+        hash = email
+    else:
+        hash = sha256(email.encode("utf-8")).hexdigest()
 
     # TODO This next line is temporary and can be removed.  We do
     # libravatar ourselves here by hand to avoid pyDNS issues on epel6.
