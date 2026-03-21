@@ -24,3 +24,15 @@ the [staging instance](https://badges.stg.fedoraproject.org/).
 ![Supported Python versions](https://img.shields.io/pypi/pyversions/tahrir.svg)
 ![Build status](https://github.com/fedora-infra/tahrir/actions/workflows/main.yml/badge.svg?branch=develop)
 ![Documentation](https://readthedocs.org/projects/tahrir/badge/?version=latest)
+
+## Changelog
+
+This project uses towncrier for changelog management.
+
+To add a changelog entry:
+
+    towncrier create -c "Describe your change" <issue>.<type>.md
+
+Example:
+
+    towncrier create -c "Add badge filtering" 123.added.md
