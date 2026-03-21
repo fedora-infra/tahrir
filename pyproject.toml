@@ -126,3 +126,28 @@ omit = [
     "tahrir/__init__.py",
     "tests/*",
 ]
+
+[tool.towncrier]
+directory = "changelog.d"
+filename = "CHANGELOG.md"
+start_string = "<!-- towncrier release notes start -->\n"
+title_format = "## [{version}](https://github.com/fedora-infra/tahrir/tree/{version}) - {project_date}"
+issue_format = "[#{issue}](https://github.com/fedora-infra/tahrir/issues/{issue})"
+
+[[tool.towncrier.type]]
+name = "Security"
+
+[[tool.towncrier.type]]
+name = "Removed"
+
+[[tool.towncrier.type]]
+name = "Deprecated"
+
+[[tool.towncrier.type]]
+name = "Added"
+
+[[tool.towncrier.type]]
+name = "Changed"
+
+[[tool.towncrier.type]]
+name = "Fixed"
