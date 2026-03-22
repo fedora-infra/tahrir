@@ -49,8 +49,9 @@ def badge(badge_id):
         percent_earned = float(times_awarded) / float(len(g.tahrirdb.get_all_persons().all()))
 
         # This is a list of assertions for this badge.
-        badge_assertions = (
-            g.tahrirdb.get_all_assertions().filter(m.Assertion.badge_id == badge.id).all()
+        badge_assertions = sorted(
+            g.tahrirdb.get_assertions_by_badge(badge.id),
+            key=lambda a: (a.person.nickname or "").lower(),
         )
     except sa.orm.exc.NoResultFound:  # This badge has never been awarded.
         times_awarded = 0
