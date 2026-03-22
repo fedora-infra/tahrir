@@ -183,41 +183,92 @@ def admin():
 @oidc.require_login
 @require_admin
 def award_from_csv():
+    if "csv-file" not in request.files:
+        flash("No file uploaded.")
+        return redirect(url_for("tahrir.admin"))
+
     csv_file = request.files["csv-file"]
+
+    if csv_file.filename == "":
+        flash("No file selected.")
+        return redirect(url_for("tahrir.admin"))
+
     successful_awards = 0
-    """TODO: We need some validation here, and flash
-    a message whether the awards were successful or not.
-    This should be added at the same time that flash
-    messages are added to the admin panel."""
-    awards = dict()  # str(badge_id) : str(person_email)
+    not_found_badges = []
+    not_found_persons = []
+    already_awarded = []
+    malformed_lines = []
+
+    awards = {}  # str(email) : str(badge_id)
+
     for line in csv_file:
+        # Decode bytes to string (Python 3 fix)
+        line = line.decode("utf-8").strip()
+
+        # Skip empty lines
+        if not line:
+            continue
+
         values = line.split(",")
-        """Through the following if statement, it doesn't matter
-        if the line has been entered as "email, badge" or
-        "badge, email". The awards dict will be normalized
-        to be "badge, email". This code assumes that one of the
-        two values will be a valid email address."""
-        if values[0].find("@") == -1:
-            # If there is no @ sign in the first value, it is the badge id.
-            awards[values[1].strip()] = values[0].strip()
+
+        # Skip malformed lines that don't have exactly 2 values
+        if len(values) != 2:
+            malformed_lines.append(line)
+            continue
+
+        value_a = values[0].strip()
+        value_b = values[1].strip()
+
+        # Normalize to email -> badge_id regardless of column order
+        if "@" in value_a:
+            email, badge_id = value_a, value_b
         else:
-            # If there is an @ sign in the first value, it is the email.
-            awards[values[0].strip()] = values[1].strip()
+            badge_id, email = value_a, value_b
+
+        awards[email] = badge_id
 
     for email, badge_id in awards.items():
-        # First, if the person doesn't exist, we automatically
-        # create the person in this special case.
+        # Validate badge exists first
+        if not g.tahrirdb.badge_exists(badge_id):
+            not_found_badges.append(badge_id)
+            continue
+
+        # Create person if they don't exist
         if not g.tahrirdb.person_exists(email=email):
             g.tahrirdb.add_person(email)
-        # Second, if the badge exists and the person has yet
-        # to be awarded it, give it to them.
-        if g.tahrirdb.badge_exists(badge_id):
-            if not g.tahrirdb.assertion_exists(badge_id, email):
-                # The None will default to datetime.now().
-                g.tahrirdb.add_assertion(badge_id, email, None)
-                successful_awards += 1
+            not_found_persons.append(email)
 
-    flash(f"Successfully awarded {successful_awards} badges.")
+        # Award badge if not already awarded
+        if not g.tahrirdb.assertion_exists(badge_id, email):
+            g.tahrirdb.add_assertion(badge_id, email, None)
+            successful_awards += 1
+        else:
+            already_awarded.append(f"{email} ({badge_id})")
+
+    # Flash a full summary back to the admin
+    flash(f"Successfully awarded {successful_awards} badge(s).")
+
+    if not_found_persons:
+        flash(
+            f"The following {len(not_found_persons)} user(s) did not exist "
+            f"and were created: {', '.join(not_found_persons)}"
+        )
+    if already_awarded:
+        flash(
+            f"The following {len(already_awarded)} award(s) were skipped "
+            f"(already awarded): {', '.join(already_awarded)}"
+        )
+    if not_found_badges:
+        flash(
+            f"The following {len(not_found_badges)} badge(s) were not found "
+            f"and skipped: {', '.join(not_found_badges)}"
+        )
+    if malformed_lines:
+        flash(
+            f"The following {len(malformed_lines)} line(s) were malformed "
+            f"and skipped: {', '.join(malformed_lines)}"
+        )
+
     return redirect(url_for("tahrir.admin"))
 
 
