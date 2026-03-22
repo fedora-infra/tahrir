@@ -58,9 +58,10 @@ def report_year_month(year, month):
 
     start = date(year, month, 1)
     # get the last day of the month
-    stop = start + timedelta(days=32)
-    stop.replace(day=1)
-    stop = stop - timedelta(days=1)
+    if month == 12:
+        stop = date(year + 1, 1, 1) - timedelta(days=1)
+    else:
+        stop = date(year, month + 1, 1) - timedelta(days=1)
 
     user_to_rank = g.tahrirdb.make_leaderboard(
         start=start,
