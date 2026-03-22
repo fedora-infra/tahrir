@@ -24,3 +24,12 @@ tahrir.ini
 coverage.xml
 htmlcov/
 .vagrant
+
+# Local development config (contains SECRET_KEY and local paths)
+tahrir-dev.cfg
+
+# OIDC client secrets (never commit real or dummy credentials)
+client_secrets.json
+
+# Compiled translation files
+*.mo
