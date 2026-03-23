@@ -64,9 +64,13 @@ def user(user_id):
     person = get_person(user_id)
 
     try:
-        history_limit = int(request.args.get("history_limit", 10))
-    except ValueError as e:
-        abort(400, f"Wrong value for the 'history_limit' parameter: {e}")
+        page = int(request.args.get("page", 1))
+        per_page = int(request.args.get("per_page", 10))
+    except ValueError:
+        abort(400, "Pagination parameters must be integers")
+
+    if page < 1 or per_page < 1:
+        abort(400, "Pagination parameters must be positive integers")
 
     if not person:
         abort(404, f"No such user {user_id!r}")
@@ -92,10 +96,22 @@ def user(user_id):
         i for i in g.tahrirdb.get_invitations(person.id) if i.expires_on > datetime.now()
     ]
 
+    # Paginate the awarding history.
+    sorted_assertions = sorted(person.assertions, key=lambda x: x.issued_on, reverse=True)
+    total_assertions = len(sorted_assertions)
+    total_pages = max(1, (total_assertions + per_page - 1) // per_page)
+    page = min(page, total_pages)
+    start = (page - 1) * per_page
+    paginated_assertions = sorted_assertions[start : start + per_page]
+
     user_info = dict(
         user=person,
         invitations=invitations,
-        history_limit=history_limit,
+        assertions=paginated_assertions,
+        page=page,
+        per_page=per_page,
+        total_pages=total_pages,
+        total_assertions=total_assertions,
     )
 
     user_info.update(_get_user_badge_info(person))
