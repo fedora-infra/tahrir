@@ -37,11 +37,28 @@
         }
         function claim_badges() {
           var urls = badge_urls();
-          {% if config['TAHRIR_OPENBADGES_MODAL'] %}
-          var lolback = function(errors, successes) {};
-          OpenBadges.issue(urls, lolback);
+          var chunkSize = 10;
+          var chunks = [];
+
+          // Split badge URLs into smaller batches to avoid 414 Request-URI Too Large
+          for (var i = 0; i < urls.length; i += chunkSize) {
+            chunks.push(urls.slice(i, i + chunkSize));
+          }
+
+          {% if config.get('TAHRIR_OPENBADGES_MODAL') %}
+          // Process chunks sequentially - wait for each batch before sending next
+          function processNextChunk(index) {
+            if (index >= chunks.length) return;
+            var lolback = function(errors, successes) {
+              processNextChunk(index + 1);
+            };
+            OpenBadges.issue(chunks[index], lolback);
+          }
+          processNextChunk(0);
           {% else %}
-          OpenBadges.issue_no_modal(urls);
+          for (var j = 0; j < chunks.length; j++) {
+            OpenBadges.issue_no_modal(chunks[j]);
+          }
           {% endif %}
         }
       </script>
@@ -55,7 +72,6 @@
 
     {% block head %}{% endblock %}
 
-	</script>
   </head>
   <body>
     <div class="page clearfix">
