@@ -4,6 +4,7 @@ import pytest
 from tahrir_api.utils import get_db_manager_from_uri
 
 from tahrir.app import create_app
+from tahrir.cache import cache
 from tahrir.database import db
 
 
@@ -27,6 +28,8 @@ def app_config(tmpdir):
 
 @pytest.fixture
 def app(app_config):
+    # Reset the dogpile cache singleton so it can be re-configured
+    cache.__dict__.pop("backend", None)
     app = create_app(app_config)
     with app.app_context():
         db_manager = get_db_manager_from_uri(app.config["SQLALCHEMY_DATABASE_URI"])
