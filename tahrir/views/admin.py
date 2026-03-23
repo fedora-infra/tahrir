@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import abort, current_app, flash, g, redirect, render_template, request, url_for
 
 from tahrir.app import oidc
-from tahrir.utils.badge import convert_name_to_id, generate_badge_yaml
+from tahrir.utils.badge import convert_name_to_id
 from tahrir.utils.user import require_admin
 
 from . import blueprint as bp
@@ -241,17 +241,16 @@ def add_tag(request):
 
 @bp.route("/builder", methods=["GET", "POST"])
 def builder():
-    # get default creator field
-    default_creator = None
-    if g.oidc_user.person:
-        default_creator = g.oidc_user.person.nickname or g.oidc_user.person.email
+    from tahrir.forms import BadgeBuilderForm
 
-    badge_yaml = None
-    if request.method == "POST":
-        badge_yaml = generate_badge_yaml(request.form)
+    form = BadgeBuilderForm()
 
-    return render_template(
-        "builder.html",
-        default_creator=default_creator,
-        badge_yaml=badge_yaml,
-    )
+    if request.method == "GET":
+        # Pre-fill defaults
+        if g.oidc_user.person:
+            form.badge_creator.data = (
+                g.oidc_user.person.nickname or g.oidc_user.person.email
+            )
+        form.issuer.data = current_app.config.get("TAHRIR_DEFAULT_ISSUER", "")
+
+    return render_template("builder.html", form=form)

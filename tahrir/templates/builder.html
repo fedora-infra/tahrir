@@ -1,13 +1,12 @@
 {% extends '_base.html' %}
 
 {% block body %}
-<script type="text/javascript" src="{{ url_for('static', filename='/js/builder.js') }}"></script>
 <div class="page">
   <div class="grid-100">
     <h1 class="section-header">Badge Builder</h1>
     <div class="padded-content">
       <p>
-        Badges can be awarded automatically when certain critera
+        Badges can be awarded automatically when certain criteria
         are met. This is done with data collected by
         <a href="https://github.com/fedora-infra/datanommer">datanommer</a>
         from the
@@ -20,100 +19,97 @@
         This tool may be used by administrators to create badge files
         for new badges, or by regular users to create badge files for
         badges they want to submit to an administrator for
-        consideration. This builder does not submit badges anywhere,
-        it is simply a useful browser tool.
+        consideration. This builder does not submit badges anywhere —
+        it simply generates YAML for your use.
       </p>
     </div>
     <div class="clear"></div>
-    <!-- COLUMN 1 (Left)-->
+
+    <!-- COLUMN 1 (Left) -->
     <div class="grid-50">
       <h3>Badge Builder</h3>
       <form id="builder-form" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        {{ form.hidden_tag() }}
         <table>
           <tr>
-            <td><label for="badge-name">Badge Name</label></td>
-            <td><input name="badge-name" tabindex="1" /></td>
-            <td><label for="discussion">Discussion URL</label></td>
-            <td><input name="discussion" tabindex="4" /></td>
+            <td>{{ form.badge_name.label }}</td>
+            <td>{{ form.badge_name(tabindex=1) }}</td>
+            <td>{{ form.discussion.label }}</td>
+            <td>{{ form.discussion(tabindex=4) }}</td>
           </tr>
           <tr>
-            <td><label for="badge-description">Badge Description</label></td>
-            <td><input name="badge-description" tabindex="2" /></td>
-            <td><label for="image">Image URL</label></td>
-            <td><input name="image" tabindex="5" /></td>
+            <td>{{ form.badge_description.label }}</td>
+            <td>{{ form.badge_description(tabindex=2) }}</td>
+            <td>{{ form.image.label }}</td>
+            <td>{{ form.image(tabindex=5) }}</td>
           </tr>
           <tr>
-            <td><label for="badge-creator">Badge Creator</label></td>
-            <td>
-              <input name="badge-creator" tabindex="3" value="{{ default_creator if default_creator else '' }}" />
-            </td>
-            <td><label for="issuer">Issuer ID</label></td>
-            <td>
-              <input name="issuer" tabindex="6" value="{{ config['TAHRIR_DEFAULT_ISSUER'] }}" />
-            </td>
+            <td>{{ form.badge_creator.label }}</td>
+            <td>{{ form.badge_creator(tabindex=3) }}</td>
+            <td>{{ form.issuer.label }}</td>
+            <td>{{ form.issuer(tabindex=6) }}</td>
           </tr>
           <tr>
-            <td><label for="trigger-topic">Trigger Topic</label></td>
-            <td><input name="trigger-topic" tabindex="7" /></td>
-            <td><label for="condition">Condition</label></td>
-            <td><input name="condition" tabindex="8" value="greater than or equal to: 10" /></td>
+            <td>{{ form.trigger_topic.label }}</td>
+            <td>{{ form.trigger_topic(tabindex=7) }}</td>
+            <td>{{ form.condition.label }}</td>
+            <td>{{ form.condition(tabindex=8) }}</td>
           </tr>
           <tr>
-            <td>
-              <label for="previous">Previous value</label>
-            </td>
+            <td>{{ form.previous.label }}</td>
             <td colspan="3">
-              <textarea name="previous" cols=40 rows=7>
-filter:
-  topics:
-    - message.topic
-  users:
-    - recipient
-  rows_per_page: 0
-operation: count
-</textarea>
+              {{ form.previous(cols=40, rows=7) }}
             </td>
+          </tr>
           <tr>
             <td colspan="4">
-              <input name="generate" type="submit" action="{{ url_for('tahrir.builder') }}" value="Generate" />
+              <input name="generate" type="submit" value="Generate" />
             </td>
           </tr>
         </table>
       </form>
     </div>
-    <!-- COLUMN 2 (Right)-->
+
+    <!-- COLUMN 2 (Right) -->
     <div class="grid-50">
-  <!--- COMMENT OUT THE PREVIEW AREA FOR NOW
-      <h3>Preview</h3>
-  <p>Preview will work only if JavaScript is enabled.</p>
-  <form id="preview-options-form">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-    <table>
-      <tr><td>
-          <label for="read-only">Preview is read only?
-            <span class="sublabel">Any changes will be
-              undone if any of the above fields are altered.</span>
-          </label></td>
-        <td><input type="checkbox" name="read-only" checked="checked"/></td></r>
-</table>
-</form>
-<textarea id="preview"
-          form="builder-form" readonly="readonly"
-          rows="25" cols="80"></textarea>
+      <h3>Output</h3>
+      {% if form.is_submitted() and form.badge_name.data %}
+      <textarea rows="30" cols="80">
+%YAML 1.2
+---
+
+# Badge metadata
+name:           {{ form.badge_name.data | default('') }}
+description:    {{ form.badge_description.data | default('') }}
+creator:        {{ form.badge_creator.data | default('') }}
+
+# Discussion link
+discussion:     {{ form.discussion.data | default('') }}
+
+# Badge image
+image_url:      {{ form.image.data | default('') }}
+
+# Issuer
+issuer_id:      {{ form.issuer.data | default('') }}
+
+# Trigger — only run the costly check when this topic arrives
+trigger:
+  topic:        {{ form.trigger_topic.data | default('') }}
+
+# Award condition
+condition:
+  {{ form.condition.data | default('') }}
+
+# Previous message check
+previous:
+{{ form.previous.data | default('') }}
+      </textarea>
+      {% else %}
+      <textarea rows="30" cols="80">Badge YAML will appear here after you click Generate.</textarea>
+      {% endif %}
+    </div>
+
+    <div class="clear spacer"></div>
+  </div>
 </div>
-</div>
-
-END COMMENTING OUT PREVIEW AREA -->
-
-  <h3>Output</h3>
-  {% if badge_yaml %}
-    <textarea rows="30" cols="80">{{badge_yaml}}</textarea>
-  {% else %}
-    <textarea rows="30" cols="80">Badge YAML will appear here.</textarea>
-  {% endif %}
-
-  <div class="clear spacer"></div>
-</div>
-
 {% endblock %}
