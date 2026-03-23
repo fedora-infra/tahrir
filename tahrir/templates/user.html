@@ -152,7 +152,7 @@
     <div class="shadow mobile-hidden">
       <h1 class="section-header">History</h1>
       <div class="padded-content clearfix">
-        {% for assertion in (user.assertions|sort(attribute="issued_on", reverse=True))[:history_limit] %}
+        {% for assertion in paginated_assertions %}
           <div class="grid-container">
             {{ badge_thumbnail(assertion.badge, 64, 33) }}
             <div class="grid-66 text-64"><p>received on {{assertion.issued_on.strftime('%Y-%m-%d')}}
@@ -162,13 +162,17 @@
               </p></div>
           </div>
         {% endfor %}
-        {% if history_limit < user.assertions|length %}
-        <div class="grid-container">
-          <div class="grid-100 text-64"><p>
-            This is only the last {{history_limit}} entries.
-            <a href="{{ url_for('tahrir.user', user_id=user.nickname or user.id, history_limit=user.assertions|length) }}">
-              Click here to see all of them</a>.
-          </p></div>
+        {% if total_pages > 1 %}
+        <div class="grid-container" style="text-align: center; padding-top: 10px;">
+          <div class="grid-100">
+            {% if page > 1 %}
+              <a class="pretty-button" href="{{ url_for('tahrir.user', user_id=user.nickname or user.id, page=page - 1, per_page=per_page) }}">&laquo; Previous</a>
+            {% endif %}
+            <span style="margin: 0 10px;">Page {{ page }} of {{ total_pages }}</span>
+            {% if page < total_pages %}
+              <a class="pretty-button" href="{{ url_for('tahrir.user', user_id=user.nickname or user.id, page=page + 1, per_page=per_page) }}">Next &raquo;</a>
+            {% endif %}
+          </div>
         </div>
         {% endif %}
       </div> <!-- End padded content. -->
