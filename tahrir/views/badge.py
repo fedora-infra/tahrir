@@ -7,7 +7,7 @@ from feedgen.feed import FeedGenerator
 from flask import abort, flash, g, jsonify, redirect, render_template, request, url_for
 
 from tahrir.utils.avatar import get_avatar
-from tahrir.utils.badge import get_badge_or_404
+from tahrir.utils.badge import badge_json_generator, get_badge_or_404
 
 from . import blueprint as bp
 
@@ -81,74 +81,6 @@ def badge(badge_id):
     )
 
 
-def _badge_json_generator(badge, withasserts=True):
-    if not withasserts:
-        return {
-            "id": badge.id,
-            "name": badge.name,
-            "description": badge.description,
-            "image": badge.image,
-            "tags": badge.tags,
-        }
-
-    try:
-        # Fixme -- not sure if this works -- need to check it out.
-        assertions = sorted(badge.assertions, key=lambda b: b.issued_on)
-
-        times_awarded = len(badge.assertions)
-
-        percent_earned = float(times_awarded) / float(g.tahrirdb.get_all_persons().count())
-
-        if assertions:
-            last_awarded = assertions[-1]
-            last_awarded_person = last_awarded.person
-
-            first_awarded = assertions[0]
-            first_awarded_person = first_awarded.person
-        else:
-            last_awarded = None
-            last_awarded_person = None
-            first_awarded = None
-            first_awarded_person = None
-
-    except sa.orm.exc.NoResultFound:  # This badge has never been awarded.
-        times_awarded = 0
-        last_awarded = None
-        last_awarded_person = None
-        first_awarded = None
-        first_awarded_person = None
-        percent_earned = 0
-
-    if last_awarded:
-        last_awarded = float(last_awarded.issued_on.strftime("%s"))
-
-    if last_awarded_person:
-        last_awarded_person = last_awarded_person.nickname
-
-    if first_awarded:
-        first_awarded = float(first_awarded.issued_on.strftime("%s"))
-
-    if first_awarded_person:
-        first_awarded_person = first_awarded_person.nickname
-
-    if percent_earned:
-        percent_earned *= 100
-
-    return {
-        "id": badge.id,
-        "name": badge.name,
-        "description": badge.description,
-        "times_awarded": times_awarded,
-        "last_awarded": last_awarded,
-        "last_awarded_person": last_awarded_person,
-        "first_awarded": first_awarded,
-        "first_awarded_person": first_awarded_person,
-        "percent_earned": percent_earned,
-        "image": badge.image,
-        "tags": badge.tags,
-    }
-
-
 @bp.route("/badge/<badge_id>/json")
 def badge_json(badge_id):
     """Render badge JSON dump."""
@@ -159,7 +91,7 @@ def badge_json(badge_id):
     if not badge:
         return {"error": "No such badge exists."}, 404
 
-    return jsonify(_badge_json_generator(badge))
+    return jsonify(badge_json_generator(badge))
 
 
 @bp.route("/badge/<badge_id>/rss")
