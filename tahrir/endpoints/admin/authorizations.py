@@ -31,11 +31,16 @@ def add_authorization():
     if not result:
         return abort(400, "Failed to add authorization")
 
-    return jsonify(
-        {
-            "message": f"Badge {data.get(required_fields[0])!r} authorized to {data.get(required_fields[1])!r}"
-        }
-    ), 201
+    return (
+        jsonify(
+            {
+                "message":
+                f"Badge {data.get(required_fields[0])!r} "
+                f"authorized to {data.get(required_fields[1])!r}"
+            }
+        ),
+        201,
+    )
 
 
 @bp.route("/api/admin/authorization", methods=["DELETE"])
@@ -64,8 +69,13 @@ def remove_authorization():
     if not result:
         return abort(404, "Authorization not found or failed to remove")
 
-    return jsonify(
-        {
-            "message": f"Badge {data.get(required_fields[0])!r} authorization revoked from {data.get(required_fields[1])!r}"
-        }
-    ), 200
+    return (
+        jsonify(
+            {
+                "message":
+                f"Badge {data.get(required_fields[0])!r} "
+                f"authorization revoked from {data.get(required_fields[1])!r}"
+            }
+        ),
+        200,
+    )
