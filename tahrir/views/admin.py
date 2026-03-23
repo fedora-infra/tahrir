@@ -224,7 +224,7 @@ def award_from_csv():
 @bp.route("/add_tag", methods=["POST"])
 @oidc.require_login
 @require_admin
-def add_tag(request):
+def add_tag():
     badge_id = request.form.get("badge_id")
     badge = g.tahrirdb.get_badge(badge_id)
     if not badge:
