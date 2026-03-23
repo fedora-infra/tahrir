@@ -1,11 +1,11 @@
 from datetime import datetime
-
+from flask_wtf import FlaskForm
 from flask import abort, current_app, flash, g, redirect, render_template, request, url_for
-
+from wtforms import IntegerField, SelectField, StringField, SubmitField, TextAreaField
 from tahrir.app import oidc
-from tahrir.utils.badge import convert_name_to_id, generate_badge_yaml
+from tahrir.utils.badge import convert_name_to_id
 from tahrir.utils.user import require_admin
-
+from wtforms.validators import DataRequired, NumberRange, Optional
 from . import blueprint as bp
 
 
@@ -246,12 +246,56 @@ def builder():
     if g.oidc_user.person:
         default_creator = g.oidc_user.person.nickname or g.oidc_user.person.email
 
-    badge_yaml = None
-    if request.method == "POST":
-        badge_yaml = generate_badge_yaml(request.form)
+    form = BadgeBuilderForm()
+
+    if request.method == "GET":
+        form.badge_creator.data = default_creator or ""
+        form.issuer.data = current_app.config["TAHRIR_DEFAULT_ISSUER"]
+        form.condition_operator.data = "greater than or equal to"
+        form.condition_value.data = 10
+        form.previous.data = """filter:
+  topics:
+    - message.topic
+  users:
+    - recipient
+  rows_per_page: 0
+operation: count
+"""
+
+    badge_yaml_data = None
+    if form.validate_on_submit():
+        badge_yaml_data = form.data
 
     return render_template(
         "builder.html",
-        default_creator=default_creator,
-        badge_yaml=badge_yaml,
+        form=form,
+        badge_yaml_data=badge_yaml_data,
     )
+
+class BadgeBuilderForm(FlaskForm):
+    badge_name = StringField("Badge Name", validators=[DataRequired()])
+    badge_description = StringField("Badge Description", validators=[DataRequired()])
+    badge_creator = StringField("Badge Creator", validators=[Optional()])
+    discussion = StringField("Discussion URL", validators=[Optional()])
+    image = StringField("Image URL", validators=[Optional()])
+    issuer = StringField("Issuer ID", validators=[DataRequired()])
+    trigger_topic = StringField("Trigger Topic", validators=[DataRequired()])
+
+    # Limited options instead of free text
+    condition_operator = SelectField(
+        "Condition",
+        choices=[
+            ("greater than or equal to", "greater than or equal to"),
+            ("greater than", "greater than"),
+            ("equal to", "equal to"),
+            ("less than", "less than"),
+            ("less than or equal to", "less than or equal to"),
+        ],
+        validators=[DataRequired()],
+    )
+    condition_value = IntegerField(
+        "Condition Value", validators=[DataRequired(), NumberRange(min=0)]
+    )
+
+    previous = TextAreaField("Previous value", validators=[DataRequired()])
+    generate = SubmitField("Generate")

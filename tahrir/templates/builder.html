@@ -1,7 +1,6 @@
 {% extends '_base.html' %}
 
 {% block body %}
-<script type="text/javascript" src="{{ url_for('static', filename='/js/builder.js') }}"></script>
 <div class="page">
   <div class="grid-100">
     <h1 class="section-header">Badge Builder</h1>
@@ -29,55 +28,38 @@
     <div class="grid-50">
       <h3>Badge Builder</h3>
       <form id="builder-form" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        {{ form.hidden_tag() }}
         <table>
           <tr>
-            <td><label for="badge-name">Badge Name</label></td>
-            <td><input name="badge-name" tabindex="1" /></td>
-            <td><label for="discussion">Discussion URL</label></td>
-            <td><input name="discussion" tabindex="4" /></td>
+            <td>{{ form.badge_name.label }}</td>
+            <td>{{ form.badge_name() }}</td>
+            <td>{{ form.discussion.label }}</td>
+            <td>{{ form.discussion() }}</td>
           </tr>
           <tr>
-            <td><label for="badge-description">Badge Description</label></td>
-            <td><input name="badge-description" tabindex="2" /></td>
-            <td><label for="image">Image URL</label></td>
-            <td><input name="image" tabindex="5" /></td>
+            <td>{{ form.badge_description.label }}</td>
+            <td>{{ form.badge_description() }}</td>
+            <td>{{ form.image.label }}</td>
+            <td>{{ form.image() }}</td>
           </tr>
           <tr>
-            <td><label for="badge-creator">Badge Creator</label></td>
-            <td>
-              <input name="badge-creator" tabindex="3" value="{{ default_creator if default_creator else '' }}" />
-            </td>
-            <td><label for="issuer">Issuer ID</label></td>
-            <td>
-              <input name="issuer" tabindex="6" value="{{ config['TAHRIR_DEFAULT_ISSUER'] }}" />
-            </td>
+            <td>{{ form.badge_creator.label }}</td>
+            <td>{{ form.badge_creator() }}</td>
+            <td>{{ form.issuer.label }}</td>
+            <td>{{ form.issuer() }}</td>
           </tr>
           <tr>
-            <td><label for="trigger-topic">Trigger Topic</label></td>
-            <td><input name="trigger-topic" tabindex="7" /></td>
-            <td><label for="condition">Condition</label></td>
-            <td><input name="condition" tabindex="8" value="greater than or equal to: 10" /></td>
+            <td>{{ form.trigger_topic.label }}</td>
+            <td>{{ form.trigger_topic() }}</td>
+            <td>{{ form.condition_operator.label }}</td>
+            <td>{{ form.condition_operator() }} {{ form.condition_value(size=5) }}</td>
           </tr>
           <tr>
-            <td>
-              <label for="previous">Previous value</label>
-            </td>
-            <td colspan="3">
-              <textarea name="previous" cols=40 rows=7>
-filter:
-  topics:
-    - message.topic
-  users:
-    - recipient
-  rows_per_page: 0
-operation: count
-</textarea>
-            </td>
+            <td>{{ form.previous.label }}</td>
+            <td colspan="3">{{ form.previous(cols=40, rows=7) }}</td>
+          </tr>
           <tr>
-            <td colspan="4">
-              <input name="generate" type="submit" action="{{ url_for('tahrir.builder') }}" value="Generate" />
-            </td>
+            <td colspan="4">{{ form.generate() }}</td>
           </tr>
         </table>
       </form>
@@ -107,8 +89,41 @@ operation: count
 END COMMENTING OUT PREVIEW AREA -->
 
   <h3>Output</h3>
-  {% if badge_yaml %}
-    <textarea rows="30" cols="80">{{badge_yaml}}</textarea>
+  {% if badge_yaml_data %}
+    {% set d = badge_yaml_data %}
+    <textarea rows="30" cols="80">
+%YAML 1.2
+---
+
+# This is some metadata about the badge.
+name:           {{ d.badge_name }}
+description:    {{ d.badge_description }}
+creator:        {{ d.badge_creator }}
+
+# This is a link to the discussion about adopting this as a for-real badge.
+discussion:     {{ d.discussion }}
+
+# A link to the image for the badge.
+image_url:      {{ d.image }}
+
+# The issuer.
+issuer_id:      {{ d.issuer }}
+
+# We'll perform our more costly check (defined below)
+# only when we receive messages that match this trigger.
+trigger:
+  topic:        {{ d.trigger_topic }}
+
+# Award the badge under these conditions:
+condition:
+  {{ d.condition_operator }}: {{ d.condition_value }}
+
+# If the messages matches for the user for the first time, look into previous messages to get the count:
+previous:
+{{ d.previous | indent(2, true) }}
+
+(This section is under construction.)
+    </textarea>
   {% else %}
     <textarea rows="30" cols="80">Badge YAML will appear here.</textarea>
   {% endif %}
