@@ -248,8 +248,6 @@ def user_json(user_id):
     if person.opt_out and person.email != g.oidc_user.email:
         return {"error": "User has opted out."}, 404
 
-    print(person)
-
     return jsonify(_user_json_generator(person))
 
 

@@ -23,8 +23,12 @@ export default function Callback() {
         console.log("OIDC Groups:", user.profile.groups || "No groups found");
         console.log("OIDC Agreements:", user.profile.agreements || "No agreements found");
 
-        navigate(`/identity/${user.profile.preferred_username}`);
-        dispatch(loadUserData());
+        const result = await dispatch(loadUserData());
+        if (result.type === "auth/loadUserData/fulfilled") {
+          navigate(`/identity/${result.payload.nickname}`);
+        } else {
+          console.log("ERROR in loadUserData:", result)
+        }
       } catch (error) {
         console.error("OIDC callback error:", error);
         navigate("/");

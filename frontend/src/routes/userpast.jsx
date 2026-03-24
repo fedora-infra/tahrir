@@ -72,7 +72,7 @@ export default function UserPast() {
             <Icon path={mdiBookAccount} size={0.875} className="me-1" />
             Collection
           </Button>
-          {authUser && authUser.preferred_username === identity && (
+          {authUser && authUser.nickname === identity && (
             <Button
               as={Link}
               to="/campaign"
