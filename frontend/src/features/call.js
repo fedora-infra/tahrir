@@ -271,6 +271,30 @@ export const callUnit = createApi({
       }),
       invalidatesTags: (result, error, { user_id }) => [{ type: "Identity", id: user_id }, "IdentitySearch"],
     }),
+    creationIssuer: builder.mutation({
+      query: (issuerData) => ({
+        url: "../api/admin/issuers",
+        method: "POST",
+        body: issuerData,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: [], // optional for now
+    }),
+    updationIssuer: builder.mutation({
+      query: ({ issuer_id, filldata }) => ({
+        url: `../api/admin/issuers/${issuer_id}`,
+        method: "PUT",
+        body: filldata,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: [], // optional for now
+    }),
   }),
 });
 
@@ -299,6 +323,8 @@ export const {
   useUpdationIdentityMutation,
   useRetrieveCampaignQuery,
   useToggleIdentityOptOutMutation,
+  useCreationIssuerMutation,
+  useUpdationIssuerMutation,
 } = callUnit;
 
 export default callUnit.reducer;

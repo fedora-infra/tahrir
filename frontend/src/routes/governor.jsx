@@ -20,6 +20,8 @@ import { loadUserData } from "../features/auth.js";
 import { hideLoad, showLoad } from "../features/part.js";
 import { owners } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
+import IssuerCreationForm from "../crud/issuers/create.jsx";
+import IssuerUpdateForm from "../crud/issuers/update.jsx";
 
 export default function Governor() {
   const dispatch = useDispatch();
@@ -120,6 +122,17 @@ export default function Governor() {
           </ListGroup>
           <UserCreationForm />
           <UserUpdateForm />
+          <hr className="mt-2 mb-2" />
+          <ListGroup className="mb-2">
+            <ListGroup.Item
+              className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
+              style={{ "--vibe": vibe }}
+            >
+              Issuers
+            </ListGroup.Item>
+          </ListGroup>
+          <IssuerCreationForm />
+          <IssuerUpdateForm />
           <hr className="mt-2 mb-2" />
           <ListGroup className="mb-2">
             <ListGroup.Item

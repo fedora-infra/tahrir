@@ -34,8 +34,7 @@ def add_authorization():
     return (
         jsonify(
             {
-                "message":
-                f"Badge {data.get(required_fields[0])!r} "
+                "message": f"Badge {data.get(required_fields[0])!r} "
                 f"authorized to {data.get(required_fields[1])!r}"
             }
         ),
@@ -72,8 +71,7 @@ def remove_authorization():
     return (
         jsonify(
             {
-                "message":
-                f"Badge {data.get(required_fields[0])!r} "
+                "message": f"Badge {data.get(required_fields[0])!r} "
                 f"authorization revoked from {data.get(required_fields[1])!r}"
             }
         ),
