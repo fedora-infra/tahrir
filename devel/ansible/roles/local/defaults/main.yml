@@ -1,0 +1,5 @@
+ipa_hostname: ipa.tinystage.test
+ipsilon_hostname: ipsilon.tinystage.test
+auth_hostname: auth.tinystage.test
+top_dir: "{{ (playbook_dir + '../../..') | realpath }}"
+devel_dir: "{{ top_dir }}/devel/run"

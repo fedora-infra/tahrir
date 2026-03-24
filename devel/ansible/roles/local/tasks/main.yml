@@ -1,0 +1,130 @@
+- name: Install the backend
+  command: poetry install --all-extras
+  register: result
+  changed_when: '"No dependencies to install or update" not in result.stdout'
+
+- name: Create the devel directory
+  file:
+    path: "{{ devel_dir }}"
+    state: directory
+
+- name: Get the Tinystage CA cert
+  get_url:
+    url: https://{{ ipsilon_hostname }}/ca.crt
+    dest: "{{ devel_dir }}/ca.crt"
+    validate_certs: false
+
+- name: Load the content of the Tinystage CA cert
+  slurp:
+    src: "{{ devel_dir }}/ca.crt"
+  register: ca_crt
+
+- name: Find where certifi's CA bundle is located
+  command:
+    cmd: poetry run python -c "import certifi; print(certifi.where())"
+  register: _ca_bundle_path
+  changed_when: False
+
+- name: Put tinystage root CA in the list of CA's for certifi
+  blockinfile:
+    block: "{{ ca_crt.content | b64decode }}"
+    path: "{{ _ca_bundle_path.stdout }}"
+
+#
+# OIDC Registration
+#
+## Frontend
+- name: Register the frontend with the OIDC provider
+  command:
+    cmd: poetry run oidc-register --debug --public-client --output-file {{ devel_dir }}/oidc-frontend.json https://{{ ipsilon_hostname }}/idp/openidc/ http://localhost:5173/callback
+    creates: "{{ devel_dir }}/oidc-frontend.json"
+
+- name: Load the frontend's OIDC config
+  ansible.builtin.slurp:
+    src: "{{ devel_dir }}/oidc-frontend.json"
+  register: oidc_frontend_config
+
+- name: Extract the frontend's OIDC client_id
+  set_fact:
+    oidc_frontend_client_id: "{{ oidc_frontend_config['content'] | b64decode | from_json | json_query('web.client_id') }}"
+
+## API
+- name: Register the API with the OIDC provider
+  command:
+    cmd: poetry run oidc-register --debug --output-file {{ devel_dir }}/oidc-api.json https://{{ ipsilon_hostname }}/idp/openidc/ http://localhost:8000/
+    creates: "{{ devel_dir }}/oidc-api.json"
+
+# - name: Load the API's OIDC config
+#   ansible.builtin.slurp:
+#     src: "{{ devel_dir }}/oidc-api.json"
+#   register: oidc_api_config
+
+# - name: Extract the API's OIDC client_id
+#   set_fact:
+#     oidc_api_client_id: "{{ oidc_api_config['content'] | b64decode | from_json | json_query('web.client_id') }}"
+#     oidc_api_client_secret: "{{ oidc_api_config['content'] | b64decode | from_json | json_query('web.client_secret') }}"
+
+# Config files
+
+- name: Create the frontend config file
+  template:
+    src: frontend.env.j2
+    dest: "{{ top_dir }}/frontend/.env.development.local"
+  notify: reload supervisord
+
+- name: Create the backend config file
+  template:
+    src: tahrir.cfg.j2
+    dest: "{{ devel_dir }}/tahrir.cfg"
+  notify: reload supervisord
+
+- name: Create the Alembic config file
+  copy:
+    src: alembic.ini
+    dest: "{{ devel_dir }}/alembic.ini"
+
+- name: Create the fedora-messaging config file for the API
+  copy:
+    src: fedora-messaging.toml
+    dest: "{{ devel_dir }}/fedora-messaging.toml"
+
+
+- name: Get the badges
+  git:
+    repo: https://pagure.io/fedora-badges.git
+    dest: "{{ devel_dir }}/fedora-badges"
+
+- name: Create or update the database
+  command: poetry run flask tahrir sync-db
+  environment:
+    FLASK_CONFIG: "{{ devel_dir }}/tahrir.cfg"
+    FLASK_APP: "{{ top_dir }}/tahrir/app.py"
+    FLASK_DEBUG: 1
+  args:
+    creates: "{{ devel_dir }}/tahrir.db"
+
+- name: Load the fedora badges in the DB
+  command: poetry run flask tahrir load-badges
+  environment:
+    FLASK_CONFIG: "{{ devel_dir }}/tahrir.cfg"
+    FLASK_APP: "{{ top_dir }}/tahrir/app.py"
+    FLASK_DEBUG: 1
+
+- name: Install the frontend
+  command:
+    cmd: npm install
+    chdir: "{{ top_dir }}/frontend"
+  register: result
+  changed_when: '"up to date" not in result.stdout'
+
+- name: Create the supervisord config file
+  template:
+    src: supervisord.conf.j2
+    dest: "{{ top_dir }}/supervisord.conf"
+  notify: reload supervisord
+
+- name: Start supervisord
+  command:
+    cmd: supervisord
+    chdir: "{{ top_dir }}"
+    creates: "{{ devel_dir }}/supervisor.sock"

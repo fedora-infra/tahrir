@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: Contributors to the Fedora Project
+#
+# SPDX-License-Identifier: MIT
+
+amqp_url = "amqp://fedoramessages:fedoramessages@tinystage.tinystage.test"
+
+[client_properties]
+app = "Tahrir"
+
+# If the exchange or queue name  has a "." in it, use quotes as seen here.
+[exchanges."amq.topic"]
+type = "topic"
+durable = true
+auto_delete = false
+arguments = {}

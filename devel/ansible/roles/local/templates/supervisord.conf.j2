@@ -1,0 +1,44 @@
+; supervisor config file.
+; This is used for development.
+
+[unix_http_server]
+file=%(here)s/devel/run/supervisor.sock
+
+[supervisord]
+logfile = %(here)s/devel/run/supervisord.log
+logfile_maxbytes = 1024000
+logfile_backups = 0
+pidfile=%(here)s/devel/run/supervisord.pid
+directory = %(here)s
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl=unix://%(here)s/devel/run/supervisor.sock
+
+; Programs
+
+[program:api]
+command = poetry run uvicorn fmn.api.main:app --reload --env-file {{ devel_dir }}/fmn.cfg
+command = poetry run flask run --reload -h "0.0.0.0"
+environment =
+    PYTHONUNBUFFERED=1,
+    FLASK_DEBUG=1,
+    FLASK_APP=%(here)s/tahrir/app.py,
+    FLASK_CONFIG={{ devel_dir }}/tahrir.cfg,
+    FEDORA_MESSAGING_CONF={{ devel_dir }}/fedora-messaging.toml
+autorestart = false
+redirect_stderr = true
+stdout_logfile = {{ devel_dir }}/%(program_name)s.log
+stdout_logfile_maxbytes = 1024000
+
+[program:frontend]
+command = npm run dev -- --clearScreen false
+directory = %(here)s/frontend
+environment =
+    BROWSER=none
+autorestart = false
+redirect_stderr = true
+stdout_logfile = {{ devel_dir }}/%(program_name)s.log
+stdout_logfile_maxbytes = 1024000

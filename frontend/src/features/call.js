@@ -1,9 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+export const API_BASE_URL = import.meta.env.VITE_API_URL
+
 export const callUnit = createApi({
   reducerPath: "callunit",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/json/",
+    baseUrl: API_BASE_URL + "/json/",
   }),
   tagTypes: [
     "Identity",
@@ -300,5 +302,4 @@ export const {
   useRetrieveCampaignQuery,
   useToggleIdentityOptOutMutation,
 } = callUnit;
-
 export default callUnit.reducer;
