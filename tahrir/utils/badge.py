@@ -47,7 +47,11 @@ def badge_json_generator(badge, withasserts=True):
     try:
         assertions = sorted(badge.assertions, key=lambda b: b.issued_on)
         times_awarded = len(badge.assertions)
-        percent_earned = float(times_awarded) / float(g.tahrirdb.get_all_persons().count())
+        persons_count = g.tahrirdb.get_all_persons().count()
+        if persons_count == 0:
+            percent_earned = 0
+        else:
+            percent_earned = float(times_awarded) / float(persons_count)
 
         if assertions:
             last_awarded = assertions[-1]
