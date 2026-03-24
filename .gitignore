@@ -24,3 +24,5 @@ tahrir.ini
 coverage.xml
 htmlcov/
 .vagrant
+/devel/run
+supervisord.conf

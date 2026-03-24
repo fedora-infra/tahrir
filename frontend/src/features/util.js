@@ -70,5 +70,5 @@ export function obtainRarityEdge(rarity) {
 export const owners = "signed_fpca";
 
 export function relativeImageUrl(url) {
-  return url.toString().replace("https://badges.fedoraproject.org", "");
+  return url.toString().replace("https://badges.fedoraproject.org", import.meta.env.VITE_API_URL);
 }

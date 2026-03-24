@@ -881,6 +881,22 @@ Jinja2 = ">=3.1"
 pytz = ">=2022.7"
 
 [[package]]
+name = "flask-cors"
+version = "6.0.2"
+description = "A Flask extension simplifying CORS support"
+optional = false
+python-versions = "<4.0,>=3.9"
+groups = ["main"]
+files = [
+    {file = "flask_cors-6.0.2-py3-none-any.whl", hash = "sha256:e57544d415dfd7da89a9564e1e3a9e515042df76e12130641ca6f3f2f03b699a"},
+    {file = "flask_cors-6.0.2.tar.gz", hash = "sha256:6e118f3698249ae33e429760db98ce032a8bf9913638d085ca0f4c5534ad2423"},
+]
+
+[package.dependencies]
+flask = ">=0.9"
+Werkzeug = ">=0.7"
+
+[[package]]
 name = "flask-healthz"
 version = "1.0.1"
 description = "A simple module to allow you to easily add health endpoints to your Flask application"
@@ -1062,6 +1078,21 @@ http2 = ["h2 (>=4.1.0)"]
 setproctitle = ["setproctitle"]
 testing = ["coverage", "gevent (>=24.10.1)", "h2 (>=4.1.0)", "httpx[http2]", "pytest", "pytest-asyncio", "pytest-cov", "uvloop (>=0.19.0)"]
 tornado = ["tornado (>=6.5.0)"]
+
+[[package]]
+name = "httplib2"
+version = "0.31.2"
+description = "A comprehensive HTTP client library."
+optional = false
+python-versions = ">=3.6"
+groups = ["dev"]
+files = [
+    {file = "httplib2-0.31.2-py3-none-any.whl", hash = "sha256:dbf0c2fa3862acf3c55c078ea9c0bc4481d7dc5117cae71be9514912cf9f8349"},
+    {file = "httplib2-0.31.2.tar.gz", hash = "sha256:385e0869d7397484f4eab426197a4c020b606edd43372492337c0b4010ae5d24"},
+]
+
+[package.dependencies]
+pyparsing = ">=3.1,<4"
 
 [[package]]
 name = "hyperlink"
@@ -1615,6 +1646,21 @@ testing = ["beautifulsoup4", "coverage[toml]", "defusedxml", "pygments (<2.19)",
 testing-docutils = ["pygments", "pytest (>=8,<9)", "pytest-param-files (>=0.6.0,<0.7.0)"]
 
 [[package]]
+name = "oidc-register"
+version = "0.2.1"
+description = "OpenID Connect Dynamic Client Registration tool"
+optional = false
+python-versions = "*"
+groups = ["dev"]
+files = [
+    {file = "oidc-register-0.2.1.tar.gz", hash = "sha256:ed15b5b5d3f1a8c835b7d2c30be98cf0cb4565a6a92e34dc87dad0a6ec17b055"},
+    {file = "oidc_register-0.2.1-py2.py3-none-any.whl", hash = "sha256:958538ae6f534c69650ca8de1dfa474232e492706e10a687ea26b0d34a21447e"},
+]
+
+[package.dependencies]
+httplib2 = "*"
+
+[[package]]
 name = "packaging"
 version = "26.2"
 description = "Core utilities for Python packages"
@@ -2075,7 +2121,7 @@ version = "3.3.2"
 description = "pyparsing - Classes and methods to define and execute parsing grammars"
 optional = false
 python-versions = ">=3.9"
-groups = ["main"]
+groups = ["main", "dev"]
 files = [
     {file = "pyparsing-3.3.2-py3-none-any.whl", hash = "sha256:850ba148bd908d7e2411587e247a1e4f0327839c40e2e5e6d05a007ecc69911d"},
     {file = "pyparsing-3.3.2.tar.gz", hash = "sha256:c777f4d763f140633dcb6d8a3eda953bf7a214dc4eff598413c070bcdc117cbc"},
@@ -3415,4 +3461,4 @@ docs = ["myst-parser", "sphinx"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10.0"
-content-hash = "f0cd94198781e41e2542470a6f75ee80da3329710138c8a1c1fdbebd2929c0a7"
+content-hash = "c11b2821ff9652848f471c67eda61690692aecfec6f249ce2e61a19265c0203e"

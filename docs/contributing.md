@@ -26,7 +26,7 @@ Your pull request should contain tests for your new feature or bug fix. If you'r
 
 ### Setup a local development environment
 
-To quickly start hacking on Tahrir, we provide a vagrant setup.
+To quickly start hacking on Tahrir, we provide a local setup.
 
 1. Set up [tinystage](https://github.com/fedora-infra/tiny-stage) (if you haven't already) and ensure the base boxes are running.
    This sets up the infrastructure to use things like authentication and Fedora Messaging when developing on Tahrir
@@ -34,7 +34,8 @@ To quickly start hacking on Tahrir, we provide a vagrant setup.
 2. Clone the repository to your local storage and run
 
    ```
-   vagrant up
+   ansible-playbook ./devel/ansible/devel.yml
+   supervisord
    ```
 
-3. Tahrir frontend should now be available on [https://badges.tinystage.test](https://badges.tinystage.test).
+3. Tahrir frontend should now be available on [http://localhost:5173/](http://localhost:5173/). The logs are in `devel/run`. You can restart the frontend and/or the backend using `supervisorctl`.

@@ -3,6 +3,7 @@ from logging.config import dictConfig
 
 import flask_talisman
 from flask import Flask
+from flask_cors import CORS
 from flask_healthz import healthz
 from flask_oidc import OpenIDConnect
 from flask_oidc.signals import after_authorize
@@ -30,6 +31,14 @@ csrf = CSRFProtect()
 # Security
 oidc = OpenIDConnect()
 talisman = flask_talisman.Talisman()
+cors = CORS(
+    resources={
+        r"/api/*": {"origins": "*"},
+        r"/json/*": {"origins": "*"},
+        r"/pngs/*": {"origins": "*"},
+        r"/stls/*": {"origins": "*"},
+    }
+)
 
 
 REQUIRED_CONFIG = [
@@ -82,6 +91,7 @@ def create_app(config=None):
     cache.configure(**app.config["CACHE"])
 
     # Security
+    cors.init_app(app)
     # talisman.init_app(
     #     app,
     #     force_https=app.config.get("SESSION_COOKIE_SECURE", True),
