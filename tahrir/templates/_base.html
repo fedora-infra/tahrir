@@ -68,10 +68,42 @@
             </a>
           </h1>
 
-          <form method="POST" action="/explore" id="header-search" class="mobile-hidden">
+          <form method="POST" action="/explore" id="header-search" class="mobile-hidden"
+                style="display: flex; align-items: center; gap: 10px;">
+
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <input name="badge-query" required="required" />
-            <input name="badge-search" type="submit" value="Search" />
+
+            <input name="badge-query"
+                  required="required"
+                  placeholder="Search badges..."
+                  style="
+                    padding: 8px 12px;
+                    border: 1px solid #ccc;
+                    border-radius: 6px;
+                    outline: none;
+                    width: 180px;
+                    transition: all 0.2s ease;
+                  "
+                  onfocus="this.style.border='1px solid #3158AF'; this.style.boxShadow='0 0 5px rgba(49,88,175,0.3)'"
+                  onblur="this.style.border='1px solid #ccc'; this.style.boxShadow='none'"
+            />
+
+            <input name="badge-search"
+                  type="submit"
+                  value="Search"
+                  style="
+                    background: #3158AF;
+                    color: white;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    transition: background 0.2s ease;
+                  "
+                  onmouseover="this.style.background='#274a94'"
+                  onmouseout="this.style.background='#3158AF'"
+            />
+
           </form>
         </div>
 
