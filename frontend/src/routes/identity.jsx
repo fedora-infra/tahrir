@@ -73,7 +73,7 @@ export default function Identity() {
             <Icon path={mdiHistory} size={0.875} className="me-1" />
             History
           </Button>
-          {authUser && authUser.preferred_username === identity && (
+          {authUser && authUser.nickname === identity && (
             <Button
               as={Link}
               to="/campaign"

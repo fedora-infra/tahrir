@@ -2,10 +2,31 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import md5 from "crypto-js/md5";
 
 import { userManager } from "../config/oidc.js";
+import { API_BASE_URL } from "./call.js";
 
 export const loadUserData = createAsyncThunk("auth/loadUserData", async () => {
   const user = await userManager.getUser();
-  return user && !user.expired ? user.profile : null;
+  const response = await fetch(API_BASE_URL + "/api/users/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${user.access_token}`
+    },
+  });
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+  const person = await response.json();
+  if (!user || user.expired) {
+    return null
+  }
+
+  // Update what we got from the OIDC provider with what we got from the API
+  user.profile.nickname = person.nickname;
+  user.profile.person = person
+
+  return user.profile;
 });
 
 const authData = createSlice({

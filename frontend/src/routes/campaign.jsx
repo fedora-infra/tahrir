@@ -23,16 +23,16 @@ export default function Campaign() {
 
   const isDark = mode === "dark" || (mode === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-  const { data: profile, isLoading: isProfileLoading } = useRetrieveIdentityQuery(authUser?.preferred_username, {
-    skip: !authUser?.preferred_username,
+  const { data: profile, isLoading: isProfileLoading } = useRetrieveIdentityQuery(authUser?.nickname, {
+    skip: !authUser?.nickname,
   });
 
   const {
     data: invitations,
     isLoading: isCampaignLoading,
     error,
-  } = useRetrieveCampaignQuery(authUser?.preferred_username, {
-    skip: !authUser?.preferred_username,
+  } = useRetrieveCampaignQuery(authUser?.nickname, {
+    skip: !authUser?.nickname,
   });
 
   const [selectedInvite, makeSelectedInvite] = useState(null);
@@ -99,7 +99,7 @@ export default function Campaign() {
         <div className="d-grid gap-2">
           <Button
             as={Link}
-            to={`/identity/${authUser.preferred_username}`}
+            to={`/identity/${authUser.nickname}`}
             variant="outline-secondary"
             className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"
@@ -110,7 +110,7 @@ export default function Campaign() {
           </Button>
           <Button
             as={Link}
-            to={`/userpast/${authUser.preferred_username}`}
+            to={`/userpast/${authUser.nickname}`}
             variant="outline-secondary"
             className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"

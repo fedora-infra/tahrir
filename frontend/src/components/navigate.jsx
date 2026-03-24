@@ -112,11 +112,11 @@ export default function Navigate() {
               >
                 <NavDropdown.Item
                   as={Link}
-                  to={`/identity/${user.preferred_username}`}
+                  to={`/identity/${user.nickname}`}
                   className="small d-flex align-items-center p-1"
                 >
                   <Icon className="me-1" size={0.75} path={mdiAccountCircle} />
-                  {user.preferred_username}
+                  {user.nickname}
                 </NavDropdown.Item>
                 {user.groups && user.groups.includes(owners) && (
                   <NavDropdown.Item as={Link} to="/governor" className="small d-flex align-items-center p-1">

@@ -1,8 +1,10 @@
 import sqlalchemy as sa
 import tahrir_api.model as m
+from authlib.integrations.flask_oauth2 import current_token
 from flask import abort, g, jsonify, request
 
-from ..utils.user import get_person, get_user_badge_info, require_login
+from ..app import csrf, oidc
+from ..utils.user import create_person, get_person, get_user_badge_info, require_login
 from . import blueprint as bp
 
 
@@ -169,3 +171,19 @@ def get_user_diff(id_a: str, id_b: str):
             ],
         }
     )
+
+
+@bp.route("/api/users/", methods=["POST"])
+@csrf.exempt
+@oidc.accept_token()
+def after_login():
+    """Create the person if it does not exist."""
+    if not request.authorization:
+        abort(403)
+    current_token["access_token"] = request.authorization.token
+    profile = g._oidc_auth.userinfo(token=current_token)
+    create_person(profile["preferred_username"], profile["email"])
+    person = g.tahrirdb.get_person(person_email=profile["email"])
+    if not person:
+        abort(404)
+    return jsonify(person.as_dict())
