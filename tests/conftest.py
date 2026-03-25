@@ -22,6 +22,11 @@ def app_config(tmpdir):
         TAHRIR_ADMIN_GROUPS=["admin"],
         OIDC_ENABLED=False,
         OIDC_TESTING_PROFILE={"nickname": "test-user", "groups": ["admin"]},
+        CACHE={
+            "backend": "dogpile.cache.null",
+            "expiration_time": 10000,
+            "replace_existing_backend": True,  # fix: allow reconfiguring cache between tests
+        },
     )
 
 
