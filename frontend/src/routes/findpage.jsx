@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { Badge, Card, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
@@ -12,7 +12,20 @@ import Mistaken from "./mistaken.jsx";
 export default function FindPage() {
   const dispatch = useDispatch();
   const { slugdata: findtext } = useParams();
-  const { data: dict, isLoading, error } = useRetrieveDiscoverQuery(findtext, { skip: false });
+  const [badgePage, setBadgePage] = useState(1);
+  const [userPage, setUserPage] = useState(1);
+  const { data: dict, isLoading, error } = useRetrieveDiscoverQuery({
+    discover: findtext,
+    page_badges: badgePage,
+    page_users: userPage,
+    per_page: 10,
+  },
+    {skip: false}
+  );
+  useEffect(() => {
+    setBadgePage(1);
+    setUserPage(1);
+  }, [findtext]);
   const vibe = useSelector((data) => data.area.vibe);
 
   // Show or Hide LoadNote
@@ -52,7 +65,7 @@ export default function FindPage() {
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               Badges
             </Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Found {dict.badges.length} badge(s)</Card.Text>
+            <Card.Text className="mb-0 ps-2 small">Found {dict.pagination?.badges_total} badge(s)</Card.Text>
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush">
               {dict.badges.length > 0 ? (
@@ -74,6 +87,21 @@ export default function FindPage() {
                 <VertItem head="No badges found" body="Try refining your search" />
               )}
             </ListGroup>
+            <div className="d-flex justify-content-between p-2">
+              <button
+                disabled={!dict?.pagination?.badges?.has_prev}
+                onClick={() => setBadgePage((prev) => prev - 1)}
+              >
+                Previous
+              </button>
+
+              <button
+                disabled={!dict?.pagination?.badges?.has_next}
+                onClick={() => setBadgePage((prev) => prev + 1)}
+              >
+                Next
+              </button>
+            </div>
           </Card.Body>
         </Card>
         <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
@@ -103,6 +131,21 @@ export default function FindPage() {
                 <VertItem head="No users found" body="Try refining your search" />
               )}
             </ListGroup>
+            <div className="d-flex justify-content-between p-2">
+              <button
+                disabled={!dict?.pagination?.users?.has_prev}
+                onClick={() => setUserPage((prev) => prev - 1)}
+              >
+                Previous
+              </button>
+
+              <button
+                disabled={!dict?.pagination?.users?.has_next}
+                onClick={() => setUserPage((prev) => prev + 1)}
+              >
+                Next
+              </button>
+            </div>
           </Card.Body>
         </Card>
       </div>

@@ -43,11 +43,12 @@ export const callUnit = createApi({
       providesTags: ["AccoList"],
     }),
     retrieveDiscover: builder.query({
-      query: (discover) => ({
+      query: ({ discover, page_badges, page_users, per_page }) => ({
         url: `search/${discover}`,
         method: "GET",
+        params: { page_badges, page_users, per_page },
       }),
-      providesTags: (result, error, discover) => [{ type: "Discover", id: discover }],
+      providesTags: (result, error, { discover }) => [{ type: "Discover", id: discover }],
     }),
     retrieveRarities: builder.query({
       query: (rarities) => `rarities/${rarities}`,

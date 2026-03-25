@@ -1,7 +1,6 @@
 import flask_babel
 from flask import g, request
 
-
 _LANGUAGES = []
 
 babel = flask_babel.Babel()

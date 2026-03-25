@@ -5,7 +5,6 @@ from flask import current_app
 
 from tahrir.cache import cache
 
-
 libravatar = None
 try:
     import libravatar

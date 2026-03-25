@@ -85,16 +85,20 @@ def json_explore(search_query):
     Returns a dictionary containing all available users and badges.
     """
 
-    # Get all badges
-    all_badges = (
-        g.tahrirdb.get_all_badges()
-        .filter(
-            sa.func.lower(m.Badge.name).like(f"%{search_query.lower()}%")
-            | sa.func.lower(m.Badge.description).like(f"%{search_query.lower()}%")
-            | sa.func.lower(m.Badge.tags).like(f"%{search_query.lower()}%")
-        )
-        .all()
+    page_badges = request.args.get("page_badges", 1, type=int)
+    page_users = request.args.get("page_users", 1, type=int)
+    per_page = request.args.get("per_page", 10, type=int)
+
+    badges_query = g.tahrirdb.session.query(m.Badge).filter(
+        sa.func.lower(m.Badge.name).like(f"%{search_query.lower()}%")
+        | sa.func.lower(m.Badge.description).like(f"%{search_query.lower()}%")
+        | sa.func.lower(m.Badge.tags).like(f"%{search_query.lower()}%")
     )
+
+    badges_total = badges_query.count()
+
+    badges_items = badges_query.offset((page_badges - 1) * per_page).limit(per_page).all()
+
     badges_data = [
         {
             "id": badge.id,
@@ -106,18 +110,18 @@ def json_explore(search_query):
                 [tag.strip() for tag in badge.tags.split(",") if tag.strip()] if badge.tags else []
             ),
         }
-        for badge in all_badges
+        for badge in badges_items
     ]
 
-    # Get all users (persons who haven't opted out)
-    all_persons = (
-        g.tahrirdb.get_all_persons()
-        .filter(
-            m.Person.opt_out.is_(False)
-            & sa.func.lower(m.Person.nickname).like(f"%{search_query.lower()}%")
-        )
-        .all()
+    users_query = g.tahrirdb.session.query(m.Person).filter(
+        m.Person.opt_out.is_(False)
+        & sa.func.lower(m.Person.nickname).like(f"%{search_query.lower()}%")
     )
+
+    users_total = users_query.count()
+
+    users_items = users_query.offset((page_users - 1) * per_page).limit(per_page).all()
+
     users_data = [
         {
             "id": person.id,
@@ -129,10 +133,31 @@ def json_explore(search_query):
             "rank": person.rank,
             "website": person.website,
         }
-        for person in all_persons
+        for person in users_items
     ]
 
-    return jsonify({"users": users_data, "badges": badges_data})
+    return jsonify(
+        {
+            "users": users_data,
+            "badges": badges_data,
+            "pagination": {
+                "badges": {
+                    "page": page_badges,
+                    "total": badges_total,
+                    "pages": (badges_total + per_page - 1) // per_page,
+                    "has_next": page_badges * per_page < badges_total,
+                    "has_prev": page_badges > 1,
+                },
+                "users": {
+                    "page": page_users,
+                    "total": users_total,
+                    "pages": (users_total + per_page - 1) // per_page,
+                    "has_next": page_users * per_page < users_total,
+                    "has_prev": page_users > 1,
+                },
+            },
+        }
+    )
 
 
 @bp.route("/explore/badges")

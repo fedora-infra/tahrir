@@ -1,7 +1,6 @@
 from flask import Blueprint, Flask, render_template
 from flask.helpers import send_from_directory
 
-
 blueprint = Blueprint("tahrir", __name__)
 
 

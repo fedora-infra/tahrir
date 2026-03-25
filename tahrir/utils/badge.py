@@ -7,7 +7,6 @@ from flask import abort, current_app, g
 
 from tahrir.defaults import TAHRIR_DISPLAY_TAGS
 
-
 ISSUER = dict(
     name="Fedora Project",
     origin="http://badges.fedoraproject.org",
@@ -37,9 +36,13 @@ def badge_json_generator(badge, withasserts=True):
             "name": badge.name,
             "description": badge.description,
             "image": badge.image,
-            "tags": [item.strip() for item in badge.tags.split(",") if item.strip() != ""],
+            "tags": (
+                [item.strip() for item in badge.tags.split(",") if item.strip() != ""]
+                if badge.tags
+                else []
+            ),
             "criteria": badge.criteria,
-            "rarity": raredata["badges"][badge.id]["rare"],
+            "rarity": raredata["badges"].get(badge.id, {}).get("rare"),
             "issuer": badge.issuer.name,
             "created_on": badge.created_on.timestamp(),
         }
@@ -93,10 +96,14 @@ def badge_json_generator(badge, withasserts=True):
         "first_awarded_person": first_awarded_person,
         "percent_earned": percent_earned,
         "image": badge.image,
-        "tags": [item.strip() for item in badge.tags.split(",") if item.strip() != ""],
+        "tags": (
+            [item.strip() for item in badge.tags.split(",") if item.strip() != ""]
+            if badge.tags
+            else []
+        ),
         "issuer": badge.issuer.name,
         "criteria": badge.criteria,
-        "rarity": raredata["badges"][badge.id]["rare"],
+        "rarity": raredata["badges"].get(badge.id, {}).get("rare"),
         "assertions": [
             {
                 "name": i.person.nickname,
@@ -135,7 +142,7 @@ def convert_name_to_id(name):
 
     badge_id = name.lower().replace(" ", "-")
     bad = ['"', "'", "(", ")", "*", "&", "?"]
-    replacements = dict(zip(bad, [""] * len(bad)))
+    replacements = dict(zip(bad, [""] * len(bad), strict=True))
     for a, b in replacements.items():
         badge_id = badge_id.replace(a, b)
 
