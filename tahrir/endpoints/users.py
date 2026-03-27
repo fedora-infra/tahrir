@@ -1,5 +1,3 @@
-import sqlalchemy as sa
-import tahrir_api.model as m
 from authlib.integrations.flask_oauth2 import current_token
 from flask import abort, g, jsonify, request
 
@@ -11,40 +9,27 @@ from . import blueprint as bp
 
 @bp.route("/api/users/search/<search_string>", methods=["GET"])
 def search_users_by_string(search_string: str):
-    """
-    Search endpoint that returns users matching the search string
-    """
-
-    # We need to have a function for searching users in Tahrir API
-    # Instead of doing this over here like this
+    """Search endpoint that returns users matching the search string"""
     begin = request.args.get("begin", 0, type=int)
     limit = request.args.get("limit", 100, type=int)
 
-    collection = (
-        g.tahrirdb.get_all_persons(include_opted_out=True)
-        .filter(sa.func.lower(m.Person.nickname).like(f"%{search_string.lower()}%"))
-        .all()
-    )
+    result = g.tahrirdb.get_persons_by_nickname(search_string, begin, limit)
 
-    # Suggested function should also include pagination feature
-    result = {
-        "users": [
-            {
-                "id": item.id,
-                "bio": item.bio if item.bio else None,
-                "created_on": item.created_on.timestamp() if item.created_on else None,
-                "email": hash_email(item.avatar),
-                "last_login": item.last_login.timestamp() if item.last_login else None,
-                "nickname": item.nickname,
-                "opt_out": item.opt_out,
-                "rank": item.rank,
-                "website": item.website,
+    result["users"] = [
+        {
+            "user": {
+                "id": person.id,
+                "nickname": person.nickname,
+                "email": person.email,
+                "website": person.website,
+                "bio": person.bio,
+                "rank": person.rank,
+                "avatar": hash_email(person.email),
+                "created_on": (person.created_on.timestamp() if person.created_on else None),
             }
-            for item in collection[begin : begin + (limit if limit < 100 else 100)]
-        ],
-        "castup": len(collection),
-    }
-
+        }
+        for person in result["users"]
+    ]
     return jsonify(result)
 
 
