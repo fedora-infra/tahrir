@@ -3,18 +3,23 @@
 ENV['VAGRANT_NO_PARALLEL'] = 'yes'
 
 Vagrant.configure(2) do |config|
-  config.hostmanager.enabled = true
-  config.hostmanager.manage_host = true
-  config.hostmanager.manage_guest = true
 
   config.vm.define "badges" do |badges|
-    badges.vm.box_url = "https://download.fedoraproject.org/pub/fedora/linux/releases/38/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-38-1.6.x86_64.vagrant-libvirt.box"
-    badges.vm.box = "f38-cloud-libvirt"
+    badges.vm.box = "bento/fedora-39"
     badges.vm.hostname = "badges.tinystage.test"
 
-    badges.vm.synced_folder '.', '/vagrant', type: "sshfs"
-    badges.vm.synced_folder ".", "/home/vagrant/tahrir", type: "sshfs"
-    # badges.vm.synced_folder "../tahrir-api", "/home/vagrant/tahrir-api", type: "sshfs"
+    badges.vm.communicator = "ssh"
+    badges.ssh.username = "vagrant"
+    badges.ssh.insert_key = false
+
+    badges.vm.synced_folder '.', '/vagrant'
+    badges.vm.synced_folder ".", "/home/vagrant/tahrir"
+    # badges.vm.synced_folder "../tahrir-api", "/home/vagrant/tahrir-api"
+
+    badges.vm.provider "virtualbox" do |vb|
+      vb.cpus = 2
+      vb.memory = 2048
+    end
 
     badges.vm.provider :libvirt do |libvirt|
       libvirt.cpus = 2
