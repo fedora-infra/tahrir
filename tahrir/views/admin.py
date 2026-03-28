@@ -248,9 +248,7 @@ def builder():
     if request.method == "GET":
         # Pre-fill defaults
         if g.oidc_user.person:
-            form.badge_creator.data = (
-                g.oidc_user.person.nickname or g.oidc_user.person.email
-            )
+            form.badge_creator.data = g.oidc_user.person.nickname or g.oidc_user.person.email
         form.issuer.data = current_app.config.get("TAHRIR_DEFAULT_ISSUER", "")
 
     return render_template("builder.html", form=form)
