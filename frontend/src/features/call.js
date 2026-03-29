@@ -107,6 +107,16 @@ export const callUnit = createApi({
       },
       providesTags: ["Granting"],
     }),
+    retrieveDiff: builder.query({
+      query: ({ id_a, id_b }) => ({
+        url: `../api/users/diff/${id_a}/${id_b}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, { id_a, id_b }) => [
+        { type: "Identity", id: id_a },
+        { type: "Identity", id: id_b },
+      ],
+    }),
     creationAccolade: builder.mutation({
       query: (badgeData) => ({
         url: "../api/admin/badges",
@@ -286,6 +296,7 @@ export const {
   useRetrieveRankingsQuery,
   useRetrieveAvermentQuery,
   useRetrieveGrantingQuery,
+  useRetrieveDiffQuery,
   useRetrieveQRInviteQuery,
   useCreationAccoladeMutation,
   useCreationAvermentMutation,
