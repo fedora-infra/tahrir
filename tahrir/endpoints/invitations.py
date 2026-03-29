@@ -3,7 +3,6 @@ from datetime import datetime
 from flask import abort, g, jsonify
 
 from ..app import csrf, oidc
-from ..utils.user import get_person
 from . import blueprint as bp
 
 
@@ -34,15 +33,18 @@ def claim_invitation(invitation_id: str):
     return jsonify({"message": f"You have earned badge {claim.badge_id!r}"})
 
 
-@bp.route("/api/invitations/<string:user_id>", methods=["GET"])
-def get_invitations(user_id: str):
+@oidc.require_login
+@bp.route("/api/invitations", methods=["GET"])
+def get_invitations():
     """Endpoint to list all invitations created by a given user."""
 
-    # TODO - Modify the endpoint to require authentication
-    # TODO - Remove the user_id path parameter requirement
-    person = get_person(user_id)
+    email = g.oidc_user.email
+    if not email:
+        return abort(401, "Unauthorized")
+
+    person = g.oidc_user.person
     if not person:
-        return abort(404, f"User {user_id!r} not found")
+        return abort(404, "User not found")
 
     invitations = g.tahrirdb.get_invitations(person_id=person.id)
 

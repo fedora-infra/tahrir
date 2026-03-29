@@ -11,7 +11,7 @@ def get_recent_assertions():
     begin = request.args.get("begin", 0, type=int)
     limit = min(request.args.get("limit", 40, type=int), 40)
 
-    assertions = list(g.tahrirdb.get_all_assertions(begin, limit))
+    assertions = list(g.tahrirdb.get_all_assertions(begin=begin, limit=limit))
     if not assertions:
         return jsonify([])
 
