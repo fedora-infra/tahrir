@@ -1,3 +1,21 @@
+- name: Install RPM packages
+  become: true
+  dnf:
+    name:
+      - poetry
+      - gcc
+      - libffi-devel
+      - python3.13
+      - libpq-devel
+      - python3.13-devel
+      - npm
+      - supervisor
+    state: present
+    install_weak_deps: false
+
+- name: Set Poetry to use Python 3.13
+  command: poetry env use python3.13
+
 - name: Install the backend
   command: poetry install --all-extras
   register: result
