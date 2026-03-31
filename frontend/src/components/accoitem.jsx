@@ -5,7 +5,7 @@ import { Link } from "react-router";
 import { obtainRarityBack, obtainRarityEdge, obtainRarityText, relativeImageUrl } from "../features/util.js";
 
 export default function AccoItem({ iden, name, body, foot, shot, rare }) {
-   const [show, setShow] = useState(false);
+  const [show, makeShow] = useState(false);
 
   if (shot) {
     shot = relativeImageUrl(shot);
@@ -15,11 +15,12 @@ export default function AccoItem({ iden, name, body, foot, shot, rare }) {
     <OverlayTrigger
       placement="auto"
       show={show}
-      onToggle={setShow}
+      onToggle={makeShow}
       overlay={
-        <Popover className={`bodyelem ${obtainRarityEdge(rare)}`} 
-        onMouseEnter={() => setShow(true)}
-        onMouseLeave={() => setShow(false)}
+        <Popover
+          className={`bodyelem ${obtainRarityEdge(rare)}`}
+          onMouseEnter={() => makeShow(true)}
+          onMouseLeave={() => makeShow(false)}
         >
           <Popover.Header
             className={`p-2 fw-bold text-truncate ${obtainRarityBack(rare) || "bg-secondary text-white"}`}
@@ -29,17 +30,19 @@ export default function AccoItem({ iden, name, body, foot, shot, rare }) {
           <Popover.Body className="p-2 small" style={{ userSelect: "text" }}>
             <p>{body}</p>
             <p className="mb-0 text-secondary fst-italic">
-              <span className={`text-truncate fw-bold ${obtainRarityText(rare)}`}>Rarity {rare}</span> • Created on{" "}
-              {foot}
+              <Link
+                to={`/rarities/${rare}`}
+                className={`text-truncate fw-bold text-decoration-none ${obtainRarityText(rare)}`}
+              >
+                Rarity {rare}
+              </Link>{" "}
+              • Created on {foot}
             </p>
           </Popover.Body>
         </Popover>
       }
     >
-      <Col xs={3} md={1} lg={1}  
-      onMouseEnter={() => setShow(true)}
-      onMouseLeave={() => setShow(false)}
-      >
+      <Col xs={3} md={1} lg={1} onMouseEnter={() => makeShow(true)} onMouseLeave={() => makeShow(false)}>
         <Link to={`/accolade/${iden}`} tabIndex="0">
           <Image src={shot} className="w-100 h-100" alt={name} />
         </Link>
