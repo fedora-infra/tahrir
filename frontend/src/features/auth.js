@@ -10,21 +10,21 @@ export const loadUserData = createAsyncThunk("auth/loadUserData", async () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${user.access_token}`
+      Authorization: `Bearer ${user.access_token}`,
     },
   });
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
+  if (!response.ok) {
+    throw new Error(`Response status: ${response.status}`);
+  }
 
   const person = await response.json();
   if (!user || user.expired) {
-    return null
+    return null;
   }
 
   // Update what we got from the OIDC provider with what we got from the API
   user.profile.nickname = person.nickname;
-  user.profile.person = person
+  user.profile.person = person;
 
   return user.profile;
 });

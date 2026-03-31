@@ -3,8 +3,8 @@ import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "re
 import { useDispatch } from "react-redux";
 
 import { useDeletionSanctionMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
-import { showBaseNote } from "../../features/part.js";
 import { useLoadingState } from "../../features/hooks.js";
+import { showBaseNote } from "../../features/part.js";
 import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 
 export default function AuthorizationDeletionForm() {
