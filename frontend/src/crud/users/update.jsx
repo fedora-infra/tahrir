@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
+import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row, Spinner } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 import {
@@ -31,7 +31,7 @@ export default function UserUpdateForm() {
   const [userLookup, setUserLookup] = useState("");
   const [userDropdownShow, setUserDropdownShow] = useState(false);
 
-  const { data: searchResults } = useLookupIdentityQuery(userLookup, {
+  const { data: searchResults, isLoading: isUserLoading } = useLookupIdentityQuery(userLookup, {
     skip: userLookup.length < 4,
   });
 
@@ -176,13 +176,17 @@ export default function UserUpdateForm() {
                   autoComplete="off"
                 />
               </FloatingLabel>
-              {userLookup.length >= 4 &&
-                searchResults &&
-                searchResults.users &&
-                searchResults.users.length > 0 &&
-                userDropdownShow && (
-                  <Dropdown.Menu show className="position-absolute w-100 mt-1" style={{ zIndex: 1050 }}>
-                    <Dropdown.Header className="small p-1">Users</Dropdown.Header>
+              {userLookup.length >= 4 && userDropdownShow && (
+                <Dropdown.Menu show className="position-absolute w-100 mt-1" style={{ zIndex: 1050 }}>
+                  {isUserLoading && (
+                    <Dropdown.Item disabled className="d-flex align-items-center justify-content-center p-3">
+                      <Spinner animation="border" size="sm" className="me-2" />
+                      <span className="small">Searching...</span>
+                    </Dropdown.Item>
+                  )}
+                  {!isUserLoading && searchResults && searchResults.users && searchResults.users.length > 0 && (
+                    <>
+                      <Dropdown.Header className="small p-1">Users</Dropdown.Header>
                     {searchResults.users.slice(0, 8).map((user) => (
                       <Dropdown.Item
                         key={user.id}
@@ -202,13 +206,15 @@ export default function UserUpdateForm() {
                         </div>
                       </Dropdown.Item>
                     ))}
-                    {searchResults.users.length > 8 && (
-                      <Dropdown.Item disabled className="small text-muted p-1">
-                        +{searchResults.users.length - 8} more users
-                      </Dropdown.Item>
-                    )}
-                  </Dropdown.Menu>
-                )}
+                      {searchResults.users.length > 8 && (
+                        <Dropdown.Item disabled className="small text-muted p-1">
+                          +{searchResults.users.length - 8} more users
+                        </Dropdown.Item>
+                      )}
+                    </>
+                  )}
+                </Dropdown.Menu>
+              )}
             </div>
           </Col>
           <Col lg="6">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
+import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row, Spinner } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 
@@ -34,7 +34,7 @@ export default function BadgeUpdateForm() {
     skip: !accolade,
   });
 
-  const { data: accoladeResult } = useLookupAccoladeQuery(accoladeLookup, {
+  const { data: accoladeResult, isLoading: isAccoladeLookupLoading } = useLookupAccoladeQuery(accoladeLookup, {
     skip: accoladeLookup.length < 4,
   });
 
@@ -163,13 +163,17 @@ export default function BadgeUpdateForm() {
                   autoComplete="off"
                 />
               </FloatingLabel>
-              {accoladeLookup.length >= 4 &&
-                accoladeResult &&
-                accoladeResult.badges &&
-                accoladeResult.badges.length > 0 &&
-                accoladeDropdownShow && (
-                  <Dropdown.Menu show className="position-absolute w-100 mt-1" style={{ zIndex: 1050 }}>
-                    <Dropdown.Header className="small p-1">Badges</Dropdown.Header>
+              {accoladeLookup.length >= 4 && accoladeDropdownShow && (
+                <Dropdown.Menu show className="position-absolute w-100 mt-1" style={{ zIndex: 1050 }}>
+                  {isAccoladeLookupLoading && (
+                    <Dropdown.Item disabled className="d-flex align-items-center justify-content-center p-3">
+                      <Spinner animation="border" size="sm" className="me-2" />
+                      <span className="small">Searching...</span>
+                    </Dropdown.Item>
+                  )}
+                  {!isAccoladeLookupLoading && accoladeResult && accoladeResult.badges && accoladeResult.badges.length > 0 && (
+                    <>
+                      <Dropdown.Header className="small p-1">Badges</Dropdown.Header>
                     {accoladeResult.badges.slice(0, 8).map((accolade) => (
                       <Dropdown.Item
                         key={accolade.id}
@@ -189,13 +193,15 @@ export default function BadgeUpdateForm() {
                         </div>
                       </Dropdown.Item>
                     ))}
-                    {accoladeResult.badges.length > 8 && (
-                      <Dropdown.Item disabled className="small text-muted p-1">
-                        +{accoladeResult.badges.length - 8} more badges
-                      </Dropdown.Item>
-                    )}
-                  </Dropdown.Menu>
-                )}
+                      {accoladeResult.badges.length > 8 && (
+                        <Dropdown.Item disabled className="small text-muted p-1">
+                          +{accoladeResult.badges.length - 8} more badges
+                        </Dropdown.Item>
+                      )}
+                    </>
+                  )}
+                </Dropdown.Menu>
+              )}
             </div>
           </Col>
           <Col lg="6">
