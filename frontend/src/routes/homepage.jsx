@@ -1,4 +1,12 @@
-import { mdiCrosshairsGps, mdiHeart, mdiHistory, mdiStarFourPoints, mdiTrophy, mdiViewGridPlus } from "@mdi/js";
+import {
+  mdiCrosshairsGps,
+  mdiHeart,
+  mdiHistory,
+  mdiInformationOutline,
+  mdiStarFourPoints,
+  mdiTrophy,
+  mdiViewGridPlus,
+} from "@mdi/js";
 import Icon from "@mdi/react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -127,6 +135,17 @@ export default function Homepage() {
           >
             <Icon path={mdiCrosshairsGps} size={0.875} className="me-1" />
             Explore badges
+          </Button>
+          <Button
+            as={Link}
+            to="/addendum"
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiInformationOutline} size={0.875} className="me-1" />
+            Service information
           </Button>
           <Button
             as="a"

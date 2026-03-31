@@ -21,7 +21,6 @@ export const callUnit = createApi({
     "QRInvite",
     "Sanction",
     "Campaign",
-    "About",
   ],
   endpoints: (builder) => ({
     retrieveIdentity: builder.query({
@@ -274,13 +273,6 @@ export const callUnit = createApi({
       }),
       invalidatesTags: (result, error, { user_id }) => [{ type: "Identity", id: user_id }, "IdentitySearch"],
     }),
-    retrieveAbout: builder.query({
-      query: () => ({
-        url: "about",
-        method: "GET",
-      }),
-      providesTags: ["About"],
-    }),
   }),
 });
 
@@ -309,6 +301,5 @@ export const {
   useUpdationIdentityMutation,
   useRetrieveCampaignQuery,
   useToggleIdentityOptOutMutation,
-  useRetrieveAboutQuery,
 } = callUnit;
 export default callUnit.reducer;
