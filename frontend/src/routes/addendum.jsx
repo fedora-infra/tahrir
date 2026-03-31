@@ -15,7 +15,7 @@ export default function Addendum() {
 
   useEffect(() => {
     dispatch(showLoad());
-    fetch("/docs/about.md")
+    fetch("/docs/addendum.md")
       .then((resp) => resp.text())
       .then((text) => {
         setContent(text);

@@ -17,11 +17,7 @@ export default function FindList({ type, list, hide }) {
         >
           <Image
             rounded={true}
-            src={
-              type === "accolade"
-                ? relativeImageUrl(unit.image)
-                : portraitProvider(unit.email, 40)
-            }
+            src={type === "accolade" ? relativeImageUrl(unit.image) : portraitProvider(unit.email, 40)}
             width="40"
             height="40"
             className="me-2"
