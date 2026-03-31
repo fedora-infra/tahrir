@@ -6,6 +6,7 @@ import tahrir_api.model as m
 from feedgen.feed import FeedGenerator
 from flask import abort, flash, g, redirect, render_template, request, url_for
 
+from tahrir.app import oidc
 from tahrir.utils.avatar import get_avatar
 from tahrir.utils.badge import get_badge_or_404
 
@@ -154,8 +155,8 @@ def tags(tags, match):
 
 # delegated admin endpoints
 
-
 @bp.route("/award", methods=["POST"])
+@oidc.require_login
 def award():
     badge_id = request.form.get("badge_id")
     badge = g.tahrirdb.get_badge(badge_id)
@@ -180,8 +181,8 @@ def award():
 
     return redirect(url_for("tahrir.badge", badge_id=badge.id))
 
-
 @bp.route("/invite", methods=["POST"])
+@oidc.require_login
 def invite():
     agent = g.oidc_user.person
     badge_id = request.form.get("badge_id")
