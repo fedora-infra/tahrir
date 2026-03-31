@@ -21,21 +21,20 @@ def add_authorization():
         if not data.get(field):
             return abort(400, f"No detail provided for {field!r}")
 
+    badge_id = data.get(required_fields[0])
+    username = data.get(required_fields[1])
+
     # ONE SHOULD NOT FEEL THE NEED OF USING THE EMAIL ADDRESS HERE
     # THIS WORKAROUND IS TEMPORARY AND TAHRIR-API WOULD BE CHANGED TO ACCEPT JUST USERNAME
     result = g.tahrirdb.add_authorization(
-        badge_id=data.get(required_fields[0]),
-        person_email=data.get(required_fields[1]) + "@fedoraproject.org",
+        badge_id=badge_id,
+        person_email=username + "@fedoraproject.org",
     )
 
     if not result:
         return abort(400, "Failed to add authorization")
 
-    return jsonify(
-        {
-            "message": f"Badge {data.get(required_fields[0])!r} authorized to {data.get(required_fields[1])!r}"
-        }
-    ), 201
+    return jsonify({"message": f"Badge {badge_id!r} authorized to {username!r}"}), 201
 
 
 @bp.route("/api/admin/authorization", methods=["DELETE"])
@@ -54,18 +53,20 @@ def remove_authorization():
         if not data.get(field):
             return abort(400, f"No detail provided for {field!r}")
 
+    badge_id = data.get(required_fields[0])
+    username = data.get(required_fields[1])
+
     # ONE SHOULD NOT FEEL THE NEED OF USING THE EMAIL ADDRESS HERE
     # THIS WORKAROUND IS TEMPORARY AND TAHRIR-API WOULD BE CHANGED TO ACCEPT JUST USERNAME
     result = g.tahrirdb.delete_authorization(
-        badge_id=data.get(required_fields[0]),
-        person_email=data.get(required_fields[1]) + "@fedoraproject.org",
+        badge_id=badge_id,
+        person_email=username + "@fedoraproject.org",
     )
 
     if not result:
         return abort(404, "Authorization not found or failed to remove")
 
-    return jsonify(
-        {
-            "message": f"Badge {data.get(required_fields[0])!r} authorization revoked from {data.get(required_fields[1])!r}"
-        }
-    ), 200
+    return (
+        jsonify({"message": f"Badge {badge_id!r} authorization revoked from {username!r}"}),
+        200,
+    )
