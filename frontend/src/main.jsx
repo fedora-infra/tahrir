@@ -9,6 +9,7 @@ import ModeWrap from "./components/modewrap.jsx";
 import { data } from "./features/data.js";
 import Accolade from "./routes/accolade.jsx";
 import AccoList from "./routes/accolist.jsx";
+import Addendum from "./routes/addendum.jsx";
 import Callback from "./routes/callback.jsx";
 import Campaign from "./routes/campaign.jsx";
 import Category from "./routes/category.jsx";
@@ -22,7 +23,6 @@ import Rankings from "./routes/rankings.jsx";
 import Rarities from "./routes/rarities.jsx";
 import Recently from "./routes/recently.jsx";
 import UserPast from "./routes/userpast.jsx";
-import About from "./routes/about.jsx";
 
 createRoot(document.getElementById("root")).render(
   <Provider store={data}>
@@ -32,7 +32,7 @@ createRoot(document.getElementById("root")).render(
           <Route element={<Callback />} path="/callback" />
           <Route element={<MainArea />} path="/">
             <Route element={<Homepage />} index />
-            <Route element={<About />} path="about" />
+            <Route element={<Addendum />} path="addendum" />
             <Route element="" path="/profiles" />
             <Route element="" path="/userdata" />
             <Route element="" path="/operator" />
