@@ -145,7 +145,6 @@ def json_report_year(year=None, week=None, month=None, day=None):
         # Weekly report
         start = get_start_week(year, month, day)
         stop = start + timedelta(days=6)
-        print("Start: ", start, " End: ", stop)
     elif day is not None:
         # Daily report
         start = date(year, month, day)
