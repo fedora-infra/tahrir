@@ -4,6 +4,17 @@ from datetime import date, datetime, timedelta, timezone
 import dateutil.relativedelta
 
 
+def last_day_of_calendar_month(year: int, month: int) -> date:
+    """Return the last calendar day of the given month.
+
+    Used for monthly leaderboard/report ranges so HTML and JSON paths stay consistent.
+    """
+    first = date(year, month, 1)
+    nudge = first + timedelta(days=32)
+    first_next_month = nudge.replace(day=1)
+    return first_next_month - timedelta(days=1)
+
+
 def get_start_week(year=None, month=None, day=None):
     """For a given date, retrieve the day the week started
 

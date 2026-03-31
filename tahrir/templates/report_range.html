@@ -1,0 +1,54 @@
+{% from '_functions.html' import avatar_thumbnail, pluralize with context %}
+{% extends '_base.html' %}
+
+{% block body %}
+<div class="page">
+  <div class="grid-100">
+    <div class="shadow">
+      <h1 class="section-header">Rising stars: custom period</h1>
+      <div class="report-range padded-content">
+        <p>Pick a start and end date (inclusive). Dates use the ISO form <strong>YYYY-MM-DD</strong> in the picker.</p>
+        <p>Looking for the <a href="{{ url_for('tahrir.leaderboard') }}">all-time leaderboard</a> or <a href="{{ url_for('tahrir.explore') }}">other report links</a>?</p>
+
+        {% if error %}
+        <p><strong style="color: #a40000;">{{ error }}</strong></p>
+        {% endif %}
+
+        <form method="get" action="{{ url_for('tahrir.report_custom_range') }}">
+          <label>Start
+            <input type="date" name="start" value="{{ start_value }}" required>
+          </label>
+          <label>End
+            <input type="date" name="end" value="{{ end_value }}" required>
+          </label>
+          <input type="submit" value="Show leaderboard">
+        </form>
+
+        {% if user_to_rank is not none %}
+        <p>Showing results for <strong>{{ start_date }}</strong> through <strong>{{ stop_date }}</strong> (inclusive).</p>
+        <table>
+          {% for person, stats in (user_to_rank.items()|list)[:25] %}
+            <tr>
+              <td style="width: 20px;">
+                  <span class="big-text">#{{ stats['rank'] }}</span>
+              </td>
+              <td style="width: 100px;">
+                <small>(#{{ person.rank }} all time)</small>
+              </td>
+              <td style="width: 64px;">{{ avatar_thumbnail(person, 64, 33) }}</td>
+              <td>
+                <a href="{{ url_for('tahrir.user', user_id=person.nickname or person.id) }}">{{ person.nickname }}</a>
+                earned <strong>{{ user_to_rank[person]['badges'] }}</strong>
+                {{ pluralize("badge", user_to_rank[person]['badges']) }}
+                during this period.
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="clear spacer"></div>
+</div>
+{% endblock %}

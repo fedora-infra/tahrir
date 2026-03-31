@@ -42,6 +42,7 @@ createRoot(document.getElementById("root")).render(
             <Route element={<Recently />} path="recently" />
             <Route path="rankings">
               <Route element={<Rankings />} index />
+              <Route element={<Rankings />} path="range" />
               <Route path="y/:y">
                 <Route element={<Rankings />} index />
                 <Route path="m/:m">

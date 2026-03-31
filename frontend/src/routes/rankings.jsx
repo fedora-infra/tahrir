@@ -1,8 +1,9 @@
 import { mdiCalendarCheck, mdiCalendarHeart, mdiCalendarMonth, mdiCalendarRange, mdiCalendarWeek } from "@mdi/js";
 import Icon from "@mdi/react";
+import React, { useEffect, useState } from "react";
 import { Badge, Button, Card, Form, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate, useParams } from "react-router";
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router";
 
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveRankingsQuery } from "../features/call.js";
@@ -11,6 +12,7 @@ import { keepDate } from "../features/part.js";
 import { generateIdentity, portraitProvider } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
+
 export default function Rankings() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,8 +20,19 @@ export default function Rankings() {
   const thisdate = new Date();
   const { y, m, d } = useParams();
   const isweekly = location.pathname.endsWith("/week");
+  const isCustomRange = location.pathname === "/rankings/range";
+  const [searchParams, setSearchParams] = useSearchParams();
+  const rangeStart = searchParams.get("start");
+  const rangeEnd = searchParams.get("end");
+  const [startField, setStartField] = useState(rangeStart || "");
+  const [endField, setEndField] = useState(rangeEnd || "");
   const pickdate = useSelector((state) => state.area.date);
   const vibe = useSelector((data) => data.area.vibe);
+
+  useEffect(() => {
+    setStartField(rangeStart || "");
+    setEndField(rangeEnd || "");
+  }, [rangeStart, rangeEnd]);
 
   const readDate = () => {
     if (y && m && d) {
@@ -41,14 +54,21 @@ export default function Rankings() {
     }
   };
 
-  const params = {
+  const stdParams = {
     ...(y && { y: parseInt(y) }),
     ...(m && { m: parseInt(m) }),
     ...(d && { d: parseInt(d) }),
     ...(isweekly && { w: true }),
   };
 
-  const { data: dict, isLoading, error } = useRetrieveRankingsQuery(params, { skip: false });
+  const apiParams =
+    isCustomRange && rangeStart && rangeEnd
+      ? { start: rangeStart, end: rangeEnd }
+      : stdParams;
+
+  const skipRetrieve = isCustomRange && (!rangeStart || !rangeEnd);
+
+  const { data: dict, isLoading, error } = useRetrieveRankingsQuery(apiParams, { skip: skipRetrieve });
 
   useLoadingState(isLoading);
 
@@ -56,32 +76,41 @@ export default function Rankings() {
     return <Mistaken />;
   }
 
-  if (isLoading || !dict) {
+  const loadingBlocked =
+    (!isCustomRange && (isLoading || !dict)) ||
+    (isCustomRange && rangeStart && rangeEnd && (isLoading || !dict));
+
+  if (loadingBlocked) {
     return null;
   }
 
   const showDate = () => {
-    if (Object.keys(params).length === 0) return "All time";
+    if (isCustomRange) {
+      if (rangeStart && rangeEnd) return `${rangeStart} to ${rangeEnd}`;
+      return "Pick start and end dates";
+    }
+    if (Object.keys(stdParams).length === 0) return "All time";
 
     const date = new Date();
-    if (params.y) date.setFullYear(params.y);
-    if (params.m) date.setMonth(params.m - 1);
-    if (params.d) date.setDate(params.d);
+    if (stdParams.y) date.setFullYear(stdParams.y);
+    if (stdParams.m) date.setMonth(stdParams.m - 1);
+    if (stdParams.d) date.setDate(stdParams.d);
 
     const option = {};
-    if (params.y) option.year = "numeric";
-    if (params.m) option.month = "long";
-    if (params.d) option.day = "numeric";
+    if (stdParams.y) option.year = "numeric";
+    if (stdParams.m) option.month = "long";
+    if (stdParams.d) option.day = "numeric";
 
     return date.toLocaleDateString("en-US", option);
   };
 
   const showHead = () => {
+    if (isCustomRange) return "Custom range";
     let name = "";
-    if (params.w) name = "Weekly";
-    else if (params.d) name = "Daily";
-    else if (params.m) name = "Monthly";
-    else if (params.y) name = "Yearly";
+    if (stdParams.w) name = "Weekly";
+    else if (stdParams.d) name = "Daily";
+    else if (stdParams.m) name = "Monthly";
+    else if (stdParams.y) name = "Yearly";
     else name = "All time";
     return name;
   };
@@ -101,27 +130,27 @@ export default function Rankings() {
   const scanDate = (conf = "") => {
     if (conf === "d")
       return (
-        params.y &&
-        params.m &&
-        params.d &&
-        (params.y !== thisdate.getFullYear() ||
-          params.m !== thisdate.getMonth() + 1 ||
-          params.d !== thisdate.getDate()) &&
+        stdParams.y &&
+        stdParams.m &&
+        stdParams.d &&
+        (stdParams.y !== thisdate.getFullYear() ||
+          stdParams.m !== thisdate.getMonth() + 1 ||
+          stdParams.d !== thisdate.getDate()) &&
         isweekly
       );
     else if (conf === "w")
       return (
-        params.y &&
-        params.m &&
-        params.d &&
-        (params.y !== thisdate.getFullYear() ||
-          params.m !== thisdate.getMonth() + 1 ||
-          params.d !== thisdate.getDate()) &&
+        stdParams.y &&
+        stdParams.m &&
+        stdParams.d &&
+        (stdParams.y !== thisdate.getFullYear() ||
+          stdParams.m !== thisdate.getMonth() + 1 ||
+          stdParams.d !== thisdate.getDate()) &&
         !isweekly
       );
     else if (conf === "m")
-      return params.y && params.m && (params.y !== thisdate.getFullYear() || params.m !== thisdate.getMonth() + 1);
-    else if (conf === "y") return params.y && params.y !== thisdate.getFullYear();
+      return stdParams.y && stdParams.m && (stdParams.y !== thisdate.getFullYear() || stdParams.m !== thisdate.getMonth() + 1);
+    else if (conf === "y") return stdParams.y && stdParams.y !== thisdate.getFullYear();
     return false;
   };
 
@@ -132,9 +161,43 @@ export default function Rankings() {
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">Rankings</Card.Title>
             <Card.Text className="small">{showDate()}</Card.Text>
-            <Card.Text>
-              <Form.Control type="date" value={readDate()} onChange={handleChange} size="sm" autoComplete="off" />
-            </Card.Text>
+            {isCustomRange ? (
+              <Card.Text>
+                <Form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (!startField || !endField) return;
+                    setSearchParams({ start: startField, end: endField });
+                  }}
+                >
+                  <Form.Label className="small mb-0">Start</Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={startField}
+                    onChange={(e) => setStartField(e.target.value)}
+                    className="mb-2"
+                    size="sm"
+                    autoComplete="off"
+                  />
+                  <Form.Label className="small mb-0">End</Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={endField}
+                    onChange={(e) => setEndField(e.target.value)}
+                    className="mb-2"
+                    size="sm"
+                    autoComplete="off"
+                  />
+                  <Button type="submit" size="sm" variant="outline-secondary" className="w-100 vibe-border" style={{ "--vibe": vibe }}>
+                    Show rankings
+                  </Button>
+                </Form>
+              </Card.Text>
+            ) : (
+              <Card.Text>
+                <Form.Control type="date" value={readDate()} onChange={handleChange} size="sm" autoComplete="off" />
+              </Card.Text>
+            )}
           </Card.Body>
         </Card>
         <div className="d-grid gap-2">
@@ -193,11 +256,22 @@ export default function Rankings() {
             <Icon path={mdiCalendarHeart} size={0.875} className="me-1" />
             All time
           </Button>
+          <Button
+            as={Link}
+            to="/rankings/range"
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiCalendarRange} size={0.875} className="me-1" />
+            Custom date range
+          </Button>
           {scanDate("y") || scanDate("m") || scanDate("w") || scanDate("d") ? <hr className="m-0" /> : null}
           {scanDate("w") ? (
             <Button
               as={Link}
-              to={`/rankings/y/${params.y}/m/${params.m}/d/${params.d}/week`}
+              to={`/rankings/y/${stdParams.y}/m/${stdParams.m}/d/${stdParams.d}/week`}
               variant="outline-secondary"
               className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
               size="sm"
@@ -210,7 +284,7 @@ export default function Rankings() {
           {scanDate("d") ? (
             <Button
               as={Link}
-              to={`/rankings/y/${params.y}/m/${params.m}/d/${params.d}`}
+              to={`/rankings/y/${stdParams.y}/m/${stdParams.m}/d/${stdParams.d}`}
               variant="outline-secondary"
               className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
               size="sm"
@@ -223,27 +297,27 @@ export default function Rankings() {
           {scanDate("m") ? (
             <Button
               as={Link}
-              to={`/rankings/y/${params.y}/m/${params.m}`}
+              to={`/rankings/y/${stdParams.y}/m/${stdParams.m}`}
               variant="outline-secondary"
               className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
               size="sm"
               style={{ "--vibe": vibe }}
             >
               <Icon path={mdiCalendarMonth} size={0.875} className="me-1" />
-              For {new Date(params.y, params.m - 1).toLocaleDateString("en-US", { month: "long" })}
+              For {new Date(stdParams.y, stdParams.m - 1).toLocaleDateString("en-US", { month: "long" })}
             </Button>
           ) : null}
           {scanDate("y") ? (
             <Button
               as={Link}
-              to={`/rankings/y/${params.y}`}
+              to={`/rankings/y/${stdParams.y}`}
               variant="outline-secondary"
               className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
               size="sm"
               style={{ "--vibe": vibe }}
             >
               <Icon path={mdiCalendarCheck} size={0.875} className="me-1" />
-              For {params.y}
+              For {stdParams.y}
             </Button>
           ) : null}
         </div>
@@ -264,7 +338,7 @@ export default function Rankings() {
                     link={`/identity/${item.nickname}`}
                     shot={portraitProvider(item.mail)}
                     head={item.nickname}
-                    body={`Collected ${item.badges} badge(s) ${y || m || d || isweekly ? `during this period • Global rank #${item.rank.global}` : ""}`}
+                    body={`Collected ${item.badges} badge(s) ${y || m || d || isweekly || (isCustomRange && rangeStart && rangeEnd) ? `during this period • Global rank #${item.rank.global}` : ""}`}
                     hand={
                       <Badge className="monoelem vibe-badge" style={{ "--vibe": vibe }}>
                         #{item.rank.period}

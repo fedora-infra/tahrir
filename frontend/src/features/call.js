@@ -63,7 +63,14 @@ export const callUnit = createApi({
       providesTags: (result, error, category) => [{ type: "Category", id: category }],
     }),
     retrieveRankings: builder.query({
-      query: ({ y, w, m, d, begin = 0, limit = 200 } = {}) => {
+      query: ({ y, w, m, d, start, end, begin = 0, limit = 200 } = {}) => {
+        if (start && end) {
+          return {
+            url: "report/range",
+            method: "GET",
+            params: { start, end, begin, limit },
+          };
+        }
         let link = "report";
         if (y) {
           link += `/y/${y}`;
