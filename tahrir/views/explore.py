@@ -230,11 +230,3 @@ def json_rarities(rare=None):
             for rare in data["rarity"]
         }
         return jsonify(rslt)
-
-
-@bp.route("/json/about", methods=["GET"])
-def json_about():
-    """Endpoint that returns the about page content as HTML."""
-    from tahrir.utils.docs import load_docs
-    content = load_docs("about")
-    return jsonify({"content": str(content)})
