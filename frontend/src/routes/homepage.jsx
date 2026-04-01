@@ -32,6 +32,12 @@ export default function Homepage() {
     }
   };
 
+  const handleAwardsClicks = (e, path) => {
+    if (!e.target.closest('a')) {
+      navigate(path);
+    };
+  };
+
   // Show or Hide LoadNote
   useEffect(() => {
     if (isLoading) {
@@ -176,7 +182,7 @@ export default function Homepage() {
                     </>
                   }
                   shot={item.person?.email ? portraitProvider(item.person.email, 45) : null}
-                  link={`/identity/${item.person?.nickname || ""}`}
+                  onClick={(e) => {handleAwardsClicks(e, `/identity/${item.person?.nickname || ""}`)}}
                 />
               ))}
             </ListGroup>
