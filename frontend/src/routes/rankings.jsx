@@ -1,13 +1,13 @@
 import { mdiCalendarCheck, mdiCalendarHeart, mdiCalendarMonth, mdiCalendarRange, mdiCalendarWeek } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useEffect } from "react";
 import { Badge, Button, Card, Form, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate, useParams } from "react-router";
 
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveRankingsQuery } from "../features/call.js";
-import { hideLoad, keepDate, showLoad } from "../features/part.js";
+import { useLoadingState } from "../features/hooks.js";
+import { keepDate } from "../features/part.js";
 import { generateIdentity, portraitProvider } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
@@ -50,14 +50,7 @@ export default function Rankings() {
 
   const { data: dict, isLoading, error } = useRetrieveRankingsQuery(params, { skip: false });
 
-  // Show or Hide LoadNote
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoad());
-    } else {
-      dispatch(hideLoad());
-    }
-  }, [isLoading, dispatch]);
+  useLoadingState(isLoading);
 
   if (error) {
     return <Mistaken />;

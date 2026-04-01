@@ -10,21 +10,19 @@ import {
 import Icon from "@mdi/react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useEffect } from "react";
 import { Button, Card, ListGroup, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveAccoListQuery, useRetrieveGrantingQuery } from "../features/call.js";
-import { hideLoad, showLoad } from "../features/part.js";
+import { useLoadingState } from "../features/hooks.js";
 import { generateIdentity, portraitProvider } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 dayjs.extend(relativeTime);
 
 export default function Homepage() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data: granting, isLoading: isGrantingLoading, error: grantingError } = useRetrieveGrantingQuery();
   const { data: accolade, isLoading: isAccoladeLoading, error: accoladeError } = useRetrieveAccoListQuery();
@@ -43,19 +41,12 @@ export default function Homepage() {
   // Using onClick instead of link to avoid nested <a> tags (hydration error).
   // Trade-off: right-click "Open in new tab" will not work on award items.
   const handleAwardsClick = (e, path) => {
-    if(!e.target.closest('a')) {
+    if (!e.target.closest("a")) {
       navigate(path);
     }
   };
 
-  // Show or Hide LoadNote
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoad());
-    } else {
-      dispatch(hideLoad());
-    }
-  }, [isLoading, dispatch]);
+  useLoadingState(isLoading);
 
   if (error) {
     return <Mistaken />;
@@ -203,7 +194,9 @@ export default function Homepage() {
                     </>
                   }
                   shot={item.person?.mail ? portraitProvider(item.person.mail, 45) : null}
-                  onClick={(e) => {handleAwardsClick(e, `/identity/${item.person?.nickname || ""}`)}}
+                  onClick={(e) => {
+                    handleAwardsClick(e, `/identity/${item.person?.nickname || ""}`);
+                  }}
                 />
               ))}
             </ListGroup>

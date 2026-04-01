@@ -1,19 +1,17 @@
 import { mdiHistory, mdiSend } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
 import Grouping from "../components/grouping.jsx";
 import { useRetrieveIdentityQuery } from "../features/call.js";
-import { hideLoad, showLoad } from "../features/part.js";
+import { useLoadingState } from "../features/hooks.js";
 import { formatTime, generateIdentity, portraitProvider } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function Identity() {
-  const dispatch = useDispatch();
   const { slugdata: identity } = useParams();
   const vibe = useSelector((data) => data.area.vibe);
   const authUser = useSelector((data) => data.auth.user);
@@ -26,14 +24,7 @@ export default function Identity() {
     skip: !identity,
   });
 
-  // Show or Hide LoadNote
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoad());
-    } else {
-      dispatch(hideLoad());
-    }
-  }, [isLoading, dispatch]);
+  useLoadingState(isLoading);
 
   if (error) {
     return <Mistaken />;

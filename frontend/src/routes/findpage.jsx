@@ -1,28 +1,19 @@
-import { useEffect } from "react";
 import { Badge, Card, ListGroup } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveDiscoverQuery } from "../features/call.js";
-import { hideLoad, showLoad } from "../features/part.js";
+import { useLoadingState } from "../features/hooks.js";
 import { formatTime, generateIdentity, portraitProvider } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function FindPage() {
-  const dispatch = useDispatch();
   const { slugdata: findtext } = useParams();
   const { data: dict, isLoading, error } = useRetrieveDiscoverQuery(findtext, { skip: false });
   const vibe = useSelector((data) => data.area.vibe);
 
-  // Show or Hide LoadNote
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoad());
-    } else {
-      dispatch(hideLoad());
-    }
-  }, [isLoading, dispatch]);
+  useLoadingState(isLoading);
 
   if (findtext.length < 4) {
     return <Mistaken />;
