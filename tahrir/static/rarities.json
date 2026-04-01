@@ -48,7 +48,6 @@
             "badge-muse-badges-released-v",
             "master-badge-artist-vii",
             "free-the-fedora-v",
-            "chemnitzer-linux-tage-2026",
             "signal-specialist-upstream-release-monitoring-ii",
             "community-messenger-vii",
             "community-messenger-viii",
@@ -109,13 +108,12 @@
             "flock-2014-organizer",
             "birth-of-badger-badge-artist-iii",
             "community-messenger-iv",
-            "bitcamp-2016"
+            "bitcamp-2016",
+            "lxqt-sig-member"
         ],
         "S": [
-            "lxqt-sig-member",
             "fudcon-puno-2016-organizer",
             "clickbait-fedora-magazine-iii",
-            "chemnitzer-linux-tage-2016",
             "froscon-2023-attendee",
             "linuxcon-beijing-2017",
             "internationalization-team-member",
@@ -124,6 +122,7 @@
             "taming-the-beasts",
             "badger-of-urbino-badge-artist-ii",
             "ruby-sig-member",
+            "chemnitzer-linux-tage-2016",
             "podcast-contributor",
             "guadec-2022",
             "design-ninja-2",
@@ -161,13 +160,13 @@
             "four-badgers-design-team-i",
             "devconf.us-2024-attendee",
             "lets-have-a-party-fedora-29",
-            "chemnitzer-linux-tage-2025",
             "khmer-translation-hero-2017",
             "flisol-2016-organizer",
             "lets-have-a-party-fedora-31",
             "fedora-37-coreos-test-day",
             "pycon-2016-attendee",
             "websites.next",
+            "chemnitzer-linux-tage-2025",
             "def-keepin-fedora-beautiful-f28",
             "f27-i18n-test-day-participant",
             "f41-i18n-test-day-participant",
@@ -188,6 +187,7 @@
             "software-freedom-kosova-2016-attendee",
             "f32-i18n-test-day-participant",
             "flisol-2018-attendee",
+            "chemnitzer-linux-tage-2026",
             "objective-completed",
             "diversity--inclusion-virtual-team-meetup",
             "f38-i18n-test-day-participant",
@@ -397,20 +397,20 @@
             "called-to-action",
             "fedora-31-change-accepted",
             "master-package-tagger-package-tagger-iv",
-            "centos-connect-2024-attendee",
-            "corporate-overlord",
             "centos-connect-2025-attendee",
             "scale-23x-attendee",
             "lets-have-a-party-fedora-43",
             "fedora-37-change-accepted",
+            "centos-connect-2024-attendee",
+            "corporate-overlord",
             "flock-paparazzi",
             "fedora-25-translation-sprint",
             "europython-2016-attendee",
             "working-a-beat-beat-writer-i",
-            "fosdem-2025-attendee",
             "keepin-fedora-beautiful-f28",
             "devconf-attendee",
             "flock-2015-speaker",
+            "fosdem-2025-attendee",
             "mad-science-kernel-tester-vi",
             "flock-2024-attendee",
             "devconf.cz-2020-attendee",
@@ -428,9 +428,9 @@
             "tectonic!-updates-stable-v",
             "fedora-38-change-accepted",
             "rock-the-web!",
-            "commops-superstar",
             "fedora-26-translation-sprint",
             "rock-the-boat",
+            "commops-superstar",
             "keepin-fedora-beautiful-f24",
             "flock-2013-speaker",
             "flock-2014-speaker",
@@ -471,8 +471,8 @@
             "fedora--centos-social-@-summit-2020",
             "reaching-the-source-tester-ix",
             "fosdem-2026-attendee",
-            "fosdem-2024-attendee",
             "proven-tester",
+            "fosdem-2024-attendee",
             "common-bugs-contributor",
             "summer-coder",
             "devconf-2016-speaker",
@@ -570,9 +570,9 @@
             "chocolate-chip-cookie-ii",
             "parselmouth",
             "nest-2022-attendee",
-            "stop-that-update!",
             "science-kernel-tester-ii",
             "what-goes-around-comes-around-karma-iii",
+            "stop-that-update!",
             "consolation-prize",
             "bloggin-it!-planet-iv",
             "delivery",
@@ -890,3052 +890,3052 @@
         },
         "badge-muse-badges-released-v": {
             "poll": 1,
-            "rate": 0.001842910323983635,
+            "rate": 0.0018373233872893966,
             "rare": "X"
         },
         "master-badge-artist-vii": {
             "poll": 1,
-            "rate": 0.001842910323983635,
+            "rate": 0.0018373233872893966,
             "rare": "X"
         },
         "free-the-fedora-v": {
             "poll": 1,
-            "rate": 0.001842910323983635,
-            "rare": "X"
-        },
-        "chemnitzer-linux-tage-2026": {
-            "poll": 1,
-            "rate": 0.001842910323983635,
+            "rate": 0.0018373233872893966,
             "rare": "X"
         },
         "signal-specialist-upstream-release-monitoring-ii": {
             "poll": 1,
-            "rate": 0.001842910323983635,
+            "rate": 0.0018373233872893966,
             "rare": "X"
         },
         "community-messenger-vii": {
             "poll": 1,
-            "rate": 0.001842910323983635,
+            "rate": 0.0018373233872893966,
             "rare": "X"
         },
         "community-messenger-viii": {
             "poll": 1,
-            "rate": 0.001842910323983635,
+            "rate": 0.0018373233872893966,
             "rare": "X"
         },
         "fossy-2024": {
             "poll": 2,
-            "rate": 0.00368582064796727,
+            "rate": 0.003674646774578793,
             "rare": "X"
         },
         "creation-of-badger-badge-artist-vi": {
             "poll": 2,
-            "rate": 0.00368582064796727,
+            "rate": 0.003674646774578793,
             "rare": "X"
         },
         "community-messenger-vi": {
             "poll": 2,
-            "rate": 0.00368582064796727,
+            "rate": 0.003674646774578793,
             "rare": "X"
         },
         "badge-muse-badges-released-iv": {
             "poll": 3,
-            "rate": 0.005528730971950904,
+            "rate": 0.0055119701618681904,
             "rare": "X"
         },
         "free-the-fedora-iii": {
             "poll": 3,
-            "rate": 0.005528730971950904,
+            "rate": 0.0055119701618681904,
             "rare": "X"
         },
         "free-the-fedora-iv": {
             "poll": 3,
-            "rate": 0.005528730971950904,
+            "rate": 0.0055119701618681904,
             "rare": "X"
         },
         "journeyman-wordsmith-iii": {
             "poll": 3,
-            "rate": 0.005528730971950904,
+            "rate": 0.0055119701618681904,
             "rare": "X"
         },
         "sistine-badgers-badge-artist-iv": {
             "poll": 3,
-            "rate": 0.005528730971950904,
+            "rate": 0.0055119701618681904,
             "rare": "X"
         },
         "town-hall-moderator": {
             "poll": 3,
-            "rate": 0.005528730971950904,
+            "rate": 0.0055119701618681904,
             "rare": "X"
         },
         "vitruvian-badger-badge-artist-v": {
             "poll": 3,
-            "rate": 0.005528730971950904,
+            "rate": 0.0055119701618681904,
             "rare": "X"
         },
         "stroopwafel-cookie-vii": {
             "poll": 3,
-            "rate": 0.005528730971950904,
+            "rate": 0.0055119701618681904,
             "rare": "X"
         },
         "fedora-zine-contributor": {
             "poll": 3,
-            "rate": 0.005528730971950904,
+            "rate": 0.0055119701618681904,
             "rare": "X"
         },
         "commis-cookbook-i": {
             "poll": 4,
-            "rate": 0.00737164129593454,
+            "rate": 0.007349293549157586,
             "rare": "X"
         },
         "fedora-scholar": {
             "poll": 4,
-            "rate": 0.00737164129593454,
+            "rate": 0.007349293549157586,
             "rare": "X"
         },
         "fel-member": {
             "poll": 4,
-            "rate": 0.00737164129593454,
+            "rate": 0.007349293549157586,
             "rare": "X"
         },
         "working-a-beat-beat-writer-iv": {
             "poll": 4,
-            "rate": 0.00737164129593454,
+            "rate": 0.007349293549157586,
             "rare": "X"
         },
         "oscon-2017-attendee": {
             "poll": 4,
-            "rate": 0.00737164129593454,
+            "rate": 0.007349293549157586,
             "rare": "X"
         },
         "flisol-2017-organizer": {
             "poll": 4,
-            "rate": 0.00737164129593454,
+            "rate": 0.007349293549157586,
             "rare": "X"
         },
         "podcast-host": {
             "poll": 4,
-            "rate": 0.00737164129593454,
+            "rate": 0.007349293549157586,
             "rare": "X"
         },
         "creative-freedom-art-challenge-2023": {
             "poll": 4,
-            "rate": 0.00737164129593454,
+            "rate": 0.007349293549157586,
             "rare": "X"
         },
         "fedora-respins-tester-iii": {
             "poll": 4,
-            "rate": 0.00737164129593454,
+            "rate": 0.007349293549157586,
             "rare": "X"
         },
         "fedora-respins-tester-iv": {
             "poll": 4,
-            "rate": 0.00737164129593454,
+            "rate": 0.007349293549157586,
             "rare": "X"
         },
         "fedora-respins-tester-v": {
             "poll": 4,
-            "rate": 0.00737164129593454,
+            "rate": 0.007349293549157586,
             "rare": "X"
         },
         "fedora-respins-tester-vi": {
             "poll": 4,
-            "rate": 0.00737164129593454,
+            "rate": 0.007349293549157586,
             "rare": "X"
         },
         "flock-2015-organizer": {
             "poll": 5,
-            "rate": 0.009214551619918175,
+            "rate": 0.009186616936446984,
             "rare": "X"
         },
         "khmer-translation-hero": {
             "poll": 5,
-            "rate": 0.009214551619918175,
+            "rate": 0.009186616936446984,
             "rare": "X"
         },
         "flock-2013-organizer": {
             "poll": 5,
-            "rate": 0.009214551619918175,
+            "rate": 0.009186616936446984,
             "rare": "X"
         },
         "community-messenger-v": {
             "poll": 5,
-            "rate": 0.009214551619918175,
+            "rate": 0.009186616936446984,
             "rare": "X"
         },
         "lets-have-a-party-fedora-26": {
             "poll": 5,
-            "rate": 0.009214551619918175,
+            "rate": 0.009186616936446984,
             "rare": "X"
         },
         "fudcon-phnom-penh-2016-organizer": {
             "poll": 5,
-            "rate": 0.009214551619918175,
+            "rate": 0.009186616936446984,
             "rare": "X"
         },
         "froscon-2022-attendee": {
             "poll": 5,
-            "rate": 0.009214551619918175,
+            "rate": 0.009186616936446984,
             "rare": "X"
         },
         "brickhack-2016-open-source-winner": {
             "poll": 5,
-            "rate": 0.009214551619918175,
+            "rate": 0.009186616936446984,
             "rare": "X"
         },
         "fedora-respins-tester-ii": {
             "poll": 5,
-            "rate": 0.009214551619918175,
+            "rate": 0.009186616936446984,
             "rare": "X"
         },
         "fossasia-2014-speaker": {
             "poll": 6,
-            "rate": 0.011057461943901808,
+            "rate": 0.011023940323736381,
             "rare": "X"
         },
         "fosscomm-2014-attendee": {
             "poll": 6,
-            "rate": 0.011057461943901808,
+            "rate": 0.011023940323736381,
             "rare": "X"
         },
         "gold": {
             "poll": 6,
-            "rate": 0.011057461943901808,
+            "rate": 0.011023940323736381,
             "rare": "X"
         },
         "working-a-beat-beat-writer-iii": {
             "poll": 6,
-            "rate": 0.011057461943901808,
+            "rate": 0.011023940323736381,
             "rare": "X"
         },
         "badge-muse-badges-released-iii": {
             "poll": 6,
-            "rate": 0.011057461943901808,
+            "rate": 0.011023940323736381,
             "rare": "X"
         },
         "lets-have-a-party-fedora-23": {
             "poll": 6,
-            "rate": 0.011057461943901808,
+            "rate": 0.011023940323736381,
             "rare": "X"
         },
         "latinoware-2017-speaker": {
             "poll": 6,
-            "rate": 0.011057461943901808,
+            "rate": 0.011023940323736381,
             "rare": "X"
         },
         "froscon-2015-attendee": {
             "poll": 6,
-            "rate": 0.011057461943901808,
+            "rate": 0.011023940323736381,
             "rare": "X"
         },
         "openrheinruhr-2017-attendee": {
             "poll": 6,
-            "rate": 0.011057461943901808,
+            "rate": 0.011023940323736381,
             "rare": "X"
         },
         "fudcon-cordoba-2015-volunteer": {
             "poll": 6,
-            "rate": 0.011057461943901808,
+            "rate": 0.011023940323736381,
             "rare": "X"
         },
         "phoenix-down": {
             "poll": 7,
-            "rate": 0.012900372267885447,
+            "rate": 0.01286126371102578,
             "rare": "X"
         },
         "apex": {
             "poll": 7,
-            "rate": 0.012900372267885447,
+            "rate": 0.01286126371102578,
             "rare": "X"
         },
         "apprentice-wordsmith-ii": {
             "poll": 7,
-            "rate": 0.012900372267885447,
+            "rate": 0.01286126371102578,
             "rare": "X"
         },
         "fedora-treasurer": {
             "poll": 7,
-            "rate": 0.012900372267885447,
+            "rate": 0.01286126371102578,
             "rare": "X"
         },
         "bronze": {
             "poll": 7,
-            "rate": 0.012900372267885447,
+            "rate": 0.01286126371102578,
             "rare": "X"
         },
         "silver": {
             "poll": 7,
-            "rate": 0.012900372267885447,
+            "rate": 0.01286126371102578,
             "rare": "X"
         },
         "kuala-lumpur-fad-2016": {
             "poll": 7,
-            "rate": 0.012900372267885447,
+            "rate": 0.01286126371102578,
             "rare": "X"
         },
         "apac-vfad-2018": {
             "poll": 7,
-            "rate": 0.012900372267885447,
+            "rate": 0.01286126371102578,
             "rare": "X"
         },
         "europython-2017-attendee": {
             "poll": 7,
-            "rate": 0.012900372267885447,
+            "rate": 0.01286126371102578,
             "rare": "X"
         },
         "linuxcon-beijing-2018": {
             "poll": 7,
-            "rate": 0.012900372267885447,
+            "rate": 0.01286126371102578,
             "rare": "X"
         },
         "ohio-linuxfest-2019": {
             "poll": 7,
-            "rate": 0.012900372267885447,
+            "rate": 0.01286126371102578,
             "rare": "X"
         },
         "flock-2014-organizer": {
             "poll": 8,
-            "rate": 0.01474328259186908,
+            "rate": 0.014698587098315173,
             "rare": "X"
         },
         "birth-of-badger-badge-artist-iii": {
             "poll": 8,
-            "rate": 0.01474328259186908,
+            "rate": 0.014698587098315173,
             "rare": "X"
         },
         "community-messenger-iv": {
             "poll": 8,
-            "rate": 0.01474328259186908,
+            "rate": 0.014698587098315173,
             "rare": "X"
         },
         "bitcamp-2016": {
             "poll": 8,
-            "rate": 0.01474328259186908,
+            "rate": 0.014698587098315173,
             "rare": "X"
         },
         "lxqt-sig-member": {
             "poll": 8,
-            "rate": 0.01474328259186908,
-            "rare": "S"
+            "rate": 0.014698587098315173,
+            "rare": "X"
         },
         "fudcon-puno-2016-organizer": {
             "poll": 8,
-            "rate": 0.01474328259186908,
+            "rate": 0.014698587098315173,
             "rare": "S"
         },
         "clickbait-fedora-magazine-iii": {
             "poll": 8,
-            "rate": 0.01474328259186908,
-            "rare": "S"
-        },
-        "chemnitzer-linux-tage-2016": {
-            "poll": 8,
-            "rate": 0.01474328259186908,
+            "rate": 0.014698587098315173,
             "rare": "S"
         },
         "froscon-2023-attendee": {
             "poll": 8,
-            "rate": 0.01474328259186908,
+            "rate": 0.014698587098315173,
             "rare": "S"
         },
         "linuxcon-beijing-2017": {
             "poll": 8,
-            "rate": 0.01474328259186908,
+            "rate": 0.014698587098315173,
             "rare": "S"
         },
         "internationalization-team-member": {
             "poll": 9,
-            "rate": 0.016586192915852713,
+            "rate": 0.01653591048560457,
             "rare": "S"
         },
         "latinoware-2017-attendee": {
             "poll": 9,
-            "rate": 0.016586192915852713,
+            "rate": 0.01653591048560457,
             "rare": "S"
         },
         "pycon-2014-attendee": {
             "poll": 9,
-            "rate": 0.016586192915852713,
+            "rate": 0.01653591048560457,
             "rare": "S"
         },
         "taming-the-beasts": {
             "poll": 9,
-            "rate": 0.016586192915852713,
+            "rate": 0.01653591048560457,
             "rare": "S"
         },
         "badger-of-urbino-badge-artist-ii": {
             "poll": 9,
-            "rate": 0.016586192915852713,
+            "rate": 0.01653591048560457,
             "rare": "S"
         },
         "ruby-sig-member": {
             "poll": 9,
-            "rate": 0.016586192915852713,
+            "rate": 0.01653591048560457,
+            "rare": "S"
+        },
+        "chemnitzer-linux-tage-2016": {
+            "poll": 9,
+            "rate": 0.01653591048560457,
             "rare": "S"
         },
         "podcast-contributor": {
             "poll": 9,
-            "rate": 0.016586192915852713,
+            "rate": 0.01653591048560457,
             "rare": "S"
         },
         "guadec-2022": {
             "poll": 9,
-            "rate": 0.016586192915852713,
+            "rate": 0.01653591048560457,
             "rare": "S"
         },
         "design-ninja-2": {
             "poll": 9,
-            "rate": 0.016586192915852713,
+            "rate": 0.01653591048560457,
             "rare": "S"
         },
         "def-keepin-fedora-beautiful-f19": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "def-keepin-fedora-beautiful-f21": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "fedora-ni-author": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "def-keepin-fedora-beautiful-f22": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "i18n-test-day-participant": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "unicorn-poop-cookie-vi": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "hackmit-2016-attendee": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "froscon-2025-attendee": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "froscon-2017-attendee": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "lets-have-a-party-fedora-27": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "f42-i18n-test-day-participant": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "fedora-mindshare-fad-2018": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "lisa16": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "self-2017": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "oscon-2015-attendee": {
             "poll": 10,
-            "rate": 0.01842910323983635,
+            "rate": 0.018373233872893968,
             "rare": "S"
         },
         "def-keepin-fedora-beautiful-f30": {
             "poll": 11,
-            "rate": 0.020272013563819986,
+            "rate": 0.020210557260183365,
             "rare": "S"
         },
         "xfce-sig": {
             "poll": 11,
-            "rate": 0.020272013563819986,
+            "rate": 0.020210557260183365,
             "rare": "S"
         },
         "mad-science-kernel-tester-ix": {
             "poll": 11,
-            "rate": 0.020272013563819986,
+            "rate": 0.020210557260183365,
             "rare": "S"
         },
         "f24-i18n-test-day-participant": {
             "poll": 11,
-            "rate": 0.020272013563819986,
+            "rate": 0.020210557260183365,
             "rare": "S"
         },
         "unchained": {
             "poll": 11,
-            "rate": 0.020272013563819986,
+            "rate": 0.020210557260183365,
             "rare": "S"
         },
         "2025-matrix-dragon-slayers": {
             "poll": 11,
-            "rate": 0.020272013563819986,
+            "rate": 0.020210557260183365,
             "rare": "S"
         },
         "fedora-35-cloud-test-day": {
             "poll": 11,
-            "rate": 0.020272013563819986,
+            "rate": 0.020210557260183365,
             "rare": "S"
         },
         "fedora-community-outreach-task-force": {
             "poll": 11,
-            "rate": 0.020272013563819986,
+            "rate": 0.020210557260183365,
             "rare": "S"
         },
         "domo-arigato": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "fad-phnom-penh-2014-attendee": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "fedora-it-author": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "def-keepin-fedora-beautiful-f20": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "fossasia-2014-attendee": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "guadec-2021": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "oscal-2016-attendee": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "appdata-tributary": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "four-badgers-design-team-i": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "devconf.us-2024-attendee": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "lets-have-a-party-fedora-29": {
             "poll": 12,
-            "rate": 0.022114923887803617,
-            "rare": "S"
-        },
-        "chemnitzer-linux-tage-2025": {
-            "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "khmer-translation-hero-2017": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "flisol-2016-organizer": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "lets-have-a-party-fedora-31": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "fedora-37-coreos-test-day": {
             "poll": 12,
-            "rate": 0.022114923887803617,
+            "rate": 0.022047880647472762,
             "rare": "S"
         },
         "pycon-2016-attendee": {
             "poll": 13,
-            "rate": 0.023957834211787255,
+            "rate": 0.02388520403476216,
             "rare": "S"
         },
         "websites.next": {
             "poll": 13,
-            "rate": 0.023957834211787255,
+            "rate": 0.02388520403476216,
+            "rare": "S"
+        },
+        "chemnitzer-linux-tage-2025": {
+            "poll": 13,
+            "rate": 0.02388520403476216,
             "rare": "S"
         },
         "def-keepin-fedora-beautiful-f28": {
             "poll": 13,
-            "rate": 0.023957834211787255,
+            "rate": 0.02388520403476216,
             "rare": "S"
         },
         "f27-i18n-test-day-participant": {
             "poll": 13,
-            "rate": 0.023957834211787255,
+            "rate": 0.02388520403476216,
             "rare": "S"
         },
         "f41-i18n-test-day-participant": {
             "poll": 13,
-            "rate": 0.023957834211787255,
+            "rate": 0.02388520403476216,
             "rare": "S"
         },
         "fedora-33-cloud-test-day": {
             "poll": 13,
-            "rate": 0.023957834211787255,
+            "rate": 0.02388520403476216,
             "rare": "S"
         },
         "scale-19x-attendee": {
             "poll": 13,
-            "rate": 0.023957834211787255,
+            "rate": 0.02388520403476216,
             "rare": "S"
         },
         "fedora-docs-fad-2018": {
             "poll": 13,
-            "rate": 0.023957834211787255,
+            "rate": 0.02388520403476216,
             "rare": "S"
         },
         "froscon-2014-attendee": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "singapore-fad-2015": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "board-member": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "zomg-package-tagger-package-tagger-vii": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "def-keepin-fedora-beautiful-f23": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "docs-fad-2016": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "fisl-2016": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "flisol-2015-organizer": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "fad-rheinfelden-2013-attendee": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "fedora-docs-fad-2014": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "3d-printing-sig-member": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "software-freedom-kosova-2016-attendee": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "f32-i18n-test-day-participant": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "flisol-2018-attendee": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
+            "rare": "S"
+        },
+        "chemnitzer-linux-tage-2026": {
+            "poll": 14,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "objective-completed": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "diversity--inclusion-virtual-team-meetup": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "f38-i18n-test-day-participant": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "flock-2017-organizer": {
             "poll": 14,
-            "rate": 0.025800744535770893,
+            "rate": 0.02572252742205156,
             "rare": "S"
         },
         "f40-i18n-test-day-participant": {
             "poll": 15,
-            "rate": 0.027643654859754525,
+            "rate": 0.027559850809340952,
             "rare": "S"
         },
         "def-keepin-fedora-beautiful-f24": {
             "poll": 15,
-            "rate": 0.027643654859754525,
+            "rate": 0.027559850809340952,
             "rare": "S"
         },
         "f26-i18n-test-day-participant": {
             "poll": 15,
-            "rate": 0.027643654859754525,
+            "rate": 0.027559850809340952,
             "rare": "S"
         },
         "f43-i18n-test-day-participant": {
             "poll": 15,
-            "rate": 0.027643654859754525,
+            "rate": 0.027559850809340952,
             "rare": "S"
         },
         "free-the-fedora-ii": {
             "poll": 15,
-            "rate": 0.027643654859754525,
+            "rate": 0.027559850809340952,
             "rare": "S"
         },
         "fedora-womens-day-2018-attendee": {
             "poll": 15,
-            "rate": 0.027643654859754525,
+            "rate": 0.027559850809340952,
             "rare": "S"
         },
         "f34-cloud-test-day-participation": {
             "poll": 15,
-            "rate": 0.027643654859754525,
+            "rate": 0.027559850809340952,
             "rare": "S"
         },
         "magazine-editor": {
             "poll": 15,
-            "rate": 0.027643654859754525,
+            "rate": 0.027559850809340952,
             "rare": "S"
         },
         "fedora-35-coreos-test-day": {
             "poll": 15,
-            "rate": 0.027643654859754525,
+            "rate": 0.027559850809340952,
             "rare": "S"
         },
         "def-keepin-fedora-beautiful-f25": {
             "poll": 15,
-            "rate": 0.027643654859754525,
+            "rate": 0.027559850809340952,
             "rare": "S"
         },
         "scale-16x-attendee": {
             "poll": 15,
-            "rate": 0.027643654859754525,
+            "rate": 0.027559850809340952,
             "rare": "S"
         },
         "red-hat-summit-2023": {
             "poll": 15,
-            "rate": 0.027643654859754525,
+            "rate": 0.027559850809340952,
             "rare": "S"
         },
         "self-2018": {
             "poll": 15,
-            "rate": 0.027643654859754525,
+            "rate": 0.027559850809340952,
             "rare": "S"
         },
         "devconf-india-2019-attendee": {
             "poll": 16,
-            "rate": 0.02948656518373816,
+            "rate": 0.029397174196630346,
             "rare": "S"
         },
         "fad-managua-2013": {
             "poll": 16,
-            "rate": 0.02948656518373816,
+            "rate": 0.029397174196630346,
             "rare": "S"
         },
         "working-a-beat-beat-writer-ii": {
             "poll": 16,
-            "rate": 0.02948656518373816,
+            "rate": 0.029397174196630346,
             "rare": "S"
         },
         "community-messenger-iii": {
             "poll": 16,
-            "rate": 0.02948656518373816,
+            "rate": 0.029397174196630346,
             "rare": "S"
         },
         "flisol-2017-attendee": {
             "poll": 16,
-            "rate": 0.02948656518373816,
+            "rate": 0.029397174196630346,
             "rare": "S"
         },
         "linuxcon-europe-2016-attendee": {
             "poll": 16,
-            "rate": 0.02948656518373816,
+            "rate": 0.029397174196630346,
             "rare": "S"
         },
         "f37-i18n-test-day-participant": {
             "poll": 16,
-            "rate": 0.02948656518373816,
+            "rate": 0.029397174196630346,
             "rare": "S"
         },
         "fedora-41-coreos-test-day": {
             "poll": 16,
-            "rate": 0.02948656518373816,
+            "rate": 0.029397174196630346,
             "rare": "S"
         },
         "fedora-39-coreos-test-day": {
             "poll": 16,
-            "rate": 0.02948656518373816,
+            "rate": 0.029397174196630346,
             "rare": "S"
         },
         "chief-package-tagger-package-tagger-vi": {
             "poll": 17,
-            "rate": 0.0313294755077218,
+            "rate": 0.031234497583919746,
             "rare": "S"
         },
         "txlf-2025": {
             "poll": 17,
-            "rate": 0.0313294755077218,
+            "rate": 0.031234497583919746,
             "rare": "S"
         },
         "self-2016": {
             "poll": 17,
-            "rate": 0.0313294755077218,
+            "rate": 0.031234497583919746,
             "rare": "S"
         },
         "lets-have-a-party-fedora-30": {
             "poll": 17,
-            "rate": 0.0313294755077218,
+            "rate": 0.031234497583919746,
             "rare": "S"
         },
         "flisol-2015-speaker": {
             "poll": 17,
-            "rate": 0.0313294755077218,
+            "rate": 0.031234497583919746,
             "rare": "S"
         },
         "fedora-womens-day-2020-attendee": {
             "poll": 17,
-            "rate": 0.0313294755077218,
+            "rate": 0.031234497583919746,
             "rare": "S"
         },
         "linux-app-summit-2021": {
             "poll": 17,
-            "rate": 0.0313294755077218,
+            "rate": 0.031234497583919746,
             "rare": "S"
         },
         "iot-working-group-member": {
             "poll": 17,
-            "rate": 0.0313294755077218,
+            "rate": 0.031234497583919746,
             "rare": "A"
         },
         "fedora-week-of-diversity": {
             "poll": 17,
-            "rate": 0.0313294755077218,
+            "rate": 0.031234497583919746,
             "rare": "A"
         },
         "akademy-2021": {
             "poll": 17,
-            "rate": 0.0313294755077218,
+            "rate": 0.031234497583919746,
             "rare": "A"
         },
         "flock-2016-organizer": {
             "poll": 17,
-            "rate": 0.0313294755077218,
+            "rate": 0.031234497583919746,
             "rare": "A"
         },
         "fedora-38-coreos-test-day": {
             "poll": 17,
-            "rate": 0.0313294755077218,
+            "rate": 0.031234497583919746,
             "rare": "A"
         },
         "heartbleed-buster": {
             "poll": 18,
-            "rate": 0.033172385831705425,
+            "rate": 0.03307182097120914,
             "rare": "A"
         },
         "design-ninja": {
             "poll": 18,
-            "rate": 0.033172385831705425,
+            "rate": 0.03307182097120914,
             "rare": "A"
         },
         "badge-muse-badges-released-ii": {
             "poll": 18,
-            "rate": 0.033172385831705425,
+            "rate": 0.03307182097120914,
             "rare": "A"
         },
         "top-10": {
             "poll": 18,
-            "rate": 0.033172385831705425,
+            "rate": 0.03307182097120914,
             "rare": "A"
         },
         "mad-science-kernel-tester-viii": {
             "poll": 18,
-            "rate": 0.033172385831705425,
+            "rate": 0.03307182097120914,
             "rare": "A"
         },
         "fedora-podcast-interviewee": {
             "poll": 18,
-            "rate": 0.033172385831705425,
+            "rate": 0.03307182097120914,
             "rare": "A"
         },
         "f31-i18n-test-day-participant": {
             "poll": 18,
-            "rate": 0.033172385831705425,
+            "rate": 0.03307182097120914,
             "rare": "A"
         },
         "fedora-40-coreos-test-day": {
             "poll": 18,
-            "rate": 0.033172385831705425,
+            "rate": 0.03307182097120914,
             "rare": "A"
         },
         "web-warrior": {
             "poll": 19,
-            "rate": 0.03501529615568907,
+            "rate": 0.03490914435849854,
             "rare": "A"
         },
         "lets-have-a-party-fedora-20": {
             "poll": 19,
-            "rate": 0.03501529615568907,
+            "rate": 0.03490914435849854,
             "rare": "A"
         },
         "videographer": {
             "poll": 19,
-            "rate": 0.03501529615568907,
+            "rate": 0.03490914435849854,
             "rare": "A"
         },
         "fedora-legal-badge-of-doom": {
             "poll": 19,
-            "rate": 0.03501529615568907,
+            "rate": 0.03490914435849854,
             "rare": "A"
         },
         "parselmouth-iii": {
             "poll": 19,
-            "rate": 0.03501529615568907,
+            "rate": 0.03490914435849854,
             "rare": "A"
         },
         "fudcon-phnom-penh-2016-attendee": {
             "poll": 19,
-            "rate": 0.03501529615568907,
+            "rate": 0.03490914435849854,
             "rare": "A"
         },
         "oscal-2018-attendee": {
             "poll": 19,
-            "rate": 0.03501529615568907,
+            "rate": 0.03490914435849854,
             "rare": "A"
         },
         "iot-name-game": {
             "poll": 19,
-            "rate": 0.03501529615568907,
+            "rate": 0.03490914435849854,
             "rare": "A"
         },
         "f36-i18n-test-day-participant": {
             "poll": 19,
-            "rate": 0.03501529615568907,
+            "rate": 0.03490914435849854,
             "rare": "A"
         },
         "fedora-36-coreos-test-day": {
             "poll": 19,
-            "rate": 0.03501529615568907,
+            "rate": 0.03490914435849854,
             "rare": "A"
         },
         "fedora-33-i18n-test-day": {
             "poll": 19,
-            "rate": 0.03501529615568907,
+            "rate": 0.03490914435849854,
             "rare": "A"
         },
         "oscal-2017-attendee": {
             "poll": 20,
-            "rate": 0.0368582064796727,
+            "rate": 0.036746467745787936,
             "rare": "A"
         },
         "fedora+centos-classroom-at-scale-22x": {
             "poll": 20,
-            "rate": 0.0368582064796727,
+            "rate": 0.036746467745787936,
             "rare": "A"
         },
         "fudcon-phnom-penh-2016-speaker": {
             "poll": 20,
-            "rate": 0.0368582064796727,
+            "rate": 0.036746467745787936,
             "rare": "A"
         },
         "fudcon-puno-2016-speaker": {
             "poll": 20,
-            "rate": 0.0368582064796727,
+            "rate": 0.036746467745787936,
             "rare": "A"
         },
         "f30-i18n-test-day-participant": {
             "poll": 20,
-            "rate": 0.0368582064796727,
+            "rate": 0.036746467745787936,
             "rare": "A"
         },
         "google-code-in-participant": {
             "poll": 20,
-            "rate": 0.0368582064796727,
+            "rate": 0.036746467745787936,
             "rare": "A"
         },
         "lets-have-a-party-fedora-24": {
             "poll": 20,
-            "rate": 0.0368582064796727,
+            "rate": 0.036746467745787936,
             "rare": "A"
         },
         "fosdem-2020-attendee": {
             "poll": 21,
-            "rate": 0.03870111680365633,
+            "rate": 0.03858379113307733,
             "rare": "A"
         },
         "fedora-cz-author": {
             "poll": 21,
-            "rate": 0.03870111680365633,
+            "rate": 0.03858379113307733,
             "rare": "A"
         },
         "fudcon-cordoba-2015-speaker": {
             "poll": 21,
-            "rate": 0.03870111680365633,
+            "rate": 0.03858379113307733,
             "rare": "A"
         },
         "flisol-2014-attendee": {
             "poll": 21,
-            "rate": 0.03870111680365633,
+            "rate": 0.03858379113307733,
             "rare": "A"
         },
         "grandmaster-package-tagger-package-tagger-v": {
             "poll": 21,
-            "rate": 0.03870111680365633,
+            "rate": 0.03858379113307733,
             "rare": "A"
         },
         "fedora-26-release-partygoer": {
             "poll": 21,
-            "rate": 0.03870111680365633,
+            "rate": 0.03858379113307733,
             "rare": "A"
         },
         "dotnet-sig-member": {
             "poll": 21,
-            "rate": 0.03870111680365633,
+            "rate": 0.03858379113307733,
             "rare": "A"
         },
         "devconf-india-2026-attendee": {
             "poll": 21,
-            "rate": 0.03870111680365633,
+            "rate": 0.03858379113307733,
             "rare": "A"
         },
         "lets-have-a-party-fedora-28": {
             "poll": 21,
-            "rate": 0.03870111680365633,
+            "rate": 0.03858379113307733,
             "rare": "A"
         },
         "lisa18": {
             "poll": 22,
-            "rate": 0.04054402712763997,
+            "rate": 0.04042111452036673,
             "rare": "A"
         },
         "keepin-fedora-beautiful-f19": {
             "poll": 22,
-            "rate": 0.04054402712763997,
+            "rate": 0.04042111452036673,
             "rare": "A"
         },
         "sfd-organizer": {
             "poll": 22,
-            "rate": 0.04054402712763997,
+            "rate": 0.04042111452036673,
             "rare": "A"
         },
         "zomg-tagger-tagger-vii": {
             "poll": 22,
-            "rate": 0.04054402712763997,
+            "rate": 0.04042111452036673,
             "rare": "A"
         },
         "badger-padawan": {
             "poll": 22,
-            "rate": 0.04054402712763997,
+            "rate": 0.04042111452036673,
             "rare": "A"
         },
         "scale-20x-attendee": {
             "poll": 22,
-            "rate": 0.04054402712763997,
+            "rate": 0.04042111452036673,
             "rare": "A"
         },
         "f34-i18n-test-day-participant": {
             "poll": 22,
-            "rate": 0.04054402712763997,
+            "rate": 0.04042111452036673,
             "rare": "A"
         },
         "f35-i18n-test-day-participant": {
             "poll": 22,
-            "rate": 0.04054402712763997,
+            "rate": 0.04042111452036673,
             "rare": "A"
         },
         "fudcon-pune-2015-volunteer": {
             "poll": 23,
-            "rate": 0.042386937451623606,
+            "rate": 0.04225843790765613,
             "rare": "A"
         },
         "scale-18x-attendee": {
             "poll": 23,
-            "rate": 0.042386937451623606,
+            "rate": 0.04225843790765613,
             "rare": "A"
         },
         "novice-wordsmith-i": {
             "poll": 23,
-            "rate": 0.042386937451623606,
+            "rate": 0.04225843790765613,
             "rare": "A"
         },
         "your-call-may-be-monitored-for-quality-assurance": {
             "poll": 23,
-            "rate": 0.042386937451623606,
+            "rate": 0.04225843790765613,
             "rare": "A"
         },
         "keepin-fedora-beautiful-f22": {
             "poll": 23,
-            "rate": 0.042386937451623606,
+            "rate": 0.04225843790765613,
             "rare": "A"
         },
         "inclusive-open-source-community-orientation": {
             "poll": 23,
-            "rate": 0.042386937451623606,
+            "rate": 0.04225843790765613,
             "rare": "A"
         },
         "fedora-respins-tester-i": {
             "poll": 23,
-            "rate": 0.042386937451623606,
+            "rate": 0.04225843790765613,
             "rare": "A"
         },
         "devconf.us-attendee-2018": {
             "poll": 23,
-            "rate": 0.042386937451623606,
+            "rate": 0.04225843790765613,
             "rare": "A"
         },
         "sensei": {
             "poll": 24,
-            "rate": 0.044229847775607234,
+            "rate": 0.044095761294945524,
             "rare": "A"
         },
         "amateur-radio-sig-member": {
             "poll": 24,
-            "rate": 0.044229847775607234,
+            "rate": 0.044095761294945524,
             "rare": "A"
         },
         "fudcon-cusco": {
             "poll": 24,
-            "rate": 0.044229847775607234,
+            "rate": 0.044095761294945524,
             "rare": "A"
         },
         "civic-duty": {
             "poll": 24,
-            "rate": 0.044229847775607234,
+            "rate": 0.044095761294945524,
             "rare": "A"
         },
         "fedora-appreciation-week-2023": {
             "poll": 24,
-            "rate": 0.044229847775607234,
+            "rate": 0.044095761294945524,
             "rare": "A"
         },
         "f29-i18n-test-day-participant": {
             "poll": 24,
-            "rate": 0.044229847775607234,
+            "rate": 0.044095761294945524,
             "rare": "A"
         },
         "red-hat-summit-2024": {
             "poll": 24,
-            "rate": 0.044229847775607234,
+            "rate": 0.044095761294945524,
             "rare": "A"
         },
         "flisol-2014-organizer": {
             "poll": 25,
-            "rate": 0.046072758099590876,
+            "rate": 0.04593308468223492,
             "rare": "A"
         },
         "f25-i18n-test-day-participant": {
             "poll": 25,
-            "rate": 0.046072758099590876,
+            "rate": 0.04593308468223492,
             "rare": "A"
         },
         "better-together": {
             "poll": 25,
-            "rate": 0.046072758099590876,
+            "rate": 0.04593308468223492,
             "rare": "A"
         },
         "brickhack-2016-attendee": {
             "poll": 25,
-            "rate": 0.046072758099590876,
+            "rate": 0.04593308468223492,
             "rare": "A"
         },
         "f28-i18n-test-day-participant": {
             "poll": 25,
-            "rate": 0.046072758099590876,
+            "rate": 0.04593308468223492,
             "rare": "A"
         },
         "devendorizor": {
             "poll": 26,
-            "rate": 0.04791566842357451,
+            "rate": 0.04777040806952432,
             "rare": "A"
         },
         "lets-have-a-party-fedora-21": {
             "poll": 26,
-            "rate": 0.04791566842357451,
+            "rate": 0.04777040806952432,
             "rare": "A"
         },
         "kde-sig": {
             "poll": 26,
-            "rate": 0.04791566842357451,
+            "rate": 0.04777040806952432,
             "rare": "A"
         },
         "scale-22x-attendee": {
             "poll": 26,
-            "rate": 0.04791566842357451,
+            "rate": 0.04777040806952432,
             "rare": "A"
         },
         "fedora-33-coreos-test-day": {
             "poll": 26,
-            "rate": 0.04791566842357451,
+            "rate": 0.04777040806952432,
             "rare": "A"
         },
         "fedora-week-of-diversity-2022": {
             "poll": 26,
-            "rate": 0.04791566842357451,
+            "rate": 0.04777040806952432,
             "rare": "A"
         },
         "keepin-fedora-beautiful-f20": {
             "poll": 27,
-            "rate": 0.049758578747558145,
+            "rate": 0.04960773145681371,
             "rare": "A"
         },
         "fedora-34-coreos-test-day": {
             "poll": 27,
-            "rate": 0.049758578747558145,
+            "rate": 0.04960773145681371,
             "rare": "A"
         },
         "fedora-mentor-summit-2025": {
             "poll": 27,
-            "rate": 0.049758578747558145,
+            "rate": 0.04960773145681371,
             "rare": "A"
         },
         "fudcon-cordoba-2015-attendee": {
             "poll": 27,
-            "rate": 0.049758578747558145,
+            "rate": 0.04960773145681371,
             "rare": "A"
         },
         "flisol-2015-attendee": {
             "poll": 27,
-            "rate": 0.049758578747558145,
+            "rate": 0.04960773145681371,
             "rare": "A"
         },
         "the-tower-of-babel-koji-success-vii": {
             "poll": 28,
-            "rate": 0.05160148907154179,
+            "rate": 0.05144505484410312,
             "rare": "A"
         },
         "fosdem-2019-attendee": {
             "poll": 28,
-            "rate": 0.05160148907154179,
+            "rate": 0.05144505484410312,
             "rare": "A"
         },
         "meeting-of-the-minds": {
             "poll": 28,
-            "rate": 0.05160148907154179,
+            "rate": 0.05144505484410312,
             "rare": "A"
         },
         "scale-21x-attendee": {
             "poll": 28,
-            "rate": 0.05160148907154179,
+            "rate": 0.05144505484410312,
             "rare": "A"
         },
         "its-over-9000-koji-success-vi": {
             "poll": 29,
-            "rate": 0.053444399395525415,
+            "rate": 0.05328237823139251,
             "rare": "A"
         },
         "chief-tagger-tagger-vi": {
             "poll": 29,
-            "rate": 0.053444399395525415,
+            "rate": 0.05328237823139251,
             "rare": "A"
         },
         "fudcon-puno-2016-attendee": {
             "poll": 30,
-            "rate": 0.05528730971950905,
+            "rate": 0.055119701618681904,
             "rare": "A"
         },
         "prolific!": {
             "poll": 31,
-            "rate": 0.05713022004349269,
+            "rate": 0.0569570250059713,
             "rare": "A"
         },
         "apprentice-badge-artist-i": {
             "poll": 31,
-            "rate": 0.05713022004349269,
+            "rate": 0.0569570250059713,
             "rare": "A"
         },
         "devconf.cz-2023-attendee": {
             "poll": 31,
-            "rate": 0.05713022004349269,
+            "rate": 0.0569570250059713,
             "rare": "A"
         },
         "inside-job": {
             "poll": 32,
-            "rate": 0.05897313036747632,
+            "rate": 0.05879434839326069,
             "rare": "A"
         },
         "fedora-women-day-2017-attendee": {
             "poll": 32,
-            "rate": 0.05897313036747632,
+            "rate": 0.05879434839326069,
             "rare": "A"
         },
         "flisol-2016-attendee": {
             "poll": 33,
-            "rate": 0.060816040691459954,
+            "rate": 0.0606316717805501,
             "rare": "A"
         },
         "fedora-27-release-partygoer": {
             "poll": 33,
-            "rate": 0.060816040691459954,
+            "rate": 0.0606316717805501,
             "rare": "A"
         },
         "nye-party-panda": {
             "poll": 33,
-            "rate": 0.060816040691459954,
+            "rate": 0.0606316717805501,
             "rare": "A"
         },
         "fedora-week-of-diversity-2024": {
             "poll": 33,
-            "rate": 0.060816040691459954,
+            "rate": 0.0606316717805501,
             "rare": "A"
         },
         "red-hat-summit-2016": {
             "poll": 34,
-            "rate": 0.0626589510154436,
+            "rate": 0.06246899516783949,
             "rare": "A"
         },
         "creative-freedom-summit-2024-attendee": {
             "poll": 34,
-            "rate": 0.0626589510154436,
+            "rate": 0.06246899516783949,
             "rare": "A"
         },
         "fedora-29-release-partygoer": {
             "poll": 35,
-            "rate": 0.06450186133942723,
+            "rate": 0.06430631855512889,
             "rare": "A"
         },
         "famsco-member": {
             "poll": 35,
-            "rate": 0.06450186133942723,
+            "rate": 0.06430631855512889,
             "rare": "A"
         },
         "security-team": {
             "poll": 35,
-            "rate": 0.06450186133942723,
+            "rate": 0.06430631855512889,
             "rare": "A"
         },
         "i-voted:-fedora-29": {
             "poll": 35,
-            "rate": 0.06450186133942723,
+            "rate": 0.06430631855512889,
             "rare": "A"
         },
         "fedora-25-change-accepted": {
             "poll": 35,
-            "rate": 0.06450186133942723,
+            "rate": 0.06430631855512889,
             "rare": "A"
         },
         "you-can-call-me-wikipedia-brown-ask-fedora-v": {
             "poll": 35,
-            "rate": 0.06450186133942723,
+            "rate": 0.06430631855512889,
             "rare": "A"
         },
         "python-sig-member": {
             "poll": 35,
-            "rate": 0.06450186133942723,
+            "rate": 0.06430631855512889,
             "rare": "A"
         },
         "fudcon-beijing": {
             "poll": 36,
-            "rate": 0.06634477166341085,
+            "rate": 0.06614364194241829,
             "rare": "A"
         },
         "fedora-23-change-accepted": {
             "poll": 36,
-            "rate": 0.06634477166341085,
+            "rate": 0.06614364194241829,
             "rare": "A"
         },
         "keepin-fedora-beautiful-f30": {
             "poll": 36,
-            "rate": 0.06634477166341085,
+            "rate": 0.06614364194241829,
             "rare": "A"
         },
         "free-the-fedora": {
             "poll": 37,
-            "rate": 0.0681876819873945,
+            "rate": 0.06798096532970768,
             "rare": "A"
         },
         "neurofedora-sig-member": {
             "poll": 37,
-            "rate": 0.0681876819873945,
+            "rate": 0.06798096532970768,
             "rare": "A"
         },
         "trust-me,-i-know-what-i-am-doing": {
             "poll": 37,
-            "rate": 0.0681876819873945,
+            "rate": 0.06798096532970768,
             "rare": "B"
         },
         "new-day-new-cake": {
             "poll": 37,
-            "rate": 0.0681876819873945,
+            "rate": 0.06798096532970768,
             "rare": "B"
         },
         "social-panda": {
             "poll": 38,
-            "rate": 0.07003059231137813,
+            "rate": 0.06981828871699708,
             "rare": "B"
         },
         "fedora-28-release-partygoer": {
             "poll": 38,
-            "rate": 0.07003059231137813,
+            "rate": 0.06981828871699708,
             "rare": "B"
         },
         "fedora-22-change-accepted": {
             "poll": 39,
-            "rate": 0.07187350263536176,
+            "rate": 0.07165561210428648,
             "rare": "B"
         },
         "badge-junkie-badger-iv": {
             "poll": 39,
-            "rate": 0.07187350263536176,
+            "rate": 0.07165561210428648,
             "rare": "B"
         },
         "we-can-do-it!": {
             "poll": 39,
-            "rate": 0.07187350263536176,
+            "rate": 0.07165561210428648,
             "rare": "B"
         },
         "top-25": {
             "poll": 39,
-            "rate": 0.07187350263536176,
+            "rate": 0.07165561210428648,
             "rare": "B"
         },
         "red-hat-summit-2018": {
             "poll": 39,
-            "rate": 0.07187350263536176,
+            "rate": 0.07165561210428648,
             "rare": "B"
         },
         "fedora-mentor-summit-2024": {
             "poll": 40,
-            "rate": 0.0737164129593454,
+            "rate": 0.07349293549157587,
             "rare": "B"
         },
         "fedora-25-release-partygoer": {
             "poll": 40,
-            "rate": 0.0737164129593454,
+            "rate": 0.07349293549157587,
             "rare": "B"
         },
         "fedora-30-change-accepted": {
             "poll": 40,
-            "rate": 0.0737164129593454,
+            "rate": 0.07349293549157587,
             "rare": "B"
         },
         "rainbow-cookie-v": {
             "poll": 40,
-            "rate": 0.0737164129593454,
+            "rate": 0.07349293549157587,
             "rare": "B"
         },
         "mad-science-kernel-tester-vii": {
             "poll": 40,
-            "rate": 0.0737164129593454,
+            "rate": 0.07349293549157587,
             "rare": "B"
         },
         "fedora-advocate": {
             "poll": 40,
-            "rate": 0.0737164129593454,
+            "rate": 0.07349293549157587,
             "rare": "B"
         },
         "devconf.cz-2025-attendee": {
             "poll": 40,
-            "rate": 0.0737164129593454,
+            "rate": 0.07349293549157587,
             "rare": "B"
         },
         "badge-off!": {
             "poll": 41,
-            "rate": 0.07555932328332904,
+            "rate": 0.07533025887886527,
             "rare": "B"
         },
         "parselmouth-ii": {
             "poll": 41,
-            "rate": 0.07555932328332904,
+            "rate": 0.07533025887886527,
             "rare": "B"
         },
         "macklemore-tagger-v": {
             "poll": 41,
-            "rate": 0.07555932328332904,
+            "rate": 0.07533025887886527,
             "rare": "B"
         },
         "fedora-40-change-accepted": {
             "poll": 41,
-            "rate": 0.07555932328332904,
+            "rate": 0.07533025887886527,
             "rare": "B"
         },
         "fedora-at-rh-summit,-2015": {
             "poll": 42,
-            "rate": 0.07740223360731266,
+            "rate": 0.07716758226615467,
             "rare": "B"
         },
         "dancing-with-toshio": {
             "poll": 43,
-            "rate": 0.07924514393129631,
+            "rate": 0.07900490565344406,
             "rare": "B"
         },
         "fedora-20-change-accepted": {
             "poll": 43,
-            "rate": 0.07924514393129631,
+            "rate": 0.07900490565344406,
             "rare": "B"
         },
         "red-hat-summit-2017": {
             "poll": 43,
-            "rate": 0.07924514393129631,
+            "rate": 0.07900490565344406,
             "rare": "B"
         },
         "ghost-tour": {
             "poll": 43,
-            "rate": 0.07924514393129631,
+            "rate": 0.07900490565344406,
             "rare": "B"
         },
         "ambassadors-sponsor": {
             "poll": 44,
-            "rate": 0.08108805425527994,
+            "rate": 0.08084222904073346,
             "rare": "B"
         },
         "welcome-wagon": {
             "poll": 44,
-            "rate": 0.08108805425527994,
+            "rate": 0.08084222904073346,
             "rare": "B"
         },
         "red-hat-summit-2021": {
             "poll": 44,
-            "rate": 0.08108805425527994,
+            "rate": 0.08084222904073346,
             "rare": "B"
         },
         "fedora-24-change-accepted": {
             "poll": 45,
-            "rate": 0.08293096457926356,
+            "rate": 0.08267955242802286,
             "rare": "B"
         },
         "council-member": {
             "poll": 45,
-            "rate": 0.08293096457926356,
+            "rate": 0.08267955242802286,
             "rare": "B"
         },
         "centos-connect-2026-attendee": {
             "poll": 45,
-            "rate": 0.08293096457926356,
+            "rate": 0.08267955242802286,
             "rare": "B"
         },
         "sprouting-strategy": {
             "poll": 45,
-            "rate": 0.08293096457926356,
+            "rate": 0.08267955242802286,
             "rare": "B"
         },
         "fedora-mentor-summit-2022": {
             "poll": 45,
-            "rate": 0.08293096457926356,
+            "rate": 0.08267955242802286,
             "rare": "B"
         },
         "lisa17": {
             "poll": 45,
-            "rate": 0.08293096457926356,
+            "rate": 0.08267955242802286,
             "rare": "B"
         },
         "fudcon-pune-2015-speaker": {
             "poll": 46,
-            "rate": 0.08477387490324721,
+            "rate": 0.08451687581531225,
             "rare": "B"
         },
         "community-messenger-ii": {
             "poll": 46,
-            "rate": 0.08477387490324721,
+            "rate": 0.08451687581531225,
             "rare": "B"
         },
         "devconf-2014-speaker": {
             "poll": 46,
-            "rate": 0.08477387490324721,
+            "rate": 0.08451687581531225,
             "rare": "B"
         },
         "devconf.cz-2024-attendee": {
             "poll": 46,
-            "rate": 0.08477387490324721,
+            "rate": 0.08451687581531225,
             "rare": "B"
         },
         "fudcon-managua": {
             "poll": 47,
-            "rate": 0.08661678522723085,
+            "rate": 0.08635419920260165,
             "rare": "B"
         },
         "keepin-fedora-beautiful-f21": {
             "poll": 47,
-            "rate": 0.08661678522723085,
+            "rate": 0.08635419920260165,
             "rare": "B"
         },
         "blag-dragster-planet-vii": {
             "poll": 48,
-            "rate": 0.08845969555121447,
+            "rate": 0.08819152258989105,
             "rare": "B"
         },
         "learning-from-sensei": {
             "poll": 48,
-            "rate": 0.08845969555121447,
+            "rate": 0.08819152258989105,
             "rare": "B"
         },
         "creative-freedom-summit-2023": {
             "poll": 48,
-            "rate": 0.08845969555121447,
+            "rate": 0.08819152258989105,
             "rare": "B"
         },
         "shellshocked": {
             "poll": 49,
-            "rate": 0.09030260587519812,
+            "rate": 0.09002884597718044,
             "rare": "B"
         },
         "fedora-32-change-accepted": {
             "poll": 49,
-            "rate": 0.09030260587519812,
+            "rate": 0.09002884597718044,
             "rare": "B"
         },
         "fedora-27-change-accepted": {
             "poll": 50,
-            "rate": 0.09214551619918175,
+            "rate": 0.09186616936446984,
             "rare": "B"
         },
         "fedora-24-translation-sprint": {
             "poll": 51,
-            "rate": 0.09398842652316539,
+            "rate": 0.09370349275175924,
             "rare": "B"
         },
         "fudcon-pune-2015-attendee": {
             "poll": 52,
-            "rate": 0.09583133684714902,
+            "rate": 0.09554081613904863,
             "rare": "B"
         },
         "fosdem-2014-attendee": {
             "poll": 52,
-            "rate": 0.09583133684714902,
+            "rate": 0.09554081613904863,
             "rare": "B"
         },
         "badge-muse-badges-released-i": {
             "poll": 52,
-            "rate": 0.09583133684714902,
+            "rate": 0.09554081613904863,
             "rare": "B"
         },
         "pixel-perfect-night": {
             "poll": 52,
-            "rate": 0.09583133684714902,
+            "rate": 0.09554081613904863,
             "rare": "B"
         },
         "keepin-fedora-beautiful-f26": {
             "poll": 52,
-            "rate": 0.09583133684714902,
+            "rate": 0.09554081613904863,
             "rare": "B"
         },
         "fedora-26-change-accepted": {
             "poll": 52,
-            "rate": 0.09583133684714902,
+            "rate": 0.09554081613904863,
             "rare": "B"
         },
         "fedora-28-change-accepted": {
             "poll": 52,
-            "rate": 0.09583133684714902,
+            "rate": 0.09554081613904863,
             "rare": "B"
         },
         "fosdem-2018-attendee": {
             "poll": 52,
-            "rate": 0.09583133684714902,
+            "rate": 0.09554081613904863,
             "rare": "B"
         },
         "fedora-35-change-accepted": {
             "poll": 52,
-            "rate": 0.09583133684714902,
+            "rate": 0.09554081613904863,
             "rare": "B"
         },
         "fosdem-2015-attendee": {
             "poll": 53,
-            "rate": 0.09767424717113266,
+            "rate": 0.09737813952633803,
             "rare": "B"
         },
         "return-to-society-tester-x": {
             "poll": 54,
-            "rate": 0.09951715749511629,
+            "rate": 0.09921546291362741,
             "rare": "B"
         },
         "fedora-29-change-accepted": {
             "poll": 54,
-            "rate": 0.09951715749511629,
+            "rate": 0.09921546291362741,
             "rare": "B"
         },
         "fedora-36-change-accepted": {
             "poll": 54,
-            "rate": 0.09951715749511629,
+            "rate": 0.09921546291362741,
             "rare": "B"
         },
         "called-to-action": {
             "poll": 54,
-            "rate": 0.09951715749511629,
+            "rate": 0.09921546291362741,
             "rare": "B"
         },
         "fedora-31-change-accepted": {
             "poll": 57,
-            "rate": 0.1050458884670672,
+            "rate": 0.10472743307549562,
             "rare": "B"
         },
         "master-package-tagger-package-tagger-iv": {
             "poll": 57,
-            "rate": 0.1050458884670672,
-            "rare": "B"
-        },
-        "centos-connect-2024-attendee": {
-            "poll": 57,
-            "rate": 0.1050458884670672,
-            "rare": "B"
-        },
-        "corporate-overlord": {
-            "poll": 58,
-            "rate": 0.10688879879105083,
+            "rate": 0.10472743307549562,
             "rare": "B"
         },
         "centos-connect-2025-attendee": {
             "poll": 58,
-            "rate": 0.10688879879105083,
+            "rate": 0.10656475646278502,
             "rare": "B"
         },
         "scale-23x-attendee": {
             "poll": 58,
-            "rate": 0.10688879879105083,
+            "rate": 0.10656475646278502,
             "rare": "B"
         },
         "lets-have-a-party-fedora-43": {
             "poll": 58,
-            "rate": 0.10688879879105083,
+            "rate": 0.10656475646278502,
             "rare": "B"
         },
         "fedora-37-change-accepted": {
             "poll": 58,
-            "rate": 0.10688879879105083,
+            "rate": 0.10656475646278502,
+            "rare": "B"
+        },
+        "centos-connect-2024-attendee": {
+            "poll": 58,
+            "rate": 0.10656475646278502,
+            "rare": "B"
+        },
+        "corporate-overlord": {
+            "poll": 59,
+            "rate": 0.1084020798500744,
             "rare": "B"
         },
         "flock-paparazzi": {
             "poll": 59,
-            "rate": 0.10873170911503446,
+            "rate": 0.1084020798500744,
             "rare": "B"
         },
         "fedora-25-translation-sprint": {
             "poll": 60,
-            "rate": 0.1105746194390181,
+            "rate": 0.11023940323736381,
             "rare": "B"
         },
         "europython-2016-attendee": {
             "poll": 61,
-            "rate": 0.11241752976300172,
+            "rate": 0.11207672662465322,
             "rare": "B"
         },
         "working-a-beat-beat-writer-i": {
             "poll": 61,
-            "rate": 0.11241752976300172,
-            "rare": "B"
-        },
-        "fosdem-2025-attendee": {
-            "poll": 61,
-            "rate": 0.11241752976300172,
+            "rate": 0.11207672662465322,
             "rare": "B"
         },
         "keepin-fedora-beautiful-f28": {
             "poll": 61,
-            "rate": 0.11241752976300172,
+            "rate": 0.11207672662465322,
             "rare": "B"
         },
         "devconf-attendee": {
             "poll": 61,
-            "rate": 0.11241752976300172,
+            "rate": 0.11207672662465322,
             "rare": "B"
         },
         "flock-2015-speaker": {
             "poll": 62,
-            "rate": 0.11426044008698538,
+            "rate": 0.1139140500119426,
+            "rare": "B"
+        },
+        "fosdem-2025-attendee": {
+            "poll": 62,
+            "rate": 0.1139140500119426,
             "rare": "B"
         },
         "mad-science-kernel-tester-vi": {
             "poll": 62,
-            "rate": 0.11426044008698538,
+            "rate": 0.1139140500119426,
             "rare": "B"
         },
         "flock-2024-attendee": {
             "poll": 63,
-            "rate": 0.116103350410969,
+            "rate": 0.115751373399232,
             "rare": "B"
         },
         "devconf.cz-2020-attendee": {
             "poll": 63,
-            "rate": 0.116103350410969,
+            "rate": 0.115751373399232,
             "rare": "B"
         },
         "readiness": {
             "poll": 64,
-            "rate": 0.11794626073495264,
+            "rate": 0.11758869678652138,
             "rare": "B"
         },
         "tanked!": {
             "poll": 64,
-            "rate": 0.11794626073495264,
+            "rate": 0.11758869678652138,
             "rare": "B"
         },
         "f38-kernel-test-day-participant": {
             "poll": 64,
-            "rate": 0.11794626073495264,
+            "rate": 0.11758869678652138,
             "rare": "B"
         },
         "fedora-34-change-accepted": {
             "poll": 64,
-            "rate": 0.11794626073495264,
+            "rate": 0.11758869678652138,
             "rare": "B"
         },
         "fedora-39-change-accepted": {
             "poll": 64,
-            "rate": 0.11794626073495264,
+            "rate": 0.11758869678652138,
             "rare": "B"
         },
         "fedora-41-change-accepted": {
             "poll": 64,
-            "rate": 0.11794626073495264,
+            "rate": 0.11758869678652138,
             "rare": "B"
         },
         "fedora-42-change-accepted": {
             "poll": 64,
-            "rate": 0.11794626073495264,
+            "rate": 0.11758869678652138,
             "rare": "B"
         },
         "keepin-fedora-beautiful-f23": {
             "poll": 65,
-            "rate": 0.11978917105893627,
+            "rate": 0.11942602017381079,
             "rare": "B"
         },
         "devconf-2015-attendee": {
             "poll": 65,
-            "rate": 0.11978917105893627,
+            "rate": 0.11942602017381079,
             "rare": "B"
         },
         "lets-have-a-watch-party-fedora-41": {
             "poll": 66,
-            "rate": 0.12163208138291991,
+            "rate": 0.1212633435611002,
             "rare": "B"
         },
         "fedora-33-change-accepted": {
             "poll": 66,
-            "rate": 0.12163208138291991,
+            "rate": 0.1212633435611002,
             "rare": "B"
         },
         "tectonic!-updates-stable-v": {
             "poll": 67,
-            "rate": 0.12347499170690353,
+            "rate": 0.12310066694838959,
             "rare": "B"
         },
         "fedora-38-change-accepted": {
             "poll": 67,
-            "rate": 0.12347499170690353,
+            "rate": 0.12310066694838959,
             "rare": "B"
         },
         "rock-the-web!": {
             "poll": 68,
-            "rate": 0.1253179020308872,
-            "rare": "B"
-        },
-        "commops-superstar": {
-            "poll": 70,
-            "rate": 0.12900372267885446,
+            "rate": 0.12493799033567898,
             "rare": "B"
         },
         "fedora-26-translation-sprint": {
             "poll": 70,
-            "rate": 0.12900372267885446,
+            "rate": 0.12861263711025778,
             "rare": "B"
         },
         "rock-the-boat": {
             "poll": 70,
-            "rate": 0.12900372267885446,
+            "rate": 0.12861263711025778,
+            "rare": "B"
+        },
+        "commops-superstar": {
+            "poll": 71,
+            "rate": 0.13044996049754717,
             "rare": "B"
         },
         "keepin-fedora-beautiful-f24": {
             "poll": 71,
-            "rate": 0.13084663300283808,
+            "rate": 0.13044996049754717,
             "rare": "B"
         },
         "flock-2013-speaker": {
             "poll": 71,
-            "rate": 0.13084663300283808,
+            "rate": 0.13044996049754717,
             "rare": "B"
         },
         "flock-2014-speaker": {
             "poll": 71,
-            "rate": 0.13084663300283808,
+            "rate": 0.13044996049754717,
             "rare": "B"
         },
         "devconf-2015-speaker": {
             "poll": 71,
-            "rate": 0.13084663300283808,
+            "rate": 0.13044996049754717,
             "rare": "B"
         },
         "master-tagger-tagger-iv": {
             "poll": 72,
-            "rate": 0.1326895433268217,
+            "rate": 0.13228728388483657,
             "rare": "B"
         },
         "the-last-argument-of-kings": {
             "poll": 72,
-            "rate": 0.1326895433268217,
+            "rate": 0.13228728388483657,
             "rare": "B"
         },
         "devconf-2018-attendee": {
             "poll": 73,
-            "rate": 0.13453245365080535,
+            "rate": 0.13412460727212597,
             "rare": "B"
         },
         "fedora-21-change-accepted": {
             "poll": 74,
-            "rate": 0.136375363974789,
+            "rate": 0.13596193065941536,
             "rare": "B"
         },
         "keepin-fedora-beautiful-f25": {
             "poll": 74,
-            "rate": 0.136375363974789,
+            "rate": 0.13596193065941536,
             "rare": "B"
         },
         "modularity-wg-member": {
             "poll": 75,
-            "rate": 0.13821827429877262,
+            "rate": 0.13779925404670476,
             "rare": "B"
         },
         "united-packages-of-fedora": {
             "poll": 76,
-            "rate": 0.14006118462275627,
+            "rate": 0.13963657743399416,
             "rare": "B"
         },
         "centos-connect-2023-attendee": {
             "poll": 76,
-            "rate": 0.14006118462275627,
+            "rate": 0.13963657743399416,
             "rare": "B"
         },
         "nom-nom-nom": {
             "poll": 77,
-            "rate": 0.1419040949467399,
+            "rate": 0.14147390082128355,
             "rare": "C"
         },
         "flock-2025-attendee": {
             "poll": 77,
-            "rate": 0.1419040949467399,
+            "rate": 0.14147390082128355,
             "rare": "C"
         },
         "fosdem-2022-attendee": {
             "poll": 77,
-            "rate": 0.1419040949467399,
+            "rate": 0.14147390082128355,
             "rare": "C"
         },
         "grandmaster-editor": {
             "poll": 78,
-            "rate": 0.1437470052707235,
+            "rate": 0.14331122420857295,
             "rare": "C"
         },
         "mic-check!-updates-testing-v": {
             "poll": 78,
-            "rate": 0.1437470052707235,
+            "rate": 0.14331122420857295,
             "rare": "C"
         },
         "steampunk-arcade": {
             "poll": 78,
-            "rate": 0.1437470052707235,
+            "rate": 0.14331122420857295,
             "rare": "C"
         },
         "fosdem-2016-attendee": {
             "poll": 79,
-            "rate": 0.14558991559470716,
+            "rate": 0.14514854759586235,
             "rare": "C"
         },
         "nuancier": {
             "poll": 79,
-            "rate": 0.14558991559470716,
+            "rate": 0.14514854759586235,
             "rare": "C"
         },
         "flock-2017-attendee": {
             "poll": 79,
-            "rate": 0.14558991559470716,
+            "rate": 0.14514854759586235,
             "rare": "C"
         },
         "flock-2023-attendee": {
             "poll": 81,
-            "rate": 0.14927573624267443,
+            "rate": 0.14882319437044114,
             "rare": "C"
         },
         "flock-2013-attendee": {
             "poll": 82,
-            "rate": 0.15111864656665808,
+            "rate": 0.15066051775773054,
             "rare": "C"
         },
         "nuancier-f22": {
             "poll": 82,
-            "rate": 0.15111864656665808,
+            "rate": 0.15066051775773054,
             "rare": "C"
         },
         "krakow-brews!": {
             "poll": 83,
-            "rate": 0.1529615568906417,
+            "rate": 0.15249784114501994,
             "rare": "C"
         },
         "flock-2015-attendee": {
             "poll": 84,
-            "rate": 0.15480446721462532,
+            "rate": 0.15433516453230933,
             "rare": "C"
         },
         "devconf-2016-attendee": {
             "poll": 86,
-            "rate": 0.15849028786259262,
+            "rate": 0.15800981130688813,
             "rare": "C"
         },
         "party-pirate": {
             "poll": 87,
-            "rate": 0.16033319818657624,
+            "rate": 0.15984713469417752,
             "rare": "C"
         },
         "clickbait-fedora-magazine-ii": {
             "poll": 87,
-            "rate": 0.16033319818657624,
+            "rate": 0.15984713469417752,
             "rare": "C"
         },
         "mad-science-kernel-tester-v": {
             "poll": 88,
-            "rate": 0.16217610851055989,
+            "rate": 0.16168445808146692,
             "rare": "C"
         },
         "lets-do-lunch!": {
             "poll": 88,
-            "rate": 0.16217610851055989,
+            "rate": 0.16168445808146692,
             "rare": "C"
         },
         "lets-have-a-party-fedora-33": {
             "poll": 88,
-            "rate": 0.16217610851055989,
+            "rate": 0.16168445808146692,
             "rare": "C"
         },
         "flock-2016-speaker": {
             "poll": 88,
-            "rate": 0.16217610851055989,
+            "rate": 0.16168445808146692,
             "rare": "C"
         },
         "rollercoaster-restaurant": {
             "poll": 88,
-            "rate": 0.16217610851055989,
+            "rate": 0.16168445808146692,
             "rare": "C"
         },
         "nuancier-f23": {
             "poll": 89,
-            "rate": 0.1640190188345435,
+            "rate": 0.16352178146875632,
             "rare": "C"
         },
         "fedora--centos-social-@-summit-2020": {
             "poll": 90,
-            "rate": 0.16586192915852713,
+            "rate": 0.1653591048560457,
             "rare": "C"
         },
         "reaching-the-source-tester-ix": {
             "poll": 91,
-            "rate": 0.16770483948251078,
+            "rate": 0.1671964282433351,
             "rare": "C"
         },
         "fosdem-2026-attendee": {
             "poll": 91,
-            "rate": 0.16770483948251078,
-            "rare": "C"
-        },
-        "fosdem-2024-attendee": {
-            "poll": 91,
-            "rate": 0.16770483948251078,
+            "rate": 0.1671964282433351,
             "rare": "C"
         },
         "proven-tester": {
             "poll": 92,
-            "rate": 0.16954774980649442,
+            "rate": 0.1690337516306245,
+            "rare": "C"
+        },
+        "fosdem-2024-attendee": {
+            "poll": 92,
+            "rate": 0.1690337516306245,
             "rare": "C"
         },
         "common-bugs-contributor": {
             "poll": 94,
-            "rate": 0.1732335704544617,
+            "rate": 0.1727083984052033,
             "rare": "C"
         },
         "summer-coder": {
             "poll": 94,
-            "rate": 0.1732335704544617,
+            "rate": 0.1727083984052033,
             "rare": "C"
         },
         "devconf-2016-speaker": {
             "poll": 96,
-            "rate": 0.17691939110242894,
+            "rate": 0.1763830451797821,
             "rare": "C"
         },
         "pizzelle-cookie-iv": {
             "poll": 96,
-            "rate": 0.17691939110242894,
+            "rate": 0.1763830451797821,
             "rare": "C"
         },
         "you-can-pry-it-from-my-cold,-undead-hands": {
             "poll": 97,
-            "rate": 0.17876230142641258,
+            "rate": 0.1782203685670715,
             "rare": "C"
         },
         "pixel-ninja": {
             "poll": 97,
-            "rate": 0.17876230142641258,
+            "rate": 0.1782203685670715,
             "rare": "C"
         },
         "fosdem-2023-attendee": {
             "poll": 97,
-            "rate": 0.17876230142641258,
+            "rate": 0.1782203685670715,
             "rare": "C"
         },
         "the-panda-is-in": {
             "poll": 99,
-            "rate": 0.18244812207437985,
+            "rate": 0.18189501534165028,
             "rare": "C"
         },
         "fosdem-2017-attendee": {
             "poll": 102,
-            "rate": 0.18797685304633077,
+            "rate": 0.18740698550351848,
             "rare": "C"
         },
         "nuancier-f28": {
             "poll": 103,
-            "rate": 0.1898197633703144,
+            "rate": 0.18924430889080787,
             "rare": "C"
         },
         "flock-2019-attendee": {
             "poll": 104,
-            "rate": 0.19166267369429804,
+            "rate": 0.19108163227809727,
             "rare": "C"
         },
         "flock-2016-attendee": {
             "poll": 107,
-            "rate": 0.19719140466624893,
+            "rate": 0.1965936024399655,
             "rare": "C"
         },
         "nuancier-21": {
             "poll": 108,
-            "rate": 0.19903431499023258,
+            "rate": 0.19843092582725483,
             "rare": "C"
         },
         "flock-2018-attendee": {
             "poll": 108,
-            "rate": 0.19903431499023258,
+            "rate": 0.19843092582725483,
             "rare": "C"
         },
         "maestro": {
             "poll": 109,
-            "rate": 0.2008772253142162,
+            "rate": 0.20026824921454425,
             "rare": "C"
         },
         "i-converted-to-btrfs!": {
             "poll": 109,
-            "rate": 0.2008772253142162,
+            "rate": 0.20026824921454425,
             "rare": "C"
         },
         "you\u2019re-on-a-boat!": {
             "poll": 110,
-            "rate": 0.20272013563819982,
+            "rate": 0.20210557260183365,
             "rare": "C"
         },
         "lets-have-a-party-fedora-42": {
             "poll": 111,
-            "rate": 0.20456304596218347,
+            "rate": 0.20394289598912305,
             "rare": "C"
         },
         "devconf-2017-speaker": {
             "poll": 112,
-            "rate": 0.20640595628616715,
+            "rate": 0.20578021937641247,
             "rare": "C"
         },
         "devconf.cz-2022-attendee": {
             "poll": 112,
-            "rate": 0.20640595628616715,
+            "rate": 0.20578021937641247,
             "rare": "C"
         },
         "devconf-2019-attendee": {
             "poll": 113,
-            "rate": 0.20824886661015077,
+            "rate": 0.2076175427637018,
             "rare": "C"
         },
         "nuancier-f30": {
             "poll": 113,
-            "rate": 0.20824886661015077,
+            "rate": 0.2076175427637018,
             "rare": "C"
         },
         "like-a-rock-updates-stable-iv": {
             "poll": 114,
-            "rate": 0.2100917769341344,
+            "rate": 0.20945486615099124,
             "rare": "C"
         },
         "blog-lobber-planet-vi": {
             "poll": 116,
-            "rate": 0.21377759758210166,
+            "rate": 0.21312951292557003,
             "rare": "C"
         },
         "clickbait-fedora-magazine-i": {
             "poll": 116,
-            "rate": 0.21377759758210166,
+            "rate": 0.21312951292557003,
             "rare": "C"
         },
         "flock-2014-attendee": {
             "poll": 122,
-            "rate": 0.22483505952600344,
+            "rate": 0.22415345324930644,
             "rare": "C"
         },
         "curious-penguin-ask-fedora-iv": {
             "poll": 125,
-            "rate": 0.23036379049795438,
+            "rate": 0.2296654234111746,
             "rare": "C"
         },
         "the-blessing-of-the-fpl": {
             "poll": 129,
-            "rate": 0.23773543179388892,
+            "rate": 0.2370147169603322,
             "rare": "C"
         },
         "devconf-2017-attendee": {
             "poll": 130,
-            "rate": 0.23957834211787254,
+            "rate": 0.23885204034762159,
             "rare": "C"
         },
         "its-a-cake-thing": {
             "poll": 131,
-            "rate": 0.24142125244185617,
+            "rate": 0.24068936373491098,
             "rare": "C"
         },
         "senior-package-tagger-package-tagger-iii": {
             "poll": 132,
-            "rate": 0.24326416276583981,
+            "rate": 0.2425266871222004,
             "rare": "C"
         },
         "is-this-thing-on-updates-testing-iv": {
             "poll": 137,
-            "rate": 0.25247871438575803,
+            "rate": 0.2517133040586474,
             "rare": "C"
         },
         "science-kernel-tester-iv": {
             "poll": 140,
-            "rate": 0.2580074453577089,
+            "rate": 0.25722527422051555,
             "rare": "C"
         },
         "badge-muse-badge-ideas-i": {
             "poll": 145,
-            "rate": 0.26722199697762705,
+            "rate": 0.2664118911569625,
             "rare": "C"
         },
         "senior-tagger-tagger-iii": {
             "poll": 150,
-            "rate": 0.27643654859754524,
+            "rate": 0.2755985080934095,
             "rare": "C"
         },
         "fosdem-2021-attendee": {
             "poll": 150,
-            "rate": 0.27643654859754524,
+            "rate": 0.2755985080934095,
             "rare": "C"
         },
         "top-100": {
             "poll": 151,
-            "rate": 0.2782794589215289,
+            "rate": 0.27743583148069895,
             "rare": "C"
         },
         "devconf.cz-2021-attendee": {
             "poll": 151,
-            "rate": 0.2782794589215289,
+            "rate": 0.27743583148069895,
             "rare": "C"
         },
         "master-badger-badger-iii": {
             "poll": 153,
-            "rate": 0.28196527956949613,
+            "rate": 0.2811104782552777,
             "rare": "C"
         },
         "i-voted:-fedora-41": {
             "poll": 154,
-            "rate": 0.2838081898934798,
+            "rate": 0.2829478016425671,
             "rare": "C"
         },
         "lets-have-a-party-fedora-40": {
             "poll": 154,
-            "rate": 0.2838081898934798,
+            "rate": 0.2829478016425671,
             "rare": "C"
         },
         "chief-editor": {
-            "poll": 156,
-            "rate": 0.287494010541447,
+            "poll": 157,
+            "rate": 0.2884597718044353,
             "rare": "C"
         },
         "lets-have-an-anniversary-party-fedora-39": {
             "poll": 161,
-            "rate": 0.29670856216136526,
+            "rate": 0.2958090653535929,
             "rare": "C"
         },
         "lets-have-a-party-fedora-34": {
             "poll": 166,
-            "rate": 0.3059231137812834,
+            "rate": 0.30499568229003987,
             "rare": "C"
         },
         "you-can-pry-it-from-my-cold,-dead-hands": {
             "poll": 169,
-            "rate": 0.3114518447532343,
+            "rate": 0.31050765245190803,
             "rare": "C"
         },
         "i-voted:-fedora-38": {
             "poll": 170,
-            "rate": 0.31329475507721793,
+            "rate": 0.31234497583919746,
             "rare": "C"
         },
         "both-bull-and-self-transcended-tester-viii": {
             "poll": 174,
-            "rate": 0.3206663963731525,
+            "rate": 0.31969426938835505,
             "rare": "C"
         },
         "hindenburg-koji-failure-v": {
             "poll": 175,
-            "rate": 0.3225093066971361,
+            "rate": 0.32153159277564447,
             "rare": "C"
         },
         "i-voted:-fedora-30": {
             "poll": 176,
-            "rate": 0.32435221702111977,
+            "rate": 0.32336891616293384,
             "rare": "C"
         },
         "i-voted:-fedora-43": {
             "poll": 176,
-            "rate": 0.32435221702111977,
+            "rate": 0.32336891616293384,
             "rare": "C"
         },
         "i-voted:-fedora-39": {
             "poll": 183,
-            "rate": 0.3372525892890052,
+            "rate": 0.3362301798739596,
             "rare": "C"
         },
         "all-your-$arch-are-belong-to-us-koji-success-v": {
             "poll": 188,
-            "rate": 0.3464671409089234,
+            "rate": 0.3454167968104066,
             "rare": "C"
         },
         "lets-have-a-party-fedora-38": {
             "poll": 191,
-            "rate": 0.3519958718808743,
+            "rate": 0.3509287669722748,
             "rare": "C"
         },
         "black-and-white-cookie-iii": {
             "poll": 192,
-            "rate": 0.35383878220485787,
+            "rate": 0.3527660903595642,
             "rare": "C"
         },
         "packager-sponsor": {
             "poll": 192,
-            "rate": 0.35383878220485787,
+            "rate": 0.3527660903595642,
             "rare": "C"
         },
         "i-voted:-fedora-37": {
             "poll": 194,
-            "rate": 0.35752460285282517,
+            "rate": 0.356440737134143,
             "rare": "C"
         },
         "community-messenger-i": {
             "poll": 195,
-            "rate": 0.3593675131768088,
+            "rate": 0.3582780605214324,
             "rare": "C"
         },
         "i-voted:-fedora-31": {
             "poll": 198,
-            "rate": 0.3648962441487597,
+            "rate": 0.36379003068330057,
             "rare": "C"
         },
         "i-voted:-fedora-33": {
             "poll": 198,
-            "rate": 0.3648962441487597,
+            "rate": 0.36379003068330057,
             "rare": "C"
         },
         "i-voted:-fedora-32": {
             "poll": 203,
-            "rate": 0.3741107957686779,
+            "rate": 0.3729766476197475,
             "rare": "C"
         },
         "what-goes-up...-koji-failure-iv": {
             "poll": 206,
-            "rate": 0.3796395267406288,
+            "rate": 0.37848861778161574,
             "rare": "C"
         },
         "corporate-shill": {
             "poll": 210,
-            "rate": 0.3870111680365633,
+            "rate": 0.38583791133077333,
             "rare": "C"
         },
         "extra!--extra!": {
             "poll": 211,
-            "rate": 0.388854078360547,
+            "rate": 0.38767523471806276,
             "rare": "C"
         },
         "i-voted:-fedora-34": {
             "poll": 215,
-            "rate": 0.3962257196564815,
+            "rate": 0.39502452826722034,
             "rare": "C"
         },
         "lets-have-a-party-fedora-35": {
             "poll": 219,
-            "rate": 0.40359736095241605,
+            "rate": 0.40237382181637793,
             "rare": "C"
         },
         "i-voted:-fedora-40": {
             "poll": 219,
-            "rate": 0.40359736095241605,
+            "rate": 0.40237382181637793,
             "rare": "C"
         },
         "museum-visitor": {
             "poll": 219,
-            "rate": 0.40359736095241605,
+            "rate": 0.40237382181637793,
             "rare": "C"
         },
         "i-voted:-fedora-35": {
             "poll": 229,
-            "rate": 0.4220264641922524,
+            "rate": 0.4207470556892719,
             "rare": "C"
         },
         "i-voted:-fedora-42": {
             "poll": 231,
-            "rate": 0.42571228484021967,
+            "rate": 0.42442170246385064,
             "rare": "C"
         },
         "nuancier-f26": {
             "poll": 234,
-            "rate": 0.43124101581217056,
+            "rate": 0.4299336726257189,
             "rare": "C"
         },
         "nuancier-f24": {
             "poll": 236,
-            "rate": 0.43492683646013786,
+            "rate": 0.4336083194002976,
             "rare": "C"
         },
         "nuancier-f25": {
             "poll": 236,
-            "rate": 0.43492683646013786,
+            "rate": 0.4336083194002976,
             "rare": "C"
         },
         "package-tagger-package-tagger-ii": {
             "poll": 237,
-            "rate": 0.4367697467841215,
+            "rate": 0.4354456427875871,
             "rare": "C"
         },
         "vacation": {
             "poll": 238,
-            "rate": 0.4386126571081051,
+            "rate": 0.43728296617487644,
             "rare": "C"
         },
         "science-kernel-tester-iii": {
             "poll": 250,
-            "rate": 0.46072758099590877,
+            "rate": 0.4593308468223492,
             "rare": "C"
         },
         "bob-loblaw-planet-v": {
             "poll": 250,
-            "rate": 0.46072758099590877,
+            "rate": 0.4593308468223492,
             "rare": "C"
         },
         "i-voted:-fedora-36": {
             "poll": 252,
-            "rate": 0.464413401643876,
+            "rate": 0.463005493596928,
             "rare": "C"
         },
         "what-goes-around-comes-around-karma-iv": {
             "poll": 256,
-            "rate": 0.47178504293981055,
+            "rate": 0.47035478714608553,
             "rare": "C"
         },
         "horcrux": {
             "poll": 268,
-            "rate": 0.4938999668276141,
+            "rate": 0.49240266779355835,
             "rare": "C"
         },
         "proven-packager": {
             "poll": 269,
-            "rate": 0.49574287715159776,
+            "rate": 0.49423999118084777,
             "rare": "C"
         },
         "lets-have-a-party-fedora-36": {
             "poll": 277,
-            "rate": 0.5104861597434669,
+            "rate": 0.5089385782791629,
             "rare": "C"
         },
         "old-yeller": {
             "poll": 287,
-            "rate": 0.5289152629833033,
+            "rate": 0.5273118121520569,
             "rare": "D"
         },
         "curious-penguin-ask-fedora-iii": {
-            "poll": 289,
-            "rate": 0.5326010836312705,
+            "poll": 291,
+            "rate": 0.5346611057012144,
             "rare": "D"
         },
         "the-bull-transcended-tester-vii": {
             "poll": 293,
-            "rate": 0.539972724927205,
+            "rate": 0.5383357524757932,
             "rare": "D"
         },
         "lets-have-a-party-fedora-37": {
             "poll": 296,
-            "rate": 0.545501455899156,
+            "rate": 0.5438477226376615,
             "rare": "D"
         },
         "no-longer-a-ronin": {
             "poll": 306,
-            "rate": 0.5639305591389923,
+            "rate": 0.5622209565105554,
             "rare": "D"
         },
         "patches-scm-v": {
             "poll": 311,
-            "rate": 0.5731451107589105,
+            "rate": 0.5714075734470023,
             "rare": "D"
         },
         "tagger-tagger-ii": {
             "poll": 312,
-            "rate": 0.574988021082894,
+            "rate": 0.5732448968342918,
             "rare": "D"
         },
         "nest-attendee-2020": {
             "poll": 328,
-            "rate": 0.6044745862666323,
+            "rate": 0.6026420710309222,
             "rare": "D"
         },
         "nest-attendee-2021": {
             "poll": 332,
-            "rate": 0.6118462275625668,
+            "rate": 0.6099913645800797,
             "rare": "D"
         },
         "the-cat-came-back...": {
             "poll": 343,
-            "rate": 0.6321182411263868,
+            "rate": 0.6302019218402631,
             "rare": "D"
         },
         "master-editor": {
             "poll": 350,
-            "rate": 0.6450186133942722,
+            "rate": 0.6430631855512889,
             "rare": "D"
         },
         "chocolate-chip-cookie-ii": {
             "poll": 354,
-            "rate": 0.6523902546902067,
+            "rate": 0.6504124791004465,
             "rare": "D"
         },
         "parselmouth": {
             "poll": 356,
-            "rate": 0.656076075338174,
+            "rate": 0.6540871258750253,
             "rare": "D"
         },
         "nest-2022-attendee": {
             "poll": 375,
-            "rate": 0.6910913714938631,
-            "rare": "D"
-        },
-        "stop-that-update!": {
-            "poll": 382,
-            "rate": 0.7039917437617486,
+            "rate": 0.6889962702335238,
             "rare": "D"
         },
         "science-kernel-tester-ii": {
             "poll": 382,
-            "rate": 0.7039917437617486,
+            "rate": 0.7018575339445496,
             "rare": "D"
         },
         "what-goes-around-comes-around-karma-iii": {
             "poll": 383,
-            "rate": 0.7058346540857322,
+            "rate": 0.703694857331839,
+            "rare": "D"
+        },
+        "stop-that-update!": {
+            "poll": 386,
+            "rate": 0.7092068274937071,
             "rare": "D"
         },
         "consolation-prize": {
             "poll": 386,
-            "rate": 0.711363385057683,
+            "rate": 0.7092068274937071,
             "rare": "D"
         },
         "bloggin-it!-planet-iv": {
             "poll": 413,
-            "rate": 0.7611219638052413,
+            "rate": 0.7588145589505209,
             "rare": "D"
         },
         "delivery": {
             "poll": 418,
-            "rate": 0.7703365154251595,
+            "rate": 0.7680011758869678,
             "rare": "D"
         },
         "riding-the-bull-home-tester-vi": {
-            "poll": 420,
-            "rate": 0.7740223360731266,
+            "poll": 421,
+            "rate": 0.773513146048836,
             "rare": "D"
         },
         "junior-package-tagger-package-tagger-i": {
             "poll": 422,
-            "rate": 0.777708156721094,
+            "rate": 0.7753504694361255,
             "rare": "D"
         },
         "building-the-outer-ring-copr-build-vii": {
             "poll": 433,
-            "rate": 0.797980170284914,
+            "rate": 0.7955610266963089,
             "rare": "D"
         },
         "community-survey-taker-i": {
             "poll": 447,
-            "rate": 0.8237809148206848,
+            "rate": 0.8212835541183603,
             "rare": "D"
         },
         "like-a-rock-updates-stable-iii": {
-            "poll": 449,
-            "rate": 0.8274667354686521,
+            "poll": 450,
+            "rate": 0.8267955242802285,
             "rare": "D"
         },
         "if-you-build-it...-koji-success-iv": {
             "poll": 480,
-            "rate": 0.8845969555121448,
+            "rate": 0.8819152258989105,
             "rare": "D"
         },
         "telegraphist-upstream-release-monitoring-i": {
             "poll": 510,
-            "rate": 0.9398842652316539,
+            "rate": 0.9370349275175924,
             "rare": "D"
         },
         "junior-tagger-tagger-i": {
             "poll": 510,
-            "rate": 0.9398842652316539,
+            "rate": 0.9370349275175924,
             "rare": "D"
         },
         "what-goes-up...-koji-failure-iii": {
             "poll": 529,
-            "rate": 0.9748995613873429,
+            "rate": 0.971944071876091,
             "rare": "D"
         },
         "is-this-thing-on-updates-testing-iii": {
             "poll": 530,
-            "rate": 0.9767424717113264,
+            "rate": 0.9737813952633803,
             "rare": "D"
         },
         "override,-you-say": {
             "poll": 537,
-            "rate": 0.989642843979212,
+            "rate": 0.9866426589744061,
             "rare": "D"
         },
         "you-can-call-me-patches-scm-iv": {
             "poll": 546,
-            "rate": 1.0062290368950648,
+            "rate": 1.0031785694600106,
             "rare": "D"
         },
         "bloggin-it!-planet-iii": {
             "poll": 581,
-            "rate": 1.0707308982344919,
+            "rate": 1.0674848880151395,
             "rare": "D"
         },
         "senior-editor": {
             "poll": 591,
-            "rate": 1.0891600014743283,
+            "rate": 1.0858581218880334,
             "rare": "D"
         },
         "binary-star": {
-            "poll": 607,
-            "rate": 1.1186465666580663,
+            "poll": 609,
+            "rate": 1.1189299428592427,
             "rare": "D"
         },
         "ambassador": {
             "poll": 671,
-            "rate": 1.2365928273930191,
+            "rate": 1.2328439928711852,
             "rare": "D"
         },
         "bloggin-it!-planet-ii": {
             "poll": 677,
-            "rate": 1.2476502893369208,
+            "rate": 1.2438679331949216,
             "rare": "D"
         },
         "top-500": {
             "poll": 691,
-            "rate": 1.2734510338726917,
+            "rate": 1.2695904606169732,
             "rare": "D"
         },
         "taming-the-bull-tester-v": {
             "poll": 696,
-            "rate": 1.28266558549261,
+            "rate": 1.2787770775534202,
             "rare": "D"
         },
         "white-hat": {
             "poll": 706,
-            "rate": 1.3010946887324464,
+            "rate": 1.297150311426314,
             "rare": "D"
         },
         "senior-badger-badger-ii": {
             "poll": 740,
-            "rate": 1.36375363974789,
+            "rate": 1.3596193065941535,
             "rare": "D"
         },
         "community-survey-taker-2022": {
             "poll": 741,
-            "rate": 1.3655965500718734,
+            "rate": 1.361456629981443,
             "rare": "D"
         },
         "bloggin-it!-planet-i": {
             "poll": 796,
-            "rate": 1.4669566178909734,
+            "rate": 1.4625094162823598,
             "rare": "D"
         },
         "partners-in-crime": {
             "poll": 796,
-            "rate": 1.4669566178909734,
+            "rate": 1.4625094162823598,
             "rare": "D"
         },
         "missed-the-train": {
-            "poll": 798,
-            "rate": 1.4706424385389407,
+            "poll": 803,
+            "rate": 1.4753706799933857,
             "rare": "D"
         },
         "it-still-works!": {
             "poll": 846,
-            "rate": 1.5591021340901552,
+            "rate": 1.5543755856468298,
             "rare": "D"
         },
         "what-goes-around-comes-around-karma-ii": {
-            "poll": 868,
-            "rate": 1.599646161217795,
+            "poll": 870,
+            "rate": 1.5984713469417753,
             "rare": "D"
         },
         "community-survey-taker-2023": {
             "poll": 902,
-            "rate": 1.6623051122332386,
+            "rate": 1.6572656953350358,
             "rare": "D"
         },
         "secretary-general": {
             "poll": 929,
-            "rate": 1.712063690980797,
+            "rate": 1.7068734267918495,
             "rare": "D"
         },
         "building-the-outer-ring-copr-build-vi": {
             "poll": 930,
-            "rate": 1.7139066013047803,
+            "rate": 1.708710750179139,
             "rare": "D"
         },
         "science-kernel-tester-i": {
             "poll": 956,
-            "rate": 1.761822269728355,
+            "rate": 1.7564811582486635,
             "rare": "D"
         },
         "what-goes-up...-koji-failure-ii": {
-            "poll": 976,
-            "rate": 1.7986804762080275,
+            "poll": 977,
+            "rate": 1.7950649493817405,
             "rare": "D"
         },
         "helping-hand": {
             "poll": 1009,
-            "rate": 1.8594965168994875,
+            "rate": 1.8538592977750012,
             "rare": "D"
         },
         "corporate-drone": {
             "poll": 1029,
-            "rate": 1.8963547233791604,
+            "rate": 1.8906057655207893,
             "rare": "D"
         },
         "riddle-me-this": {
             "poll": 1034,
-            "rate": 1.9055692749990785,
+            "rate": 1.8997923824572363,
             "rare": "D"
         },
         "like-a-rock-updates-stable-ii": {
             "poll": 1042,
-            "rate": 1.9203125575909479,
+            "rate": 1.9144909695555514,
             "rare": "D"
         },
         "associate-editor": {
             "poll": 1082,
-            "rate": 1.994028970550293,
+            "rate": 1.9879839050471273,
             "rare": "D"
         },
         "you-can-call-me-patches-scm-iii": {
             "poll": 1095,
-            "rate": 2.01798680476208,
+            "rate": 2.0118691090818897,
             "rare": "D"
         },
         "catching-the-bull-tester-iv": {
-            "poll": 1100,
-            "rate": 2.0272013563819984,
+            "poll": 1102,
+            "rate": 2.024730372792915,
             "rare": "D"
         },
         "if-you-build-it...-koji-success-iii": {
             "poll": 1110,
-            "rate": 2.045630459621835,
+            "rate": 2.0394289598912305,
             "rare": "D"
         },
         "is-this-thing-on-updates-testing-ii": {
-            "poll": 1155,
-            "rate": 2.128561424201098,
+            "poll": 1156,
+            "rate": 2.123945835706543,
             "rare": "D"
         },
         "curious-penguin-ask-fedora-ii": {
-            "poll": 1214,
-            "rate": 2.2372931333161326,
+            "poll": 1225,
+            "rate": 2.250721149429511,
             "rare": "D"
         },
         "building-the-outer-ring-copr-build-v": {
             "poll": 1291,
-            "rate": 2.3791972282628726,
+            "rate": 2.3719844929906113,
             "rare": "D"
         },
         "long-life-to-pagure-pagure-vi": {
             "poll": 1401,
-            "rate": 2.5819173639010726,
+            "rate": 2.5740900655924452,
             "rare": "D"
         },
         "long-life-to-pagure-pagure-v": {
             "poll": 1441,
-            "rate": 2.655633776860418,
+            "rate": 2.647583001084021,
             "rare": "D"
         },
         "what-goes-up...-koji-failure-i": {
-            "poll": 1457,
-            "rate": 2.685120342044156,
+            "poll": 1459,
+            "rate": 2.6806548220552298,
             "rare": "D"
         },
         "what-goes-around-comes-around-karma-i": {
-            "poll": 1480,
-            "rate": 2.72750727949578,
+            "poll": 1481,
+            "rate": 2.721075936575597,
             "rare": "D"
         },
         "long-life-to-pagure-pagure-iv": {
             "poll": 1487,
-            "rate": 2.740407651763665,
+            "rate": 2.732099876899333,
             "rare": "D"
         },
         "you-can-call-me-patches-scm-ii": {
             "poll": 1517,
-            "rate": 2.795694961483174,
+            "rate": 2.7872195785180147,
             "rare": "D"
         },
         "long-life-to-pagure-pagure-iii": {
             "poll": 1524,
-            "rate": 2.8085953337510596,
+            "rate": 2.8000808422290406,
             "rare": "D"
         },
         "macaron-cookie-i": {
-            "poll": 1562,
-            "rate": 2.878625926062438,
+            "poll": 1568,
+            "rate": 2.880923071269774,
             "rare": "D"
         },
         "junior-editor": {
             "poll": 1577,
-            "rate": 2.906269580922192,
+            "rate": 2.8974589817553786,
             "rare": "D"
         },
         "take-this-and-call-me-in-the-morning": {
             "poll": 1624,
-            "rate": 2.992886366149423,
+            "rate": 2.98381318095798,
             "rare": "D"
         },
         "mirror,-mirror-on-the-wall": {
-            "poll": 1629,
-            "rate": 3.0021009177693414,
+            "poll": 1630,
+            "rate": 2.9948371212817166,
             "rare": "D"
         },
         "building-the-outer-ring-copr-build-iv": {
             "poll": 1648,
-            "rate": 3.0371162139250303,
+            "rate": 3.027908942252926,
             "rare": "D"
         },
         "long-life-to-pagure-pagure-ii": {
             "poll": 1649,
-            "rate": 3.038959124249014,
+            "rate": 3.029746265640215,
             "rare": "D"
         },
         "if-you-build-it...-koji-success-ii": {
             "poll": 1711,
-            "rate": 3.1532195643359997,
+            "rate": 3.1436603156521583,
             "rare": "D"
         },
         "perceiving-the-bull-tester-iii": {
-            "poll": 1734,
-            "rate": 3.1956065017876227,
+            "poll": 1736,
+            "rate": 3.189593400334393,
             "rare": "D"
         },
         "associate-badger-badger-1.5": {
             "poll": 1867,
-            "rate": 3.4407135748774467,
+            "rate": 3.4302827640693043,
             "rare": "D"
         },
         "long-life-to-pagure-pagure-i": {
             "poll": 1895,
-            "rate": 3.4923150639489884,
+            "rate": 3.481727818913407,
             "rare": "D"
         },
         "building-the-outer-ring-copr-build-iii": {
             "poll": 1908,
-            "rate": 3.516272898160776,
+            "rate": 3.505613022948169,
             "rare": "D"
         },
         "you-can-call-me-patches-scm-i": {
             "poll": 1930,
-            "rate": 3.5568169252884156,
+            "rate": 3.546034137468536,
             "rare": "D"
         },
         "like-a-rock-updates-stable-i": {
-            "poll": 1938,
-            "rate": 3.5715602078802844,
+            "poll": 1940,
+            "rate": 3.5644073713414297,
             "rare": "D"
         },
         "speak-up!": {
-            "poll": 1949,
-            "rate": 3.5918322214441045,
+            "poll": 1953,
+            "rate": 3.5882925753761916,
             "rare": "D"
         },
         "is-this-thing-on-updates-testing-i": {
-            "poll": 1973,
-            "rate": 3.6360620692197116,
+            "poll": 1974,
+            "rate": 3.6268763665092694,
             "rare": "D"
         },
         "if-you-build-it...-koji-success-i": {
-            "poll": 2152,
-            "rate": 3.965943017212782,
+            "poll": 2153,
+            "rate": 3.955757252834071,
             "rare": "D"
         },
         "let-me-introduce-myself": {
-            "poll": 2465,
-            "rate": 4.54277394861966,
+            "poll": 2466,
+            "rate": 4.530839473055653,
             "rare": "D"
         },
         "building-the-outer-ring-copr-build-ii": {
             "poll": 2604,
-            "rate": 4.7989384836533855,
+            "rate": 4.784390100501589,
             "rare": "D"
         },
         "discovery-of-the-footprints-tester-ii": {
             "poll": 2615,
-            "rate": 4.819210497217205,
+            "rate": 4.804600657761773,
             "rare": "D"
         },
         "bona-fide": {
             "poll": 2889,
-            "rate": 5.324167925988721,
+            "rate": 5.308027265879067,
             "rare": "D"
         },
         "crypto-panda": {
-            "poll": 3601,
-            "rate": 6.63632007666507,
+            "poll": 3603,
+            "rate": 6.619876164403697,
             "rare": "D"
         },
         "building-the-outer-ring-copr-build-i": {
             "poll": 3969,
-            "rate": 7.314511075891048,
+            "rate": 7.292336524151616,
             "rare": "D"
         },
         "baby-badger": {
-            "poll": 5009,
-            "rate": 9.231137812834026,
+            "poll": 5017,
+            "rate": 9.217851434030903,
             "rare": "D"
         },
         "adult-frog": {
-            "poll": 5099,
-            "rate": 9.396999741992555,
+            "poll": 5105,
+            "rate": 9.37953589211237,
             "rare": "D"
         },
         "in-search-of-the-bull-tester-i": {
-            "poll": 6233,
-            "rate": 11.486860049389996,
+            "poll": 6236,
+            "rate": 11.457548643136677,
             "rare": "D"
         },
         "crypto-badger": {
-            "poll": 6398,
-            "rate": 11.790940252847298,
+            "poll": 6413,
+            "rate": 11.782754882686902,
             "rare": "D"
         },
         "junior-badger-badger-i": {
-            "poll": 7214,
-            "rate": 13.294755077217943,
+            "poll": 7219,
+            "rate": 13.263637532842157,
             "rare": "D"
         },
         "dont-call-it-a-comeback": {
             "poll": 7714,
-            "rate": 14.216210239209758,
+            "rate": 14.173112609550406,
             "rare": "D"
         },
         "origin": {
             "poll": 8441,
-            "rate": 15.556006044745862,
+            "rate": 15.508846712109797,
             "rare": "D"
         },
         "curious-penguin-ask-fedora-i": {
-            "poll": 9446,
-            "rate": 17.408130920349414,
+            "poll": 9508,
+            "rate": 17.469270766347584,
             "rare": "D"
         },
         "white-rabbit": {
-            "poll": 9998,
-            "rate": 18.425417419188385,
+            "poll": 10084,
+            "rate": 18.52756903742628,
             "rare": "D"
         },
         "froglet": {
-            "poll": 11824,
-            "rate": 21.790571670782498,
+            "poll": 11829,
+            "rate": 21.733698348246275,
             "rare": "D"
         },
         "mugshot": {
-            "poll": 14083,
-            "rate": 25.953706092661534,
+            "poll": 14088,
+            "rate": 25.884211880133023,
             "rare": "D"
         },
         "tadpole-with-legs": {
-            "poll": 18182,
-            "rate": 33.507795510670455,
+            "poll": 18186,
+            "rate": 33.41356312124497,
             "rare": "D"
         },
         "tadpole": {
-            "poll": 22972,
-            "rate": 42.335335962552065,
+            "poll": 22973,
+            "rate": 42.208830176199314,
             "rare": "D"
         },
         "embryo": {
-            "poll": 23653,
-            "rate": 43.590357893184915,
+            "poll": 23658,
+            "rate": 43.46739669649255,
             "rare": "D"
         },
         "involvement": {
-            "poll": 23699,
-            "rate": 43.675131768088164,
+            "poll": 23702,
+            "rate": 43.54823892553328,
             "rare": "D"
         },
         "egg": {
-            "poll": 24130,
-            "rate": 44.469426117725114,
+            "poll": 24136,
+            "rate": 44.34563727561688,
             "rare": "D"
         },
         "paranoid-panda": {
-            "poll": 35801,
-            "rate": 65.97803250893811,
+            "poll": 35862,
+            "rate": 65.89009131497234,
             "rare": "D"
         }
     }
