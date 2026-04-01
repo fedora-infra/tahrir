@@ -2,6 +2,7 @@ import sqlalchemy as sa
 import tahrir_api.model as m
 from flask import g, jsonify, request
 
+from ..utils.avatar import hash_email
 from ..utils.badge import (
     badge_json_generator,
     get_badge_or_404,
@@ -62,7 +63,7 @@ def get_badge_by_id(badge_id: str):
         origin_assertion_data.pop("badge", None)  # Remove unwanted fields
         origin_assertion_data["person"] = assertions[0].person.as_dict()  # Add user info
         origin_assertion_data["person"].pop("email", None)  # Remove email field
-        origin_assertion_data["person"]["mail"] = assertions[0].person.avatar  # Add user avatar
+        origin_assertion_data["person"]["mail"] = hash_email(assertions[0].person.avatar)
         origin_assertion_data["issued_on"] = assertions[0].issued_on.timestamp()
         data["assertions"]["origin"] = origin_assertion_data
 
@@ -72,9 +73,7 @@ def get_badge_by_id(badge_id: str):
             recent_assertion_data.pop("badge", None)  # Remove unwanted fields
             recent_assertion_data["person"] = assertions[-1].person.as_dict()  # Add user info
             recent_assertion_data["person"].pop("email", None)  # Remove email field
-            recent_assertion_data["person"]["mail"] = assertions[
-                -1
-            ].person.avatar  # Add user avatar
+            recent_assertion_data["person"]["mail"] = hash_email(assertions[-1].person.avatar)
             recent_assertion_data["issued_on"] = assertions[-1].issued_on.timestamp()
             data["assertions"]["recent"] = recent_assertion_data
         else:
