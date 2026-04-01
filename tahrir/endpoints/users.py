@@ -4,6 +4,7 @@ from authlib.integrations.flask_oauth2 import current_token
 from flask import abort, g, jsonify, request
 
 from ..app import csrf, oidc
+from ..utils.avatar import hash_email
 from ..utils.user import create_person, get_person, get_user_badge_info, require_login
 from . import blueprint as bp
 
@@ -32,7 +33,7 @@ def search_users_by_string(search_string: str):
                 "id": item.id,
                 "bio": item.bio if item.bio else None,
                 "created_on": item.created_on.timestamp() if item.created_on else None,
-                "email": item.avatar,
+                "email": hash_email(item.avatar),
                 "last_login": item.last_login.timestamp() if item.last_login else None,
                 "nickname": item.nickname,
                 "opt_out": item.opt_out,
@@ -66,7 +67,7 @@ def get_user_by_id(user_id: str):
         {
             "user": {
                 "nickname": user.nickname,
-                "mail": user.avatar,
+                "mail": hash_email(user.avatar),
                 "created_on": user.created_on if user.created_on else None,
                 "opt_out": user.opt_out,
                 "rank": badges_info["rank"],
@@ -137,8 +138,7 @@ def get_user_diff(id_a: str, id_b: str):
             "user_a": {
                 "id": user_a.id,
                 "nickname": user_a.nickname,
-                "email": user_a.email,
-                "avatar": user_a.avatar,
+                "avatar": hash_email(user_a.avatar),
                 "badges_count": len(user_a_info["badges"]),
                 "percent_earned": user_a_info["percent_earned"],
                 "rank": user_a_info["rank"],
@@ -147,8 +147,7 @@ def get_user_diff(id_a: str, id_b: str):
             "user_b": {
                 "id": user_b.id,
                 "nickname": user_b.nickname,
-                "email": user_b.email,
-                "avatar": user_b.avatar,
+                "avatar": hash_email(user_b.avatar),
                 "badges_count": len(user_b_info["badges"]),
                 "percent_earned": user_b_info["percent_earned"],
                 "rank": user_b_info["rank"],
