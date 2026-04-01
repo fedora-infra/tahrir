@@ -1,4 +1,3 @@
-import md5 from "crypto-js/md5";
 import sha256 from "crypto-js/sha256";
 
 export function formatTime(epochTime) {
@@ -14,7 +13,7 @@ export function formatTime(epochTime) {
 }
 
 export function portraitProvider(mail, size = 40) {
-  return `https://seccdn.libravatar.org/avatar/${md5(mail.trim().toLowerCase()).toString()}?s=${size}&d=retro`;
+  return `https://seccdn.libravatar.org/avatar/${mail}?s=${size}&d=retro`;
 }
 
 export function generateIdentity(text, size = 8) {

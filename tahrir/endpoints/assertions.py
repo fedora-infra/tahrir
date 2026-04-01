@@ -1,5 +1,6 @@
 from flask import abort, g, jsonify, request
 
+from ..utils.avatar import hash_email
 from . import blueprint as bp
 
 
@@ -18,7 +19,8 @@ def get_recent_assertions():
     for item in assertions:
         item_data = item.as_dict()
         item_data["person"] = item.person.as_dict()
-        item_data["person"]["mail"] = item.person.avatar
+        item_data["person"].pop("email", None)
+        item_data["person"]["mail"] = hash_email(item.person.avatar)
         item_data["issued_on"] = item.issued_on.timestamp()
         item_data["badge"]["id"] = item.badge.id
         result.append(item_data)
@@ -51,7 +53,7 @@ def get_assertions_by_badge(badge_id: str):
         assertion_data.pop("badge", None)  # Remove unwanted fields
         assertion_data["person"] = assertion.person.as_dict()  # Add user info
         assertion_data["person"].pop("email", None)  # Remove email field
-        assertion_data["person"]["mail"] = assertion.person.avatar  # Add user avatar
+        assertion_data["person"]["mail"] = hash_email(assertion.person.avatar)  # Add user avatar
         assertion_data["issued_on"] = assertion.issued_on.timestamp()
         result.append(assertion_data)
 

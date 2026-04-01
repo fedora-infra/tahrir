@@ -181,8 +181,8 @@ export default function Homepage() {
                       )}
                     </>
                   }
-                  shot={item.person?.email ? portraitProvider(item.person.email, 45) : null}
-                  onClick={(e) => {handleAwardsClicks(e, `/identity/${item.person?.nickname || ""}`)}}
+                  shot={item.person?.mail ? portraitProvider(item.person.mail, 45) : null}
+                  link={`/identity/${item.person?.nickname || ""}`}
                 />
               ))}
             </ListGroup>
