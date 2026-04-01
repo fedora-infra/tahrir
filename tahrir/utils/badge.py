@@ -1,11 +1,7 @@
-import json
-import os
 from collections import defaultdict
 
 import sqlalchemy as sa
 from flask import abort, current_app, g
-
-from tahrir.defaults import TAHRIR_DISPLAY_TAGS
 
 
 ISSUER = dict(
@@ -24,38 +20,27 @@ def get_badge_or_404(badge_id):
 
 
 def badge_json_generator(badge, withasserts=True):
-    """Helper function to serialize badge data"""
-    try:
-        with open(os.path.join(current_app.static_folder, "rarities.json")) as file:
-            raredata = json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        abort(500, "Mistaken or absent rarities file")
-
     if not withasserts:
         return {
             "id": badge.id,
             "name": badge.name,
             "description": badge.description,
             "image": badge.image,
-            "tags": [item.strip() for item in badge.tags.split(",") if item.strip() != ""],
-            "criteria": badge.criteria,
-            "rarity": raredata["badges"][badge.id]["rare"],
-            "issuer": badge.issuer.name,
-            "created_on": badge.created_on.timestamp(),
+            "tags": badge.tags,
         }
 
     try:
+        # Fixme -- not sure if this works -- need to check it out.
         assertions = sorted(badge.assertions, key=lambda b: b.issued_on)
+
         times_awarded = len(badge.assertions)
-        persons_count = g.tahrirdb.get_all_persons().count()
-        if persons_count == 0:
-            percent_earned = 0
-        else:
-            percent_earned = float(times_awarded) / float(persons_count)
+
+        percent_earned = float(times_awarded) / float(g.tahrirdb.get_all_persons().count())
 
         if assertions:
             last_awarded = assertions[-1]
             last_awarded_person = last_awarded.person
+
             first_awarded = assertions[0]
             first_awarded_person = first_awarded.person
         else:
@@ -63,6 +48,7 @@ def badge_json_generator(badge, withasserts=True):
             last_awarded_person = None
             first_awarded = None
             first_awarded_person = None
+
     except sa.orm.exc.NoResultFound:  # This badge has never been awarded.
         times_awarded = 0
         last_awarded = None
@@ -97,19 +83,7 @@ def badge_json_generator(badge, withasserts=True):
         "first_awarded_person": first_awarded_person,
         "percent_earned": percent_earned,
         "image": badge.image,
-        "tags": [item.strip() for item in badge.tags.split(",") if item.strip() != ""],
-        "issuer": badge.issuer.name,
-        "criteria": badge.criteria,
-        "rarity": raredata["badges"][badge.id]["rare"],
-        "assertions": [
-            {
-                "name": i.person.nickname,
-                "rank": i.person.rank,
-                "date": i.issued_on.timestamp(),
-                "mail": i.person.avatar,
-            }
-            for i in assertions
-        ],
+        "tags": badge.tags,
     }
 
 
@@ -139,7 +113,7 @@ def convert_name_to_id(name):
 
     badge_id = name.lower().replace(" ", "-")
     bad = ['"', "'", "(", ")", "*", "&", "?"]
-    replacements = dict(zip(bad, [""] * len(bad)))
+    replacements = dict(zip(bad, [""] * len(bad), strict=False))
     for a, b in replacements.items():
         badge_id = badge_id.replace(a, b)
 
@@ -178,16 +152,3 @@ def generate_badge_yaml(postdict):
         "previous:\n" + postdict.get("previous", default="") + "\n"
         "(This section is under construction.)"
     )
-
-
-def serialize_badges(badges):
-    """Helper function to serialize badge objects to dictionaries."""
-    return [badge_json_generator(badge, withasserts=False) for badge in badges]
-
-
-def organize_badges_by_tags(serialized_badges):
-    """Helper function to organize badges by tags using indices."""
-    return {
-        name: [indx for indx, item in enumerate(serialized_badges) if name in item["tags"]]
-        for name in TAHRIR_DISPLAY_TAGS
-    }

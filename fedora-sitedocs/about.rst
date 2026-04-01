@@ -58,6 +58,12 @@ The badge awarding backend daemon, `fedbadges`_, wakes up when it receives a fed
 
 The frontend that you're looking at now is a web application called `tahrir`_. We tried as much as we could to keep Tahrir "brand agnostic", so you can install it, run it on your own platform, and issue badges to your friends! Some assembly required.
 
+.. figure:: /static/img/components.svg
+   :alt: Fedora Badges components
+   :width: 100%
+
+(`diagram source </static/img/components.drawio>`_ in `draw.io <https://draw.io>`_ format)
+
 How long has the badge awarder been running?
 --------------------------------------------
 
