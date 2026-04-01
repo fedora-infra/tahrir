@@ -6,6 +6,7 @@ import sqlalchemy as sa
 from flask import abort, current_app, g
 
 from tahrir.defaults import TAHRIR_DISPLAY_TAGS
+from tahrir.utils.avatar import hash_email
 
 
 ISSUER = dict(
@@ -106,7 +107,7 @@ def badge_json_generator(badge, withasserts=True):
                 "name": i.person.nickname,
                 "rank": i.person.rank,
                 "date": i.issued_on.timestamp(),
-                "mail": i.person.avatar,
+                "mail": hash_email(i.person.avatar),
             }
             for i in assertions
         ],

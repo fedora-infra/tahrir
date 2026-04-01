@@ -1,5 +1,5 @@
 import urllib.parse
-from hashlib import sha256
+from hashlib import md5, sha256
 
 from flask import current_app
 
@@ -52,3 +52,9 @@ def get_avatar(email: str, size):
 
 def as_avatar(value, size):
     return get_avatar(value, size=size)
+
+
+def hash_email(email):
+    if not email:
+        return None
+    return md5(email.strip().lower().encode("utf-8")).hexdigest()
