@@ -26,7 +26,7 @@ export default function FootNote() {
             </a>
           </Col>
           <Col className="col-lg-9 text-end small text-muted">
-            <div>Fedora is sponsored by Red Hat. © 2025 Red Hat, Inc. and others</div>
+            <div>Fedora is sponsored by Red Hat. © {new Date().getFullYear()} Red Hat, Inc. and others</div>
             <div>
               <a
                 href="https://www.redhat.com/en/topics/linux/fedora-vs-red-hat-enterprise-linux"
