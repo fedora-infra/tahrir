@@ -1,4 +1,12 @@
-import { mdiCrosshairsGps, mdiHeart, mdiHistory, mdiStarFourPoints, mdiTrophy, mdiViewGridPlus } from "@mdi/js";
+import {
+  mdiCrosshairsGps,
+  mdiHeart,
+  mdiHistory,
+  mdiInformationOutline,
+  mdiStarFourPoints,
+  mdiTrophy,
+  mdiViewGridPlus,
+} from "@mdi/js";
 import Icon from "@mdi/react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -135,6 +143,17 @@ export default function Homepage() {
             Explore badges
           </Button>
           <Button
+            as={Link}
+            to="/addendum"
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiInformationOutline} size={0.875} className="me-1" />
+            Service information
+          </Button>
+          <Button
             as="a"
             href="https://chat.fedoraproject.org/#/room/#badges:fedoraproject.org"
             target="_blank"
@@ -182,7 +201,7 @@ export default function Homepage() {
                     </>
                   }
                   shot={item.person?.mail ? portraitProvider(item.person.mail, 45) : null}
-                  onClick={(e) => {handleAwardsClicks(e, `/identity/${item.person?.nickname || ""}`)}}
+                  link={`/identity/${item.person?.nickname || ""}`}
                 />
               ))}
             </ListGroup>

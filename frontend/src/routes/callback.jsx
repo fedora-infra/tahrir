@@ -27,7 +27,7 @@ export default function Callback() {
         if (result.type === "auth/loadUserData/fulfilled") {
           navigate(`/identity/${result.payload.nickname}`);
         } else {
-          console.log("ERROR in loadUserData:", result)
+          console.log("ERROR in loadUserData:", result);
         }
       } catch (error) {
         console.error("OIDC callback error:", error);

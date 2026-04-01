@@ -9,6 +9,7 @@ import ModeWrap from "./components/modewrap.jsx";
 import { data } from "./features/data.js";
 import Accolade from "./routes/accolade.jsx";
 import AccoList from "./routes/accolist.jsx";
+import Addendum from "./routes/addendum.jsx";
 import Callback from "./routes/callback.jsx";
 import Campaign from "./routes/campaign.jsx";
 import Category from "./routes/category.jsx";
@@ -31,6 +32,7 @@ createRoot(document.getElementById("root")).render(
           <Route element={<Callback />} path="/callback" />
           <Route element={<MainArea />} path="/">
             <Route element={<Homepage />} index />
+            <Route element={<Addendum />} path="addendum" />
             <Route element="" path="/profiles" />
             <Route element="" path="/userdata" />
             <Route element="" path="/operator" />

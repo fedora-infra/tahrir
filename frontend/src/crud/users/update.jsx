@@ -7,8 +7,8 @@ import {
   useToggleIdentityOptOutMutation,
   useUpdationIdentityMutation,
 } from "../../features/call.js";
-import { showBaseNote } from "../../features/part.js";
 import { useLoadingState } from "../../features/hooks.js";
+import { showBaseNote } from "../../features/part.js";
 import { formatTime, portraitProvider } from "../../features/util.js";
 
 export default function UserUpdateForm() {
