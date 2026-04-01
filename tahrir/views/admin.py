@@ -1,3 +1,5 @@
+import csv
+import io
 from datetime import datetime
 
 from flask import abort, current_app, flash, g, redirect, render_template, request, url_for
@@ -183,41 +185,87 @@ def admin():
 @oidc.require_login
 @require_admin
 def award_from_csv():
-    csv_file = request.files["csv-file"]
-    successful_awards = 0
-    """TODO: We need some validation here, and flash
-    a message whether the awards were successful or not.
-    This should be added at the same time that flash
-    messages are added to the admin panel."""
-    awards = dict()  # str(badge_id) : str(person_email)
-    for line in csv_file:
-        values = line.split(",")
-        """Through the following if statement, it doesn't matter
-        if the line has been entered as "email, badge" or
-        "badge, email". The awards dict will be normalized
-        to be "badge, email". This code assumes that one of the
-        two values will be a valid email address."""
-        if values[0].find("@") == -1:
-            # If there is no @ sign in the first value, it is the badge id.
-            awards[values[1].strip()] = values[0].strip()
-        else:
-            # If there is an @ sign in the first value, it is the email.
-            awards[values[0].strip()] = values[1].strip()
+    # Accepted optional header names (case-insensitive):
+    # email/person_email,badge/badge_id
+    expected_header_values = {"email", "person_email", "badge", "badge_id"}
 
-    for email, badge_id in awards.items():
+    csv_file = request.files.get("csv-file")
+    if not csv_file or not csv_file.filename:
+        flash("No file was uploaded.")
+        return redirect(url_for("tahrir.admin"))
+
+    if not csv_file.filename.lower().endswith(".csv"):
+        flash("Invalid file type. Please upload a .csv file.")
+        return redirect(url_for("tahrir.admin"))
+
+    try:
+        decoded = csv_file.stream.read().decode("utf-8-sig")
+    except UnicodeDecodeError:
+        flash("Invalid file encoding. Please upload a UTF-8 CSV file.")
+        return redirect(url_for("tahrir.admin"))
+
+    if not decoded.strip():
+        flash("The uploaded CSV file is empty.")
+        return redirect(url_for("tahrir.admin"))
+
+    reader = csv.reader(io.StringIO(decoded))
+    successful_awards = 0
+    skipped_existing = 0
+    invalid_badge = 0
+    invalid_rows = 0
+    awards = set()  # {(email, badge_id)}
+    for row_num, values in enumerate(reader, start=1):
+        normalized = [value.strip() for value in values]
+        if not any(normalized):
+            continue
+
+        # Allow a header row only when both cells look like known column names.
+        if row_num == 1 and len(normalized) == 2:
+            first, second = normalized[0].lower(), normalized[1].lower()
+            if first in expected_header_values and second in expected_header_values:
+                continue
+
+        if len(normalized) != 2:
+            invalid_rows += 1
+            continue
+
+        first, second = normalized
+        if "@" in first and "@" not in second:
+            email, badge_id = first, second
+        elif "@" in second and "@" not in first:
+            email, badge_id = second, first
+        else:
+            invalid_rows += 1
+            continue
+
+        awards.add((email, badge_id))
+
+    for email, badge_id in awards:
         # First, if the person doesn't exist, we automatically
         # create the person in this special case.
         if not g.tahrirdb.person_exists(email=email):
             g.tahrirdb.add_person(email)
         # Second, if the badge exists and the person has yet
         # to be awarded it, give it to them.
-        if g.tahrirdb.badge_exists(badge_id):
-            if not g.tahrirdb.assertion_exists(badge_id, email):
-                # The None will default to datetime.now().
-                g.tahrirdb.add_assertion(badge_id, email, None)
-                successful_awards += 1
+        if not g.tahrirdb.badge_exists(badge_id):
+            invalid_badge += 1
+            continue
 
-    flash(f"Successfully awarded {successful_awards} badges.")
+        if g.tahrirdb.assertion_exists(badge_id, email):
+            skipped_existing += 1
+            continue
+
+        # None will default to datetime.now(). (the current date and time)
+        g.tahrirdb.add_assertion(badge_id, email, None)
+        successful_awards += 1
+
+    flash(
+        "CSV import complete: "
+        f"{successful_awards} awarded, "
+        f"{skipped_existing} already existed, "
+        f"{invalid_badge} invalid badge rows, "
+        f"{invalid_rows} invalid rows."
+    )
     return redirect(url_for("tahrir.admin"))
 
 
