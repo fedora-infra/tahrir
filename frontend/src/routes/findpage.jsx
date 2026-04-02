@@ -1,5 +1,7 @@
-import { useEffect } from "react";
-import { Badge, Card, ListGroup } from "react-bootstrap";
+import { mdiArrowLeft, mdiArrowRight } from "@mdi/js";
+import Icon from "@mdi/react";
+import { useEffect, useState } from "react";
+import { Badge, Button, Card, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
@@ -12,8 +14,62 @@ import Mistaken from "./mistaken.jsx";
 export default function FindPage() {
   const dispatch = useDispatch();
   const { slugdata: findtext } = useParams();
-  const { data: dict, isLoading, error } = useRetrieveDiscoverQuery(findtext, { skip: false });
+  const [badgePage, setBadgePage] = useState(1);
+  const [badgePaginating, setBadgePaginating] = useState(false);
+  const [userPage, setUserPage] = useState(1);
+  const [userPaginating, setUserPaginating] = useState(false);
+  const { data: dict, isLoading, error } = useRetrieveDiscoverQuery({
+    discover: findtext,
+    page_badges: badgePage,
+    page_users: userPage,
+    per_page: 10,
+  },
+    {skip: false}
+  );
+  useEffect(() => {
+    setBadgePage(1);
+    setUserPage(1);
+  }, [findtext]);
   const vibe = useSelector((data) => data.area.vibe);
+
+  // Badge Pagination handlers
+  const handleNextBadgePage = () => {
+    setBadgePaginating(true);
+    setBadgePage((prev) => prev + 1);
+  };
+
+  const handlePrevBadgePage = () => {
+    setBadgePaginating(true);
+    if (badgePage > 1) {
+      setBadgePage(badgePage - 1);
+    }
+  };
+
+  // User Pagination handlers
+  const handleNextUserPage = () => {
+    setUserPaginating(true);
+    setUserPage((prev) => prev + 1);
+  };
+
+  const handlePrevUserPage = () => {
+    setUserPaginating(true);
+    if (userPage > 1) {
+      setUserPage(userPage - 1);
+    }
+  };
+
+  const haveNextBadgePage = dict?.pagination?.badges?.has_next;
+  const havePrevBadgePage = dict?.pagination?.badges?.has_prev;
+  const haveNextUserPage = dict?.pagination?.users?.has_next;
+  const havePrevUserPage = dict?.pagination?.users?.has_prev;
+
+  useEffect(() => {
+    setBadgePaginating(false);
+  }, [dict?.badges]);
+
+  useEffect(() => {
+    setUserPaginating(false);
+  }, [dict?.users]);
 
   // Show or Hide LoadNote
   useEffect(() => {
@@ -52,7 +108,7 @@ export default function FindPage() {
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               Badges
             </Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Found {dict.badges.length} badge(s)</Card.Text>
+            <Card.Text className="mb-0 ps-2 small">Found {dict.pagination?.badges_total} badge(s)</Card.Text>
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush">
               {dict.badges.length > 0 ? (
@@ -74,6 +130,31 @@ export default function FindPage() {
                 <VertItem head="No badges found" body="Try refining your search" />
               )}
             </ListGroup>
+            <div className="d-flex justify-content-between align-items-center mt-2">
+              <Button
+                variant="outline-secondary"
+                size="sm"
+                onClick={handlePrevBadgePage}
+                disabled={!havePrevBadgePage || badgePaginating}
+                className="vibe-border d-flex align-items-center justify-content-center"
+                style={{ "--vibe": vibe }}
+              >
+                <Icon path={mdiArrowLeft} size={0.875} />
+              </Button>
+              <span className="small text-muted">
+                {dict?.pagination?.badges?.page} of {dict?.pagination?.badges?.pages}
+              </span>
+              <Button
+                variant="outline-secondary"
+                size="sm"
+                onClick={handleNextBadgePage}
+                disabled={!haveNextBadgePage || badgePaginating}
+                className="vibe-border d-flex align-items-center justify-content-center"
+                style={{ "--vibe": vibe }}
+              >
+                <Icon path={mdiArrowRight} size={0.875} />
+              </Button>
+            </div>
           </Card.Body>
         </Card>
         <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
@@ -103,6 +184,31 @@ export default function FindPage() {
                 <VertItem head="No users found" body="Try refining your search" />
               )}
             </ListGroup>
+            <div className="d-flex justify-content-between align-items-center mt-2">
+              <Button
+                variant="outline-secondary"
+                size="sm"
+                onClick={handlePrevUserPage}
+                disabled={!havePrevUserPage || userPaginating}
+                className="vibe-border d-flex align-items-center justify-content-center"
+                style={{ "--vibe": vibe }}
+              >
+                <Icon path={mdiArrowLeft} size={0.875} />
+              </Button>
+              <span className="small text-muted">
+                {dict?.pagination?.users?.page} of {dict?.pagination?.users?.pages}
+              </span>
+              <Button
+                variant="outline-secondary"
+                size="sm"
+                onClick={handleNextUserPage}
+                disabled={!haveNextUserPage || userPaginating}
+                className="vibe-border d-flex align-items-center justify-content-center"
+                style={{ "--vibe": vibe }}
+              >
+                <Icon path={mdiArrowRight} size={0.875} />
+              </Button>
+            </div>
           </Card.Body>
         </Card>
       </div>
