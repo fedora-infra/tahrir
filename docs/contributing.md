@@ -39,3 +39,25 @@ To quickly start hacking on Tahrir, we provide a local setup.
    ```
 
 3. Tahrir frontend should now be available on [http://localhost:5173/](http://localhost:5173/). The logs are in `devel/run`. You can restart the frontend and/or the backend using `supervisorctl`.
+
+### Commit Sign-off (DCO)
+
+All commits must be signed to comply with the Developer Certificate of Origin (DCO). Pull requests without this sign-off might be rejected.
+
+When committing changes in your local branch, add the -s flag to the git commit command:
+
+```shell
+git commit -s -m "YOUR_COMMIT_MESSAGE"
+```
+
+This creates a signed commit with an additional line:
+
+```shell
+Signed-off-by: Your Name <your_name@email.com>
+```
+
+For verifying your commit signature, you can check the log using below command:
+
+```shell
+git log -1
+```
