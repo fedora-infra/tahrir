@@ -2,6 +2,7 @@ from datetime import date, datetime, timedelta, timezone
 
 from flask import g, jsonify, redirect, render_template, request, url_for
 
+from tahrir.utils.avatar import hash_email
 from tahrir.utils.date_time import get_start_week
 
 from . import blueprint as bp
@@ -183,7 +184,7 @@ def json_report_year(year=None, week=None, month=None, day=None):
 
     data = [
         {
-            "mail": user.avatar,
+            "mail": hash_email(user.avatar),
             "nickname": user.nickname,
             "badges": user_to_rank[user]["badges"],
             "rank": {
