@@ -1,10 +1,10 @@
 import json
 import os
-from datetime import datetime, timezone
+from datetime import timezone
 from decimal import Decimal, ROUND_UP
 
 from feedgen.feed import FeedGenerator
-from flask import abort, current_app, g, jsonify, render_template, request, url_for
+from flask import abort, current_app, g, jsonify, url_for
 
 from tahrir.utils.avatar import hash_email
 from tahrir.utils.badge import badge_json_generator, sort_badges_by_tag
@@ -56,52 +56,6 @@ def _get_user_badge_info(person):
         badges_by_tag=badges_by_tag,
         uncategorized_badges=uncategorized_badges,
     )
-
-
-@bp.route("/user/<user_id>", methods=["GET", "POST"])
-def user(user_id):
-    """Render user info page."""
-
-    person = get_person(user_id)
-
-    try:
-        history_limit = int(request.args.get("history_limit", 10))
-    except ValueError as e:
-        abort(400, f"Wrong value for the 'history_limit' parameter: {e}")
-
-    if not person:
-        abort(404, f"No such user {user_id!r}")
-
-    if person.opt_out and person.email != g.oidc_user.email:
-        abort(404, f"User {user_id!r} has opted out.")
-
-    if request.method == "POST":
-        # Authz check
-        if g.oidc_user.email != person.email:
-            abort(403, "Unauthorized")
-
-        if g.oidc_user.person is None:
-            abort(404, f"Person with email {g.oidc_user.email} not found")
-
-        if request.form.get("deactivate-account"):
-            g.oidc_user.person.opt_out = True
-        elif request.form.get("reactivate-account"):
-            g.oidc_user.person.opt_out = False
-
-    # Get invitations the user has created.
-    invitations = [
-        i for i in g.tahrirdb.get_invitations(person.id) if i.expires_on > datetime.now()
-    ]
-
-    user_info = dict(
-        user=person,
-        invitations=invitations,
-        history_limit=history_limit,
-    )
-
-    user_info.update(_get_user_badge_info(person))
-
-    return render_template("user.html", **user_info)
 
 
 @bp.route("/user/<user_id>/rss")
@@ -250,102 +204,3 @@ def user_json(user_id):
         return {"error": "User has opted out."}, 404
 
     return jsonify(_user_json_generator(person))
-
-
-@bp.route("/diff/<id_a>/<id_b>")
-def diff(id_a, id_b):
-    """Render user diff page."""
-
-    user_a = get_person(id_a)
-    user_b = get_person(id_b)
-
-    if not user_a:
-        raise abort(404, f"No such user {id_a!r}")
-    if not user_b:
-        raise abort(404, f"No such user {id_b!r}")
-
-    if user_a.opt_out and user_a.email != g.oidc_user.email:
-        raise abort(404, f"User {id_a!r} has opted out.")
-    if user_b.opt_out and user_b.email != g.oidc_user.email:
-        raise abort(404, f"User {id_b!r} has opted out.")
-
-    # Get user badges.
-    user_a_badges = [a.badge for a in user_a.assertions]
-    user_b_badges = [a.badge for a in user_b.assertions]
-
-    # Sort user badges by id.
-    user_a_badges = sorted(user_a_badges, key=lambda badge: badge.id)
-    user_b_badges = sorted(user_b_badges, key=lambda badge: badge.id)
-
-    # Get total number of unique badges in the system.
-    count_total_badges = len(g.tahrirdb.get_all_badges().all())
-
-    # Get percentage of badges earned.
-    try:
-        user_a_percent_earned = (float(len(user_a_badges)) / float(count_total_badges)) * 100
-    except ZeroDivisionError:
-        user_a_percent_earned = 0
-    try:
-        user_b_percent_earned = (float(len(user_b_badges)) / float(count_total_badges)) * 100
-    except ZeroDivisionError:
-        user_b_percent_earned = 0
-
-    # Get rank. (same code found in leaderboard view function)
-    user_a_rank = user_a.rank
-    user_b_rank = user_b.rank
-    user_count = g.tahrirdb.get_all_persons().count()
-
-    try:
-        user_a_percentile = (float(user_a_rank) / float(user_count)) * 100
-    except ZeroDivisionError:
-        user_a_percentile = 0
-    try:
-        user_b_percentile = (float(user_b_rank) / float(user_count)) * 100
-    except ZeroDivisionError:
-        user_b_percentile = 0
-
-    # Diff badges.
-    user_a_unique_badges = []
-    user_b_unique_badges = []
-    combined_badges = list(sorted(set(user_a_badges + user_b_badges), key=lambda badge: badge.id))
-    shared_badges = []
-    for badge in combined_badges:
-        if badge in user_a_badges and badge not in user_b_badges:
-            user_a_unique_badges.append(badge)
-        elif badge in user_b_badges and badge not in user_a_badges:
-            user_b_unique_badges.append(badge)
-        elif badge in user_a_badges and badge in user_b_badges:
-            shared_badges.append(badge)
-
-    return render_template(
-        "diff.html",
-        user_count=user_count,
-        user_a=user_a,
-        user_b=user_b,
-        user_a_badges=user_a_badges,
-        user_b_badges=user_b_badges,
-        user_a_unique_badges=user_a_unique_badges,
-        user_b_unique_badges=user_b_unique_badges,
-        shared_badges=shared_badges,
-        user_a_percent_earned=user_a_percent_earned,
-        user_b_percent_earned=user_b_percent_earned,
-        user_a_rank=user_a_rank,
-        user_b_rank=user_b_rank,
-        user_a_percentile=user_a_percentile,
-        user_b_percentile=user_b_percentile,
-    )
-
-
-@bp.route("/_w/assertion/<int:person_id>/<badge_id>")
-def assertion_widget(person_id, badge_id):
-    user = g.tahrirdb.get_person(id=person_id)
-    if not user:
-        abort(404, f"No such person {person_id!r}")
-
-    def get_assertion():
-        for assertion in user.assertions:
-            if assertion.badge.id == badge_id:
-                return assertion
-        abort(404, "User does not have that badge")
-
-    return render_template("assertion_widget.html", assertion=get_assertion())
