@@ -76,8 +76,6 @@ def award():
         g.tahrirdb.add_assertion(badge.id, user.email, None)
         flash(f"User {user.nickname} has been awarded the {badge.id} badge")
 
-    # COMMENT
-
     return redirect(url_for("tahrir.badge", badge_id=badge.id))
 
 

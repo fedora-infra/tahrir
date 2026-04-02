@@ -109,10 +109,6 @@ def explore_badges_rss():
 @bp.route("/json/rarities", methods=["GET"])
 @bp.route("/json/rarities/<rare>", methods=["GET"])
 def json_rarities(rare=None):
-    """
-    Endpoint that reads and delivers the accolade rarities
-    """
-
     data = {}
     try:
         with open(os.path.join(current_app.static_folder, "rarities.json")) as file:
