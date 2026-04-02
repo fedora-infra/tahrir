@@ -6,6 +6,7 @@ from decimal import Decimal, ROUND_UP
 from feedgen.feed import FeedGenerator
 from flask import abort, current_app, g, jsonify, render_template, request, url_for
 
+from tahrir.utils.avatar import hash_email
 from tahrir.utils.badge import badge_json_generator, sort_badges_by_tag
 from tahrir.utils.user import get_person
 
@@ -180,7 +181,7 @@ def _user_json_generator(person):
 
     return {
         "user": person.nickname,
-        "mail": person.avatar,
+        "mail": hash_email(person.avatar),
         "percent_earned": user_info["percent_earned"],
         "classified": classified,
         "serialized": serialized,
