@@ -6,43 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
     <!-- end viewport stuff -->
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" />
-    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/social.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/favico-0.3.4.min.js') }}"></script>
-    <script>
-        // This is animated by the websocket
-        var notifs_count = 0;
-        var favicon = new Favico({animation : 'popFade'});
-        $(window).bind("focus", function() {
-            // Reset favicon if user switches to this tab.
-            notifs_count = 0;
-            favicon.badge(notifs_count);
-        });
-    </script>
-    {% if g.oidc_user.logged_in and g.oidc_user.awarded_assertions %}
-      <script src="//backpack.openbadges.org/issuer.js"></script>
-      <script>
-        function htmlDecode(value) { return $("<div>").html(value).text(); }
-        function badge_urls() {
-          var urls = [
-            {% for a in g.oidc_user.awarded_assertions %}
-              htmlDecode("{{ url_for('tahrir.assertion', badge_id=a.badge_id, recipient=a.recipient) }}"),
-            {% endfor %}
-          ];
-          return urls;
-        }
-        function claim_badges() {
-          var urls = badge_urls();
-          {% if config['TAHRIR_OPENBADGES_MODAL'] %}
-          var lolback = function(errors, successes) {};
-          OpenBadges.issue(urls, lolback);
-          {% else %}
-          OpenBadges.issue_no_modal(urls);
-          {% endif %}
-        }
-      </script>
-    {% endif %}
-
     <title>
     {% block title %}
     {{ config["TAHRIR_TITLE"] }}
