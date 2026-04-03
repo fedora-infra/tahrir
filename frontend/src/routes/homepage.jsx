@@ -40,6 +40,14 @@ export default function Homepage() {
     }
   };
 
+  // Using onClick instead of link to avoid nested <a> tags (hydration error).
+  // Trade-off: right-click "Open in new tab" will not work on award items.
+  const handleAwardsClick = (e, path) => {
+    if(!e.target.closest('a')) {
+      navigate(path);
+    }
+  };
+
   // Show or Hide LoadNote
   useEffect(() => {
     if (isLoading) {
@@ -195,7 +203,7 @@ export default function Homepage() {
                     </>
                   }
                   shot={item.person?.mail ? portraitProvider(item.person.mail, 45) : null}
-                  link={`/identity/${item.person?.nickname || ""}`}
+                  onClick={(e) => {handleAwardsClick(e, `/identity/${item.person?.nickname || ""}`)}}
                 />
               ))}
             </ListGroup>
