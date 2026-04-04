@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import abort, g, jsonify, request
+from flask import abort, current_app, g, jsonify, request
 
 from ...app import csrf, oidc
 from ...utils.user import get_person, require_admin
@@ -36,8 +36,7 @@ def add_invitations():
     else:
         return abort(400, "No expires_on timestamp provided")
 
-    # created_by = f"{data.get('issuer_email')}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
-    created_by = f"{data.get('issuer_email')}@fedoraproject.org"
+    created_by = f"{data.get('issuer_email')}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
     badge_id = data.get("badge_id")
 
     try:

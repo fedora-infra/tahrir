@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import abort, g, jsonify, request
+from flask import abort, current_app, g, jsonify, request
 
 from ...app import csrf, oidc
 from ...utils.user import require_admin
@@ -26,8 +26,7 @@ def create_assertion():
     badge_id = data.get("badge_id")
     username = data.get("username")
 
-    # TODO: Modularize this to variable
-    person_email = f"{username}@fedoraproject.org"
+    person_email = f"{username}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
 
     issued_on = data.get("issued_on")
     if issued_on is not None:
@@ -72,8 +71,7 @@ def remove_assertion():
     badge_id = data.get("badge_id")
     username = data.get("username")
 
-    # TODO: Modularize this to variable
-    person_email = f"{username}@fedoraproject.org"
+    person_email = f"{username}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
 
     result = g.tahrirdb.remove_assertion(
         badge_id=badge_id,
