@@ -14,8 +14,8 @@ from . import blueprint as bp
 @bp.route("/json/search/<search_query>", methods=["GET"])
 def json_explore(search_query):
     """
-    Global search endpoint that returns users and badges.
-    Returns a dictionary containing all available users and badges.
+    Global search endpoint that returns users, badges and issuers.
+    Returns a dictionary containing all available users, badges and issuers.
     """
 
     # Get all badges
@@ -65,7 +65,21 @@ def json_explore(search_query):
         for person in all_persons
     ]
 
-    return jsonify({"users": users_data, "badges": badges_data})
+    # Get all issuers
+    all_issuers = g.tahrirdb.get_all_issuers().all()
+
+    issuers_data = [
+        {
+            "id": issuer.id,
+            "origin": issuer.origin,
+            "name": issuer.name,
+            "org": issuer.org,
+            "contact": issuer.contact,
+        }
+        for issuer in all_issuers
+    ]
+
+    return jsonify({"users": users_data, "badges": badges_data, "issuers": issuers_data})
 
 
 @bp.route("/explore/badges/rss")

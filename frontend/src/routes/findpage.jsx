@@ -105,6 +105,35 @@ export default function FindPage() {
             </ListGroup>
           </Card.Body>
         </Card>
+        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+            <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
+              Issuers
+            </Card.Title>
+            <Card.Text className="mb-0 ps-2 small">Found {dict.issuers.length} issuer(s)</Card.Text>
+            <hr className="mt-2 mb-0" />
+            <ListGroup variant="flush">
+              {dict.issuers.length > 0 ? (
+                dict.issuers.map((item) => (
+                  <VertItem
+                    key={generateIdentity(item.id)}
+                    link={`#`}
+                    head={item.name}
+                    body={item.org}
+                    shot={null}
+                    hand={
+                      <Badge className="monoelem vibe-badge" style={{ "--vibe": vibe }}>
+                        ISSUER
+                      </Badge>
+                    }
+                  />
+                ))
+              ) : (
+                <VertItem head="No issuers found" body="Try refining your search" />
+              )}
+            </ListGroup>
+          </Card.Body>
+        </Card>
       </div>
     </div>
   );
