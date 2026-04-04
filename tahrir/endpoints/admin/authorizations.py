@@ -1,4 +1,4 @@
-from flask import abort, g, jsonify, request
+from flask import abort, current_app, g, jsonify, request
 
 from ...app import csrf, oidc
 from ...utils.user import require_admin
@@ -25,7 +25,7 @@ def add_authorization():
     # THIS WORKAROUND IS TEMPORARY AND TAHRIR-API WOULD BE CHANGED TO ACCEPT JUST USERNAME
     result = g.tahrirdb.add_authorization(
         badge_id=data.get(required_fields[0]),
-        person_email=data.get(required_fields[1]) + "@fedoraproject.org",
+        person_email=f"{data.get(required_fields[1])}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}",
     )
 
     if not result:
@@ -33,7 +33,10 @@ def add_authorization():
 
     return jsonify(
         {
-            "message": f"Badge {data.get(required_fields[0])!r} authorized to {data.get(required_fields[1])!r}"
+            "message": (
+                f"Badge {data.get(required_fields[0])!r} "
+                f"authorized to {data.get(required_fields[1])!r}"
+            )
         }
     ), 201
 
@@ -58,7 +61,7 @@ def remove_authorization():
     # THIS WORKAROUND IS TEMPORARY AND TAHRIR-API WOULD BE CHANGED TO ACCEPT JUST USERNAME
     result = g.tahrirdb.delete_authorization(
         badge_id=data.get(required_fields[0]),
-        person_email=data.get(required_fields[1]) + "@fedoraproject.org",
+        person_email=f"{data.get(required_fields[1])}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}",
     )
 
     if not result:
@@ -66,6 +69,9 @@ def remove_authorization():
 
     return jsonify(
         {
-            "message": f"Badge {data.get(required_fields[0])!r} authorization revoked from {data.get(required_fields[1])!r}"
+            "message": (
+                f"Badge {data.get(required_fields[0])!r} "
+                f"authorization revoked from {data.get(required_fields[1])!r}"
+            )
         }
     ), 200
