@@ -71,11 +71,7 @@ export default function Addendum() {
                       </p>
                     ),
                     li: ({ children }) => <li className="small">{children}</li>,
-                    img: ({ src, alt }) => (
-                      <div className="text-center">
-                        <img src={src} alt={alt} className="img-fluid" />
-                      </div>
-                    ),
+                    img: ({ src, alt }) => <img src={src} alt={alt} className="img-fluid d-block mx-auto" />,
                     a: ({ href, children }) => (
                       <a href={href} target="_blank" rel="noopener noreferrer">
                         {children}
