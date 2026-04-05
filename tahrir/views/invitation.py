@@ -28,8 +28,8 @@ def invitation_claim(claim_id):
         )
         flash(f"You have earned {claim.badge_id} badge. Your rank will be updated shortly.")
 
-    # TODO -- return them to a page that auto-exports their badges.
-    return redirect(url_for("tahrir.home"))
+    person = g.oidc_user.person
+    return redirect(f"/identity/{person.nickname or person.id}")
 
 
 @bp.route("/invitations/<claim_id>/qrcode")
