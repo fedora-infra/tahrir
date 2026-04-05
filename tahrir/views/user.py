@@ -179,7 +179,7 @@ def user_team_json(user_id, team_id):
     person = get_person(user_id)
     team = g.tahrirdb.get_team(team_id=team_id)
 
-    if not user:
+    if not person:
         return {"error": "No such user exists."}, 404
 
     if person.opt_out and person.email != g.oidc_user.email:
