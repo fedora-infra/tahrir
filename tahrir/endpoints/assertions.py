@@ -40,7 +40,7 @@ def get_assertions_by_badge(badge_id: str):
     if not assertions:
         return jsonify([])
 
-    assertions = sorted(assertions, key=lambda assertion: assertion.issued_on)
+    assertions = g.tahrirdb.get_assertions_by_badge(badge_id)
 
     # This is a very unoptimised implementation for achieving pagination.
     # The implementation should have been there in the upstream `tahrir-api` at database level.
