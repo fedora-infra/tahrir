@@ -1,5 +1,3 @@
-import sqlalchemy as sa
-import tahrir_api.model as m
 from flask import g, jsonify, request
 
 from ..utils.avatar import hash_email
@@ -105,41 +103,29 @@ def search_badges_by_string(search_string: str):
     """
     Search endpoint that returns badges matching the search string
     """
-
-    # We need to have a function for searching badges in Tahrir API
-    # Instead of doing this over here like this
     begin = request.args.get("begin", 0, type=int)
     limit = request.args.get("limit", 100, type=int)
 
-    collection = (
-        g.tahrirdb.get_all_badges()
-        .filter(
-            sa.func.lower(m.Badge.name).like(f"%{search_string.lower()}%")
-            | sa.func.lower(m.Badge.description).like(f"%{search_string.lower()}%")
-            | sa.func.lower(m.Badge.tags).like(f"%{search_string.lower()}%")
-        )
-        .all()
+    result = g.tahrirdb.get_badges_by_string(search_string, begin=begin, limit=limit)
+
+    return jsonify(
+        {
+            "badges": [
+                {
+                    "id": item.id,
+                    "created_on": item.created_on.timestamp() if item.created_on else None,
+                    "criteria": item.criteria,
+                    "description": item.description,
+                    "image": item.image,
+                    "name": item.name,
+                    "tags": (
+                        [text.strip() for text in item.tags.split(",") if text.strip()]
+                        if item.tags
+                        else []
+                    ),
+                }
+                for item in result["badges"]
+            ],
+            "castup": result["total"],
+        }
     )
-
-    # Suggested function should also include pagination feature
-    result = {
-        "badges": [
-            {
-                "id": item.id,
-                "created_on": item.created_on.timestamp() if item.created_on else None,
-                "criteria": item.criteria,
-                "description": item.description,
-                "image": item.image,
-                "name": item.name,
-                "tags": (
-                    [text.strip() for text in item.tags.split(",") if text.strip()]
-                    if item.tags
-                    else []
-                ),
-            }
-            for item in collection[begin : begin + (limit if limit < 100 else 100)]
-        ],
-        "castup": len(collection),
-    }
-
-    return jsonify(result)
