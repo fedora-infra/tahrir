@@ -33,7 +33,7 @@ def get_avatar(email: str, size):
     # hash = md5(email).hexdigest()
     hash = sha256(email.encode("utf-8")).hexdigest()
 
-    # TODO This next line is temporary and can be removed.  We do
+    ## TODO This next line is temporary and can be removed.  We do
     # libravatar ourselves here by hand to avoid pyDNS issues on epel6.
     # Once those are resolved we can use pylibravatar again.
     return f"https://seccdn.libravatar.org/avatar/{hash}?{query}"
