@@ -3,7 +3,9 @@ import { Dropdown, Form } from "react-bootstrap";
 import { useNavigate } from "react-router";
 
 import { useRetrieveDiscoverQuery } from "../features/call.js";
+import { useMinFetching } from "../features/hooks.js";
 import FindList from "./findlist.jsx";
+import { LookupSpinner } from "./LookupSpinner.jsx";
 
 export default function Discover() {
   const [findText, makeFindText] = useState("");
@@ -15,10 +17,13 @@ export default function Discover() {
   const {
     data: searchResults,
     isLoading,
+    isFetching,
     error,
   } = useRetrieveDiscoverQuery(findText, {
     skip: !doLookup,
   });
+
+  const showSpinner = useMinFetching(isFetching);
 
   useEffect(() => {
     const handleDepart = (event) => {
@@ -71,6 +76,7 @@ export default function Discover() {
         onFocus={() => doLookup && makeDropSeen(true)}
         autoComplete="off"
       />
+      {showSpinner && <LookupSpinner />}
 
       {dropSeen && doLookup && (
         <Dropdown.Menu show className="position-absolute w-100 mt-1" style={{ zIndex: 1050 }}>

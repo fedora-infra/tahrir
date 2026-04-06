@@ -2,17 +2,16 @@ import { mdiArrowLeft, mdiArrowRight, mdiLink, mdiViewGridPlus } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect, useMemo, useState } from "react";
 import { Badge, Button, Card, ListGroup } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useParams, useSearchParams } from "react-router";
 
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveAccoladeQuery, useRetrieveAvermentQuery } from "../features/call.js";
-import { hideLoad, showLoad } from "../features/part.js";
+import { useLoadingState } from "../features/hooks.js";
 import { formatTime, generateIdentity, portraitProvider, rarities, relativeImageUrl } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function Accolade() {
-  const dispatch = useDispatch();
   const { slugdata: accolade } = useParams();
   const vibe = useSelector((data) => data.area.vibe);
 
@@ -101,14 +100,7 @@ export default function Accolade() {
     }
   }, [pageCall, awardees, pagePoll, setPageCall]);
 
-  // Show or Hide LoadNote
-  useEffect(() => {
-    if (progress) {
-      dispatch(showLoad());
-    } else {
-      dispatch(hideLoad());
-    }
-  }, [progress, dispatch]);
+  useLoadingState(progress);
 
   if (haveError) {
     return <Mistaken />;
