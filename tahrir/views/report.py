@@ -1,19 +1,11 @@
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, timedelta
 
-from flask import g, jsonify, redirect, request, url_for
+from flask import g, jsonify, request
 
 from tahrir.utils.avatar import hash_email
 from tahrir.utils.date_time import get_start_week
 
 from . import blueprint as bp
-
-
-@bp.route("/report/this/month")
-def report_this_month():
-    now = datetime.now(timezone.utc)
-    year, month = now.year, now.month
-    location = url_for("tahrir.report_year_month", year=year, month=month)
-    return redirect(location)
 
 
 @bp.route("/json/report")
