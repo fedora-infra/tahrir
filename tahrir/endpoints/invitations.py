@@ -7,9 +7,9 @@ from ..utils.user import get_person
 from . import blueprint as bp
 
 
+@bp.route("/api/invitations/<string:invitation_id>/claim")
 @csrf.exempt
 @oidc.require_login
-@bp.route("/api/invitations/<string:invitation_id>/claim")
 def claim_invitation(invitation_id: str):
     """Action that awards a person a badge after scanning a qrcode."""
 
