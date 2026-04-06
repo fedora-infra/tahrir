@@ -7,10 +7,10 @@ from ...utils.user import get_person, require_admin
 from . import blueprint as bp
 
 
+@bp.route("/api/admin/invitations", methods=["POST"])
 @csrf.exempt
 @oidc.require_login
 @require_admin
-@bp.route("/api/admin/invitations", methods=["POST"])
 def add_invitations():
     """Endpoint to add a new invitation"""
 
@@ -53,10 +53,10 @@ def add_invitations():
     return jsonify({"message": f"Invitation added for Badge {badge_id!r} by {created_by!r}"}), 201
 
 
+@bp.route("/api/admin/invitations", methods=["DELETE"])
 @csrf.exempt
 @oidc.require_login
 @require_admin
-@bp.route("/api/admin/invitations", methods=["DELETE"])
 def remove_invitations():
     """Endpoint to remove an invitation"""
 
@@ -72,10 +72,10 @@ def remove_invitations():
     return jsonify({"message": f"Invitation {data.get('invitation_id')!r} removed successfully"})
 
 
+@bp.route("/api/admin/invitations/<string:user_id>", methods=["GET"])
 @csrf.exempt
 @oidc.require_login
 @require_admin
-@bp.route("/api/admin/invitations/<string:user_id>", methods=["GET"])
 def get_invitations_by_user_id(user_id: str):
     """Endpoint to search for invitations by User ID"""
 
