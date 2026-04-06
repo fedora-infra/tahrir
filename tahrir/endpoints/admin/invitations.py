@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from flask import abort, g, jsonify, request
 
@@ -7,10 +7,10 @@ from ...utils.user import get_person, require_admin
 from . import blueprint as bp
 
 
+@bp.route("/api/admin/invitations", methods=["POST"])
 @csrf.exempt
 @oidc.require_login
 @require_admin
-@bp.route("/api/admin/invitations", methods=["POST"])
 def add_invitations():
     """Endpoint to add a new invitation"""
 
@@ -21,7 +21,7 @@ def add_invitations():
     created_on = data.get("created_on")
     if created_on is not None:
         try:
-            created_on = datetime.fromtimestamp(created_on)
+            created_on = datetime.fromtimestamp(created_on, tz=timezone.utc)
         except (ValueError, TypeError, OSError):
             return abort(400, "Invalid created_on timestamp")
     else:
@@ -30,7 +30,7 @@ def add_invitations():
     expires_on = data.get("expires_on")
     if expires_on is not None:
         try:
-            expires_on = datetime.fromtimestamp(expires_on)
+            expires_on = datetime.fromtimestamp(expires_on, tz=timezone.utc)
         except (ValueError, TypeError, OSError):
             return abort(400, "Invalid expires_on timestamp")
     else:
@@ -52,11 +52,10 @@ def add_invitations():
 
     return jsonify({"message": f"Invitation added for Badge {badge_id!r} by {created_by!r}"}), 201
 
-
+@bp.route("/api/admin/invitations", methods=["DELETE"])
 @csrf.exempt
 @oidc.require_login
 @require_admin
-@bp.route("/api/admin/invitations", methods=["DELETE"])
 def remove_invitations():
     """Endpoint to remove an invitation"""
 
