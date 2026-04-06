@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from flask import abort, g, jsonify, request
 
@@ -21,7 +21,7 @@ def add_invitations():
     created_on = data.get("created_on")
     if created_on is not None:
         try:
-            created_on = datetime.fromtimestamp(created_on)
+            created_on = datetime.fromtimestamp(created_on, tz=timezone.utc)
         except (ValueError, TypeError, OSError):
             return abort(400, "Invalid created_on timestamp")
     else:
@@ -30,7 +30,7 @@ def add_invitations():
     expires_on = data.get("expires_on")
     if expires_on is not None:
         try:
-            expires_on = datetime.fromtimestamp(expires_on)
+            expires_on = datetime.fromtimestamp(expires_on, timezone.utc)
         except (ValueError, TypeError, OSError):
             return abort(400, "Invalid expires_on timestamp")
     else:

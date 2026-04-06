@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from flask import abort, g, jsonify, request
 
@@ -32,7 +32,7 @@ def create_assertion():
     issued_on = data.get("issued_on")
     if issued_on is not None:
         try:
-            issued_on = datetime.fromtimestamp(issued_on)
+            issued_on = datetime.fromtimestamp(issued_on, tz=timezone.utc)
         except (ValueError, TypeError, OSError):
             return abort(400, "Invalid issued_on timestamp")
 

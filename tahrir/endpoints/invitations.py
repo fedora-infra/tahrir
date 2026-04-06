@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from flask import abort, g, jsonify
 
@@ -22,14 +22,14 @@ def claim_invitation(invitation_id: str):
     if not claim:
         abort(404, f"That invitation {invitation_id!r} does not exists.")
 
-    if claim.expires_on < datetime.now():
+    if claim.expires_on < datetime.now(tz=timezone.utc).replace(tzinfo=None):
         return abort(410, f"That invitation {invitation_id!r} is expired.")
 
     # Check to see if the user already has the badge.
     if g.tahrirdb.assertion_exists(claim.badge_id, g.oidc_user.person.email):
         abort(422, f"You already have badge {claim.badge_id!r}")
 
-    g.tahrirdb.add_assertion(claim.badge_id, g.oidc_user.person.email, datetime.now())
+    g.tahrirdb.add_assertion(claim.badge_id, g.oidc_user.person.email, datetime.now(tz=timezone.utc))
 
     return jsonify({"message": f"You have earned badge {claim.badge_id!r}"})
 
