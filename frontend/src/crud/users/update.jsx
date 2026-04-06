@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
+import { LookupSpinner } from "../../components/LookupSpinner.jsx";
 import {
   useLookupIdentityQuery,
   useToggleIdentityOptOutMutation,
   useUpdationIdentityMutation,
 } from "../../features/call.js";
-import { useLoadingState } from "../../features/hooks.js";
+import { useLoadingState, useMinFetching } from "../../features/hooks.js";
 import { showBaseNote } from "../../features/part.js";
 import { formatTime, portraitProvider } from "../../features/util.js";
 
@@ -31,9 +32,11 @@ export default function UserUpdateForm() {
   const [userLookup, setUserLookup] = useState("");
   const [userDropdownShow, setUserDropdownShow] = useState(false);
 
-  const { data: searchResults } = useLookupIdentityQuery(userLookup, {
+  const { data: searchResults, isFetching: isUserFetching } = useLookupIdentityQuery(userLookup, {
     skip: userLookup.length < 4,
   });
+
+  const showUserSpinner = useMinFetching(isUserFetching);
 
   useLoadingState(isUpdating, isToggling);
 
@@ -176,6 +179,7 @@ export default function UserUpdateForm() {
                   autoComplete="off"
                 />
               </FloatingLabel>
+              {showUserSpinner && <LookupSpinner />}
               {userLookup.length >= 4 &&
                 searchResults &&
                 searchResults.users &&

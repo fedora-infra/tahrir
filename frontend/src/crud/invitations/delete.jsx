@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
+import { LookupSpinner } from "../../components/LookupSpinner.jsx";
 import { useDeletionQRInviteMutation, useLookupIdentityQuery, useRetrieveQRInviteQuery } from "../../features/call.js";
-import { useLoadingState } from "../../features/hooks.js";
+import { useLoadingState, useMinFetching } from "../../features/hooks.js";
 import { showBaseNote } from "../../features/part.js";
 import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 
@@ -14,9 +15,11 @@ export default function InvitationDeletionForm() {
   const [identityDropdownShow, makeIdentityDropdownShow] = useState(false);
   const [invitationDropdownShow, makeInvitationDropdownShow] = useState(false);
 
-  const { data: identityResult } = useLookupIdentityQuery(identitySearch, {
+  const { data: identityResult, isFetching: isIdentityFetching } = useLookupIdentityQuery(identitySearch, {
     skip: identitySearch.length < 4,
   });
+
+  const showIdentitySpinner = useMinFetching(isIdentityFetching);
 
   const [form, makeForm] = useState({
     username: "",
@@ -112,6 +115,7 @@ export default function InvitationDeletionForm() {
                   required
                 />
               </FloatingLabel>
+              {showIdentitySpinner && <LookupSpinner />}
               {identitySearch.length >= 4 &&
                 identityResult &&
                 identityResult.users &&
