@@ -3,8 +3,9 @@ import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "re
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 
+import { LookupSpinner } from "../../components/LookupSpinner.jsx";
 import { useLookupAccoladeQuery, useRetrieveAccoladeQuery, useUpdationAccoladeMutation } from "../../features/call.js";
-import { useLoadingState } from "../../features/hooks.js";
+import { useLoadingState, useMinFetching } from "../../features/hooks.js";
 import { showBaseNote } from "../../features/part.js";
 import { formatTime, relativeImageUrl } from "../../features/util.js";
 
@@ -34,9 +35,11 @@ export default function BadgeUpdateForm() {
     skip: !accolade,
   });
 
-  const { data: accoladeResult } = useLookupAccoladeQuery(accoladeLookup, {
+  const { data: accoladeResult, isFetching: isAccoladeFetching } = useLookupAccoladeQuery(accoladeLookup, {
     skip: accoladeLookup.length < 4,
   });
+
+  const showAccoladeSpinner = useMinFetching(isAccoladeFetching);
 
   useLoadingState(isFetching, isUpdating);
 
@@ -163,6 +166,7 @@ export default function BadgeUpdateForm() {
                   autoComplete="off"
                 />
               </FloatingLabel>
+              {showAccoladeSpinner && <LookupSpinner />}
               {accoladeLookup.length >= 4 &&
                 accoladeResult &&
                 accoladeResult.badges &&

@@ -257,3 +257,36 @@ a.vibe-border {
 [data-bs-theme="dark"] a.vibe-border:hover {
   background-color: rgba(224, 224, 224, 0.05) !important;
 }
+
+/* Lookup field spinner - pinwheel style */
+.lookup-spinner {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  pointer-events: none;
+  width: 16px;
+  height: 16px;
+  animation: lookup-spin 0.8s steps(8) infinite;
+}
+
+.lookup-spinner .spoke {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 5px;
+  margin-left: -1px;
+  border-radius: 1px;
+  background: var(--bs-body-color);
+  transform-origin: center 8px;
+  transform: rotate(calc(var(--i) * 45deg));
+  opacity: calc(1 - var(--i) * 0.125);
+}
+
+@keyframes lookup-spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}

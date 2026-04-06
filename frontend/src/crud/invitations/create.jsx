@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
+import { LookupSpinner } from "../../components/LookupSpinner.jsx";
 import { useCreationQRInviteMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
-import { useLoadingState } from "../../features/hooks.js";
+import { useLoadingState, useMinFetching } from "../../features/hooks.js";
 import { showBaseNote } from "../../features/part.js";
 import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 
@@ -15,12 +16,15 @@ export default function InvitationCreationForm() {
   const [accoladeDropdownShow, makeAccoladeDropdownShow] = useState(false);
   const [identityDropdownShow, makeIdentityDropdownShow] = useState(false);
 
-  const { data: accoladeResult } = useLookupAccoladeQuery(accoladeLookup, {
+  const { data: accoladeResult, isFetching: isAccoladeFetching } = useLookupAccoladeQuery(accoladeLookup, {
     skip: accoladeLookup.length < 4,
   });
-  const { data: identityResult } = useLookupIdentityQuery(identityLookup, {
+  const { data: identityResult, isFetching: isIdentityFetching } = useLookupIdentityQuery(identityLookup, {
     skip: identityLookup.length < 4,
   });
+
+  const showAccoladeSpinner = useMinFetching(isAccoladeFetching);
+  const showIdentitySpinner = useMinFetching(isIdentityFetching);
 
   const [form, makeForm] = useState({
     badge_id: "",
@@ -118,6 +122,7 @@ export default function InvitationCreationForm() {
                   required
                 />
               </FloatingLabel>
+              {showAccoladeSpinner && <LookupSpinner />}
               {accoladeLookup.length >= 4 &&
                 accoladeResult &&
                 accoladeResult.badges &&
@@ -169,6 +174,7 @@ export default function InvitationCreationForm() {
                   required
                 />
               </FloatingLabel>
+              {showIdentitySpinner && <LookupSpinner />}
               {identityLookup.length >= 4 &&
                 identityResult &&
                 identityResult.users &&
