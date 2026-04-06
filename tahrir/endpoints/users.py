@@ -87,6 +87,7 @@ def user_opt_out():
         abort(400, "No data provided")
 
     g.oidc_user.person.opt_out = data.get("opt_out")
+    g.tahrirdb.session.commit()
 
     return jsonify({"message": "User updated successfully"})
 
