@@ -1,7 +1,10 @@
+from datetime import datetime
+
 import sqlalchemy as sa
 import tahrir_api.model as m
-from flask import g, jsonify, request
+from flask import abort, g, jsonify, request
 
+from ..app import csrf, oidc
 from ..utils.avatar import hash_email
 from ..utils.badge import (
     badge_json_generator,
@@ -143,3 +146,79 @@ def search_badges_by_string(search_string: str):
     }
 
     return jsonify(result)
+
+
+@bp.route("/api/badges/<badge_id>/award", methods=["POST"])
+@csrf.exempt
+@oidc.require_login
+def award(badge_id):
+    badge = g.tahrirdb.get_badge(badge_id)
+    if not badge:
+        return abort(404, f"No such badge {badge_id!r}")
+    # Check if the logged-in user is authorized to award this badge
+    if not badge.authorized(g.oidc_user.person):
+        return abort(403, f"Forbidden: not permitted to award {badge_id!r}")
+
+    data = request.get_json()
+    if not data:
+        return abort(400, "No details provided")
+
+    username = data.get("username")
+    if not username:
+        return abort(400, "No detail provided for 'username'")
+
+    user = g.tahrirdb.get_person(nickname=username)
+    if not user or user.opt_out:
+        return abort(404, f"No such user {username!r}")
+
+    # Avoid duplicate assertions
+    if g.tahrirdb.assertion_exists(badge.id, user.email):
+        return abort(409, f"User {username!r} already has badge {badge_id!r}")
+
+    result = g.tahrirdb.add_assertion(badge.id, user.email, None)
+    if not result:
+        return abort(400, "Failed to award badge")
+
+    return jsonify({"message": f"Badge {badge_id!r} awarded to {username!r}"}), 201
+
+
+@bp.route("/api/badges/<badge_id>/invite", methods=["POST"])
+@csrf.exempt
+@oidc.require_login
+def invite(badge_id):
+    agent = g.oidc_user.person
+
+    badge = g.tahrirdb.get_badge(badge_id)
+    if not badge:
+        return abort(404, f"No such badge {badge_id!r}")
+    # Check if the logged-in user is authorized to invite for this badge
+    if not badge.authorized(agent):
+        return abort(403, f"Forbidden: not permitted to invite for {badge_id!r}")
+
+    data = request.get_json()
+    if not data:
+        return abort(400, "No details provided")
+    # expires_on is optional; if omitted the db layer defaults to 1 hour from now
+    expires_on = data.get("expires_on")
+    if expires_on is not None:
+        try:
+            expires_on = datetime.fromtimestamp(expires_on)
+        except (ValueError, TypeError, OSError):
+            return abort(400, "Invalid expires_on timestamp")
+
+    invitation_id = g.tahrirdb.add_invitation(
+        badge.id,
+        expires_on=expires_on,
+        created_by_email=agent.email,
+    )
+    if not invitation_id:
+        return abort(400, "Failed to create invitation")
+
+    return jsonify(
+        {
+            "message": f"Invitation created for badge {badge_id!r}",
+            "invitation_id": invitation_id,
+            "badge_id": badge.id,
+            "expires_on": expires_on.timestamp() if expires_on else None,
+        }
+    ), 201

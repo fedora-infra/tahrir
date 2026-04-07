@@ -63,7 +63,7 @@ def award():
         abort(404, f"No such badge {badge_id!r}")
 
     if not badge.authorized(g.oidc_user.person):
-        abort(403, f"Unauthorized for {badge_id!r}")
+        abort(403, f"Forbidden: not permitted for {badge_id!r}")
 
     nickname = request.form.get("nickname")
     user = g.tahrirdb.get_person(nickname=nickname)
@@ -90,7 +90,7 @@ def invite():
         abort(404, f"No such badge {badge_id!r}")
 
     if not badge.authorized(agent):
-        abort(403, f"Unauthorized for {badge_id!r}")
+        abort(403, f"Forbidden: not permitted for {badge_id!r}")
 
     try:
         fmt = "%Y-%m-%d %H:%M"
