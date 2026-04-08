@@ -106,6 +106,33 @@ def search_badges_by_string(search_string: str):
     Search endpoint that returns badges matching the search string
     """
 
+    # # New refactored code for issue #273 on tahrir-api
+    # begin = request.args.get("begin", 0, type=int)
+    # limit = request.args.get("limit", 100, type=int)
+
+    # collection = g.tahrirdb.get_badges_by_search_string(search_string, begin, limit)
+
+    # result = {
+    #     "badges": [
+    #         {
+    #             "id": item.id,
+    #             "created_on": item.created_on.timestamp() if item.created_on else None,
+    #             "criteria": item.criteria,
+    #             "description": item.description,
+    #             "image": item.image,
+    #             "name": item.name,
+    #             "tags": (
+    #                 [text.strip() for text in item.tags.split(",") if text.strip()]
+    #                 if item.tags
+    #                 else []
+    #             ),
+    #         }
+    #         for item in collection
+    #     ],
+    #     "castup": len(collection),
+    # }
+
+    # These below are to be deleted once the issue #273 on tahrir-api gets merged (new: 8-04-2026)
     # We need to have a function for searching badges in Tahrir API
     # Instead of doing this over here like this
     begin = request.args.get("begin", 0, type=int)
@@ -141,5 +168,6 @@ def search_badges_by_string(search_string: str):
         ],
         "castup": len(collection),
     }
+    # Delete up to here
 
     return jsonify(result)

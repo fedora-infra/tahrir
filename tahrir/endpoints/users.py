@@ -15,6 +15,31 @@ def search_users_by_string(search_string: str):
     Search endpoint that returns users matching the search string
     """
 
+    # # New refactored code for issue #273 on tahrir-api
+    # begin = request.args.get("begin", 0, type=int)
+    # limit = request.args.get("limit", 100, type=int)
+
+    # collection = g.tahrirdb.get_persons_by_search_string(search_string, begin, limit, include_opted_out=True)
+
+    # result = {
+    #     "users": [
+    #         {
+    #             "id": item.id,
+    #             "bio": item.bio if item.bio else None,
+    #             "created_on": item.created_on.timestamp() if item.created_on else None,
+    #             "email": hash_email(item.avatar),
+    #             "last_login": item.last_login.timestamp() if item.last_login else None,
+    #             "nickname": item.nickname,
+    #             "opt_out": item.opt_out,
+    #             "rank": item.rank,
+    #             "website": item.website,
+    #         }
+    #         for item in collection
+    #     ],
+    #     "castup": len(collection),
+    # }
+
+    # These below are to be deleted once the issue #273 on tahrir-api gets merged (new: 8-04-2026)
     # We need to have a function for searching users in Tahrir API
     # Instead of doing this over here like this
     begin = request.args.get("begin", 0, type=int)
@@ -44,6 +69,7 @@ def search_users_by_string(search_string: str):
         ],
         "castup": len(collection),
     }
+    # Delete up to here
 
     return jsonify(result)
 
