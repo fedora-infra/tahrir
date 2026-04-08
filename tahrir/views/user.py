@@ -126,7 +126,7 @@ def _user_json_generator(person):
     for indx, item in enumerate(assertions):
         issued = {"issued": float(item.issued_on.strftime("%s"))}
         reason = {"reason": item.issued_for or None}
-        rarity = {"rarity": raredata["badges"][item.badge.id]["rare"]}
+        rarity = {"rarity": raredata["badges"].get(item.badge.id, {}).get("rare", "D")}
         badged = badge_json_generator(item.badge, withasserts=False)
         serialized.append({**issued, **badged, **reason, **rarity})
         for name in classified.keys():
