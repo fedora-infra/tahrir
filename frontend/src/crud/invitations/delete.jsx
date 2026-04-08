@@ -1,25 +1,19 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
-import { LookupSpinner } from "../../components/LookupSpinner.jsx";
-import { useDeletionQRInviteMutation, useLookupIdentityQuery, useRetrieveQRInviteQuery } from "../../features/call.js";
-import { useLoadingState, useMinFetching } from "../../features/hooks.js";
+import UserSearchDropdown from "../../components/UserSearchDropdown.jsx";
+import { useDeletionQRInviteMutation, useRetrieveQRInviteQuery } from "../../features/call.js";
+import { getApiErrorMessage } from "../../features/errors.js";
+import { useLoadingState } from "../../features/hooks.js";
 import { showBaseNote } from "../../features/part.js";
-import { portraitProvider, relativeImageUrl } from "../../features/util.js";
+import { relativeImageUrl } from "../../features/util.js";
 
 export default function InvitationDeletionForm() {
   const dispatch = useDispatch();
   const [deletionQRInvite, { isLoading }] = useDeletionQRInviteMutation();
-  const [identitySearch, makeIdentitySearch] = useState("");
-  const [identityDropdownShow, makeIdentityDropdownShow] = useState(false);
+  const userRef = useRef(null);
   const [invitationDropdownShow, makeInvitationDropdownShow] = useState(false);
-
-  const { data: identityResult, isFetching: isIdentityFetching } = useLookupIdentityQuery(identitySearch, {
-    skip: identitySearch.length < 4,
-  });
-
-  const showIdentitySpinner = useMinFetching(isIdentityFetching);
 
   const [form, makeForm] = useState({
     username: "",
@@ -37,16 +31,6 @@ export default function InvitationDeletionForm() {
     makeForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleIdentitySelect = (identity) => {
-    makeIdentitySearch(identity.nickname);
-    makeForm((prev) => ({
-      ...prev,
-      username: identity.nickname,
-      invitation_id: "", // Reset invitation selection when user changes
-    }));
-    makeIdentityDropdownShow(false);
-  };
-
   const handleInvitationSelect = (invitation) => {
     makeForm((prev) => ({ ...prev, invitation_id: invitation.invitation_id }));
     makeInvitationDropdownShow(false);
@@ -54,43 +38,23 @@ export default function InvitationDeletionForm() {
 
   const handleTask = async () => {
     try {
-      // Use the specific invitation ID for deletion
       await deletionQRInvite(form.invitation_id.trim()).unwrap();
       dispatch(showBaseNote({ pass: true, data: "Invitation deleted successfully" }));
-      makeForm({
-        username: "",
-        invitation_id: "",
-      });
-      makeIdentitySearch("");
-      makeIdentityDropdownShow(false);
+      makeForm({ username: "", invitation_id: "" });
+      userRef.current?.reset();
       makeInvitationDropdownShow(false);
     } catch (error) {
-      let expt;
-      switch (error?.status) {
-        case 400:
-          expt = "Verify the requested fields";
-          break;
-        case 401:
-          expt = "Try authenticating before deleting invitation";
-          break;
-        case 403:
-          expt = "Ensure permissions are available";
-          break;
-        case 404:
-          expt = "Invitation not found";
-          break;
-        case 410:
-          expt = "Invitation already expired or deleted";
-          break;
-        case 500:
-          expt = "Attempt deleting again later";
-          break;
-        default:
-          expt = "Failed during invitation deletion";
-      }
-      dispatch(showBaseNote({ pass: false, data: expt }));
+      const msg = getApiErrorMessage(error, "invitation deletion", {
+        404: "Invitation not found",
+        410: "Invitation already expired or deleted",
+      });
+      dispatch(showBaseNote({ pass: false, data: msg }));
     }
   };
+
+  const hasInvitations =
+    userInvitations &&
+    Object.values(userInvitations).some((badge) => badge.invitations && badge.invitations.length > 0);
 
   return (
     <Card className="mb-2">
@@ -100,56 +64,19 @@ export default function InvitationDeletionForm() {
         <hr className="mt-2 mb-0" />
         <Row className="mt-0 mb-2 ms-1 me-1 g-2">
           <Col lg="6">
-            <div className="position-relative">
-              <FloatingLabel controlId="codeRemoveOwner" label="Owner*">
-                <Form.Control
-                  type="text"
-                  value={identitySearch}
-                  onChange={(e) => {
-                    makeIdentitySearch(e.target.value);
-                    makeIdentityDropdownShow(e.target.value.length >= 4);
-                  }}
-                  onFocus={() => identitySearch.length >= 4 && makeIdentityDropdownShow(true)}
-                  onBlur={() => setTimeout(() => makeIdentityDropdownShow(false), 150)}
-                  autoComplete="off"
-                  required
-                />
-              </FloatingLabel>
-              {showIdentitySpinner && <LookupSpinner />}
-              {identitySearch.length >= 4 &&
-                identityResult &&
-                identityResult.users &&
-                identityResult.users.length > 0 &&
-                identityDropdownShow && (
-                  <Dropdown.Menu show className="position-absolute w-100 mt-1" style={{ zIndex: 1050 }}>
-                    <Dropdown.Header className="small p-1">Users</Dropdown.Header>
-                    {identityResult.users.slice(0, 8).map((identity) => (
-                      <Dropdown.Item
-                        key={identity.id}
-                        onClick={() => handleIdentitySelect(identity)}
-                        className="small d-flex align-items-center p-1"
-                      >
-                        <Image
-                          rounded={true}
-                          src={portraitProvider(identity.email, 40)}
-                          width="40"
-                          height="40"
-                          className="me-2"
-                        />
-                        <div className="flex-grow-1 overflow-hidden">
-                          <div className="fw-bold text-truncate">{identity.nickname}</div>
-                          <div className="small text-muted text-truncate">#{identity.rank}</div>
-                        </div>
-                      </Dropdown.Item>
-                    ))}
-                    {identityResult.users.length > 8 && (
-                      <Dropdown.Item disabled className="small text-muted p-1">
-                        +{identityResult.users.length - 8} more users
-                      </Dropdown.Item>
-                    )}
-                  </Dropdown.Menu>
-                )}
-            </div>
+            <UserSearchDropdown
+              ref={userRef}
+              controlId="codeRemoveOwner"
+              label="Owner*"
+              onSelect={(user) =>
+                makeForm((prev) => ({
+                  ...prev,
+                  username: user.nickname,
+                  invitation_id: "",
+                }))
+              }
+              required
+            />
           </Col>
           <Col lg="6">
             <div className="position-relative">
@@ -159,79 +86,58 @@ export default function InvitationDeletionForm() {
                   value={
                     !form.username
                       ? "Select the owner first"
-                      : !userInvitations ||
-                          !Object.values(userInvitations).some(
-                            (badge) => badge.invitations && badge.invitations.length > 0
-                          )
+                      : !hasInvitations
                         ? "No invitations were found"
                         : form.invitation_id
                   }
                   onChange={(e) => {
-                    const hasInvitations =
-                      userInvitations &&
-                      Object.values(userInvitations).some((badge) => badge.invitations && badge.invitations.length > 0);
                     if (hasInvitations) {
                       handleFormChange("invitation_id", e.target.value);
                       makeInvitationDropdownShow(true);
                     }
                   }}
-                  onFocus={() => {
-                    const hasInvitations =
-                      userInvitations &&
-                      Object.values(userInvitations).some((badge) => badge.invitations && badge.invitations.length > 0);
-                    hasInvitations && makeInvitationDropdownShow(true);
-                  }}
+                  onFocus={() => hasInvitations && makeInvitationDropdownShow(true)}
                   onBlur={() => setTimeout(() => makeInvitationDropdownShow(false), 150)}
-                  disabled={
-                    !form.username ||
-                    !userInvitations ||
-                    !Object.values(userInvitations).some((badge) => badge.invitations && badge.invitations.length > 0)
-                  }
-                  readOnly={
-                    !form.username ||
-                    !userInvitations ||
-                    !Object.values(userInvitations).some((badge) => badge.invitations && badge.invitations.length > 0)
-                  }
+                  disabled={!form.username || !hasInvitations}
+                  readOnly={!form.username || !hasInvitations}
                   autoComplete="off"
                   required
                 />
               </FloatingLabel>
-              {userInvitations &&
-                Object.values(userInvitations).some((badge) => badge.invitations && badge.invitations.length > 0) &&
-                invitationDropdownShow && (
-                  <Dropdown.Menu
-                    show
-                    className="position-absolute w-100 mt-1"
-                    style={{ zIndex: 1050, maxHeight: "240px", overflowY: "auto" }}
-                  >
-                    <Dropdown.Header className="small p-1">Invitations</Dropdown.Header>
-                    {Object.entries(userInvitations).flatMap(([, badgeData]) =>
-                      badgeData.invitations.map((invitation) => (
-                        <Dropdown.Item
-                          key={invitation.invitation_id}
-                          onClick={() => handleInvitationSelect(invitation)}
-                          className="small d-flex align-items-center p-1"
-                        >
-                          <Image
-                            rounded={true}
-                            src={relativeImageUrl(badgeData.image)}
-                            width="40"
-                            height="40"
-                            className="me-2"
-                          />
-                          <div className="flex-grow-1 overflow-hidden">
-                            <div className="fw-bold text-truncate">{badgeData.name}</div>
-                            <div className="small text-muted text-truncate">
-                              {new Date(invitation.created_on * 1000).toLocaleString()} -{" "}
-                              {new Date(invitation.expires_on * 1000).toLocaleString()}
-                              {invitation.expired && <span className="text-danger ms-1">(Expired)</span>}
-                            </div>
+              {hasInvitations && invitationDropdownShow && (
+                <Dropdown.Menu
+                  show
+                  className="position-absolute w-100 mt-1"
+                  style={{ zIndex: 1050, maxHeight: "240px", overflowY: "auto" }}
+                >
+                  <Dropdown.Header className="small p-1">Invitations</Dropdown.Header>
+                  {Object.entries(userInvitations).flatMap(([, badgeData]) =>
+                    badgeData.invitations.map((invitation) => (
+                      <Dropdown.Item
+                        key={invitation.invitation_id}
+                        onClick={() => handleInvitationSelect(invitation)}
+                        className="small d-flex align-items-center p-1"
+                      >
+                        <Image
+                          rounded={true}
+                          src={relativeImageUrl(badgeData.image)}
+                          width="40"
+                          height="40"
+                          className="me-2"
+                        />
+                        <div className="flex-grow-1 overflow-hidden">
+                          <div className="fw-bold text-truncate">{badgeData.name}</div>
+                          <div className="small text-muted text-truncate">
+                            {new Date(invitation.created_on * 1000).toLocaleString()} -{" "}
+                            {new Date(invitation.expires_on * 1000).toLocaleString()}
+                            {invitation.expired && <span className="text-danger ms-1">(Expired)</span>}
                           </div>
-                        </Dropdown.Item>
-                      ))
-                    )}
-                  </Dropdown.Menu>
-                )}
+                        </div>
+                      </Dropdown.Item>
+                    ))
+                  )}
+                </Dropdown.Menu>
+              )}
             </div>
           </Col>
         </Row>

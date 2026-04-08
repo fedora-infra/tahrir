@@ -1,30 +1,19 @@
-import { useState } from "react";
-import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
+import { useRef, useState } from "react";
+import { Button, Card, Col, FloatingLabel, Form, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
-import { LookupSpinner } from "../../components/LookupSpinner.jsx";
-import { useCreationQRInviteMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
-import { useLoadingState, useMinFetching } from "../../features/hooks.js";
+import BadgeSearchDropdown from "../../components/BadgeSearchDropdown.jsx";
+import UserSearchDropdown from "../../components/UserSearchDropdown.jsx";
+import { useCreationQRInviteMutation } from "../../features/call.js";
+import { getApiErrorMessage } from "../../features/errors.js";
+import { useLoadingState } from "../../features/hooks.js";
 import { showBaseNote } from "../../features/part.js";
-import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 
 export default function InvitationCreationForm() {
   const dispatch = useDispatch();
   const [creationQRInvite, { isLoading }] = useCreationQRInviteMutation();
-  const [accoladeLookup, makeAccoladeLookup] = useState("");
-  const [identityLookup, makeIdentityLookup] = useState("");
-  const [accoladeDropdownShow, makeAccoladeDropdownShow] = useState(false);
-  const [identityDropdownShow, makeIdentityDropdownShow] = useState(false);
-
-  const { data: accoladeResult, isFetching: isAccoladeFetching } = useLookupAccoladeQuery(accoladeLookup, {
-    skip: accoladeLookup.length < 4,
-  });
-  const { data: identityResult, isFetching: isIdentityFetching } = useLookupIdentityQuery(identityLookup, {
-    skip: identityLookup.length < 4,
-  });
-
-  const showAccoladeSpinner = useMinFetching(isAccoladeFetching);
-  const showIdentitySpinner = useMinFetching(isIdentityFetching);
+  const badgeRef = useRef(null);
+  const userRef = useRef(null);
 
   const [form, makeForm] = useState({
     badge_id: "",
@@ -39,18 +28,6 @@ export default function InvitationCreationForm() {
     makeForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleAccoladeSelect = (accolade) => {
-    makeAccoladeLookup(accolade.name);
-    makeForm((prev) => ({ ...prev, badge_id: accolade.id }));
-    makeAccoladeDropdownShow(false);
-  };
-
-  const handleIdentitySelect = (identity) => {
-    makeIdentityLookup(identity.nickname);
-    makeForm((prev) => ({ ...prev, issuer_email: identity.nickname }));
-    makeIdentityDropdownShow(false);
-  };
-
   const handleTask = async () => {
     try {
       const now = Math.floor(Date.now() / 1000);
@@ -61,41 +38,15 @@ export default function InvitationCreationForm() {
       };
       await creationQRInvite(data).unwrap();
       dispatch(showBaseNote({ pass: true, data: "Invitation was created successfully" }));
-      makeForm({
-        badge_id: "",
-        issuer_email: "",
-        created_on: "",
-        expires_on: "",
-      });
-      makeAccoladeLookup("");
-      makeIdentityLookup("");
-      makeAccoladeDropdownShow(false);
-      makeIdentityDropdownShow(false);
+      makeForm({ badge_id: "", issuer_email: "", created_on: "", expires_on: "" });
+      badgeRef.current?.reset();
+      userRef.current?.reset();
     } catch (error) {
-      let expt;
-      switch (error?.status) {
-        case 400:
-          expt = "Verify the requested fields";
-          break;
-        case 401:
-          expt = "Try authenticating before creating";
-          break;
-        case 403:
-          expt = "Ensure permissions are available";
-          break;
-        case 404:
-          expt = "Badge or user unavailable";
-          break;
-        case 409:
-          expt = "Invitation entry already exists";
-          break;
-        case 500:
-          expt = "Attempt creating again later";
-          break;
-        default:
-          expt = "Failed during invitation creation";
-      }
-      dispatch(showBaseNote({ pass: false, data: expt }));
+      const msg = getApiErrorMessage(error, "invitation creation", {
+        404: "Badge or user unavailable",
+        409: "Invitation entry already exists",
+      });
+      dispatch(showBaseNote({ pass: false, data: msg }));
     }
   };
 
@@ -107,108 +58,22 @@ export default function InvitationCreationForm() {
         <hr className="mt-2 mb-0" />
         <Row className="mt-0 mb-2 ms-1 me-1 g-2">
           <Col lg="6">
-            <div className="position-relative">
-              <FloatingLabel controlId="inviCreateBadge" label="Badge*">
-                <Form.Control
-                  type="text"
-                  value={accoladeLookup}
-                  onChange={(e) => {
-                    makeAccoladeLookup(e.target.value);
-                    makeAccoladeDropdownShow(e.target.value.length >= 4);
-                  }}
-                  onFocus={() => accoladeLookup.length >= 4 && makeAccoladeDropdownShow(true)}
-                  onBlur={() => setTimeout(() => makeAccoladeDropdownShow(false), 150)}
-                  autoComplete="off"
-                  required
-                />
-              </FloatingLabel>
-              {showAccoladeSpinner && <LookupSpinner />}
-              {accoladeLookup.length >= 4 &&
-                accoladeResult &&
-                accoladeResult.badges &&
-                accoladeResult.badges.length > 0 &&
-                accoladeDropdownShow && (
-                  <Dropdown.Menu show className="position-absolute w-100 mt-1" style={{ zIndex: 1050 }}>
-                    <Dropdown.Header className="small p-1">Badges</Dropdown.Header>
-                    {accoladeResult.badges.slice(0, 8).map((accolade) => (
-                      <Dropdown.Item
-                        key={accolade.id}
-                        onClick={() => handleAccoladeSelect(accolade)}
-                        className="small d-flex align-items-center p-1"
-                      >
-                        <Image
-                          rounded={true}
-                          src={relativeImageUrl(accolade.image)}
-                          width="40"
-                          height="40"
-                          className="me-2"
-                        />
-                        <div className="flex-grow-1 overflow-hidden">
-                          <div className="fw-bold text-truncate">{accolade.name}</div>
-                          <div className="small text-muted text-truncate">{accolade.description}</div>
-                        </div>
-                      </Dropdown.Item>
-                    ))}
-                    {accoladeResult.badges.length > 8 && (
-                      <Dropdown.Item disabled className="small text-muted p-1">
-                        +{accoladeResult.badges.length - 8} more badges
-                      </Dropdown.Item>
-                    )}
-                  </Dropdown.Menu>
-                )}
-            </div>
+            <BadgeSearchDropdown
+              ref={badgeRef}
+              controlId="inviCreateBadge"
+              label="Badge*"
+              onSelect={(badge) => makeForm((prev) => ({ ...prev, badge_id: badge.id }))}
+              required
+            />
           </Col>
           <Col lg="6">
-            <div className="position-relative">
-              <FloatingLabel controlId="inviCreateOwner" label="Owner*">
-                <Form.Control
-                  type="text"
-                  value={identityLookup}
-                  onChange={(e) => {
-                    makeIdentityLookup(e.target.value);
-                    makeIdentityDropdownShow(e.target.value.length >= 4);
-                  }}
-                  onFocus={() => identityLookup.length >= 4 && makeIdentityDropdownShow(true)}
-                  onBlur={() => setTimeout(() => makeIdentityDropdownShow(false), 150)}
-                  autoComplete="off"
-                  required
-                />
-              </FloatingLabel>
-              {showIdentitySpinner && <LookupSpinner />}
-              {identityLookup.length >= 4 &&
-                identityResult &&
-                identityResult.users &&
-                identityResult.users.length > 0 &&
-                identityDropdownShow && (
-                  <Dropdown.Menu show className="position-absolute w-100 mt-1" style={{ zIndex: 1050 }}>
-                    <Dropdown.Header className="small p-1">Users</Dropdown.Header>
-                    {identityResult.users.slice(0, 8).map((identity) => (
-                      <Dropdown.Item
-                        key={identity.id}
-                        onClick={() => handleIdentitySelect(identity)}
-                        className="small d-flex align-items-center p-1"
-                      >
-                        <Image
-                          rounded={true}
-                          src={portraitProvider(identity.email, 40)}
-                          width="40"
-                          height="40"
-                          className="me-2"
-                        />
-                        <div className="flex-grow-1 overflow-hidden">
-                          <div className="fw-bold text-truncate">{identity.nickname}</div>
-                          <div className="small text-muted text-truncate">#{identity.rank}</div>
-                        </div>
-                      </Dropdown.Item>
-                    ))}
-                    {identityResult.users.length > 8 && (
-                      <Dropdown.Item disabled className="small text-muted p-1">
-                        +{identityResult.users.length - 8} more users
-                      </Dropdown.Item>
-                    )}
-                  </Dropdown.Menu>
-                )}
-            </div>
+            <UserSearchDropdown
+              ref={userRef}
+              controlId="inviCreateOwner"
+              label="Owner*"
+              onSelect={(user) => makeForm((prev) => ({ ...prev, issuer_email: user.nickname }))}
+              required
+            />
           </Col>
           <Col lg="6">
             <FloatingLabel controlId="inviCreateFrom" label="Valid from">

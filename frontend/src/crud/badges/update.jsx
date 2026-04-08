@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
-import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
+import { useEffect, useRef, useState } from "react";
+import { Button, Card, Col, FloatingLabel, Form, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 
-import { LookupSpinner } from "../../components/LookupSpinner.jsx";
-import { useLookupAccoladeQuery, useRetrieveAccoladeQuery, useUpdationAccoladeMutation } from "../../features/call.js";
-import { useLoadingState, useMinFetching } from "../../features/hooks.js";
+import BadgeSearchDropdown from "../../components/BadgeSearchDropdown.jsx";
+import { useRetrieveAccoladeQuery, useUpdationAccoladeMutation } from "../../features/call.js";
+import { getApiErrorMessage } from "../../features/errors.js";
+import { useLoadingState } from "../../features/hooks.js";
 import { showBaseNote } from "../../features/part.js";
-import { formatTime, relativeImageUrl } from "../../features/util.js";
+import { formatTime } from "../../features/util.js";
 
 export default function BadgeUpdateForm() {
   const dispatch = useDispatch();
   const { slugdata: accolade } = useParams();
   const [updationAccolade, { isLoading: isUpdating }] = useUpdationAccoladeMutation();
+  const badgeRef = useRef(null);
 
   const [form, makeForm] = useState({
     name: "",
@@ -24,9 +26,6 @@ export default function BadgeUpdateForm() {
     id: "",
   });
 
-  const [accoladeLookup, setAccoladeLookup] = useState("");
-  const [accoladeDropdownShow, setAccoladeDropdownShow] = useState(false);
-
   const {
     data: badge,
     isLoading: isFetching,
@@ -34,12 +33,6 @@ export default function BadgeUpdateForm() {
   } = useRetrieveAccoladeQuery(accolade, {
     skip: !accolade,
   });
-
-  const { data: accoladeResult, isFetching: isAccoladeFetching } = useLookupAccoladeQuery(accoladeLookup, {
-    skip: accoladeLookup.length < 4,
-  });
-
-  const showAccoladeSpinner = useMinFetching(isAccoladeFetching);
 
   useLoadingState(isFetching, isUpdating);
 
@@ -54,7 +47,7 @@ export default function BadgeUpdateForm() {
         created_on: badge.created_on || "",
         id: badge.id || "",
       });
-      setAccoladeLookup(badge.name || "");
+      badgeRef.current?.setValue(badge.name || "");
     }
   }, [badge]);
 
@@ -72,8 +65,6 @@ export default function BadgeUpdateForm() {
       created_on: accolade.created_on || "",
       id: accolade.id || "",
     });
-    setAccoladeLookup(accolade.name || "");
-    setAccoladeDropdownShow(false);
   };
 
   const handleUpdate = async () => {
@@ -94,27 +85,10 @@ export default function BadgeUpdateForm() {
       await updationAccolade({ accolade: form.id, filldata: updateData }).unwrap();
       dispatch(showBaseNote({ pass: true, data: "Badge was updated successfully" }));
     } catch (error) {
-      let expt;
-      switch (error?.status) {
-        case 400:
-          expt = "Verify the requested fields";
-          break;
-        case 401:
-          expt = "Try authenticating before updating";
-          break;
-        case 403:
-          expt = "Ensure permissions are available";
-          break;
-        case 404:
-          expt = "Badge not found";
-          break;
-        case 500:
-          expt = "Attempt update again later";
-          break;
-        default:
-          expt = "Failed during badge update";
-      }
-      dispatch(showBaseNote({ pass: false, data: expt }));
+      const msg = getApiErrorMessage(error, "badge update", {
+        404: "Badge not found",
+      });
+      dispatch(showBaseNote({ pass: false, data: msg }));
     }
   };
 
@@ -139,68 +113,19 @@ export default function BadgeUpdateForm() {
         <hr className="mt-2 mb-0" />
         <Row className="mt-0 mb-2 ms-1 me-1 g-2">
           <Col lg="6">
-            <div className="position-relative">
-              <FloatingLabel controlId="accoUpdateName" label="Name">
-                <Form.Control
-                  type="text"
-                  value={accoladeLookup}
-                  onChange={(e) => {
-                    setAccoladeLookup(e.target.value);
-                    handleFormChange("name", e.target.value);
-                    setAccoladeDropdownShow(e.target.value.length >= 4);
-                    if (e.target.value === "") {
-                      makeForm({
-                        name: "",
-                        description: "",
-                        image: "",
-                        criteria: "",
-                        tags: "",
-                        created_on: "",
-                        id: "",
-                      });
-                    }
-                  }}
-                  onFocus={() => accoladeLookup.length >= 4 && setAccoladeDropdownShow(true)}
-                  onBlur={() => setTimeout(() => setAccoladeDropdownShow(false), 150)}
-                  placeholder="Name"
-                  autoComplete="off"
-                />
-              </FloatingLabel>
-              {showAccoladeSpinner && <LookupSpinner />}
-              {accoladeLookup.length >= 4 &&
-                accoladeResult &&
-                accoladeResult.badges &&
-                accoladeResult.badges.length > 0 &&
-                accoladeDropdownShow && (
-                  <Dropdown.Menu show className="position-absolute w-100 mt-1" style={{ zIndex: 1050 }}>
-                    <Dropdown.Header className="small p-1">Badges</Dropdown.Header>
-                    {accoladeResult.badges.slice(0, 8).map((accolade) => (
-                      <Dropdown.Item
-                        key={accolade.id}
-                        onClick={() => handleAccoladeSelect(accolade)}
-                        className="small d-flex align-items-center p-1"
-                      >
-                        <Image
-                          rounded={true}
-                          src={relativeImageUrl(accolade.image)}
-                          width="40"
-                          height="40"
-                          className="me-2"
-                        />
-                        <div className="flex-grow-1 overflow-hidden">
-                          <div className="fw-bold text-truncate">{accolade.name}</div>
-                          <div className="small text-muted text-truncate">{accolade.description}</div>
-                        </div>
-                      </Dropdown.Item>
-                    ))}
-                    {accoladeResult.badges.length > 8 && (
-                      <Dropdown.Item disabled className="small text-muted p-1">
-                        +{accoladeResult.badges.length - 8} more badges
-                      </Dropdown.Item>
-                    )}
-                  </Dropdown.Menu>
-                )}
-            </div>
+            <BadgeSearchDropdown
+              ref={badgeRef}
+              controlId="accoUpdateName"
+              label="Name"
+              placeholder="Name"
+              onSelect={handleAccoladeSelect}
+              onInputChange={(text) => {
+                handleFormChange("name", text);
+                if (text === "") {
+                  makeForm({ name: "", description: "", image: "", criteria: "", tags: "", created_on: "", id: "" });
+                }
+              }}
+            />
           </Col>
           <Col lg="6">
             <FloatingLabel controlId="accoUpdateDesc" label="Description">

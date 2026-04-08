@@ -3,6 +3,7 @@ import { Button, Card, Col, FloatingLabel, Form, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 import { useCreationIdentityMutation } from "../../features/call.js";
+import { getApiErrorMessage } from "../../features/errors.js";
 import { useLoadingState } from "../../features/hooks.js";
 import { showBaseNote } from "../../features/part.js";
 
@@ -28,35 +29,12 @@ export default function UserCreationForm() {
     try {
       await creationIdentity(form).unwrap();
       dispatch(showBaseNote({ pass: true, data: "User was created successfully" }));
-      makeForm({
-        nickname: "",
-        email: "",
-        website: "",
-        bio: "",
-        avatar: "",
-      });
+      makeForm({ nickname: "", email: "", website: "", bio: "", avatar: "" });
     } catch (error) {
-      let expt;
-      switch (error?.status) {
-        case 400:
-          expt = "Verify the requested fields";
-          break;
-        case 401:
-          expt = "Try authenticating before creating";
-          break;
-        case 403:
-          expt = "Ensure permissions are available";
-          break;
-        case 409:
-          expt = "Conflicting with existing user";
-          break;
-        case 500:
-          expt = "Attempt creation again later";
-          break;
-        default:
-          expt = "Failed during user creation";
-      }
-      dispatch(showBaseNote({ pass: false, data: expt }));
+      const msg = getApiErrorMessage(error, "user creation", {
+        409: "Conflicting with existing user",
+      });
+      dispatch(showBaseNote({ pass: false, data: msg }));
     }
   };
 
