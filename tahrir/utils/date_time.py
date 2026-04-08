@@ -1,9 +1,4 @@
-import math
 from datetime import date, datetime, timedelta, timezone
-
-import dateutil.relativedelta
-
-
 def get_start_week(year=None, month=None, day=None):
     """For a given date, retrieve the day the week started
 
@@ -38,32 +33,3 @@ def singularize(term, value):
         return term[:-1]
     else:
         return term
-
-
-def relative_time(value: datetime):
-    SHORT_DENOMINATIONS = {
-        "years": "yrs",
-        "months": "mons",
-        "days": "days",
-        "hours": "hrs",
-        "minutes": "mins",
-        "seconds": "secs",
-    }
-    then_in_seconds = value.timestamp()
-    now_in_seconds = datetime.now(timezone.utc).timestamp()
-    delta = now_in_seconds - then_in_seconds
-
-    if delta > 0:
-        suffix = "ago"
-    else:
-        suffix = "from now"
-
-    # time_strings = []
-    rd = dateutil.relativedelta.relativedelta(seconds=math.fabs(delta))
-    denominations = ["years", "months", "days", "hours", "minutes", "seconds"]
-    for denomination in denominations:
-        value = getattr(rd, denomination, 0)
-        if value:
-            return f"{value} {singularize(SHORT_DENOMINATIONS[denomination], value)} {suffix}"
-
-    return "just now"

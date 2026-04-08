@@ -42,7 +42,6 @@ TAHRIR_DEFAULT_ISSUER = "fedora-project"
 TAHRIR_DEFAULT_AVATAR = "retro"
 TAHRIR_OPENBADGES_MODAL = True
 TAHRIR_DISPLAY_TAGS = ["content", "development", "community", "quality", "event", "miscellaneous"]
-TAHRIR_SITEDOCS_SUBDIR = "sitedocs"
 TAHRIR_USE_FEDMSG = False
 TAHRIR_SOCIAL_TWITTER = True
 TAHRIR_SOCIAL_TWITTER_USER_TEXT = "Check out all these #fedorabadges :trophy:"

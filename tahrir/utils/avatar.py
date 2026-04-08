@@ -25,11 +25,6 @@ def get_avatar(email: str, size):
 
     return f"https://seccdn.libravatar.org/avatar/{hash}?{query}"
 
-
-def as_avatar(value, size):
-    return get_avatar(value, size=size)
-
-
 def hash_email(email):
     if not email:
         return None

@@ -17,9 +17,6 @@ from tahrir.database import db
 from tahrir.endpoints import blueprint as endpoint_bp
 from tahrir.endpoints.admin import blueprint as admin_bp
 from tahrir.utils import import_all
-from tahrir.utils.avatar import as_avatar
-from tahrir.utils.date_time import relative_time
-from tahrir.utils.templates import templates_context
 from tahrir.utils.user import on_authorized
 from tahrir.views import add_static_view, internal_server_error, page_not_found
 from tahrir.views import blueprint as root_bp
@@ -111,11 +108,6 @@ def create_app(config=None):
 
     # Authentication callback
     after_authorize.connect(on_authorized)
-
-    # Templates
-    app.context_processor(templates_context)
-    app.jinja_env.filters["relative_time"] = relative_time
-    app.jinja_env.filters["as_avatar"] = as_avatar
 
     # Register views
     import_all("tahrir.views")
