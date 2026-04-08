@@ -1,4 +1,4 @@
-## This file contains the default configuration values
+### This file contains the default configuration values
 
 import os
 
