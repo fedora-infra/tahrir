@@ -3,7 +3,6 @@ from datetime import datetime
 from flask import abort, g, jsonify
 
 from ..app import csrf, oidc
-from ..utils.user import get_person
 from . import blueprint as bp
 
 
@@ -31,18 +30,26 @@ def claim_invitation(invitation_id: str):
 
     g.tahrirdb.add_assertion(claim.badge_id, g.oidc_user.person.email, datetime.now())
 
-    return jsonify({"message": f"You have earned badge {claim.badge_id!r}"})
+    # Fetch the person to get their nickname or ID for the profile redirect
+    person = g.oidc_user.person
+
+    return jsonify(
+        {
+            "message": f"You have earned badge {claim.badge_id!r}",
+            "person_id": person.nickname or person.id,
+        }
+    )
 
 
-@bp.route("/api/invitations/<string:user_id>", methods=["GET"])
-def get_invitations(user_id: str):
+@bp.route("/api/invitations", methods=["GET"])
+@csrf.exempt
+@oidc.require_login
+def get_invitations():
     """Endpoint to list all invitations created by a given user."""
 
-    # TODO - Modify the endpoint to require authentication
-    # TODO - Remove the user_id path parameter requirement
-    person = get_person(user_id)
+    person = g.oidc_user.person
     if not person:
-        return abort(404, f"User {user_id!r} not found")
+        return abort(404, "User record not found")
 
     invitations = g.tahrirdb.get_invitations(person_id=person.id)
 
