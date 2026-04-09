@@ -10,6 +10,7 @@ import { LookupSpinner } from "./LookupSpinner.jsx";
 export default function Discover() {
   const [findText, makeFindText] = useState("");
   const [dropSeen, makeDropSeen] = useState(false);
+  const [clearSeen, makeClearSeen] = useState(false);
   const dropDown = useRef(null);
   const navigate = useNavigate();
   const doLookup = findText.length >= 4;
@@ -41,6 +42,7 @@ export default function Discover() {
     const text = e.target.value;
     makeFindText(text);
     makeDropSeen(text.trim().length >= 4);
+    makeClearSeen(text.trim().length >= 1);
   };
 
   const handleResult = () => {
@@ -62,6 +64,12 @@ export default function Discover() {
     }
   };
 
+  const handleClear = () => {
+    makeFindText("");
+    makeClearSeen(false);
+    makeDropSeen(false);
+  };
+
   const hasResults = searchResults && (searchResults.badges?.length > 0 || searchResults.users?.length > 0);
 
   return (
@@ -77,6 +85,19 @@ export default function Discover() {
         autoComplete="off"
       />
       {showSpinner && <LookupSpinner />}
+
+      {
+        (!showSpinner && clearSeen) && (
+            <button 
+              type="button"
+              className="position-absolute top-50 translate-middle-y end-0 ps-1 border-0 bg-body"
+              style={{ paddingRight: "0.50rem" }}
+              onClick={handleClear}
+            >
+              &times;
+            </button>
+          )
+      }
 
       {dropSeen && doLookup && (
         <Dropdown.Menu show className="position-absolute w-100 mt-1" style={{ zIndex: 1050 }}>
