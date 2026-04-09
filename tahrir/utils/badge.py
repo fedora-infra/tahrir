@@ -39,7 +39,9 @@ def _badge_tags_list(badge):
 
 
 def badge_json_generator(badge, withasserts=True):
-    """Serialize a badge for the JSON API. When withasserts is False, returns compact data for listings."""
+    """Serialize a badge for the JSON API.
+    When withasserts is False, returns compact data for listings.
+    """
     raredata = _load_rarities_data()
 
     if not withasserts:
