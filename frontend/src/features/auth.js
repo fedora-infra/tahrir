@@ -6,6 +6,9 @@ import { API_BASE_URL } from "./call.js";
 
 export const loadUserData = createAsyncThunk("auth/loadUserData", async () => {
   const user = await userManager.getUser();
+  if (!user || user.expired) {
+    return null;
+  }
   const response = await fetch(API_BASE_URL + "/api/users/", {
     method: "POST",
     headers: {
@@ -18,9 +21,6 @@ export const loadUserData = createAsyncThunk("auth/loadUserData", async () => {
   }
 
   const person = await response.json();
-  if (!user || user.expired) {
-    return null;
-  }
 
   // Update what we got from the OIDC provider with what we got from the API
   user.profile.nickname = person.nickname;
