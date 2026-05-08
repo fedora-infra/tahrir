@@ -21,7 +21,7 @@ from tahrir.utils.avatar import as_avatar
 from tahrir.utils.date_time import relative_time
 from tahrir.utils.templates import templates_context
 from tahrir.utils.user import on_authorized
-from tahrir.views import add_static_view, internal_server_error, page_not_found
+from tahrir.views import add_frontend_view, add_static_view, internal_server_error, page_not_found
 from tahrir.views import blueprint as root_bp
 
 
@@ -136,6 +136,10 @@ def create_app(config=None):
     add_static_view(app, app.config["TAHRIR_PNGS_PATH"], prefix="/pngs", endpoint="pngs")
     if app.config.get("TAHRIR_STLS_PATH"):
         add_static_view(app, app.config["TAHRIR_STLS_PATH"], prefix="/stls", endpoint="stls")
+
+    # Frontend SPA
+    if frontend_path := app.config.get("TAHRIR_FRONTEND_PATH"):
+        add_frontend_view(app, frontend_path)
 
     # CLI
     app.cli.add_command(tahrir_cli)

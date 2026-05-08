@@ -12,3 +12,12 @@ pip install . --no-deps
 # set permissions for any installed artifacts
 fix-permissions /opt/app-root -P
 echo "---> Installing application and dependencies ..."
+
+# Build the frontend
+cd frontend
+npm ci
+
+if [ "$FEDORA_ENV" == "staging" ]; then
+    NPM_EXTRA_ARGS="-- --mode staging"
+fi
+npm run build ${NPM_EXTRA_ARGS}

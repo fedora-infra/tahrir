@@ -67,3 +67,5 @@ CACHE = {
 }
 
 FLASK_ADMIN_FLUID_LAYOUT = True
+
+TAHRIR_FRONTEND_PATH = os.path.join(BASE_PATH, "..", "frontend", "dist")
