@@ -1,4 +1,5 @@
 import logging
+import typing
 from functools import wraps
 from urllib.parse import quote_plus
 
@@ -9,6 +10,8 @@ from tahrir.defaults import TAHRIR_DISPLAY_TAGS
 
 from .badge import badge_json_generator
 
+if typing.TYPE_CHECKING:
+    import tahrir_api
 
 log = logging.getLogger(__name__)
 
@@ -60,20 +63,18 @@ class User(OIDCUser):
 
 
 def on_authorized(sender, **kwargs):
-    created = create_person(g.oidc_user.name, g.oidc_user.profile["email"])
-    if created:
-        g.oidc_user.reset_cache()
+    create_person(g.oidc_user.name, g.oidc_user.profile["email"])
+    g.oidc_user.reset_cache()
 
 
-def create_person(nickname: str, email: str) -> bool:
+def create_person(nickname: str, email: str) -> "tahrir_api.model.Person":
     if current_app.config["TAHRIR_USE_OPENID_EMAIL"]:
         avatar = None
     else:
-        email = f"{nickname}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
         avatar = email
+        email = f"{nickname}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
 
     existing = g.tahrirdb.get_person(person_email=email)
-    created = False
     if not existing:
         # Keep adding underscores until we get a default nickname
         # that isn't already used.
@@ -81,7 +82,6 @@ def create_person(nickname: str, email: str) -> bool:
             nickname += "_"
         g.tahrirdb.add_person(email=email, nickname=nickname, avatar=avatar)
         log.info("A new person logged in, creating the Person profile for %s", email)
-        created = True
     else:
         # User exists, update the avatar
         if existing._avatar != avatar:
@@ -93,7 +93,7 @@ def create_person(nickname: str, email: str) -> bool:
     if hasattr(g.tahrirdb, "note_login"):
         g.tahrirdb.note_login(person_email=email)
 
-    return created
+    return g.tahrirdb.get_person(person_email=email)
 
 
 def get_person(id_or_nickname):

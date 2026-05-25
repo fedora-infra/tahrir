@@ -182,8 +182,7 @@ def after_login():
         abort(403)
     current_token["access_token"] = request.authorization.token
     profile = g._oidc_auth.userinfo(token=current_token)
-    create_person(profile["preferred_username"], profile["email"])
-    person = g.tahrirdb.get_person(person_email=profile["email"])
+    person = create_person(profile["preferred_username"], profile["email"])
     if not person:
         abort(404)
     return jsonify(person.as_dict())

@@ -100,7 +100,6 @@ line-length = 100
 select = ["E", "F", "W", "I", "B", "UP"]
 
 [tool.ruff.lint.isort]
-lines-after-imports = 2
 order-by-type = false
 
 [tool.ruff.lint.per-file-ignores]
