@@ -1,14 +1,15 @@
 from flask import abort, g, jsonify, request
 
 from ...app import csrf, oidc
-from ...utils.user import get_person, require_admin
+from ...utils.user import get_person, need_access_root, need_access_user
 from . import blueprint as bp
 
 
 @bp.route("/api/admin/users", methods=["POST"])
 @csrf.exempt
-@oidc.require_login
-@require_admin
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def add_user():
     """Endpoint to add a new user"""
 
@@ -35,8 +36,9 @@ def add_user():
 
 @bp.route("/api/admin/users/<string:user_id>", methods=["PUT"])
 @csrf.exempt
-@oidc.require_login
-@require_admin
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def update_user(user_id: str):
     """Endpoint to update existing user"""
 
@@ -61,8 +63,9 @@ def update_user(user_id: str):
 
 @bp.route("/api/admin/users/<string:user_id>/opt_out", methods=["PUT"])
 @csrf.exempt
-@oidc.require_login
-@require_admin
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def user_opt_out(user_id: str):
     """Endpoint to update user account settings."""
 

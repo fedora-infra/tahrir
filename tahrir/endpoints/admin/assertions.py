@@ -3,14 +3,15 @@ from datetime import datetime
 from flask import abort, current_app, g, jsonify, request
 
 from ...app import csrf, oidc
-from ...utils.user import require_admin
+from ...utils.user import need_access_root, need_access_user
 from . import blueprint as bp
 
 
 @bp.route("/api/admin/assertions", methods=["POST"])
 @csrf.exempt
-@oidc.require_login
-@require_admin
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def create_assertion():
     """Endpoint to create a new assertion (award badge)."""
 
@@ -54,8 +55,9 @@ def create_assertion():
 
 @bp.route("/api/admin/assertions", methods=["DELETE"])
 @csrf.exempt
-@oidc.require_login
-@require_admin
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def remove_assertion():
     """Endpoint to remove an assertion (retract awarded badge)."""
 

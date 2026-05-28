@@ -1,11 +1,16 @@
 import sqlalchemy as sa
 import tahrir_api.model as m
-from authlib.integrations.flask_oauth2 import current_token
 from flask import abort, g, jsonify, request
 
 from ..app import csrf, oidc
 from ..utils.avatar import hash_email
-from ..utils.user import create_person, get_person, get_user_badge_info, require_login
+from ..utils.user import (
+    _populate_access_user,
+    create_person,
+    get_person,
+    get_user_badge_info,
+    need_access_user,
+)
 from . import blueprint as bp
 
 
@@ -57,7 +62,15 @@ def get_user_by_id(user_id: str):
     if not user:
         abort(404, f"No such user {user_id!r}")
 
-    if user.opt_out and user.email != g.oidc_user.email:
+    requester_email = None
+    if request.authorization:
+        try:
+            _populate_access_user()
+            requester_email = g.token_email
+        except Exception:
+            pass
+
+    if user.opt_out and user.email != requester_email:
         abort(404, f"User {user_id!r} has opted out.")
 
     # Get badge info using utility function
@@ -78,7 +91,9 @@ def get_user_by_id(user_id: str):
 
 
 @bp.route("/api/users/opt_out", methods=["PUT"])
-@require_login
+@csrf.exempt
+@oidc.accept_token()
+@need_access_user
 def user_opt_out():
     """Endpoint to update user account settings."""
 
@@ -86,14 +101,16 @@ def user_opt_out():
     if not data.get("opt_out"):
         abort(400, "No data provided")
 
-    g.oidc_user.person.opt_out = data.get("opt_out")
+    g.token_person.opt_out = data.get("opt_out")
     g.tahrirdb.session.commit()
 
     return jsonify({"message": "User updated successfully"})
 
 
 @bp.route("/api/users/diff/<string:id_a>/<string:id_b>", methods=["GET"])
-@require_login
+@csrf.exempt
+@oidc.accept_token()
+@need_access_user
 def get_user_diff(id_a: str, id_b: str):
     """Endpoint to compare badges between two users."""
 
@@ -105,12 +122,12 @@ def get_user_diff(id_a: str, id_b: str):
     if not user_b:
         abort(404, f"No such user {id_b!r}")
 
-    if user_a.opt_out and user_a.email != g.oidc_user.email:
+    if user_a.opt_out and user_a.email != g.token_email:
         abort(404, f"User {id_a!r} has opted out.")
-    if user_b.opt_out and user_b.email != g.oidc_user.email:
+    if user_b.opt_out and user_b.email != g.token_email:
         abort(404, f"User {id_b!r} has opted out.")
 
-    if user_a.email != g.oidc_user.email:
+    if user_a.email != g.token_email:
         abort(401)
 
     # Get badge info using utility function
@@ -180,9 +197,8 @@ def after_login():
     """Create the person if it does not exist."""
     if not request.authorization:
         abort(403)
-    current_token["access_token"] = request.authorization.token
-    profile = g._oidc_auth.userinfo(token=current_token)
-    person = create_person(profile["preferred_username"], profile["email"])
+    _populate_access_user()
+    person = create_person(g.token_profile["preferred_username"], g.token_profile["email"])
     if not person:
         abort(404)
     return jsonify(person.as_dict())

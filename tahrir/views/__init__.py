@@ -2,7 +2,6 @@ import werkzeug.exceptions
 from flask import Blueprint, Flask, jsonify
 from flask.helpers import send_from_directory
 
-
 blueprint = Blueprint("tahrir", __name__)
 
 

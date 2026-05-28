@@ -86,18 +86,16 @@ export default function Discover() {
       />
       {showSpinner && <LookupSpinner />}
 
-      {
-        (!showSpinner && clearSeen) && (
-            <button 
-              type="button"
-              className="position-absolute top-50 translate-middle-y end-0 ps-1 border-0 bg-body"
-              style={{ paddingRight: "0.50rem" }}
-              onClick={handleClear}
-            >
-              &times;
-            </button>
-          )
-      }
+      {!showSpinner && clearSeen && (
+        <button
+          type="button"
+          className="position-absolute top-50 translate-middle-y end-0 ps-1 border-0 bg-body"
+          style={{ paddingRight: "0.50rem" }}
+          onClick={handleClear}
+        >
+          &times;
+        </button>
+      )}
 
       {dropSeen && doLookup && (
         <Dropdown.Menu show className="position-absolute w-100 mt-1" style={{ zIndex: 1050 }}>

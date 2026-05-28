@@ -9,7 +9,6 @@ from sqlalchemy.orm import sessionmaker
 from tahrir_api.dbapi import TahrirDatabase
 from tqdm import tqdm
 
-
 RARITIES = ["X", "S", "A", "B", "C", "D"]
 
 

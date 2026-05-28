@@ -3,18 +3,18 @@ from datetime import datetime
 from flask import abort, g, jsonify
 
 from ..app import csrf, oidc
-from ..utils.user import get_person
+from ..utils.user import get_person, need_access_user
 from . import blueprint as bp
 
 
 @bp.route("/api/invitations/<string:invitation_id>/claim")
 @csrf.exempt
-@oidc.require_login
+@oidc.accept_token()
+@need_access_user
 def claim_invitation(invitation_id: str):
     """Action that awards a person a badge after scanning a qrcode."""
 
-    email = g.oidc_user.email
-    if not email:
+    if not g.token_email:
         return abort(401, "Unauthorized")
 
     claim = g.tahrirdb.get_invitation(invitation_id)
@@ -26,10 +26,10 @@ def claim_invitation(invitation_id: str):
         return abort(410, f"That invitation {invitation_id!r} is expired.")
 
     # Check to see if the user already has the badge.
-    if g.tahrirdb.assertion_exists(claim.badge_id, g.oidc_user.person.email):
+    if g.tahrirdb.assertion_exists(claim.badge_id, g.token_person.email):
         abort(422, f"You already have badge {claim.badge_id!r}")
 
-    g.tahrirdb.add_assertion(claim.badge_id, g.oidc_user.person.email, datetime.now())
+    g.tahrirdb.add_assertion(claim.badge_id, g.token_person.email, datetime.now())
 
     return jsonify({"message": f"You have earned badge {claim.badge_id!r}"})
 

@@ -3,7 +3,6 @@ from flask.helpers import send_from_directory
 
 from . import blueprint as bp
 
-
 # These route stubs exist so that url_for() references in RSS feeds
 # and other kept views can build valid URLs. They also serve the React
 # frontend's index.html for browser navigation.

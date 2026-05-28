@@ -1,14 +1,15 @@
 from flask import abort, current_app, g, jsonify, request
 
 from ...app import csrf, oidc
-from ...utils.user import require_admin
+from ...utils.user import need_access_root, need_access_user
 from . import blueprint as bp
 
 
 @bp.route("/api/admin/authorization", methods=["POST"])
 @csrf.exempt
-@oidc.require_login
-@require_admin
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def add_authorization():
     """Endpoint to add authorization and allow someone to admin a certain badge"""
 
@@ -43,8 +44,9 @@ def add_authorization():
 
 @bp.route("/api/admin/authorization", methods=["DELETE"])
 @csrf.exempt
-@oidc.require_login
-@require_admin
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def remove_authorization():
     """Endpoint to remove authorization and revoke someone to admin a certain badge"""
 

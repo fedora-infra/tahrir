@@ -3,6 +3,7 @@ import typing
 from functools import wraps
 from urllib.parse import quote_plus
 
+from authlib.integrations.flask_oauth2 import current_token
 from flask import abort, current_app, g, redirect, request, session, url_for
 from flask_oidc.model import User as OIDCUser
 
@@ -162,6 +163,47 @@ def require_admin(view_func):
     @wraps(view_func)
     def decorated(*args, **kwargs):
         if not g.oidc_user.is_admin:
+            abort(403, "Unauthorized: admins only.")
+        return view_func(*args, **kwargs)
+
+    return decorated
+
+
+def _populate_access_user():
+    if not current_app.config.get("OIDC_ENABLED", True):
+        userinfo = current_app.config.get("OIDC_TESTING_PROFILE", {})
+    else:
+        current_token["access_token"] = request.authorization.token
+        userinfo = g._oidc_auth.userinfo(token=current_token)
+    g.token_profile = userinfo
+    nickname = userinfo.get("preferred_username") or userinfo.get("nickname")
+    if nickname:
+        g.token_email = f"{nickname}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
+        g.token_person = g.tahrirdb.get_person(nickname=nickname)
+    else:
+        g.token_email = None
+        g.token_person = None
+
+
+def need_access_user(view_func):
+    @wraps(view_func)
+    def decorated(*args, **kwargs):
+        if not request.authorization:
+            abort(401, "Missing authorization")
+        _populate_access_user()
+        if g.token_person is None:
+            abort(403, "Unknown user")
+        return view_func(*args, **kwargs)
+
+    return decorated
+
+
+def need_access_root(view_func):
+    @wraps(view_func)
+    def decorated(*args, **kwargs):
+        groups = g.token_profile.get("groups", [])
+        admin_groups = current_app.config["TAHRIR_ADMIN_GROUPS"]
+        if not set(groups).intersection(set(admin_groups)):
             abort(403, "Unauthorized: admins only.")
         return view_func(*args, **kwargs)
 

@@ -7,7 +7,6 @@ from fedora_messaging import api as fm_api
 from fedora_messaging import exceptions as fm_exceptions
 from flask import current_app
 
-
 log = logging.getLogger(__name__)
 
 

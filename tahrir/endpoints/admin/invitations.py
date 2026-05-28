@@ -3,14 +3,15 @@ from datetime import datetime
 from flask import abort, current_app, g, jsonify, request
 
 from ...app import csrf, oidc
-from ...utils.user import get_person, require_admin
+from ...utils.user import get_person, need_access_root, need_access_user
 from . import blueprint as bp
 
 
 @bp.route("/api/admin/invitations", methods=["POST"])
 @csrf.exempt
-@oidc.require_login
-@require_admin
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def add_invitations():
     """Endpoint to add a new invitation"""
 
@@ -54,8 +55,9 @@ def add_invitations():
 
 @bp.route("/api/admin/invitations", methods=["DELETE"])
 @csrf.exempt
-@oidc.require_login
-@require_admin
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def remove_invitations():
     """Endpoint to remove an invitation"""
 
@@ -73,8 +75,9 @@ def remove_invitations():
 
 @bp.route("/api/admin/invitations/<string:user_id>", methods=["GET"])
 @csrf.exempt
-@oidc.require_login
-@require_admin
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def get_invitations_by_user_id(user_id: str):
     """Endpoint to search for invitations by User ID"""
 

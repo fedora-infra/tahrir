@@ -24,7 +24,6 @@ from tahrir.utils.user import on_authorized
 from tahrir.views import add_frontend_view, add_static_view, internal_server_error, page_not_found
 from tahrir.views import blueprint as root_bp
 
-
 # Forms
 csrf = CSRFProtect()
 
