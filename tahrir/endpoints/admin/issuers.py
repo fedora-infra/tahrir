@@ -1,13 +1,15 @@
 from flask import abort, g, jsonify
 
-from ...app import oidc
-from ...utils.user import require_admin
+from ...app import csrf, oidc
+from ...utils.user import need_access_root, need_access_user
 from . import blueprint as bp
 
 
 @bp.route("/api/admin/issuers/<int:issuer_id>", methods=["GET"])
-@oidc.require_login
-@require_admin
+@csrf.exempt
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def get_issuer(issuer_id: int):
     """Fetch an issuer by ID"""
 

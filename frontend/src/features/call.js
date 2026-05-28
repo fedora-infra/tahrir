@@ -1,11 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+import { userManager } from "../config/oidc.js";
+
 export const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export const callUnit = createApi({
   reducerPath: "callunit",
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL + "/json/",
+    prepareHeaders: async (headers) => {
+      const user = await userManager.getUser();
+      if (user && !user.expired) {
+        headers.set("Authorization", `Bearer ${user.access_token}`);
+      }
+      return headers;
+    },
   }),
   tagTypes: [
     "Identity",
@@ -112,7 +121,7 @@ export const callUnit = createApi({
         url: "../api/admin/badges",
         method: "POST",
         body: badgeData,
-        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -124,7 +133,7 @@ export const callUnit = createApi({
         url: "../api/admin/assertions",
         method: "POST",
         body: assertionData,
-        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -136,7 +145,7 @@ export const callUnit = createApi({
         url: "../api/admin/assertions",
         method: "DELETE",
         body: { badge_id, username },
-        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -162,7 +171,7 @@ export const callUnit = createApi({
         url: "../api/admin/invitations",
         method: "POST",
         body: invitationData,
-        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -174,7 +183,7 @@ export const callUnit = createApi({
         url: "../api/admin/invitations",
         method: "DELETE",
         body: { invitation_id: invitationId },
-        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -185,7 +194,6 @@ export const callUnit = createApi({
       query: (username) => ({
         url: `../api/admin/invitations/${username}`,
         method: "GET",
-        credentials: "include",
       }),
       providesTags: (result, error, username) => [{ type: "QRInvite", id: username }],
     }),
@@ -194,7 +202,7 @@ export const callUnit = createApi({
         url: `../api/admin/badges/${accolade}`,
         method: "PUT",
         body: filldata,
-        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -211,7 +219,7 @@ export const callUnit = createApi({
         url: "../api/admin/authorization",
         method: "POST",
         body: sanctionData,
-        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -223,7 +231,7 @@ export const callUnit = createApi({
         url: "../api/admin/authorization",
         method: "DELETE",
         body: { badge_id, user },
-        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -235,7 +243,7 @@ export const callUnit = createApi({
         url: "../api/admin/users",
         method: "POST",
         body: userData,
-        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -247,7 +255,7 @@ export const callUnit = createApi({
         url: `../api/admin/users/${user_id}`,
         method: "PUT",
         body: filldata,
-        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -266,7 +274,7 @@ export const callUnit = createApi({
         url: `../api/admin/users/${user_id}/opt_out`,
         method: "PUT",
         body: { opt_out },
-        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },

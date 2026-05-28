@@ -9,7 +9,6 @@ from tahrir_api.utils import get_db_manager_from_uri
 from tahrir.database import db
 from tahrir.utils.badge import ISSUER
 
-
 tahrir_cli = AppGroup("tahrir")
 """Commands for the Tahrir application."""
 

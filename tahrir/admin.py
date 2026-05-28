@@ -6,7 +6,6 @@ from tahrir_api import model
 
 from .database import db
 
-
 admin = Admin(
     name="Database", url="/dbadmin", endpoint="dbadmin", theme=Bootstrap4Theme(fluid=True)
 )

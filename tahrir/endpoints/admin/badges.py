@@ -2,14 +2,15 @@ from flask import abort, g, jsonify, request
 
 from ...app import csrf, oidc
 from ...utils.badge import convert_name_to_id
-from ...utils.user import require_admin
+from ...utils.user import need_access_root, need_access_user
 from . import blueprint as bp
 
 
 @bp.route("/api/admin/badges", methods=["POST"])
 @csrf.exempt
-@oidc.require_login
-@require_admin
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def create_badge():
     """Endpoint to create new badge"""
 
@@ -41,8 +42,9 @@ def create_badge():
 
 @bp.route("/api/admin/badges/<string:badge_id>", methods=["PUT"])
 @csrf.exempt
-@oidc.require_login
-@require_admin
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def update_badge(badge_id):
     """Endpoint to update existing badge"""
 
@@ -67,8 +69,9 @@ def update_badge(badge_id):
 
 @bp.route("/api/admin/badges/<string:badge_id>", methods=["DELETE"])
 @csrf.exempt
-@oidc.require_login
-@require_admin
+@oidc.accept_token()
+@need_access_user
+@need_access_root
 def delete_badge(badge_id):
     """Endpoint to delete a badge"""
 
