@@ -32,7 +32,7 @@ oidc = OpenIDConnect()
 talisman = flask_talisman.Talisman()
 cors = CORS(
     resources={
-        r"/api/*": {"origins": "*"},
+        r"/api/*": {"origins": "*", "allow_headers": ["Authorization", "Content-Type"]},
         r"/json/*": {"origins": "*"},
         r"/pngs/*": {"origins": "*"},
         r"/stls/*": {"origins": "*"},
