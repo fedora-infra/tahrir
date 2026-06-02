@@ -1,5 +1,3 @@
-import sqlalchemy as sa
-import tahrir_api.model as m
 from flask import g, jsonify, request
 
 from ..utils.avatar import hash_email
@@ -105,23 +103,21 @@ def search_badges_by_string(search_string: str):
     """
     Search endpoint that returns badges matching the search string
     """
-
-    # We need to have a function for searching badges in Tahrir API
-    # Instead of doing this over here like this
     begin = request.args.get("begin", 0, type=int)
     limit = request.args.get("limit", 100, type=int)
+    include_legacy = request.args.get("include_legacy", False, type=bool)
 
-    collection = (
-        g.tahrirdb.get_all_badges()
-        .filter(
-            sa.func.lower(m.Badge.name).like(f"%{search_string.lower()}%")
-            | sa.func.lower(m.Badge.description).like(f"%{search_string.lower()}%")
-            | sa.func.lower(m.Badge.tags).like(f"%{search_string.lower()}%")
-        )
-        .all()
+    # Use database-level pagination
+    search_result = g.tahrirdb.get_badges_by_string(
+        search_string=search_string,
+        begin=begin,
+        limit=limit,
+        include_legacy=include_legacy,
     )
 
-    # Suggested function should also include pagination feature
+    badges = search_result["badges"]
+    total_count = search_result["total"]
+
     result = {
         "badges": [
             {
@@ -137,9 +133,11 @@ def search_badges_by_string(search_string: str):
                     else []
                 ),
             }
-            for item in collection[begin : begin + (limit if limit < 100 else 100)]
+            for item in badges
         ],
-        "castup": len(collection),
+        "total": total_count,
+        "begin": begin,
+        "limit": search_result["limit"],
     }
 
     return jsonify(result)
