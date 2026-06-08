@@ -1,5 +1,7 @@
 # Changelog
 
+<!-- towncrier release notes start -->
+
 ## Version 2.1.0
 
 - Use flask 3.x only to fix build in readthedocs ([ea0c3c7](https://github.com/fedora-infra/tahrir-api/commit/ea0c3c7>))

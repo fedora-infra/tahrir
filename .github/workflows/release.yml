@@ -1,0 +1,29 @@
+name: Create GitHub Release
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  release:
+    name: Create a GitHub Release 📢
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Extract changelog section
+        id: extract-changelog
+        uses: sean0x42/markdown-extract@v2
+        with:
+          file: docs/changelog.md
+          pattern: 'Version\s+\[[[:word:].-]+\]\(.*\)'
+          no-print-matched-heading: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: ${{ steps.extract-changelog.outputs.markdown }}

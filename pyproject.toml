@@ -85,6 +85,7 @@ ruff = ">=0.3.5"
 black = ">=24.3.0"
 sphinx = ">=7.2.6"
 oidc-register = "^0.2.1"
+towncrier = ">=21.3.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -130,3 +131,43 @@ omit = [
     "tahrir/__init__.py",
     "tests/*",
 ]
+
+[tool.towncrier]
+package = "tahrir"
+filename = "docs/changelog.md"
+directory = "changelog.d"
+start_string = "<!-- towncrier release notes start -->\n"
+underlines = ["", "", ""]
+template = "changelog.d/_template.md"
+title_format = "## Version [{version}](http://github.com/fedora-infra/tahrir/tree/{version}) - {project_date}"
+issue_format = "{issue}"
+
+[[tool.towncrier.type]]
+directory = "security"
+name = "Security"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "removed"
+name = "Removed"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "deprecated"
+name = "Deprecated"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "added"
+name = "Added"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "changed"
+name = "Changed"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "fixed"
+name = "Fixed"
+showcontent = true
