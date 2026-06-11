@@ -38,7 +38,10 @@ class User(OIDCUser):
     def email(self):
         if not self.logged_in:
             return None
-        return f"{self.name}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
+        if current_app.config("TAHRIR_USE_OPENID_EMAIL"):
+            return self.profile.get("email")
+        else:
+            return f"{self.name}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
 
     @property
     def person(self):
@@ -120,7 +123,13 @@ def get_person(id_or_nickname):
 def get_awarded_assertions(username):
     if username is None:
         return []
-    email = f"{username}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
+    if current_app.config("TAHRIR_USE_OPENID_EMAIL"):
+        person = g.tahrirdb.get_person(nickname=username)
+        if person is None:
+            return []
+        email = person.email
+    else:
+        email = f"{username}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
     assertions = g.tahrirdb.get_assertions_by_email(email)
     if assertions is False:
         # tahrir-api returns False when the user does not exist.
@@ -177,12 +186,14 @@ def _populate_access_user():
         userinfo = g._oidc_auth.userinfo(token=current_token)
     g.token_profile = userinfo
     nickname = userinfo.get("preferred_username") or userinfo.get("nickname")
+    # Use real OIDC email if configured, otherwise construct from domain and nickname
     if nickname:
-        g.token_email = f"{nickname}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
-        g.token_person = g.tahrirdb.get_person(nickname=nickname)
+        if current_app.config["TAHRIR_USE_OPENID_EMAIL"]:
+            g.token_email = userinfo.get("email")
+        else:
+            g.token_email = f"{nickname}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
     else:
         g.token_email = None
-        g.token_person = None
 
 
 def need_access_user(view_func):
