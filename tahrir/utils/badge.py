@@ -1,5 +1,3 @@
-import json
-import os
 from collections import defaultdict
 
 from flask import abort, current_app, g
@@ -22,16 +20,6 @@ def get_badge_or_404(badge_id):
     return badge
 
 
-def _load_rarities_data():
-    """Load ``static/rarities.json`` (Fedora badge rarity metadata)."""
-    path = os.path.join(current_app.static_folder, "rarities.json")
-    try:
-        with open(path) as file:
-            return json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        abort(500, "Mistaken or absent rarities file")
-
-
 def _badge_tags_list(badge):
     raw = badge.tags or ""
     return [item.strip() for item in raw.split(",") if item.strip() != ""]
@@ -43,8 +31,6 @@ def badge_json_generator(badge, withasserts=True):
 
     When withasserts is False, returns compact data for listings.
     """
-    raredata = _load_rarities_data()
-
     if not withasserts:
         return {
             "id": badge.id,
@@ -53,7 +39,7 @@ def badge_json_generator(badge, withasserts=True):
             "image": badge.image,
             "tags": _badge_tags_list(badge),
             "criteria": badge.criteria,
-            "rarity": raredata["badges"][badge.id]["rare"],
+            "rarity": badge.rarity.name if badge.rarity else None,
             "issuer": badge.issuer.name,
             "created_on": badge.created_on.timestamp(),
         }
@@ -106,7 +92,7 @@ def badge_json_generator(badge, withasserts=True):
         "tags": _badge_tags_list(badge),
         "issuer": badge.issuer.name,
         "criteria": badge.criteria,
-        "rarity": raredata["badges"][badge.id]["rare"],
+        "rarity": badge.rarity.name if badge.rarity else None,
         "assertions": [
             {
                 "name": i.person.nickname,

@@ -1,11 +1,9 @@
-import json
-import os
 from datetime import timezone
 
 import sqlalchemy as sa
 import tahrir_api.model as m
 from feedgen.feed import FeedGenerator
-from flask import abort, current_app, g, jsonify, url_for
+from flask import abort, g, jsonify, url_for
 
 from ..utils.avatar import hash_email
 from . import blueprint as bp
@@ -110,37 +108,38 @@ def explore_badges_rss():
 @bp.route("/json/rarities/<rare>", methods=["GET"])
 def json_rarities(rare=None):
     """
-    Endpoint that reads and delivers the accolade rarities
+    Endpoint that delivers the accolade rarities from the database.
     """
 
-    data = {}
-    try:
-        with open(os.path.join(current_app.static_folder, "rarities.json")) as file:
-            data = json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        abort(500, "Mistaken or absent rarities file")
+    person_poll = g.tahrirdb.get_all_persons().count()
+    awards_poll = dict(
+        g.tahrirdb.session.query(
+            m.Assertion.badge_id,
+            sa.func.count(m.Assertion.id),
+        )
+        .group_by(m.Assertion.badge_id)
+        .all()
+    )
+
+    def _rarity_data(badge):
+        poll = awards_poll.get(badge.id, 0)
+        rate = poll / person_poll * 100 if person_poll else 0
+        return {
+            "id": badge.id,
+            "name": badge.name,
+            "desc": badge.description,
+            "shot": badge.image,
+            "date": badge.created_on.timestamp(),
+            "poll": poll,
+            "rate": rate,
+            "rare": badge.rarity.name if badge.rarity else None,
+        }
 
     if rare:
-        if rare.upper() in data["rarity"]:
-            rslt = []
-            for item in data["rarity"][rare.upper()]:
-                objc = g.tahrirdb.get_badge(item)
-                if objc:
-                    base = {
-                        "desc": objc.description,
-                        "name": objc.name,
-                        "shot": objc.image,
-                        "date": objc.created_on.timestamp(),
-                    }
-                    rslt.append({"id": item, **base, **data["badges"][item]})
-                else:
-                    continue
-            return jsonify(rslt)
-        else:
+        rarity_objc = g.tahrirdb.session.query(m.Rarity).filter_by(name=rare.upper()).first()
+        if not rarity_objc:
             abort(404, "No such rarity")
+        return jsonify([_rarity_data(b) for b in rarity_objc.badges])
     else:
-        rslt = {
-            rare: [{"id": item, **data["badges"][item]} for item in data["rarity"][rare]]
-            for rare in data["rarity"]
-        }
-        return jsonify(rslt)
+        rarity_full = g.tahrirdb.session.query(m.Rarity).all()
+        return jsonify({r.name: [_rarity_data(b) for b in r.badges] for r in rarity_full})
