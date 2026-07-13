@@ -1,10 +1,8 @@
-import json
-import os
 from datetime import timezone
 from decimal import Decimal, ROUND_UP
 
 from feedgen.feed import FeedGenerator
-from flask import abort, current_app, g, jsonify, url_for
+from flask import abort, g, jsonify, url_for
 
 from tahrir.utils.avatar import hash_email
 from tahrir.utils.badge import badge_json_generator, sort_badges_by_tag
@@ -117,16 +115,10 @@ def _user_json_generator(person):
     serialized = []
     classified = {name: [] for name in TAHRIR_DISPLAY_TAGS}
 
-    try:
-        with open(os.path.join(current_app.static_folder, "rarities.json")) as file:
-            raredata = json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        abort(500, "Mistaken or absent rarities file")
-
     for indx, item in enumerate(assertions):
         issued = {"issued": float(item.issued_on.strftime("%s"))}
         reason = {"reason": item.issued_for or None}
-        rarity = {"rarity": raredata["badges"][item.badge.id]["rare"]}
+        rarity = {"rarity": item.badge.rarity.name if item.badge.rarity else None}
         badged = badge_json_generator(item.badge, withasserts=False)
         serialized.append({**issued, **badged, **reason, **rarity})
         for name in classified.keys():
