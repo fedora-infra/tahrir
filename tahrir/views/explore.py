@@ -22,7 +22,7 @@ def json_explore(search_query):
         .filter(
             sa.func.lower(m.Badge.name).like(f"%{search_query.lower()}%")
             | sa.func.lower(m.Badge.description).like(f"%{search_query.lower()}%")
-            | sa.func.lower(m.Badge.tags).like(f"%{search_query.lower()}%")
+            | m.Badge.tags.any(sa.func.lower(m.Tag.name).like(f"%{search_query.lower()}%"))
         )
         .all()
     )
@@ -33,9 +33,7 @@ def json_explore(search_query):
             "description": badge.description,
             "image": badge.image,
             "name": badge.name,
-            "tags": (
-                [tag.strip() for tag in badge.tags.split(",") if tag.strip()] if badge.tags else []
-            ),
+            "tags": [tag.name for tag in badge.tags],
         }
         for badge in all_badges
     ]

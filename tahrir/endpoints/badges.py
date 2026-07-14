@@ -116,7 +116,7 @@ def search_badges_by_string(search_string: str):
         .filter(
             sa.func.lower(m.Badge.name).like(f"%{search_string.lower()}%")
             | sa.func.lower(m.Badge.description).like(f"%{search_string.lower()}%")
-            | sa.func.lower(m.Badge.tags).like(f"%{search_string.lower()}%")
+            | m.Badge.tags.any(sa.func.lower(m.Tag.name).like(f"%{search_string.lower()}%"))
         )
         .all()
     )
@@ -131,11 +131,7 @@ def search_badges_by_string(search_string: str):
                 "description": item.description,
                 "image": item.image,
                 "name": item.name,
-                "tags": (
-                    [text.strip() for text in item.tags.split(",") if text.strip()]
-                    if item.tags
-                    else []
-                ),
+                "tags": [tag.name for tag in item.tags],
             }
             for item in collection[begin : begin + (limit if limit < 100 else 100)]
         ],

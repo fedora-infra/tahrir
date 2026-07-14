@@ -57,7 +57,7 @@ def _load_badge_from_yaml(tahrir_db, issuer_id, filepath):
         image=badge["image_url"],
         desc=badge["description"],
         criteria=badge["discussion"],
-        tags=",".join(badge.get("tags", [])),
+        tags=badge.get("tags", []),
         issuer_id=issuer_id,
     )
     return badge
