@@ -26,7 +26,7 @@
     path: "{{ devel_dir }}"
     state: directory
 
-- name: Get the Tinystage CA cert
+- name: Get the tinystage CA cert
   get_url:
     url: https://{{ ipsilon_hostname }}/ca.crt
     dest: "{{ devel_dir }}/ca.crt"
@@ -106,10 +106,9 @@
     src: fedora-messaging.toml
     dest: "{{ devel_dir }}/fedora-messaging.toml"
 
-
-- name: Get the badges
+- name: Get the badges assets
   git:
-    repo: https://pagure.io/fedora-badges.git
+    repo: https://forge.fedoraproject.org/apps/badges-assets.git
     dest: "{{ devel_dir }}/fedora-badges"
 
 - name: Create or update the database
@@ -127,6 +126,9 @@
     FLASK_CONFIG: "{{ devel_dir }}/tahrir.cfg"
     FLASK_APP: "{{ top_dir }}/tahrir/app.py"
     FLASK_DEBUG: 1
+
+- name: Compute the badge rarities
+  command: poetry run tahrir-compute-rarities {{ devel_dir }}/tahrir.cfg
 
 - name: Install the frontend
   command:
