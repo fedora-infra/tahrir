@@ -24,10 +24,13 @@ def add_authorization():
 
     # ONE SHOULD NOT FEEL THE NEED OF USING THE EMAIL ADDRESS HERE
     # THIS WORKAROUND IS TEMPORARY AND TAHRIR-API WOULD BE CHANGED TO ACCEPT JUST USERNAME
-    result = g.tahrirdb.add_authorization(
-        badge_id=data.get(required_fields[0]),
-        person_email=f"{data.get(required_fields[1])}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}",
-    )
+    try:
+        result = g.tahrirdb.add_authorization(
+            badge_id=data.get(required_fields[0]),
+            person_email=f"{data.get(required_fields[1])}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}",
+        )
+    except ValueError as e:
+        return abort(403, str(e))
 
     if not result:
         return abort(400, "Failed to add authorization")

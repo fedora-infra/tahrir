@@ -137,7 +137,9 @@ def json_rarities(rare=None):
         rarity_objc = g.tahrirdb.session.query(m.Rarity).filter_by(name=rare.upper()).first()
         if not rarity_objc:
             abort(404, "No such rarity")
-        return jsonify([_rarity_data(b) for b in rarity_objc.badges])
+        return jsonify([_rarity_data(b) for b in rarity_objc.badges if not b.legacy])
     else:
         rarity_full = g.tahrirdb.session.query(m.Rarity).all()
-        return jsonify({r.name: [_rarity_data(b) for b in r.badges] for r in rarity_full})
+        return jsonify(
+            {r.name: [_rarity_data(b) for b in r.badges if not b.legacy] for r in rarity_full}
+        )

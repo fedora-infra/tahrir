@@ -29,7 +29,10 @@ def claim_invitation(invitation_id: str):
     if g.tahrirdb.assertion_exists(claim.badge_id, g.token_person.email):
         abort(422, f"You already have badge {claim.badge_id!r}")
 
-    g.tahrirdb.add_assertion(claim.badge_id, g.token_person.email, datetime.now())
+    try:
+        g.tahrirdb.add_assertion(claim.badge_id, g.token_person.email, datetime.now())
+    except ValueError as e:
+        return abort(403, str(e))
 
     return jsonify({"message": f"You have earned badge {claim.badge_id!r}"})
 
