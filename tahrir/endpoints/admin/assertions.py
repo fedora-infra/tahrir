@@ -40,12 +40,15 @@ def create_assertion():
     if g.tahrirdb.assertion_exists(badge_id, person_email):
         return abort(409, f"User {person_email!r} already has badge {badge_id!r}")
 
-    result = g.tahrirdb.add_assertion(
-        badge_id=badge_id,
-        person_email=person_email,
-        issued_on=issued_on,
-        issued_for=data.get("issued_for"),
-    )
+    try:
+        result = g.tahrirdb.add_assertion(
+            badge_id=badge_id,
+            person_email=person_email,
+            issued_on=issued_on,
+            issued_for=data.get("issued_for"),
+        )
+    except ValueError as e:
+        return abort(403, str(e))
 
     if not result:
         return abort(400, "Failed to create assertion")

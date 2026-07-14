@@ -78,7 +78,10 @@ def delete_badge(badge_id):
     if not badge_id:
         return abort(400, "No ID provided")
 
-    result = g.tahrirdb.delete_badge(badge_id)
+    try:
+        result = g.tahrirdb.delete_badge(badge_id)
+    except ValueError as e:
+        return abort(403, str(e))
 
     if not result:
         return abort(404, f"Badge {badge_id!r} not found")
