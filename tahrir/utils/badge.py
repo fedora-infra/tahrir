@@ -21,8 +21,7 @@ def get_badge_or_404(badge_id):
 
 
 def _badge_tags_list(badge):
-    raw = badge.tags or ""
-    return [item.strip() for item in raw.split(",") if item.strip() != ""]
+    return [tag.name for tag in badge.tags]
 
 
 def badge_json_generator(badge, withasserts=True):
@@ -109,10 +108,7 @@ def sort_badges_by_tag(badges):
     by_tag = defaultdict(list)
     uncategorized = []
     for badge in badges:
-        if badge.tags:
-            tags = badge.tags.strip(",").split(",")
-        else:
-            tags = []
+        tags = [tag.name for tag in badge.tags]
         for tag in tags:
             by_tag[tag].append(badge)
         # no tag in TAHRIR_DISPLAY_TAGS => uncategorized

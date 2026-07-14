@@ -244,7 +244,7 @@ def get_user_badge_info(user):
         badge = badge_json_generator(item.badge, withasserts=False)
         serialized_badges.append({**badge})
         for name in classified.keys():
-            if name in item.badge.tags:
+            if name in [tag.name for tag in item.badge.tags]:
                 classified[name].append(indx)
 
     return {

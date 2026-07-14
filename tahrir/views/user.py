@@ -122,7 +122,7 @@ def _user_json_generator(person):
         badged = badge_json_generator(item.badge, withasserts=False)
         serialized.append({**issued, **badged, **reason, **rarity})
         for name in classified.keys():
-            if name in item.badge.tags:
+            if name in [tag.name for tag in item.badge.tags]:
                 classified[name].append(indx)
 
     return {

@@ -47,7 +47,7 @@ class BadgeView(TahrirModelView):
     form_columns = ["id", "name", "description", "image", "stl", "criteria", "tags", "issuer_id"]
     column_searchable_list = ["id", "name", "description"]
     column_editable_list = ["name", "description", "tags"]
-    column_filters = ["tags"]
+    column_filters = ["tags.name"]
 
 
 class AssertionView(BadgeToPersonView):
