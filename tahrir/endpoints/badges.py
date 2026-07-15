@@ -16,10 +16,22 @@ from . import blueprint as bp
 def get_all_badges():
     """Endpoint to fetch all the badges."""
 
-    all_badges = g.tahrirdb.get_all_badges().all()
+    legacy = request.args.get("legacy")
+    if legacy is not None:
+        flag = legacy.lower() in ("true", "1")
+        all_badges = [
+            b for b in g.tahrirdb.get_all_badges(include_legacy=True).all() if b.legacy == flag
+        ]
+    else:
+        all_badges = g.tahrirdb.get_all_badges().all()
 
     if not all_badges:
-        return jsonify([])
+        return jsonify(
+            {
+                "classified": {"newest": {}, "full": {}},
+                "disordered": {"newest": [], "full": []},
+            }
+        )
 
     newest_badges = sorted(all_badges, key=lambda badge: badge.created_on, reverse=True)[:40]
 
