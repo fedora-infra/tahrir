@@ -20,6 +20,8 @@ export const callUnit = createApi({
     "Identity",
     "Accolade",
     "AccoList",
+    "LiveList",
+    "DeadList",
     "Discover",
     "Category",
     "Rarities",
@@ -52,6 +54,22 @@ export const callUnit = createApi({
         method: "GET",
       }),
       providesTags: ["AccoList"],
+    }),
+    retrieveLiveList: builder.query({
+      query: () => ({
+        url: "../api/badges",
+        method: "GET",
+        params: { legacy: "false" },
+      }),
+      providesTags: ["LiveList"],
+    }),
+    retrieveDeadList: builder.query({
+      query: () => ({
+        url: "../api/badges",
+        method: "GET",
+        params: { legacy: "true" },
+      }),
+      providesTags: ["DeadList"],
     }),
     retrieveDiscover: builder.query({
       query: (discover) => ({
@@ -288,6 +306,8 @@ export const {
   useRetrieveIdentityQuery,
   useRetrieveAccoladeQuery,
   useRetrieveAccoListQuery,
+  useRetrieveLiveListQuery,
+  useRetrieveDeadListQuery,
   useRetrieveDiscoverQuery,
   useRetrieveCategoryQuery,
   useRetrieveRaritiesQuery,

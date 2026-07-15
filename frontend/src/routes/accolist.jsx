@@ -1,4 +1,4 @@
-import { mdiHistory } from "@mdi/js";
+import { mdiAlertCircleOutline, mdiCheckCircleOutline, mdiHistory } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Button, Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -45,6 +45,28 @@ export default function AccoList() {
           >
             <Icon path={mdiHistory} size={0.875} className="me-1" />
             Recently introduced
+          </Button>
+          <Button
+            as={Link}
+            to={`/livelist`}
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiCheckCircleOutline} size={0.875} className="me-1" />
+            Actively functioning
+          </Button>
+          <Button
+            as={Link}
+            to={`/deadlist`}
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiAlertCircleOutline} size={0.875} className="me-1" />
+            Currently unattainable
           </Button>
         </div>
       </div>

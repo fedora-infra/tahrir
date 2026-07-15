@@ -14,6 +14,8 @@ import Mistaken from "./mistaken.jsx";
 export default function Accolade() {
   const { slugdata: accolade } = useParams();
   const vibe = useSelector((data) => data.area.vibe);
+  const mode = useSelector((data) => data.area.mode);
+  const isDark = mode === "dark" || (mode === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   // URL-based pagination and obtain page number called by user
   const [pageCall, setPageCall] = useSearchParams();
@@ -144,6 +146,20 @@ export default function Accolade() {
                 head={rarities[acco.rarity]}
                 body={`${parseFloat(acco.percent_earned).toFixed(4)}% earned`}
                 shot={`/imgs/rare_${acco.rarity.toLowerCase()}.png`}
+              />
+            </ListGroup>
+          </Card.Body>
+        </Card>
+        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+            <Card.Title className="mb-0 ps-2 dataelem">Status</Card.Title>
+            <hr className="mt-2 mb-0" />
+            <ListGroup variant="flush">
+              <VertItem
+                link={"#"}
+                head={acco.legacy ? "Legacy" : "Modern"}
+                body={acco.legacy ? "This badge is currently deactivated" : "This badge is currently active"}
+                shot={`/imgs/stat_${acco.legacy ? "legacy" : "modern"}_${isDark ? "dark" : "lite"}.svg`}
               />
             </ListGroup>
           </Card.Body>
