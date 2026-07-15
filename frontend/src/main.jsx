@@ -13,10 +13,12 @@ import Addendum from "./routes/addendum.jsx";
 import Callback from "./routes/callback.jsx";
 import Campaign from "./routes/campaign.jsx";
 import Category from "./routes/category.jsx";
+import DeadList from "./routes/deadlist.jsx";
 import FindPage from "./routes/findpage.jsx";
 import Governor from "./routes/governor.jsx";
 import Homepage from "./routes/homepage.jsx";
 import Identity from "./routes/identity.jsx";
+import LiveList from "./routes/livelist.jsx";
 import MainArea from "./routes/mainarea.jsx";
 import Mistaken from "./routes/mistaken.jsx";
 import Rankings from "./routes/rankings.jsx";
@@ -39,6 +41,8 @@ createRoot(document.getElementById("root")).render(
             <Route element="" path="/database" />
             <Route element="" path="/settings" />
             <Route element={<AccoList />} path="assembly" />
+            <Route element={<LiveList />} path="livelist" />
+            <Route element={<DeadList />} path="deadlist" />
             <Route element={<Recently />} path="recently" />
             <Route path="rankings">
               <Route element={<Rankings />} index />
