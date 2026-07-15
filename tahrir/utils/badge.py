@@ -39,6 +39,7 @@ def badge_json_generator(badge, withasserts=True):
             "tags": _badge_tags_list(badge),
             "criteria": badge.criteria,
             "rarity": badge.rarity.name if badge.rarity else None,
+            "legacy": badge.legacy,
             "issuer": badge.issuer.name,
             "created_on": badge.created_on.timestamp(),
         }
@@ -92,6 +93,7 @@ def badge_json_generator(badge, withasserts=True):
         "issuer": badge.issuer.name,
         "criteria": badge.criteria,
         "rarity": badge.rarity.name if badge.rarity else None,
+        "legacy": badge.legacy,
         "assertions": [
             {
                 "name": i.person.nickname,
