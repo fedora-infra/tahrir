@@ -13,6 +13,7 @@ import Addendum from "./routes/addendum.jsx";
 import Callback from "./routes/callback.jsx";
 import Campaign from "./routes/campaign.jsx";
 import Category from "./routes/category.jsx";
+import Contrast from "./routes/contrast.jsx";
 import DeadList from "./routes/deadlist.jsx";
 import FindPage from "./routes/findpage.jsx";
 import Governor from "./routes/governor.jsx";
@@ -65,6 +66,7 @@ createRoot(document.getElementById("root")).render(
             <Route element={<Rarities />} path="rarities/:slugdata" />
             <Route element={<Campaign />} path="campaign" />
             <Route element={<Governor />} path="governor" />
+            <Route element={<Contrast />} path="contrast/:slugdata" />
             <Route element={<Mistaken />} path="*" />
           </Route>
         </Routes>

@@ -32,6 +32,7 @@ export const callUnit = createApi({
     "QRInvite",
     "Sanction",
     "Campaign",
+    "Contrast",
   ],
   endpoints: (builder) => ({
     retrieveIdentity: builder.query({
@@ -287,6 +288,13 @@ export const callUnit = createApi({
       }),
       providesTags: (result, error, username) => [{ type: "Campaign", id: username }],
     }),
+    retrieveContrast: builder.query({
+      query: ({ id_a, id_b }) => ({
+        url: `../api/users/diff/${id_a}/${id_b}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, arg) => [{ type: "Contrast", id: `${arg.id_a}-${arg.id_b}` }],
+    }),
     toggleIdentityOptOut: builder.mutation({
       query: ({ user_id, opt_out }) => ({
         url: `../api/admin/users/${user_id}/opt_out`,
@@ -328,6 +336,7 @@ export const {
   useCreationIdentityMutation,
   useUpdationIdentityMutation,
   useRetrieveCampaignQuery,
+  useRetrieveContrastQuery,
   useToggleIdentityOptOutMutation,
 } = callUnit;
 export default callUnit.reducer;
