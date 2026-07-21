@@ -4,7 +4,7 @@ import { Link } from "react-router";
 
 import { obtainRarityBack, obtainRarityEdge, obtainRarityText, relativeImageUrl } from "../features/util.js";
 
-export default function AccoItem({ iden, name, body, foot, shot, rare }) {
+export default function AccoItem({ iden, name, body, foot, shot, rare, diff }) {
   const [show, makeShow] = useState(false);
 
   if (shot) {
@@ -42,7 +42,13 @@ export default function AccoItem({ iden, name, body, foot, shot, rare }) {
         </Popover>
       }
     >
-      <Col xs={3} md={1} lg={1} onMouseEnter={() => makeShow(true)} onMouseLeave={() => makeShow(false)}>
+      <Col
+        xs={3}
+        md={diff ? 2 : 1}
+        lg={diff ? 2 : 1}
+        onMouseEnter={() => makeShow(true)}
+        onMouseLeave={() => makeShow(false)}
+      >
         <Link to={`/accolade/${iden}`} tabIndex="0">
           <Image src={shot} className="w-100 h-100" alt={name} />
         </Link>

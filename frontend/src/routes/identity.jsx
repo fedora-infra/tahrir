@@ -1,4 +1,4 @@
-import { mdiHistory, mdiSend } from "@mdi/js";
+import { mdiFencing, mdiHistory, mdiSend } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Button, Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -64,6 +64,19 @@ export default function Identity() {
             <Icon path={mdiHistory} size={0.875} className="me-1" />
             History
           </Button>
+          {authUser && authUser.nickname !== identity && (
+            <Button
+              as={Link}
+              to={`/contrast/${identity}`}
+              variant="outline-secondary"
+              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+              size="sm"
+              style={{ "--vibe": vibe }}
+            >
+              <Icon path={mdiFencing} size={0.875} className="me-1" />
+              Compare
+            </Button>
+          )}
           {authUser && authUser.nickname === identity && (
             <Button
               as={Link}
