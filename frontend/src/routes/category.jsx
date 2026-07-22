@@ -27,7 +27,7 @@ export default function Category() {
   }
 
   return (
-    <div className="row g-2">
+    <div className="row g-2 mb-2">
       <div className="col-12 col-lg-3">
         <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
@@ -49,8 +49,8 @@ export default function Category() {
           </Button>
         </div>
       </div>
-      <div className="col-12 col-lg-9">
-        <Grouping name={category} wide={list.length}>
+      <div className="col-12 col-lg-9 d-grid gap-2">
+        <Grouping name={category} wide={list.length} head={true}>
           {list.map((item) => (
             <AccoItem
               key={generateIdentity(item.id)}

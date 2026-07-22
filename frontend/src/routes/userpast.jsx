@@ -1,4 +1,4 @@
-import { mdiBookAccount, mdiSend } from "@mdi/js";
+import { mdiBookAccount, mdiFencing, mdiSend } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Badge, Button, Card, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -52,17 +52,6 @@ export default function UserPast() {
           </Card.Body>
         </Card>
         <div className="d-grid gap-2">
-          <Button
-            as={Link}
-            to={`/identity/${identity}`}
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiBookAccount} size={0.875} className="me-1" />
-            Collection
-          </Button>
           {authUser && authUser.nickname === identity && (
             <Button
               as={Link}
@@ -74,6 +63,30 @@ export default function UserPast() {
             >
               <Icon path={mdiSend} size={0.875} className="me-1" />
               Campaign
+            </Button>
+          )}
+          <Button
+            as={Link}
+            to={`/identity/${identity}`}
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiBookAccount} size={0.875} className="me-1" />
+            Collection
+          </Button>
+          {authUser && authUser.nickname !== identity && (
+            <Button
+              as={Link}
+              to={`/contrast/${identity}`}
+              variant="outline-secondary"
+              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+              size="sm"
+              style={{ "--vibe": vibe }}
+            >
+              <Icon path={mdiFencing} size={0.875} className="me-1" />
+              Compare
             </Button>
           )}
         </div>
