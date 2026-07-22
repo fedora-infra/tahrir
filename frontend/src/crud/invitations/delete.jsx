@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
-import { LookupSpinner } from "../../components/LookupSpinner.jsx";
+import { LookSpin } from "../../components/lookspin.jsx";
 import { useDeletionQRInviteMutation, useLookupIdentityQuery, useRetrieveQRInviteQuery } from "../../features/call.js";
 import { useLoadingState, useMinFetching } from "../../features/hooks.js";
 import { showBaseNote } from "../../features/part.js";
@@ -115,7 +115,7 @@ export default function InvitationDeletionForm() {
                   required
                 />
               </FloatingLabel>
-              {showIdentitySpinner && <LookupSpinner />}
+              {showIdentitySpinner && <LookSpin />}
               {identitySearch.length >= 4 &&
                 identityResult &&
                 identityResult.users &&

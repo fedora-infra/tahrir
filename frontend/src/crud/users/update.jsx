@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
-import { LookupSpinner } from "../../components/LookupSpinner.jsx";
+import { LookSpin } from "../../components/lookspin.jsx";
 import {
   useLookupIdentityQuery,
   useToggleIdentityOptOutMutation,
@@ -179,7 +179,7 @@ export default function UserUpdateForm() {
                   autoComplete="off"
                 />
               </FloatingLabel>
-              {showUserSpinner && <LookupSpinner />}
+              {showUserSpinner && <LookSpin />}
               {userLookup.length >= 4 &&
                 searchResults &&
                 searchResults.users &&
