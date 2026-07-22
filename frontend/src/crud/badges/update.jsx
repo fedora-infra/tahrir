@@ -3,7 +3,7 @@ import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "re
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 
-import { LookupSpinner } from "../../components/LookupSpinner.jsx";
+import { LookSpin } from "../../components/lookspin.jsx";
 import { useLookupAccoladeQuery, useRetrieveAccoladeQuery, useUpdationAccoladeMutation } from "../../features/call.js";
 import { useLoadingState, useMinFetching } from "../../features/hooks.js";
 import { showBaseNote } from "../../features/part.js";
@@ -183,7 +183,7 @@ export default function BadgeUpdateForm() {
                   autoComplete="off"
                 />
               </FloatingLabel>
-              {showAccoladeSpinner && <LookupSpinner />}
+              {showAccoladeSpinner && <LookSpin />}
               {accoladeLookup.length >= 4 &&
                 accoladeResult &&
                 accoladeResult.badges &&

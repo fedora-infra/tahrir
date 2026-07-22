@@ -7,11 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 
 import BaseNote from "../components/basenote.jsx";
+import UserCard from "../components/usercard.jsx";
 import VertItem from "../components/vertitem.jsx";
 import { loadUserData } from "../features/auth.js";
 import { useRetrieveCampaignQuery, useRetrieveIdentityQuery } from "../features/call.js";
 import { hideLoad, showBaseNote, showLoad } from "../features/part.js";
-import { formatTime, generateIdentity, portraitProvider } from "../features/util.js";
+import { formatTime, generateIdentity } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function Campaign() {
@@ -81,21 +82,14 @@ export default function Campaign() {
   return (
     <div className="row g-2">
       <div className="col-12 col-lg-3">
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
-          <Card.Img variant="top" src={portraitProvider(profile.mail, 512)} />
-          <Card.Body className="p-2">
-            <Card.Title className="dataelem text-truncate">{profile.user}</Card.Title>
-            <Card.Text className="small">
-              Rank #{profile.rank}
-              <br />
-              Top {parseFloat(profile.percentile).toFixed(2)}%
-              <br />
-              Collected {profile.serialized.length} badge(s)
-              <br />
-              Has {parseFloat(profile.percent_earned).toFixed(2)}%
-            </Card.Text>
-          </Card.Body>
-        </Card>
+        <UserCard
+          mail={profile.mail}
+          name={profile.user}
+          rank={profile.rank}
+          perc={profile.percentile}
+          poll={profile.serialized.length}
+          earn={profile.percent_earned}
+        />
         <div className="d-grid gap-2">
           <Button
             as={Link}

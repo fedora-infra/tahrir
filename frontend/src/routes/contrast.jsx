@@ -6,10 +6,11 @@ import { Link, useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
 import Grouping from "../components/grouping.jsx";
+import UserCard from "../components/usercard.jsx";
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveContrastQuery } from "../features/call.js";
 import { useLoadingState } from "../features/hooks.js";
-import { formatTime, generateIdentity, portraitProvider } from "../features/util.js";
+import { formatTime, generateIdentity } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function Contrast() {
@@ -52,6 +53,13 @@ export default function Contrast() {
   const diff_poll = Math.abs(user_a.badges_count - user_b.badges_count);
   const diff_rank = Math.abs(user_a.rank - user_b.rank);
 
+  const icTint = isDark ? "dark" : "lite";
+
+  const stat = [
+    { self: user_a, peer: user_b, selfUnique: diff.user_a_unique_badges, peerUnique: diff.user_b_unique_badges },
+    { self: user_b, peer: user_a, selfUnique: diff.user_b_unique_badges, peerUnique: diff.user_a_unique_badges },
+  ];
+
   const only = [
     { head: `Only ${user_a.nickname}`, list: diff.user_a_unique_badges },
     { head: `Only ${user_b.nickname}`, list: diff.user_b_unique_badges },
@@ -60,21 +68,14 @@ export default function Contrast() {
   return (
     <div className="row g-2 mb-2">
       <div className="col-12 col-lg-3">
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
-          <Card.Img variant="top" src={portraitProvider(user_b.avatar, 512)} />
-          <Card.Body className="p-2">
-            <Card.Title className="dataelem text-truncate">{user_b.nickname}</Card.Title>
-            <Card.Text className="small">
-              Rank #{user_b.rank}
-              <br />
-              Top {parseFloat(user_b.percentile).toFixed(2)}%
-              <br />
-              Collected {user_b.badges_count} badge(s)
-              <br />
-              Has {parseFloat(user_b.percent_earned).toFixed(2)}%
-            </Card.Text>
-          </Card.Body>
-        </Card>
+        <UserCard
+          mail={user_b.avatar}
+          name={user_b.nickname}
+          rank={user_b.rank}
+          perc={user_b.percentile}
+          poll={user_b.badges_count}
+          earn={user_b.percent_earned}
+        />
         <div className="d-grid gap-2">
           <Button
             as={Link}
@@ -102,56 +103,33 @@ export default function Contrast() {
       </div>
       <div className="col-12 col-lg-9 d-grid gap-2">
         <div className="row g-2">
-          <div className="col-12 col-lg-6">
-            <Card className="vibe-border" style={{ "--vibe": vibe }}>
-              <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-                <Card.Title className="mb-0 ps-2 dataelem">{user_a.nickname}</Card.Title>
-                <hr className="mt-2 mb-0" />
-                <ListGroup variant="flush">
-                  <VertItem
-                    head={`#${user_a.rank} (Top ${parseFloat(user_a.percentile).toFixed(2)}%)`}
-                    body={`Ranked ${diff_rank} ${diff_rank > 1 ? "positions" : "position"} ${user_a.rank < user_b.rank ? "above" : "below"} ${user_b.nickname}`}
-                    shot={`/imgs/diff_rank_${isDark ? "dark" : "lite"}.svg`}
-                  />
-                  <VertItem
-                    head={`${user_a.badges_count} (Has ${user_a.percent_earned}%)`}
-                    body={`Having ${diff_poll} ${user_a.badges_count > user_b.badges_count ? "more" : "less"} badges than ${user_b.nickname}`}
-                    shot={`/imgs/diff_${user_a.badges_count > user_b.badges_count ? "peak" : "base"}_${isDark ? "dark" : "lite"}.svg`}
-                  />
-                  <VertItem
-                    head={diff.user_a_unique_badges.length}
-                    body={`badges that ${user_b.nickname} does not have`}
-                    shot={`/imgs/diff_${diff.user_a_unique_badges.length > diff.user_b_unique_badges.length ? "peak" : "base"}_${isDark ? "dark" : "lite"}.svg`}
-                  />
-                </ListGroup>
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="col-12 col-lg-6">
-            <Card className="vibe-border" style={{ "--vibe": vibe }}>
-              <Card.Body className="ps-0 pe-0 pt-2 pb-0">
-                <Card.Title className="mb-0 ps-2 dataelem">{user_b.nickname}</Card.Title>
-                <hr className="mt-2 mb-0" />
-                <ListGroup variant="flush">
-                  <VertItem
-                    head={`#${user_b.rank} (Top ${parseFloat(user_b.percentile).toFixed(2)}%)`}
-                    body={`Ranked ${diff_rank} ${diff_rank > 1 ? "positions" : "position"} ${user_b.rank < user_a.rank ? "above" : "below"} ${user_a.nickname}`}
-                    shot={`/imgs/diff_rank_${isDark ? "dark" : "lite"}.svg`}
-                  />
-                  <VertItem
-                    head={`${user_b.badges_count} (Has ${user_b.percent_earned}%)`}
-                    body={`Having ${diff_poll} ${user_b.badges_count > user_a.badges_count ? "more" : "less"} badges than ${user_a.nickname}`}
-                    shot={`/imgs/diff_${user_b.badges_count > user_a.badges_count ? "peak" : "base"}_${isDark ? "dark" : "lite"}.svg`}
-                  />
-                  <VertItem
-                    head={diff.user_b_unique_badges.length}
-                    body={`badges that ${user_a.nickname} does not have`}
-                    shot={`/imgs/diff_${diff.user_b_unique_badges.length > diff.user_a_unique_badges.length ? "peak" : "base"}_${isDark ? "dark" : "lite"}.svg`}
-                  />
-                </ListGroup>
-              </Card.Body>
-            </Card>
-          </div>
+          {stat.map(({ self, peer, selfUnique, peerUnique }) => (
+            <div key={self.nickname} className="col-12 col-lg-6">
+              <Card className="vibe-border" style={{ "--vibe": vibe }}>
+                <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+                  <Card.Title className="mb-0 ps-2 dataelem">{self.nickname}</Card.Title>
+                  <hr className="mt-2 mb-0" />
+                  <ListGroup variant="flush">
+                    <VertItem
+                      head={`#${self.rank} (Top ${parseFloat(self.percentile).toFixed(2)}%)`}
+                      body={`Ranked ${diff_rank} ${diff_rank > 1 ? "positions" : "position"} ${self.rank < peer.rank ? "above" : "below"} ${peer.nickname}`}
+                      shot={`/imgs/diff_rank_${icTint}.svg`}
+                    />
+                    <VertItem
+                      head={`${self.badges_count} (Has ${self.percent_earned}%)`}
+                      body={`Having ${diff_poll} ${self.badges_count > peer.badges_count ? "more" : "less"} badges than ${peer.nickname}`}
+                      shot={`/imgs/diff_${self.badges_count > peer.badges_count ? "peak" : "base"}_${icTint}.svg`}
+                    />
+                    <VertItem
+                      head={selfUnique.length}
+                      body={`badges that ${peer.nickname} does not have`}
+                      shot={`/imgs/diff_${selfUnique.length > peerUnique.length ? "peak" : "base"}_${icTint}.svg`}
+                    />
+                  </ListGroup>
+                </Card.Body>
+              </Card>
+            </div>
+          ))}
         </div>
         <Grouping name="Both" wide={diff.shared_badges.length}>
           {diff.shared_badges.map((item) => (

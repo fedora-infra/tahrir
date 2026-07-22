@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { useRetrieveDiscoverQuery } from "../features/call.js";
 import { useMinFetching } from "../features/hooks.js";
 import FindList from "./findlist.jsx";
-import { LookupSpinner } from "./LookupSpinner.jsx";
+import { LookSpin } from "./lookspin.jsx";
 
 export default function Discover() {
   const [findText, makeFindText] = useState("");
@@ -84,7 +84,7 @@ export default function Discover() {
         onFocus={() => doLookup && makeDropSeen(true)}
         autoComplete="off"
       />
-      {showSpinner && <LookupSpinner />}
+      {showSpinner && <LookSpin />}
 
       {!showSpinner && clearSeen && (
         <button

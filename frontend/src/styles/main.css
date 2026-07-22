@@ -259,7 +259,7 @@ a.vibe-border {
 }
 
 /* Lookup field spinner - pinwheel style */
-.lookup-spinner {
+.lookspin {
   position: absolute;
   right: 10px;
   top: 50%;
@@ -268,10 +268,10 @@ a.vibe-border {
   pointer-events: none;
   width: 16px;
   height: 16px;
-  animation: lookup-spin 0.8s steps(8) infinite;
+  animation: lookspin-anim 0.8s steps(8) infinite;
 }
 
-.lookup-spinner .spoke {
+.lookspin .spoke {
   position: absolute;
   left: 50%;
   top: 0;
@@ -285,7 +285,7 @@ a.vibe-border {
   opacity: calc(1 - var(--i) * 0.125);
 }
 
-@keyframes lookup-spin {
+@keyframes lookspin-anim {
   to {
     transform: translateY(-50%) rotate(360deg);
   }

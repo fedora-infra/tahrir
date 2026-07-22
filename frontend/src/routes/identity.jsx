@@ -1,14 +1,15 @@
 import { mdiFencing, mdiHistory, mdiSend } from "@mdi/js";
 import Icon from "@mdi/react";
-import { Button, Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
 import Grouping from "../components/grouping.jsx";
+import UserCard from "../components/usercard.jsx";
 import { useRetrieveIdentityQuery } from "../features/call.js";
 import { useLoadingState } from "../features/hooks.js";
-import { formatTime, generateIdentity, portraitProvider } from "../features/util.js";
+import { formatTime, generateIdentity } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function Identity() {
@@ -37,21 +38,14 @@ export default function Identity() {
   return (
     <div className="row g-2 mb-2">
       <div className="col-12 col-lg-3">
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
-          <Card.Img variant="top" src={portraitProvider(user.mail, 512)} />
-          <Card.Body className="p-2">
-            <Card.Title className="dataelem text-truncate">{user.user}</Card.Title>
-            <Card.Text className="small">
-              Rank #{user.rank}
-              <br />
-              Top {parseFloat(user.percentile).toFixed(2)}%
-              <br />
-              Collected {user.serialized.length} badge(s)
-              <br />
-              Has {parseFloat(user.percent_earned).toFixed(2)}%
-            </Card.Text>
-          </Card.Body>
-        </Card>
+        <UserCard
+          mail={user.mail}
+          name={user.user}
+          rank={user.rank}
+          perc={user.percentile}
+          poll={user.serialized.length}
+          earn={user.percent_earned}
+        />
         <div className="d-grid gap-2">
           {authUser && authUser.nickname === identity && (
             <Button

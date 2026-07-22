@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
-import { LookupSpinner } from "../../components/LookupSpinner.jsx";
+import { LookSpin } from "../../components/lookspin.jsx";
 import { useDeletionSanctionMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
 import { useLoadingState, useMinFetching } from "../../features/hooks.js";
 import { showBaseNote } from "../../features/part.js";
@@ -109,7 +109,7 @@ export default function AuthorizationDeletionForm() {
                   required
                 />
               </FloatingLabel>
-              {showAccoladeSpinner && <LookupSpinner />}
+              {showAccoladeSpinner && <LookSpin />}
               {accoladeLookup.length >= 4 &&
                 accoladeResult &&
                 accoladeResult.badges &&
@@ -161,7 +161,7 @@ export default function AuthorizationDeletionForm() {
                   required
                 />
               </FloatingLabel>
-              {showIdentitySpinner && <LookupSpinner />}
+              {showIdentitySpinner && <LookSpin />}
               {identityLookup.length >= 4 &&
                 identityResult &&
                 identityResult.users &&
