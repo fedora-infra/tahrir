@@ -35,7 +35,7 @@ export default function Identity() {
   }
 
   return (
-    <div className="row g-2">
+    <div className="row g-2 mb-2">
       <div className="col-12 col-lg-3">
         <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Img variant="top" src={portraitProvider(user.mail, 512)} />
@@ -53,30 +53,6 @@ export default function Identity() {
           </Card.Body>
         </Card>
         <div className="d-grid gap-2">
-          <Button
-            as={Link}
-            to={`/userpast/${identity}`}
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiHistory} size={0.875} className="me-1" />
-            History
-          </Button>
-          {authUser && authUser.nickname !== identity && (
-            <Button
-              as={Link}
-              to={`/contrast/${identity}`}
-              variant="outline-secondary"
-              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-              size="sm"
-              style={{ "--vibe": vibe }}
-            >
-              <Icon path={mdiFencing} size={0.875} className="me-1" />
-              Compare
-            </Button>
-          )}
           {authUser && authUser.nickname === identity && (
             <Button
               as={Link}
@@ -90,14 +66,38 @@ export default function Identity() {
               Campaign
             </Button>
           )}
+          {authUser && authUser.nickname !== identity && (
+            <Button
+              as={Link}
+              to={`/contrast/${identity}`}
+              variant="outline-secondary"
+              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+              size="sm"
+              style={{ "--vibe": vibe }}
+            >
+              <Icon path={mdiFencing} size={0.875} className="me-1" />
+              Compare
+            </Button>
+          )}
+          <Button
+            as={Link}
+            to={`/userpast/${identity}`}
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiHistory} size={0.875} className="me-1" />
+            History
+          </Button>
         </div>
       </div>
-      <div className="col-12 col-lg-9">
+      <div className="col-12 col-lg-9 d-grid gap-2">
         {user.classified &&
           Object.entries(user.classified).map(
             ([category, iterlist]) =>
               iterlist.length > 0 && (
-                <Grouping key={generateIdentity(category)} name={category} wide={iterlist.length}>
+                <Grouping key={generateIdentity(category)} name={category} wide={iterlist.length} head={true}>
                   {iterlist.map((indx) => {
                     const item = user.serialized[indx];
                     return item ? (

@@ -28,7 +28,7 @@ export default function ItemPage({ query, title, dataKey, buttons }) {
   const typelist = list.classified[dataKey];
 
   return (
-    <div className="row g-2">
+    <div className="row g-2 mb-2">
       <div className="col-12 col-lg-3">
         <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
@@ -64,12 +64,12 @@ export default function ItemPage({ query, title, dataKey, buttons }) {
           </Button>
         </div>
       </div>
-      <div className="col-12 col-lg-9">
+      <div className="col-12 col-lg-9 d-grid gap-2">
         {typelist &&
           Object.entries(typelist).map(
             ([category, iterlist]) =>
               iterlist.length > 0 && (
-                <Grouping key={generateIdentity(category)} name={category} wide={iterlist.length}>
+                <Grouping key={generateIdentity(category)} name={category} wide={iterlist.length} head={true}>
                   {iterlist.map((indx) => {
                     const item = itemlist[indx];
                     return item ? (

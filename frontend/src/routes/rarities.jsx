@@ -27,7 +27,7 @@ export default function Rarities() {
   const page = [...list].sort((a, b) => a.rate - b.rate);
 
   return (
-    <div className="row g-2">
+    <div className="row g-2 mb-2">
       <div className="col-12 col-lg-3">
         <Card className="mb-2 vibe-border" style={{ "--vibe": rareColors[rareunit.toUpperCase()] }}>
           <Card.Img variant="top" src={`/imgs/rare_${rareunit.toLowerCase()}.png`} />
@@ -62,8 +62,8 @@ export default function Rarities() {
             ))}
         </ListGroup>
       </div>
-      <div className="col-12 col-lg-9">
-        <Grouping name={`Tier ${rareunit}`} wide={page.length}>
+      <div className="col-12 col-lg-9 d-grid gap-2">
+        <Grouping name={`Tier ${rareunit}`} wide={page.length} head={true}>
           {page.map((item) => (
             <AccoItem
               key={generateIdentity(item.id)}
