@@ -68,9 +68,9 @@ export default function Homepage() {
   };
 
   return (
-    <div className="row g-2">
-      <div className="col-12 col-lg-3">
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+    <div className="row g-2 mb-2">
+      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">Fedora Badges</Card.Title>
             <Card.Text className="small">
@@ -80,89 +80,87 @@ export default function Homepage() {
             </Card.Text>
           </Card.Body>
         </Card>
-        <div className="d-grid gap-2">
-          <Button
-            as={Link}
-            to="/recently"
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiHistory} size={0.875} className="me-1" />
-            Recently introduced
-          </Button>
-          <Button
-            as={Link}
-            to="/assembly"
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiViewGridPlus} size={0.875} className="me-1" />
-            Complete collection
-          </Button>
-          <Button
-            as={Link}
-            to="/rankings"
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiTrophy} size={0.875} className="me-1" />
-            Platform rankings
-          </Button>
-          <Button
-            as={Link}
-            to="/rarities/X"
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiStarFourPoints} size={0.875} className="me-1" />
-            Discover rarities
-          </Button>
-          <Button
-            onClick={handleRandomAccolade}
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiCrosshairsGps} size={0.875} className="me-1" />
-            Explore badges
-          </Button>
-          <Button
-            as={Link}
-            to="/addendum"
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiInformationOutline} size={0.875} className="me-1" />
-            Service information
-          </Button>
-          <Button
-            as="a"
-            href="https://chat.fedoraproject.org/#/room/#badges:fedoraproject.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiHeart} size={0.875} className="me-1" />
-            Contribute now
-          </Button>
-        </div>
+        <Button
+          as={Link}
+          to="/recently"
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiHistory} size={0.875} className="me-1" />
+          Recently introduced
+        </Button>
+        <Button
+          as={Link}
+          to="/assembly"
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiViewGridPlus} size={0.875} className="me-1" />
+          Complete collection
+        </Button>
+        <Button
+          as={Link}
+          to="/rankings"
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiTrophy} size={0.875} className="me-1" />
+          Platform rankings
+        </Button>
+        <Button
+          as={Link}
+          to="/rarities/X"
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiStarFourPoints} size={0.875} className="me-1" />
+          Discover rarities
+        </Button>
+        <Button
+          onClick={handleRandomAccolade}
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiCrosshairsGps} size={0.875} className="me-1" />
+          Explore badges
+        </Button>
+        <Button
+          as={Link}
+          to="/addendum"
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiInformationOutline} size={0.875} className="me-1" />
+          Service information
+        </Button>
+        <Button
+          as="a"
+          href="https://chat.fedoraproject.org/#/room/#badges:fedoraproject.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiHeart} size={0.875} className="me-1" />
+          Contribute now
+        </Button>
       </div>
       <div className="col-12 col-lg-5">
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem">Recent awards</Card.Title>
             <Card.Text className="mb-0 ps-2 small">{recentGranting.length} award(s)</Card.Text>
@@ -204,7 +202,7 @@ export default function Homepage() {
         </Card>
       </div>
       <div className="col-12 col-lg-4">
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem">Recent badges</Card.Title>
             <Card.Text className="mb-0 ps-2 small">{recentAccolade.length} badge(s)</Card.Text>

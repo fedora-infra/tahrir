@@ -29,42 +29,40 @@ export default function ItemPage({ query, title, dataKey, buttons }) {
 
   return (
     <div className="row g-2 mb-2">
-      <div className="col-12 col-lg-3">
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">{title}</Card.Title>
             <Card.Text className="small">{itemlist.length} badge(s)</Card.Text>
           </Card.Body>
         </Card>
-        <div className="d-grid gap-2">
-          {buttons.map(({ to, icon, label }) => (
-            <Button
-              key={to}
-              as={Link}
-              to={to}
-              variant="outline-secondary"
-              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-              size="sm"
-              style={{ "--vibe": vibe }}
-            >
-              <Icon path={icon} size={0.875} className="me-1" />
-              {label}
-            </Button>
-          ))}
+        {buttons.map(({ to, icon, label }) => (
           <Button
+            key={to}
             as={Link}
-            to="/"
+            to={to}
             variant="outline-secondary"
             className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"
             style={{ "--vibe": vibe }}
           >
-            <Icon path={mdiHome} size={0.875} className="me-1" />
-            Return home
+            <Icon path={icon} size={0.875} className="me-1" />
+            {label}
           </Button>
-        </div>
+        ))}
+        <Button
+          as={Link}
+          to="/"
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiHome} size={0.875} className="me-1" />
+          Return home
+        </Button>
       </div>
-      <div className="col-12 col-lg-9 d-grid gap-2">
+      <div className="col-12 col-lg-9 d-flex flex-column gap-2">
         {typelist &&
           Object.entries(typelist).map(
             ([category, iterlist]) =>

@@ -86,7 +86,7 @@ export default function AssertionDeleteForm() {
   };
 
   return (
-    <Card className="mb-2">
+    <Card>
       <Card.Body className="ps-0 pe-0 pt-2 pb-0">
         <Card.Title className="mb-0 ps-2 dataelem">Remove assertions</Card.Title>
         <Card.Text className="mb-0 ps-2 small">Remedy mistaken awards made toward contributors</Card.Text>

@@ -28,7 +28,7 @@ export default function FindPage() {
   }
 
   return (
-    <div className="row g-2">
+    <div className="row g-2 mb-2">
       <div className="col-12 col-lg-3">
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
@@ -37,8 +37,8 @@ export default function FindPage() {
           </Card.Body>
         </Card>
       </div>
-      <div className="col-12 col-lg-9">
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+      <div className="col-12 col-lg-9 d-flex flex-column gap-2">
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               Badges
@@ -67,7 +67,7 @@ export default function FindPage() {
             </ListGroup>
           </Card.Body>
         </Card>
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               Users

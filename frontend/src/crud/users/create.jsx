@@ -61,7 +61,7 @@ export default function UserCreationForm() {
   };
 
   return (
-    <Card className="mb-2">
+    <Card>
       <Card.Body className="ps-0 pe-0 pt-2 pb-0">
         <Card.Title className="mb-0 ps-2 dataelem">Create users</Card.Title>
         <Card.Text className="mb-0 ps-2 small">Create accounts that will obtain felicitation</Card.Text>

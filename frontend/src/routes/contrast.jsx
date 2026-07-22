@@ -67,7 +67,7 @@ export default function Contrast() {
 
   return (
     <div className="row g-2 mb-2">
-      <div className="col-12 col-lg-3">
+      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
         <UserCard
           mail={user_b.avatar}
           name={user_b.nickname}
@@ -76,32 +76,30 @@ export default function Contrast() {
           poll={user_b.badges_count}
           earn={user_b.percent_earned}
         />
-        <div className="d-grid gap-2">
-          <Button
-            as={Link}
-            to={`/identity/${id_b}`}
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiBookAccount} size={0.875} className="me-1" />
-            Collection
-          </Button>
-          <Button
-            as={Link}
-            to={`/userpast/${id_b}`}
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiHistory} size={0.875} className="me-1" />
-            History
-          </Button>
-        </div>
+        <Button
+          as={Link}
+          to={`/identity/${id_b}`}
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiBookAccount} size={0.875} className="me-1" />
+          Collection
+        </Button>
+        <Button
+          as={Link}
+          to={`/userpast/${id_b}`}
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiHistory} size={0.875} className="me-1" />
+          History
+        </Button>
       </div>
-      <div className="col-12 col-lg-9 d-grid gap-2">
+      <div className="col-12 col-lg-9 d-flex flex-column gap-2">
         <div className="row g-2">
           {stat.map(({ self, peer, selfUnique, peerUnique }) => (
             <div key={self.nickname} className="col-12 col-lg-6">

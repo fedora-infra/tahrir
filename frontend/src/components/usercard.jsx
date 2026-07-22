@@ -7,7 +7,7 @@ export default function UserCard({ mail, name, rank, perc, poll, earn }) {
   const vibe = useSelector((data) => data.area.vibe);
 
   return (
-    <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+    <Card className="vibe-border" style={{ "--vibe": vibe }}>
       <Card.Img variant="top" src={portraitProvider(mail, 512)} />
       <Card.Body className="p-2">
         <Card.Title className="dataelem text-truncate">{name}</Card.Title>
