@@ -1,4 +1,4 @@
-import { Button, Card, Image, ListGroup } from "react-bootstrap";
+import { Button, Card, Image } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router";
 
@@ -28,8 +28,8 @@ export default function Rarities() {
 
   return (
     <div className="row g-2 mb-2">
-      <div className="col-12 col-lg-3">
-        <Card className="mb-2 vibe-border" style={{ "--vibe": rareColors[rareunit.toUpperCase()] }}>
+      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+        <Card className="vibe-border" style={{ "--vibe": rareColors[rareunit.toUpperCase()] }}>
           <Card.Img variant="top" src={`/imgs/rare_${rareunit.toLowerCase()}.png`} />
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">{rarities[rareunit.toUpperCase()]}</Card.Title>
@@ -38,31 +38,29 @@ export default function Rarities() {
             </Card.Text>
           </Card.Body>
         </Card>
-        <ListGroup variant="flush">
-          {Object.keys(rarities)
-            .filter((unit) => unit !== rareunit?.toUpperCase())
-            .map((item) => (
-              <Button
-                key={generateIdentity(item)}
-                as={Link}
-                to={`/rarities/${item}`}
-                variant="outline-secondary"
-                className="d-grid mb-2 d-inline-flex align-items-center ps-1 vibe-border"
-                size="sm"
-                style={{ "--vibe": vibe }}
-              >
-                <Image className="rarity-icon circle-border" src={`/imgs/rare_${item.toLowerCase()}.png`} />
-                &nbsp;&nbsp;
-                <span>
-                  Tier {item}
-                  &nbsp;•&nbsp;
-                  <span className={`fw-bold ${obtainRarityText(item)}`}>{rarities[item]}</span>
-                </span>
-              </Button>
-            ))}
-        </ListGroup>
+        {Object.keys(rarities)
+          .filter((unit) => unit !== rareunit?.toUpperCase())
+          .map((item) => (
+            <Button
+              key={generateIdentity(item)}
+              as={Link}
+              to={`/rarities/${item}`}
+              variant="outline-secondary"
+              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+              size="sm"
+              style={{ "--vibe": vibe }}
+            >
+              <Image className="rarity-icon circle-border" src={`/imgs/rare_${item.toLowerCase()}.png`} />
+              &nbsp;&nbsp;
+              <span>
+                Tier {item}
+                &nbsp;•&nbsp;
+                <span className={`fw-bold ${obtainRarityText(item)}`}>{rarities[item]}</span>
+              </span>
+            </Button>
+          ))}
       </div>
-      <div className="col-12 col-lg-9 d-grid gap-2">
+      <div className="col-12 col-lg-9">
         <Grouping name={`Tier ${rareunit}`} wide={page.length} head={true}>
           {page.map((item) => (
             <AccoItem

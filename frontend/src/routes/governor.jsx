@@ -54,8 +54,8 @@ export default function Governor() {
 
   return (
     <>
-      <div className="row g-2">
-        <div className="col-12 col-lg-3">
+      <div className="row g-2 mb-2">
+        <div className="col-12 col-lg-3 d-flex flex-column gap-2">
           <Card className="vibe-border" style={{ "--vibe": vibe }}>
             <Card.Body className="p-2">
               <Card.Title className="dataelem text-truncate">Governor</Card.Title>
@@ -72,8 +72,8 @@ export default function Governor() {
             </Card.Body>
           </Card>
         </div>
-        <div className="col-12 col-lg-9">
-          <ListGroup className="mb-2">
+        <div className="col-12 col-lg-9 d-grid gap-2">
+          <ListGroup>
             <ListGroup.Item
               className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
               style={{ "--vibe": vibe }}
@@ -84,8 +84,8 @@ export default function Governor() {
           </ListGroup>
           <AssertionCreationForm />
           <AssertionUpdateForm />
-          <hr className="mt-2 mb-2" />
-          <ListGroup className="mb-2">
+          <hr className="mt-0 mb-0" />
+          <ListGroup>
             <ListGroup.Item
               className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
               style={{ "--vibe": vibe }}
@@ -96,8 +96,8 @@ export default function Governor() {
           </ListGroup>
           <AuthorizationCreationForm />
           <AuthorizationDeletionForm />
-          <hr className="mt-2 mb-2" />
-          <ListGroup className="mb-2">
+          <hr className="mt-0 mb-0" />
+          <ListGroup>
             <ListGroup.Item
               className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
               style={{ "--vibe": vibe }}
@@ -108,8 +108,8 @@ export default function Governor() {
           </ListGroup>
           <InvitationCreationForm />
           <InvitationDeletionForm />
-          <hr className="mt-2 mb-2" />
-          <ListGroup className="mb-2">
+          <hr className="mt-0 mb-0" />
+          <ListGroup>
             <ListGroup.Item
               className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
               style={{ "--vibe": vibe }}
@@ -120,8 +120,8 @@ export default function Governor() {
           </ListGroup>
           <UserCreationForm />
           <UserUpdateForm />
-          <hr className="mt-2 mb-2" />
-          <ListGroup className="mb-2">
+          <hr className="mt-0 mb-0" />
+          <ListGroup>
             <ListGroup.Item
               className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
               style={{ "--vibe": vibe }}

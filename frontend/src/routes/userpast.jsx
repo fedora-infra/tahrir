@@ -35,8 +35,8 @@ export default function UserPast() {
   }
 
   return (
-    <div className="row g-2">
-      <div className="col-12 col-lg-3">
+    <div className="row g-2 mb-2">
+      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
         <UserCard
           mail={user.mail}
           name={user.user}
@@ -45,48 +45,46 @@ export default function UserPast() {
           poll={user.serialized.length}
           earn={user.percent_earned}
         />
-        <div className="d-grid gap-2">
-          {authUser && authUser.nickname === identity && (
-            <Button
-              as={Link}
-              to="/campaign"
-              variant="outline-secondary"
-              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-              size="sm"
-              style={{ "--vibe": vibe }}
-            >
-              <Icon path={mdiSend} size={0.875} className="me-1" />
-              Campaign
-            </Button>
-          )}
+        {authUser && authUser.nickname === identity && (
           <Button
             as={Link}
-            to={`/identity/${identity}`}
+            to="/campaign"
             variant="outline-secondary"
             className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
             size="sm"
             style={{ "--vibe": vibe }}
           >
-            <Icon path={mdiBookAccount} size={0.875} className="me-1" />
-            Collection
+            <Icon path={mdiSend} size={0.875} className="me-1" />
+            Campaign
           </Button>
-          {authUser && authUser.nickname !== identity && (
-            <Button
-              as={Link}
-              to={`/contrast/${identity}`}
-              variant="outline-secondary"
-              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-              size="sm"
-              style={{ "--vibe": vibe }}
-            >
-              <Icon path={mdiFencing} size={0.875} className="me-1" />
-              Compare
-            </Button>
-          )}
-        </div>
+        )}
+        <Button
+          as={Link}
+          to={`/identity/${identity}`}
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiBookAccount} size={0.875} className="me-1" />
+          Collection
+        </Button>
+        {authUser && authUser.nickname !== identity && (
+          <Button
+            as={Link}
+            to={`/contrast/${identity}`}
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiFencing} size={0.875} className="me-1" />
+            Compare
+          </Button>
+        )}
       </div>
       <div className="col-12 col-lg-9">
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               History

@@ -113,9 +113,9 @@ export default function Accolade() {
   }
 
   return (
-    <div className="row g-2">
-      <div className="col-12 col-lg-3">
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+    <div className="row g-2 mb-2">
+      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Img variant="top" src={relativeImageUrl(acco.image)} />
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate mb-1">{acco.name}</Card.Title>
@@ -136,7 +136,7 @@ export default function Accolade() {
             </div>
           </Card.Body>
         </Card>
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem">Tier</Card.Title>
             <hr className="mt-2 mb-0" />
@@ -150,7 +150,7 @@ export default function Accolade() {
             </ListGroup>
           </Card.Body>
         </Card>
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem">Status</Card.Title>
             <hr className="mt-2 mb-0" />
@@ -167,7 +167,7 @@ export default function Accolade() {
         {acco.assertions && (
           <>
             {acco.assertions.origin.person && (
-              <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+              <Card className="vibe-border" style={{ "--vibe": vibe }}>
                 <Card.Body className="ps-0 pe-0 pt-2 pb-0">
                   <Card.Title className="mb-0 ps-2 dataelem">First awarded</Card.Title>
                   <hr className="mt-2 mb-0" />
@@ -183,7 +183,7 @@ export default function Accolade() {
               </Card>
             )}
             {acco.assertions.recent.person && (
-              <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+              <Card className="vibe-border" style={{ "--vibe": vibe }}>
                 <Card.Body className="ps-0 pe-0 pt-2 pb-0">
                   <Card.Title className="mb-0 ps-2 dataelem">Last awarded</Card.Title>
                   <hr className="mt-2 mb-0" />
@@ -200,33 +200,31 @@ export default function Accolade() {
             )}
           </>
         )}
-        <div className="d-grid gap-2">
-          <Button
-            as="a"
-            href={acco.criteria}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiLink} size={0.875} className="me-1" />
-            Criteria
-          </Button>
-          <Button
-            as={Link}
-            to="/assembly"
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiViewGridPlus} size={0.875} className="me-1" />
-            Collection
-          </Button>
-        </div>
+        <Button
+          as="a"
+          href={acco.criteria}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiLink} size={0.875} className="me-1" />
+          Criteria
+        </Button>
+        <Button
+          as={Link}
+          to="/assembly"
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiViewGridPlus} size={0.875} className="me-1" />
+          Collection
+        </Button>
         {(havePrevPage || haveNextPage) && (
-          <div className="d-flex justify-content-between align-items-center mt-2">
+          <div className="d-flex justify-content-between align-items-center">
             <Button
               variant="outline-secondary"
               size="sm"
@@ -254,7 +252,7 @@ export default function Accolade() {
         )}
       </div>
       <div className="col-12 col-lg-9">
-        <Card className="mb-2 vibe-border" style={{ "--vibe": vibe }}>
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               History
