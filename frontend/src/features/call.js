@@ -230,6 +230,8 @@ export const callUnit = createApi({
         { type: "Accolade", id: accolade },
         { type: "Averment", id: accolade },
         "AccoList",
+        "LiveList",
+        "DeadList",
         "Discover",
       ],
     }),

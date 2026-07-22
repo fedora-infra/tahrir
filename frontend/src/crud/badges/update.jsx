@@ -22,6 +22,7 @@ export default function BadgeUpdateForm() {
     tags: "",
     created_on: "",
     id: "",
+    legacy: false,
   });
 
   const [accoladeLookup, setAccoladeLookup] = useState("");
@@ -53,6 +54,7 @@ export default function BadgeUpdateForm() {
         tags: Array.isArray(badge.tags) ? badge.tags.join(", ") : badge.tags || "",
         created_on: badge.created_on || "",
         id: badge.id || "",
+        legacy: badge.legacy || false,
       });
       setAccoladeLookup(badge.name || "");
     }
@@ -71,6 +73,7 @@ export default function BadgeUpdateForm() {
       tags: Array.isArray(accolade.tags) ? accolade.tags.join(", ") : accolade.tags || "",
       created_on: accolade.created_on || "",
       id: accolade.id || "",
+      legacy: accolade.legacy || false,
     });
     setAccoladeLookup(accolade.name || "");
     setAccoladeDropdownShow(false);
@@ -118,6 +121,19 @@ export default function BadgeUpdateForm() {
     }
   };
 
+  const handleToggleLegacy = async () => {
+    try {
+      const swapLegacy = !form.legacy;
+      await updationAccolade({ accolade: form.id, filldata: { legacy: swapLegacy } }).unwrap();
+      makeForm((prev) => ({ ...prev, legacy: swapLegacy }));
+      dispatch(
+        showBaseNote({ pass: true, data: `Badge status ${swapLegacy ? "deactivated" : "activated"} successfully` })
+      );
+    } catch {
+      dispatch(showBaseNote({ pass: false, data: "Failed during status change" }));
+    }
+  };
+
   if (fetchError) {
     return (
       <Card className="mb-2">
@@ -157,6 +173,7 @@ export default function BadgeUpdateForm() {
                         tags: "",
                         created_on: "",
                         id: "",
+                        legacy: false,
                       });
                     }
                   }}
@@ -273,8 +290,14 @@ export default function BadgeUpdateForm() {
             </Button>
           </Col>
           <Col lg="6">
-            <Button variant="outline-secondary" className="d-grid w-100 mb-2" size="sm" disabled>
-              Deactivate
+            <Button
+              variant="outline-secondary"
+              className="d-grid w-100 mb-2"
+              size="sm"
+              onClick={handleToggleLegacy}
+              disabled={isUpdating || !form.id}
+            >
+              {isUpdating ? "Processing..." : form.legacy ? "Activate" : "Deactivate"}
             </Button>
           </Col>
         </Row>
