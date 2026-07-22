@@ -156,7 +156,7 @@ export default function Accolade() {
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush">
               <VertItem
-                link={"#"}
+                link={acco.legacy ? "/deadlist" : "/livelist"}
                 head={acco.legacy ? "Legacy" : "Modern"}
                 body={acco.legacy ? "This badge is currently deactivated" : "This badge is currently active"}
                 shot={`/imgs/stat_${acco.legacy ? "legacy" : "modern"}_${isDark ? "dark" : "lite"}.svg`}
