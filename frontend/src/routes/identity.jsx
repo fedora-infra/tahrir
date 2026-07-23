@@ -95,7 +95,7 @@ export default function Identity() {
                   <ul className="list-unstyled mb-0">
                     {Object.entries(user.classified).map(([category, list]) => (
                       <li key={category}>
-                        <span className="text-capitalize fw-bold">{category}:</span> {list.length} badges (
+                        <span className="text-capitalize fw-bold">{category}:</span> {list.length} badge(s) (
                         {((list.length / user.serialized.length) * 100).toFixed(2)}%)
                       </li>
                     ))}
