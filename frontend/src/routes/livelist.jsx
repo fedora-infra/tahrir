@@ -7,12 +7,12 @@ export default function LiveList() {
   return (
     <ItemPage
       query={useRetrieveLiveListQuery()}
-      title="Actively functioning"
+      title="Actively functional"
       dataKey="full"
       buttons={[
-        { to: "/deadlist", icon: mdiAlertCircleOutline, label: "Currently unattainable" },
-        { to: "/recently", icon: mdiHistory, label: "Recently introduced" },
-        { to: "/assembly", icon: mdiViewGridPlus, label: "Complete collection" },
+        { to: "/deadlist", icon: mdiAlertCircleOutline, name: "Formerly functional" },
+        { to: "/recently", icon: mdiHistory, name: "Recently introduced" },
+        { to: "/assembly", icon: mdiViewGridPlus, name: "Complete collection" },
       ]}
     />
   );

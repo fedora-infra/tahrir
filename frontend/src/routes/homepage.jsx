@@ -166,9 +166,9 @@ export default function Homepage() {
             <Card.Text className="mb-0 ps-2 small">{recentGranting.length} award(s)</Card.Text>
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush" className="mb-0">
-              {recentGranting.map((item, index) => (
+              {recentGranting.map((item, indx) => (
                 <VertItem
-                  key={generateIdentity(item.recipient || item.salt || index)}
+                  key={generateIdentity(`${item.recipient || item.salt || ""}-${indx}`)}
                   head={<>{item.person?.nickname || "Unknown User"}</>}
                   body={
                     <>
@@ -208,9 +208,9 @@ export default function Homepage() {
             <Card.Text className="mb-0 ps-2 small">{recentAccolade.length} badge(s)</Card.Text>
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush" className="mb-0">
-              {recentAccolade.map((item, index) => (
+              {recentAccolade.map((item, indx) => (
                 <VertItem
-                  key={generateIdentity(item.id || item.name || index)}
+                  key={generateIdentity(item.id || item.name || indx)}
                   head={item.name || "Unknown Badge"}
                   body={<>created {item.created_on ? dayjs.unix(item.created_on).fromNow() : "recently"}</>}
                   shot={item.image || null}
