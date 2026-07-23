@@ -10,9 +10,9 @@ export default function Recently() {
       title="Recently introduced"
       dataKey="newest"
       buttons={[
-        { to: "/assembly", icon: mdiViewGridPlus, label: "Complete collection" },
-        { to: "/livelist", icon: mdiCheckCircleOutline, label: "Actively functioning" },
-        { to: "/deadlist", icon: mdiAlertCircleOutline, label: "Currently unattainable" },
+        { to: "/assembly", icon: mdiViewGridPlus, name: "Complete collection" },
+        { to: "/livelist", icon: mdiCheckCircleOutline, name: "Actively functional" },
+        { to: "/deadlist", icon: mdiAlertCircleOutline, name: "Formerly functional" },
       ]}
     />
   );

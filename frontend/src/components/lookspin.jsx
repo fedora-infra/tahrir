@@ -1,8 +1,8 @@
 export function LookSpin() {
   return (
     <div className="lookspin">
-      {Array.from({ length: 8 }, (_, i) => (
-        <div key={i} className="spoke" style={{ "--i": i }} />
+      {Array.from({ length: 8 }, (_, indx) => (
+        <div key={indx} className="spoke" style={{ "--i": indx }} />
       ))}
     </div>
   );

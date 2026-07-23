@@ -16,7 +16,7 @@ import { Link, useNavigate } from "react-router";
 import { userManager } from "../config/oidc.js";
 import { wipeUserData } from "../features/auth.js";
 import { keepMode, keepVibe } from "../features/part.js";
-import { mainColors, owners } from "../features/util.js";
+import { generateIdentity, mainColors, owners } from "../features/util.js";
 import Discover from "./discover.jsx";
 
 export default function Navigate() {
@@ -90,13 +90,13 @@ export default function Navigate() {
                 Dark
               </NavDropdown.Item>
               <NavDropdown.Divider className="mt-1 mb-1 ms-0 me-0" />
-              {Object.entries(mainColors).map(([name, color]) => (
+              {Object.entries(mainColors).map(([name, tint]) => (
                 <NavDropdown.Item
-                  key={name}
-                  onClick={() => dispatch(keepVibe(color))}
+                  key={generateIdentity(name)}
+                  onClick={() => dispatch(keepVibe(tint))}
                   className="small d-flex align-items-center p-1"
                 >
-                  <Icon className="me-1" size={0.75} path={mdiPalette} style={{ color: color }} />
+                  <Icon className="me-1" size={0.75} path={mdiPalette} style={{ color: tint }} />
                   {name}
                 </NavDropdown.Item>
               ))}

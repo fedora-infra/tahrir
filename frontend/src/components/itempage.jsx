@@ -36,9 +36,9 @@ export default function ItemPage({ query, title, dataKey, buttons }) {
             <Card.Text className="small">{itemlist.length} badge(s)</Card.Text>
           </Card.Body>
         </Card>
-        {buttons.map(({ to, icon, label }) => (
+        {buttons.map(({ to, icon, name }) => (
           <Button
-            key={to}
+            key={generateIdentity(to)}
             as={Link}
             to={to}
             variant="outline-secondary"
@@ -47,7 +47,7 @@ export default function ItemPage({ query, title, dataKey, buttons }) {
             style={{ "--vibe": vibe }}
           >
             <Icon path={icon} size={0.875} className="me-1" />
-            {label}
+            {name}
           </Button>
         ))}
         <Button

@@ -10,9 +10,9 @@ export default function AccoList() {
       title="Complete collection"
       dataKey="full"
       buttons={[
-        { to: "/recently", icon: mdiHistory, label: "Recently introduced" },
-        { to: "/livelist", icon: mdiCheckCircleOutline, label: "Actively functioning" },
-        { to: "/deadlist", icon: mdiAlertCircleOutline, label: "Currently unattainable" },
+        { to: "/recently", icon: mdiHistory, name: "Recently introduced" },
+        { to: "/livelist", icon: mdiCheckCircleOutline, name: "Actively functional" },
+        { to: "/deadlist", icon: mdiAlertCircleOutline, name: "Formerly functional" },
       ]}
     />
   );

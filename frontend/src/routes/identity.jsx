@@ -102,7 +102,7 @@ export default function Identity() {
                   </ul>
                 </div>
               </div>
-              <div className="col-12 col-lg-6 d-flex justify-content-lg-end justify-content-sm-center">
+              <div className="col-12 col-lg-6 d-flex justify-content-center justify-content-lg-end">
                 <StarData sections={user.classified} />
               </div>
             </div>
