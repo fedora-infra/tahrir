@@ -24,10 +24,10 @@ export default function StarData({ sections }) {
           border: `1px solid ${vibe}`,
           borderRadius: 4,
           padding: "4px 8px",
-          fontSize: 11,
+          fontSize: 12,
         }}
         labelStyle={{ display: "none" }}
-        itemStyle={{ color: "var(--bs-body-color)", fontSize: 11, padding: 0 }}
+        itemStyle={{ color: "var(--bs-body-color)", fontSize: 12, padding: 0 }}
         formatter={(poll) => {
           const full = data.reduce((cost, item) => cost + item.poll, 0);
           return [`${poll} badges (${((poll / full) * 100).toFixed(2)}%)`];

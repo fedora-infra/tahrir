@@ -4,6 +4,7 @@ import { Badge, Button, Card, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router";
 
+import TimeLine from "../components/timeline.jsx";
 import UserCard from "../components/usercard.jsx";
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveIdentityQuery } from "../features/call.js";
@@ -83,7 +84,12 @@ export default function UserPast() {
           </Button>
         )}
       </div>
-      <div className="col-12 col-lg-9">
+      <div className="col-12 col-lg-9 d-flex flex-column gap-2">
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
+          <Card.Body className="p-2">
+            <TimeLine badges={user.serialized} />
+          </Card.Body>
+        </Card>
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>

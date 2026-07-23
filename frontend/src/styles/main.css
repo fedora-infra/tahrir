@@ -295,3 +295,7 @@ a.vibe-border {
 .recharts-wrapper * {
   outline: none !important;
 }
+
+.recharts-brush > rect {
+  fill: var(--bs-body-bg) !important;
+}
