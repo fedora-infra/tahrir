@@ -38,6 +38,23 @@ export default function Addendum() {
               existing Fedora Project members discover different ways to get involved, and encourage the general
               improvement to free and open source software.
             </Card.Text>
+            <Card.Text className="small">
+              Running on{" "}
+              <span className="fw-bold">
+                {import.meta.env.VITE_HASH ? (
+                  <a
+                    href={`https://github.com/fedora-infra/tahrir/commit/${import.meta.env.VITE_HASH}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-decoration-none"
+                  >
+                    Tahrir v3.0.0-{import.meta.env.VITE_HASH}
+                  </a>
+                ) : (
+                  "Tahrir v3.0.0-platform"
+                )}
+              </span>
+            </Card.Text>
           </Card.Body>
         </Card>
         <Button

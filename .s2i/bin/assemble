@@ -20,4 +20,4 @@ npm ci
 if [ "$FEDORA_ENV" == "staging" ]; then
     NPM_EXTRA_ARGS="-- --mode staging"
 fi
-npm run build ${NPM_EXTRA_ARGS}
+VITE_HASH=$(git rev-parse HEAD | cut -c1-8) npm run build ${NPM_EXTRA_ARGS}
