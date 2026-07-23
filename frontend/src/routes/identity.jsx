@@ -1,11 +1,12 @@
 import { mdiFencing, mdiHistory, mdiSend } from "@mdi/js";
 import Icon from "@mdi/react";
-import { Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
 import Grouping from "../components/grouping.jsx";
+import StarData from "../components/stardata.jsx";
 import UserCard from "../components/usercard.jsx";
 import { useRetrieveIdentityQuery } from "../features/call.js";
 import { useLoadingState } from "../features/hooks.js";
@@ -85,6 +86,28 @@ export default function Identity() {
         </Button>
       </div>
       <div className="col-12 col-lg-9 d-flex flex-column gap-2">
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
+          <Card.Body className="p-2 justify-content-between">
+            <div className="row g-2 w-100">
+              <div className="col-12 col-lg-6">
+                <Card.Title className="dataelem">Statistics</Card.Title>
+                <Card.Text className="small">
+                  <ul className="list-unstyled mb-0">
+                    {Object.entries(user.classified).map(([category, list]) => (
+                      <li key={category}>
+                        <span className="text-capitalize fw-bold">{category}:</span> {list.length} badges (
+                        {((list.length / user.serialized.length) * 100).toFixed(2)}%)
+                      </li>
+                    ))}
+                  </ul>
+                </Card.Text>
+              </div>
+              <div className="col-12 col-lg-6 d-flex justify-content-lg-end justify-content-sm-center">
+                <StarData sections={user.classified} />
+              </div>
+            </div>
+          </Card.Body>
+        </Card>
         {user.classified &&
           Object.entries(user.classified).map(
             ([category, iterlist]) =>
