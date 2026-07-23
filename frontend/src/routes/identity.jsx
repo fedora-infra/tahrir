@@ -91,7 +91,7 @@ export default function Identity() {
             <div className="row g-2 w-100">
               <div className="col-12 col-lg-6">
                 <Card.Title className="dataelem">Statistics</Card.Title>
-                <Card.Text className="small">
+                <div className="small">
                   <ul className="list-unstyled mb-0">
                     {Object.entries(user.classified).map(([category, list]) => (
                       <li key={category}>
@@ -100,7 +100,7 @@ export default function Identity() {
                       </li>
                     ))}
                   </ul>
-                </Card.Text>
+                </div>
               </div>
               <div className="col-12 col-lg-6 d-flex justify-content-lg-end justify-content-sm-center">
                 <StarData sections={user.classified} />

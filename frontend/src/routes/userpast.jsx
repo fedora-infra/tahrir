@@ -109,14 +109,17 @@ export default function UserPast() {
                     hand={
                       item.reason ? (
                         <Badge
-                          as="a"
-                          href={item.reason}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          as="span"
+                          role="link"
                           bg="success"
                           text="light"
                           className="monoelem text-decoration-none"
-                          onClick={(e) => e.stopPropagation()}
+                          style={{ cursor: "pointer" }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.open(item.reason, "_blank", "noopener,noreferrer");
+                          }}
                         >
                           AUTO
                         </Badge>
