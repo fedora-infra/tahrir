@@ -290,3 +290,8 @@ a.vibe-border {
     transform: translateY(-50%) rotate(360deg);
   }
 }
+
+.recharts-wrapper,
+.recharts-wrapper * {
+  outline: none !important;
+}
