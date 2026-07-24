@@ -11,7 +11,6 @@ from . import blueprint as bp
 @csrf.exempt
 @oidc.accept_token()
 @need_access_user
-@need_access_root
 def add_invitations():
     """Endpoint to add a new invitation"""
 
@@ -39,6 +38,17 @@ def add_invitations():
 
     created_by = f"{data.get('issuer_email')}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
     badge_id = data.get("badge_id")
+
+    teamlist = g.token_profile.get("groups", [])
+    rootteam = current_app.config["TAHRIR_ADMIN_GROUPS"]
+    baseteam = current_app.config["TAHRIR_OWNER_GROUPS"]
+    if set(teamlist).intersection(set(rootteam)):
+        pass
+    elif set(teamlist).intersection(set(baseteam)):
+        if not g.tahrirdb.authorization_exists(badge_id, g.token_email):
+            return abort(403, f"Unauthorized to create invitation for badge {badge_id!r}")
+    else:
+        return abort(403, "Unauthorized")
 
     try:
         g.tahrirdb.add_invitation(
