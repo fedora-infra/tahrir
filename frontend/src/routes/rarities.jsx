@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router";
 import AccoItem from "../components/accoitem.jsx";
 import Grouping from "../components/grouping.jsx";
 import { useRetrieveRaritiesQuery } from "../features/call.js";
-import { useLoadingState } from "../features/hooks.js";
+import { useLoadingState } from "../features/hook.js";
 import { formatTime, generateIdentity, obtainRarityText, rareColors, rarities } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 

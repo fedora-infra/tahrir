@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 
 import { LookSpin } from "../../components/lookspin.jsx";
 import { useDeletionAvermentMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
-import { useLoadingState, useMinFetching } from "../../features/hooks.js";
+import { useLoadingState, useMinFetching } from "../../features/hook.js";
 import { showBaseNote } from "../../features/part.js";
 import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 
-export default function AssertionDeleteForm() {
+export default function AssertionDeleteForm({ show }) {
   const dispatch = useDispatch();
   const [deletionAverment, { isLoading }] = useDeletionAvermentMutation();
   const [accoladeLookup, setAccoladeLookup] = useState("");
@@ -32,6 +32,8 @@ export default function AssertionDeleteForm() {
   });
 
   useLoadingState(isLoading);
+
+  if (!show) return null;
 
   const handleAccoladeSelect = (accolade) => {
     setAccoladeLookup(accolade.name);

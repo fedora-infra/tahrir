@@ -9,7 +9,7 @@ import Grouping from "../components/grouping.jsx";
 import StarData from "../components/stardata.jsx";
 import UserCard from "../components/usercard.jsx";
 import { useRetrieveIdentityQuery } from "../features/call.js";
-import { useLoadingState } from "../features/hooks.js";
+import { useLoadingState } from "../features/hook.js";
 import { formatTime, generateIdentity } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
@@ -91,7 +91,7 @@ export default function Identity() {
             <div className="row g-2 w-100">
               <div className="col-12 col-lg-6">
                 <Card.Title className="dataelem">Statistics</Card.Title>
-                <div className="small">
+                <Card.Text as="div" className="small">
                   <ul className="list-unstyled mb-0">
                     {Object.entries(user.classified).map(([category, list]) => (
                       <li key={category}>
@@ -100,7 +100,7 @@ export default function Identity() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </Card.Text>
               </div>
               <div className="col-12 col-lg-6 d-flex justify-content-center justify-content-lg-end">
                 <StarData sections={user.classified} />

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 
 import { LookSpin } from "../../components/lookspin.jsx";
 import { useCreationAvermentMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
-import { useLoadingState, useMinFetching } from "../../features/hooks.js";
+import { useLoadingState, useMinFetching } from "../../features/hook.js";
 import { showBaseNote } from "../../features/part.js";
 import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 

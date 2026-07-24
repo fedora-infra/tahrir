@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router";
 
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveRankingsQuery } from "../features/call.js";
-import { useLoadingState } from "../features/hooks.js";
+import { useLoadingState } from "../features/hook.js";
 import { keepDate } from "../features/part.js";
 import { generateIdentity, portraitProvider } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";

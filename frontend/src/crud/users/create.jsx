@@ -3,10 +3,10 @@ import { Button, Card, Col, FloatingLabel, Form, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 import { useCreationIdentityMutation } from "../../features/call.js";
-import { useLoadingState } from "../../features/hooks.js";
+import { useLoadingState } from "../../features/hook.js";
 import { showBaseNote } from "../../features/part.js";
 
-export default function UserCreationForm() {
+export default function UserCreationForm({ show }) {
   const dispatch = useDispatch();
   const [creationIdentity, { isLoading }] = useCreationIdentityMutation();
 
@@ -19,6 +19,8 @@ export default function UserCreationForm() {
   });
 
   useLoadingState(isLoading);
+
+  if (!show) return null;
 
   const handleFormChange = (field, value) => {
     makeForm((prev) => ({ ...prev, [field]: value }));

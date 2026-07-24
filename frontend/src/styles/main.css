@@ -136,6 +136,10 @@ a.dropdown-toggle {
   box-shadow: none !important;
 }
 
+.btn-close:focus {
+  box-shadow: none !important;
+}
+
 .circle-border {
   border-radius: 10%;
 }

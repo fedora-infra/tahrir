@@ -5,11 +5,11 @@ import { useParams } from "react-router";
 
 import { LookSpin } from "../../components/lookspin.jsx";
 import { useLookupAccoladeQuery, useRetrieveAccoladeQuery, useUpdationAccoladeMutation } from "../../features/call.js";
-import { useLoadingState, useMinFetching } from "../../features/hooks.js";
+import { useLoadingState, useMinFetching } from "../../features/hook.js";
 import { showBaseNote } from "../../features/part.js";
 import { formatTime, relativeImageUrl } from "../../features/util.js";
 
-export default function BadgeUpdateForm() {
+export default function BadgeUpdateForm({ show }) {
   const dispatch = useDispatch();
   const { slugdata: accolade } = useParams();
   const [updationAccolade, { isLoading: isUpdating }] = useUpdationAccoladeMutation();
@@ -59,6 +59,8 @@ export default function BadgeUpdateForm() {
       setAccoladeLookup(badge.name || "");
     }
   }, [badge]);
+
+  if (!show) return null;
 
   const handleFormChange = (field, value) => {
     makeForm((prev) => ({ ...prev, [field]: value }));

@@ -3,7 +3,7 @@ import { Dropdown, Form } from "react-bootstrap";
 import { useNavigate } from "react-router";
 
 import { useRetrieveDiscoverQuery } from "../features/call.js";
-import { useMinFetching } from "../features/hooks.js";
+import { useMinFetching } from "../features/hook.js";
 import FindList from "./findlist.jsx";
 import { LookSpin } from "./lookspin.jsx";
 
