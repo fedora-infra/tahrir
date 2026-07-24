@@ -3,7 +3,6 @@ from collections import defaultdict
 from flask import abort, current_app, g
 
 from tahrir.defaults import TAHRIR_DISPLAY_TAGS
-from tahrir.utils.avatar import hash_email
 
 ISSUER = dict(
     name="Fedora Project",
@@ -24,85 +23,19 @@ def _badge_tags_list(badge):
     return [tag.name for tag in badge.tags]
 
 
-def badge_json_generator(badge, withasserts=True):
-    """
-    Serialize a badge for the JSON API.
-
-    When withasserts is False, returns compact data for listings.
-    """
-    if not withasserts:
-        return {
-            "id": badge.id,
-            "name": badge.name,
-            "description": badge.description,
-            "image": badge.image,
-            "tags": _badge_tags_list(badge),
-            "criteria": badge.criteria,
-            "rarity": badge.rarity.name if badge.rarity else None,
-            "legacy": badge.legacy,
-            "issuer": badge.issuer.name,
-            "created_on": badge.created_on.timestamp(),
-        }
-
-    assertions = sorted(badge.assertions, key=lambda b: b.issued_on)
-    times_awarded = len(badge.assertions)
-    persons_count = g.tahrirdb.get_all_persons().count()
-    if persons_count == 0:
-        percent_earned = 0
-    else:
-        percent_earned = float(times_awarded) / float(persons_count)
-
-    if assertions:
-        last_awarded = assertions[-1]
-        last_awarded_person = last_awarded.person
-        first_awarded = assertions[0]
-        first_awarded_person = first_awarded.person
-    else:
-        last_awarded = None
-        last_awarded_person = None
-        first_awarded = None
-        first_awarded_person = None
-
-    if last_awarded:
-        last_awarded = float(last_awarded.issued_on.strftime("%s"))
-
-    if last_awarded_person:
-        last_awarded_person = last_awarded_person.nickname
-
-    if first_awarded:
-        first_awarded = float(first_awarded.issued_on.strftime("%s"))
-
-    if first_awarded_person:
-        first_awarded_person = first_awarded_person.nickname
-
-    if percent_earned:
-        percent_earned *= 100
-
+def badge_json_generator(badge):
+    """Serialize a badge for the JSON API."""
     return {
         "id": badge.id,
         "name": badge.name,
         "description": badge.description,
-        "times_awarded": times_awarded,
-        "last_awarded": last_awarded,
-        "last_awarded_person": last_awarded_person,
-        "first_awarded": first_awarded,
-        "first_awarded_person": first_awarded_person,
-        "percent_earned": percent_earned,
         "image": badge.image,
         "tags": _badge_tags_list(badge),
-        "issuer": badge.issuer.name,
         "criteria": badge.criteria,
         "rarity": badge.rarity.name if badge.rarity else None,
         "legacy": badge.legacy,
-        "assertions": [
-            {
-                "name": i.person.nickname,
-                "rank": i.person.rank,
-                "date": i.issued_on.timestamp(),
-                "mail": hash_email(i.person.avatar),
-            }
-            for i in assertions
-        ],
+        "issuer": badge.issuer.name,
+        "created_on": badge.created_on.timestamp(),
     }
 
 
@@ -172,7 +105,7 @@ def generate_badge_yaml(postdict):
 
 def serialize_badges(badges):
     """Helper function to serialize badge objects to dictionaries."""
-    return [badge_json_generator(badge, withasserts=False) for badge in badges]
+    return [badge_json_generator(badge) for badge in badges]
 
 
 def organize_badges_by_tags(serialized_badges):

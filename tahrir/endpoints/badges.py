@@ -12,6 +12,16 @@ from ..utils.badge import (
 from . import blueprint as bp
 
 
+def _serialize_assertion(assertion):
+    data = assertion.as_dict()
+    data.pop("badge", None)
+    data["person"] = assertion.person.as_dict()
+    data["person"].pop("email", None)
+    data["person"]["mail"] = hash_email(assertion.person.avatar)
+    data["issued_on"] = assertion.issued_on.timestamp()
+    return data
+
+
 @bp.route("/api/badges", methods=["GET"])
 def get_all_badges():
     """Endpoint to fetch all the badges."""
@@ -61,35 +71,26 @@ def get_badge_by_id(badge_id: str):
 
     badge = get_badge_or_404(badge_id)
 
-    # This is a very unoptimised implementation for achieving pagination.
-    # The implementation should have been there in the upstream `tahrir-api` at database level.
-    assertions = sorted(
-        g.tahrirdb.get_assertions_by_badge(badge_id), key=lambda assertion: assertion.issued_on
-    )
+    origin = g.tahrirdb.get_origin_assertion_by_badge(badge_id)
+    recent = g.tahrirdb.get_recent_assertion_by_badge(badge_id)
+    times_awarded = g.tahrirdb.get_assertions_count_by_badge(badge_id)
+    persons_count = g.tahrirdb.get_all_persons().count()
+    percent_earned = (times_awarded / persons_count * 100) if persons_count else 0
 
     data = badge_json_generator(badge)
+    data["times_awarded"] = times_awarded
+    data["percent_earned"] = percent_earned
+    data["first_awarded"] = origin.issued_on.timestamp() if origin else None
+    data["first_awarded_person"] = origin.person.nickname if origin else None
+    data["last_awarded"] = recent.issued_on.timestamp() if recent else None
+    data["last_awarded_person"] = recent.person.nickname if recent else None
     data["assertions"] = {"origin": {}, "recent": {}}
-    if assertions:
-        # Process first assertion
-        origin_assertion_data = assertions[0].as_dict()
-        origin_assertion_data.pop("badge", None)  # Remove unwanted fields
-        origin_assertion_data["person"] = assertions[0].person.as_dict()  # Add user info
-        origin_assertion_data["person"].pop("email", None)  # Remove email field
-        origin_assertion_data["person"]["mail"] = hash_email(assertions[0].person.avatar)
-        origin_assertion_data["issued_on"] = assertions[0].issued_on.timestamp()
-        data["assertions"]["origin"] = origin_assertion_data
-
-        if len(assertions) > 1:
-            # Process last assertion
-            recent_assertion_data = assertions[-1].as_dict()
-            recent_assertion_data.pop("badge", None)  # Remove unwanted fields
-            recent_assertion_data["person"] = assertions[-1].person.as_dict()  # Add user info
-            recent_assertion_data["person"].pop("email", None)  # Remove email field
-            recent_assertion_data["person"]["mail"] = hash_email(assertions[-1].person.avatar)
-            recent_assertion_data["issued_on"] = assertions[-1].issued_on.timestamp()
-            data["assertions"]["recent"] = recent_assertion_data
+    if origin:
+        data["assertions"]["origin"] = _serialize_assertion(origin)
+        if recent and recent.id != origin.id:
+            data["assertions"]["recent"] = _serialize_assertion(recent)
         else:
-            data["assertions"]["recent"] = origin_assertion_data
+            data["assertions"]["recent"] = data["assertions"]["origin"]
 
     return jsonify(data)
 

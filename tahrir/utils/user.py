@@ -241,7 +241,7 @@ def get_user_badge_info(user):
     classified = {name: [] for name in TAHRIR_DISPLAY_TAGS}
 
     for indx, item in enumerate(assertions):
-        badge = badge_json_generator(item.badge, withasserts=False)
+        badge = badge_json_generator(item.badge)
         serialized_badges.append({**badge})
         for name in classified.keys():
             if name in [tag.name for tag in item.badge.tags]:
