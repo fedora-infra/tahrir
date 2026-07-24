@@ -8,6 +8,7 @@ SESSION_COOKIE_SECURE = False
 SQLALCHEMY_DATABASE_URI = "sqlite:///{{ devel_dir }}/tahrir.db"
 OIDC_CLIENT_SECRETS = "{{ devel_dir }}/oidc-api.json"
 
+TAHRIR_OWNER_GROUPS = ["signed_fpca"]
 TAHRIR_ADMIN_GROUPS = ["admins"]
 TAHRIR_PNGS_PATH = "{{ devel_dir }}/fedora-badges/pngs"
 TAHRIR_STLS_PATH = "{{ devel_dir }}/fedora-badges/stls"

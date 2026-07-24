@@ -32,7 +32,8 @@ OIDC_SCOPES = " ".join(
 # OIDC_CLIENT_SECRET = ""
 OIDC_USER_CLASS = "tahrir.utils.user:User"
 
-TAHRIR_ADMIN_GROUPS = ["sysadmin-main"]
+TAHRIR_OWNER_GROUPS = ["signed_fpca"]
+TAHRIR_ADMIN_GROUPS = ["sysadmin-badges"]
 TAHRIR_TITLE = "Fedora Badges"
 _badges_path = os.path.join(BASE_PATH, "..", "fedora-badges")
 TAHRIR_PNGS_PATH = os.path.join(_badges_path, "pngs")
