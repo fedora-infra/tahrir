@@ -7,7 +7,7 @@ import { Link, useParams, useSearchParams } from "react-router";
 
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveAccoladeQuery, useRetrieveAvermentQuery } from "../features/call.js";
-import { useLoadingState } from "../features/hooks.js";
+import { useLoadingState } from "../features/hook.js";
 import { formatTime, generateIdentity, portraitProvider, rarities, relativeImageUrl } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 

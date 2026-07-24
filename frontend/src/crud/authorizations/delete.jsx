@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 
 import { LookSpin } from "../../components/lookspin.jsx";
 import { useDeletionSanctionMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
-import { useLoadingState, useMinFetching } from "../../features/hooks.js";
+import { useLoadingState, useMinFetching } from "../../features/hook.js";
 import { showBaseNote } from "../../features/part.js";
 import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 
-export default function AuthorizationDeletionForm() {
+export default function AuthorizationDeletionForm({ show }) {
   const dispatch = useDispatch();
   const [deletionSanction, { isLoading }] = useDeletionSanctionMutation();
 
@@ -33,6 +33,8 @@ export default function AuthorizationDeletionForm() {
   const showIdentitySpinner = useMinFetching(isIdentityFetching);
 
   useLoadingState(isLoading);
+
+  if (!show) return null;
 
   const handleAccoladeSelect = (accolade) => {
     setAccoladeLookup(accolade.name);

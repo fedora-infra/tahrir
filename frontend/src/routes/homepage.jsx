@@ -1,7 +1,6 @@
 import {
   mdiCrosshairsGps,
   mdiHeart,
-  mdiHistory,
   mdiInformationOutline,
   mdiStarFourPoints,
   mdiTrophy,
@@ -16,7 +15,7 @@ import { Link, useNavigate } from "react-router";
 
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveAccoListQuery, useRetrieveGrantingQuery } from "../features/call.js";
-import { useLoadingState } from "../features/hooks.js";
+import { useLoadingState } from "../features/hook.js";
 import { generateIdentity, portraitProvider } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
@@ -80,17 +79,6 @@ export default function Homepage() {
             </Card.Text>
           </Card.Body>
         </Card>
-        <Button
-          as={Link}
-          to="/recently"
-          variant="outline-secondary"
-          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          <Icon path={mdiHistory} size={0.875} className="me-1" />
-          Recently introduced
-        </Button>
         <Button
           as={Link}
           to="/assembly"

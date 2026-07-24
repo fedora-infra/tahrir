@@ -1,11 +1,11 @@
 import { mdiAccountCircle, mdiCrown, mdiCubeScan, mdiMedal, mdiShieldStarOutline } from "@mdi/js";
-import Icon from "@mdi/react";
 import { useEffect } from "react";
-import { Card, ListGroup } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import BaseNote from "../components/basenote.jsx";
+import HeadItem from "../components/headitem.jsx";
 import AssertionCreationForm from "../crud/assertions/create.jsx";
 import AssertionUpdateForm from "../crud/assertions/delete.jsx";
 import AuthorizationCreationForm from "../crud/authorizations/create.jsx";
@@ -18,7 +18,7 @@ import UserCreationForm from "../crud/users/create.jsx";
 import UserUpdateForm from "../crud/users/update.jsx";
 import { loadUserData } from "../features/auth.js";
 import { hideLoad, showLoad } from "../features/part.js";
-import { owners } from "../features/util.js";
+import { admins, owners } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 
 export default function Governor() {
@@ -52,6 +52,8 @@ export default function Governor() {
     return <Mistaken />;
   }
 
+  const inAdmins = user?.groups?.includes(admins);
+
   return (
     <>
       <div className="row g-2 mb-2">
@@ -59,79 +61,48 @@ export default function Governor() {
           <Card className="vibe-border" style={{ "--vibe": vibe }}>
             <Card.Body className="p-2">
               <Card.Title className="dataelem text-truncate">Governor</Card.Title>
-              <Card.Text className="small">
-                <div>
-                  You have access to administrative functions because you belong to the{" "}
-                  <span className="fw-bold">{owners}</span> group.
-                </div>
-                <div className="mt-2">
-                  Please be extremely careful about the changes you make as there are zero protections whatsoever to
-                  mishaps.
-                </div>
+              <Card.Text as="div" className="small">
+                {inAdmins ? (
+                  <>
+                    <div>
+                      You have access to all administrative functions because you belong to the{" "}
+                      <span className="fw-bold">{admins}</span> group.
+                    </div>
+                    <div className="mt-2">
+                      Please be extremely careful about the changes you make as there are zero protections whatsoever to
+                      mishaps.
+                    </div>
+                  </>
+                ) : (
+                  <div>
+                    You have access to award badges and create invitations because you belong to the{" "}
+                    <span className="fw-bold">{owners}</span> group.
+                  </div>
+                )}
               </Card.Text>
             </Card.Body>
           </Card>
         </div>
         <div className="col-12 col-lg-9 d-flex flex-column gap-2">
-          <ListGroup>
-            <ListGroup.Item
-              className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
-              style={{ "--vibe": vibe }}
-            >
-              Assertions
-              <Icon path={mdiMedal} size={1} />
-            </ListGroup.Item>
-          </ListGroup>
+          <HeadItem icon={mdiMedal} name="Assertions" vibe={vibe} />
           <AssertionCreationForm />
-          <AssertionUpdateForm />
+          <AssertionUpdateForm show={inAdmins} />
           <hr className="mt-0 mb-0" />
-          <ListGroup>
-            <ListGroup.Item
-              className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
-              style={{ "--vibe": vibe }}
-            >
-              Authorizations
-              <Icon path={mdiCrown} size={1} />
-            </ListGroup.Item>
-          </ListGroup>
-          <AuthorizationCreationForm />
-          <AuthorizationDeletionForm />
-          <hr className="mt-0 mb-0" />
-          <ListGroup>
-            <ListGroup.Item
-              className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
-              style={{ "--vibe": vibe }}
-            >
-              Invitations
-              <Icon path={mdiCubeScan} size={1} />
-            </ListGroup.Item>
-          </ListGroup>
+          <HeadItem icon={mdiCubeScan} name="Invitations" vibe={vibe} />
           <InvitationCreationForm />
-          <InvitationDeletionForm />
-          <hr className="mt-0 mb-0" />
-          <ListGroup>
-            <ListGroup.Item
-              className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
-              style={{ "--vibe": vibe }}
-            >
-              Users
-              <Icon path={mdiAccountCircle} size={1} />
-            </ListGroup.Item>
-          </ListGroup>
-          <UserCreationForm />
-          <UserUpdateForm />
-          <hr className="mt-0 mb-0" />
-          <ListGroup>
-            <ListGroup.Item
-              className="d-flex justify-content-between align-items-center ps-2 pe-2 vibe-border dataelem h5 mb-0"
-              style={{ "--vibe": vibe }}
-            >
-              Badges
-              <Icon path={mdiShieldStarOutline} size={1} />
-            </ListGroup.Item>
-          </ListGroup>
-          <BadgeCreationForm />
-          <BadgeUpdateForm />
+          <InvitationDeletionForm show={inAdmins} />
+          {inAdmins && <hr className="mt-0 mb-0" />}
+          <HeadItem icon={mdiCrown} name="Authorizations" vibe={vibe} show={inAdmins} />
+          <AuthorizationCreationForm show={inAdmins} />
+          <AuthorizationDeletionForm show={inAdmins} />
+          {inAdmins && <hr className="mt-0 mb-0" />}
+          <HeadItem icon={mdiShieldStarOutline} name="Badges" vibe={vibe} show={inAdmins} />
+          <BadgeCreationForm show={inAdmins} />
+          <BadgeUpdateForm show={inAdmins} />
+          {inAdmins && <hr className="mt-0 mb-0" />}
+          <HeadItem icon={mdiAccountCircle} name="Users" vibe={vibe} show={inAdmins} />
+          <UserCreationForm show={inAdmins} />
+          <UserUpdateForm show={inAdmins} />
         </div>
       </div>
       <BaseNote />

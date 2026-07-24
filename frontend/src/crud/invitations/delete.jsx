@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 
 import { LookSpin } from "../../components/lookspin.jsx";
 import { useDeletionQRInviteMutation, useLookupIdentityQuery, useRetrieveQRInviteQuery } from "../../features/call.js";
-import { useLoadingState, useMinFetching } from "../../features/hooks.js";
+import { useLoadingState, useMinFetching } from "../../features/hook.js";
 import { showBaseNote } from "../../features/part.js";
 import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 
-export default function InvitationDeletionForm() {
+export default function InvitationDeletionForm({ show }) {
   const dispatch = useDispatch();
   const [deletionQRInvite, { isLoading }] = useDeletionQRInviteMutation();
   const [identitySearch, makeIdentitySearch] = useState("");
@@ -32,6 +32,8 @@ export default function InvitationDeletionForm() {
   });
 
   useLoadingState(isLoading);
+
+  if (!show) return null;
 
   const handleFormChange = (field, value) => {
     makeForm((prev) => ({ ...prev, [field]: value }));

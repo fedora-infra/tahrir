@@ -9,7 +9,7 @@ import Grouping from "../components/grouping.jsx";
 import UserCard from "../components/usercard.jsx";
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveContrastQuery } from "../features/call.js";
-import { useLoadingState } from "../features/hooks.js";
+import { useLoadingState } from "../features/hook.js";
 import { formatTime, generateIdentity } from "../features/util.js";
 import Mistaken from "./mistaken.jsx";
 

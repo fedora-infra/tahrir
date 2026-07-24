@@ -8,11 +8,11 @@ import {
   useToggleIdentityOptOutMutation,
   useUpdationIdentityMutation,
 } from "../../features/call.js";
-import { useLoadingState, useMinFetching } from "../../features/hooks.js";
+import { useLoadingState, useMinFetching } from "../../features/hook.js";
 import { showBaseNote } from "../../features/part.js";
 import { formatTime, portraitProvider } from "../../features/util.js";
 
-export default function UserUpdateForm() {
+export default function UserUpdateForm({ show }) {
   const dispatch = useDispatch();
   const [updationIdentity, { isLoading: isUpdating }] = useUpdationIdentityMutation();
   const [toggleOptOut, { isLoading: isToggling }] = useToggleIdentityOptOutMutation();
@@ -39,6 +39,8 @@ export default function UserUpdateForm() {
   const showUserSpinner = useMinFetching(isUserFetching);
 
   useLoadingState(isUpdating, isToggling);
+
+  if (!show) return null;
 
   const handleFormChange = (field, value) => {
     makeForm((prev) => ({ ...prev, [field]: value }));

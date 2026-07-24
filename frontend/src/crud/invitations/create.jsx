@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { LookSpin } from "../../components/lookspin.jsx";
 import { useCreationQRInviteMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
-import { useLoadingState, useMinFetching } from "../../features/hooks.js";
+import { useLoadingState, useMinFetching } from "../../features/hook.js";
 import { showBaseNote } from "../../features/part.js";
 import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 
 export default function InvitationCreationForm() {
   const dispatch = useDispatch();
+  const user = useSelector((data) => data.auth.user);
   const [creationQRInvite, { isLoading }] = useCreationQRInviteMutation();
   const [accoladeLookup, makeAccoladeLookup] = useState("");
-  const [identityLookup, makeIdentityLookup] = useState("");
+  const [identityLookup, makeIdentityLookup] = useState(user?.nickname || "");
   const [accoladeDropdownShow, makeAccoladeDropdownShow] = useState(false);
   const [identityDropdownShow, makeIdentityDropdownShow] = useState(false);
 
@@ -28,7 +29,7 @@ export default function InvitationCreationForm() {
 
   const [form, makeForm] = useState({
     badge_id: "",
-    issuer_email: "",
+    issuer_email: user?.nickname || "",
     created_on: "",
     expires_on: "",
   });

@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 
 import { LookSpin } from "../../components/lookspin.jsx";
 import { useCreationSanctionMutation, useLookupAccoladeQuery, useLookupIdentityQuery } from "../../features/call.js";
-import { useLoadingState, useMinFetching } from "../../features/hooks.js";
+import { useLoadingState, useMinFetching } from "../../features/hook.js";
 import { showBaseNote } from "../../features/part.js";
 import { portraitProvider, relativeImageUrl } from "../../features/util.js";
 
-export default function AuthorizationCreationForm() {
+export default function AuthorizationCreationForm({ show }) {
   const dispatch = useDispatch();
   const [creationSanction, { isLoading }] = useCreationSanctionMutation();
 
@@ -46,6 +46,8 @@ export default function AuthorizationCreationForm() {
   }, [identityResult, identityLookup]);
 
   useLoadingState(isLoading);
+
+  if (!show) return null;
 
   const handleAccoladeSelect = (accolade) => {
     console.log("Selected badge:", JSON.stringify(accolade, null, 2));
