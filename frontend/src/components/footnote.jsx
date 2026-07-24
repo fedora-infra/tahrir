@@ -11,18 +11,20 @@ export default function FootNote() {
     <Container>
       <footer className="border-top py-2">
         <Row className="align-items-center">
-          <Col className="col-lg-3 text-start">
+          <Col className="col-lg-3 d-flex align-items-center">
             <a
               href="https://www.redhat.com/"
-              className="text-decoration-none"
+              className="text-decoration-none d-inline-flex"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Image
-                src="https://fedoraproject.org/assets/images/logo-sponsored-by-red-hat.png"
-                height="40"
-                className="d-block me-auto"
-              />
+              <span className="d-inline-block position-relative me-auto rh-logo">
+                <Image
+                  src="https://fedoraproject.org/assets/images/logo-sponsored-by-red-hat.png"
+                  height="40"
+                  className="d-block me-auto"
+                />
+              </span>
             </a>
           </Col>
           <Col className="col-lg-9 text-end small text-muted">
