@@ -19,9 +19,10 @@ def app_config(tmpdir):
         # We don't do https for testing
         SESSION_COOKIE_SECURE=False,
         SQLALCHEMY_DATABASE_URI=f"sqlite:///{db_path}",
-        TAHRIR_ADMIN_GROUPS=["admin"],
+        TAHRIR_OWNER_GROUPS=["signed_fpca"],
+        TAHRIR_ADMIN_GROUPS=["admins"],
         OIDC_ENABLED=False,
-        OIDC_TESTING_PROFILE={"nickname": "test-user", "groups": ["admin"]},
+        OIDC_TESTING_PROFILE={"nickname": "test-user", "groups": ["admins", "signed_fpca"]},
     )
 
 
