@@ -123,6 +123,13 @@ a.dropdown-toggle {
   border-top-color: #ffffff !important;
 }
 
+/* Override the dropdown active state to use vibe theming */
+.navbar .dropdown-item:active,
+.navbar .dropdown-item.active {
+  background-color: var(--vibe) !important;
+  color: #ffffff !important;
+}
+
 /* Override the search styling to play well with vibe theming */
 .form-control:focus {
   border-color: var(--bs-border-color) !important;
@@ -220,6 +227,16 @@ a.dropdown-toggle {
 .rarity-icon {
   height: 20px;
   width: 20px;
+}
+
+[data-bs-theme="light"] .rh-logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("https://fedoraproject.org/assets/images/logo-sponsored-by-red-hat.png") no-repeat left center /
+    contain;
+  clip-path: inset(0 0 0 34%);
+  filter: invert(1) opacity(0.6);
 }
 
 /* Dynamic vibe badge styling */
