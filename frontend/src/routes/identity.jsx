@@ -40,11 +40,11 @@ export default function Identity() {
     <div className="row g-2 mb-2">
       <div className="col-12 col-lg-3 d-flex flex-column gap-2">
         <UserCard
-          mail={user.mail}
-          name={user.user}
+          mail={user.user.mail}
+          name={user.user.nickname}
           rank={user.rank}
           perc={user.percentile}
-          poll={user.serialized.length}
+          poll={user.badges.length}
           earn={user.percent_earned}
         />
         {authUser && authUser.nickname === identity && (
@@ -96,7 +96,7 @@ export default function Identity() {
                     {Object.entries(user.classified).map(([category, list]) => (
                       <li key={category}>
                         <span className="text-capitalize fw-bold">{category}:</span> {list.length} badge(s) (
-                        {((list.length / user.serialized.length) * 100).toFixed(2)}%)
+                        {((list.length / user.badges.length) * 100).toFixed(2)}%)
                       </li>
                     ))}
                   </ul>
@@ -114,14 +114,14 @@ export default function Identity() {
               iterlist.length > 0 && (
                 <Grouping key={generateIdentity(category)} name={category} wide={iterlist.length} head={true}>
                   {iterlist.map((indx) => {
-                    const item = user.serialized[indx];
+                    const item = user.badges[indx];
                     return item ? (
                       <AccoItem
                         key={generateIdentity(item.id)}
                         iden={item.id}
                         name={item.name}
                         body={item.description}
-                        foot={formatTime(item.issued)}
+                        foot={formatTime(item.created_on)}
                         shot={item.image}
                         rare={item.rarity}
                       />

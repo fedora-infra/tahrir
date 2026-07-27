@@ -39,11 +39,11 @@ export default function UserPast() {
     <div className="row g-2 mb-2">
       <div className="col-12 col-lg-3 d-flex flex-column gap-2">
         <UserCard
-          mail={user.mail}
-          name={user.user}
+          mail={user.user.mail}
+          name={user.user.nickname}
           rank={user.rank}
           perc={user.percentile}
-          poll={user.serialized.length}
+          poll={user.badges.length}
           earn={user.percent_earned}
         />
         {authUser && authUser.nickname === identity && (
@@ -87,7 +87,7 @@ export default function UserPast() {
       <div className="col-12 col-lg-9 d-flex flex-column gap-2">
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
-            <TimeLine badges={user.serialized} />
+            <TimeLine badges={user.badges} />
           </Card.Body>
         </Card>
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
@@ -95,16 +95,16 @@ export default function UserPast() {
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               History
             </Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Collected {user.serialized.length} badge(s)</Card.Text>
+            <Card.Text className="mb-0 ps-2 small">Collected {user.badges.length} badge(s)</Card.Text>
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush" className="mb-0">
-              {user.serialized &&
-                user.serialized.map((item) => (
+              {user.badges &&
+                user.badges.map((item) => (
                   <VertItem
                     key={generateIdentity(item.id)}
                     link={`/accolade/${item.id}`}
                     head={item.name}
-                    body={`Awarded on ${formatTime(item.issued)}`}
+                    body={`Awarded on ${formatTime(item.created_on)}`}
                     shot={item.image}
                     hand={
                       item.reason ? (

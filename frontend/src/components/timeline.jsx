@@ -8,7 +8,7 @@ export default function TimeLine({ badges }) {
 
   const bins = {};
   badges.forEach((item) => {
-    const date = new Date(item.issued * 1000);
+    const date = new Date(item.created_on * 1000);
     const indx = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
     bins[indx] = (bins[indx] || 0) + 1;
   });
