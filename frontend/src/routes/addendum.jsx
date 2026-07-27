@@ -1,10 +1,7 @@
-import { mdiHome } from "@mdi/js";
-import Icon from "@mdi/react";
 import { useEffect, useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import Markdown from "react-markdown";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router";
 
 import { hideLoad, showLoad } from "../features/part.js";
 
@@ -57,17 +54,6 @@ export default function Addendum() {
             </Card.Text>
           </Card.Body>
         </Card>
-        <Button
-          as={Link}
-          to="/"
-          variant="outline-secondary"
-          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          <Icon path={mdiHome} size={0.875} className="me-1" />
-          Return home
-        </Button>
       </div>
       <div className="col-12 col-lg-9">
         <Card className="vibe-border" style={{ "--vibe": vibe }}>

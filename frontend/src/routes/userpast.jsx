@@ -1,4 +1,4 @@
-import { mdiBookAccount, mdiFencing, mdiSend } from "@mdi/js";
+import { mdiBookAccount, mdiCrown, mdiFencing, mdiSend } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Badge, Button, Card, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -46,6 +46,19 @@ export default function UserPast() {
           poll={user.badges.length}
           earn={user.percent_earned}
         />
+        {authUser && authUser.nickname === identity && (
+          <Button
+            as={Link}
+            to="/authlist"
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiCrown} size={0.875} className="me-1" />
+            Approval
+          </Button>
+        )}
         {authUser && authUser.nickname === identity && (
           <Button
             as={Link}
