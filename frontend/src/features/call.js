@@ -92,7 +92,7 @@ export const callUnit = createApi({
     }),
     retrieveRankings: builder.query({
       query: ({ y, w, m, d, begin = 0, limit = 200 } = {}) => {
-        let link = "report";
+        let link = "../api/rankings";
         if (y) {
           link += `/y/${y}`;
           if (m) {
