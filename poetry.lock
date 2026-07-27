@@ -2346,14 +2346,14 @@ files = [
 
 [[package]]
 name = "tahrir-api"
-version = "1.5.4"
+version = "1.5.5"
 description = "An API for interacting with the Tahrir database"
 optional = false
 python-versions = "<4.0.0,>=3.10.0"
 groups = ["main"]
 files = [
-    {file = "tahrir_api-1.5.4-py3-none-any.whl", hash = "sha256:771f9871c672b042d8772f96a094ea263e8a9fe9aec65e198dc25fa1f5330136"},
-    {file = "tahrir_api-1.5.4.tar.gz", hash = "sha256:ee4f890ddaf757ee133064d2d2deca5bddde1896f2311209d3e14e9ab80bf875"},
+    {file = "tahrir_api-1.5.5-py3-none-any.whl", hash = "sha256:2e317ed4b607972a0a3dbd15e51cd878f87c99571d29560b884a85285bb95eb0"},
+    {file = "tahrir_api-1.5.5.tar.gz", hash = "sha256:1e6275b91d0df70059195fee447f99e960157618cf4f635655ca72af7b03a5b9"},
 ]
 
 [package.dependencies]
@@ -2724,4 +2724,4 @@ docs = ["myst-parser", "sphinx"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10.0"
-content-hash = "be0e39afdc02abc6b21f1d9d32afa0c14a80b0780ec1ad7a22ffb7ee468f3c57"
+content-hash = "f20664fb47521bf894aba153864e0ddc6b4b47328831df00f039fd1a48c7d8eb"
