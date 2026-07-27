@@ -11,26 +11,6 @@ admin = Admin(
 )
 
 
-class LazyModelView(ModelView):
-    """Like ModelView, but lazily evaluates the DB session to have access to flask.g"""
-
-    _session = None
-    _session_getter = None
-
-    @property
-    def session(self):
-        if self._session is None:
-            if self._session_getter is None:
-                raise RuntimeError("The session getter hasn't been set yet")
-            self._session = self._session_getter()
-        return self._session
-
-    @session.setter
-    def session(self, value):
-        self._session_getter = value
-        self._session = None
-
-
 class TahrirModelView(ModelView):
     page_size = 50  # the number of entries to display on the list view
 
