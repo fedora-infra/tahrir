@@ -69,40 +69,6 @@ def convert_name_to_id(name):
     return badge_id
 
 
-def generate_badge_yaml(postdict):
-    return (
-        "%YAML 1.2\n"
-        "---\n"
-        "\n"
-        "# This is some metadata about the badge.\n"
-        "name:           " + postdict.get("badge-name", default="") + "\n"
-        "description:    " + postdict.get("badge-description", default="") + "\n"
-        "creator:        " + postdict.get("badge-creator", default="") + "\n"
-        "\n"
-        "# This is a link to the discussion about adopting this as\n"
-        "a for-real badge\n"
-        "discussion:     " + postdict.get("discussion", default="") + "\n"
-        "\n"
-        "# A link to the image for the badge.\n"
-        "image_url:      " + postdict.get("image", default="") + "\n"
-        "\n"
-        "# The issuer.\n"
-        "issuer_id:      " + postdict.get("issuer", default="") + "\n"
-        "\n"
-        "# We'll perform our more costly check (defined below)\n"
-        "# only when we receive messages that match this trigger.\n"
-        "trigger:\n"
-        "  topic:        " + postdict.get("trigger-topic", default="") + "\n"
-        "\n"
-        "# Award the badge under these conditions:\n"
-        "condition:\n" + postdict.get("condition", default="") + "\n"
-        "# If the messages matches for the user for the first time, look into previous messages"
-        " to get the count:\n"
-        "previous:\n" + postdict.get("previous", default="") + "\n"
-        "(This section is under construction.)"
-    )
-
-
 def serialize_badges(badges):
     """Helper function to serialize badge objects to dictionaries."""
     return [badge_json_generator(badge) for badge in badges]

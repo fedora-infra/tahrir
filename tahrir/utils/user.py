@@ -1,10 +1,9 @@
 import logging
 import typing
 from functools import wraps
-from urllib.parse import quote_plus
 
 from authlib.integrations.flask_oauth2 import current_token
-from flask import abort, current_app, g, redirect, request, session, url_for
+from flask import abort, current_app, g, request, session
 from flask_oidc.model import User as OIDCUser
 
 from tahrir.defaults import TAHRIR_DISPLAY_TAGS
@@ -21,11 +20,9 @@ class User(OIDCUser):
     def __init__(self, ext):
         super().__init__(ext)
         self._person = None
-        self._awarded_assertions = None
 
     def reset_cache(self):
         self._person = None
-        self._awarded_assertions = None
 
     def _has_token(self):
         return session.get("oidc_auth_token") is not None
@@ -47,14 +44,6 @@ class User(OIDCUser):
         if self._person is None:
             self._person = g.tahrirdb.get_person(nickname=self.name)
         return self._person
-
-    @property
-    def awarded_assertions(self):
-        if self.name is None:
-            return []
-        if self._awarded_assertions is None:
-            self._awarded_assertions = get_awarded_assertions(self.name)
-        return self._awarded_assertions
 
     @property
     def is_admin(self):
@@ -115,58 +104,6 @@ def get_person(id_or_nickname):
             return g.tahrirdb.get_person(id=int(id_or_nickname))
         except ValueError:
             return None
-
-
-def get_awarded_assertions(username):
-    if username is None:
-        return []
-    email = f"{username}@{current_app.config['TAHRIR_EMAIL_DOMAIN']}"
-    assertions = g.tahrirdb.get_assertions_by_email(email)
-    if assertions is False:
-        # tahrir-api returns False when the user does not exist.
-        assertions = []
-    return assertions
-
-
-def require_login(view_func):
-    """
-    Use this to decorate view functions that require a user to be logged
-    in. If the user is not already logged in, they will be sent to the
-    Provider to log in, after which they will be returned.
-
-    .. versionadded:: 1.0
-        This was :func:`check` before.
-    """
-
-    @wraps(view_func)
-    def decorated(*args, **kwargs):
-        if not g.oidc_user.logged_in:
-            redirect_uri = "{login}?next={here}".format(
-                login=url_for("oidc_auth.login"),
-                here=quote_plus(request.url),
-            )
-            return redirect(redirect_uri)
-        return view_func(*args, **kwargs)
-
-    return decorated
-
-
-def require_admin(view_func):
-    """
-    Use this to decorate view functions that require a user to be logged
-    in. This assumes the user is already logged-in.
-
-    .. versionadded:: 1.0
-       This was :func:`check` before.
-    """
-
-    @wraps(view_func)
-    def decorated(*args, **kwargs):
-        if not g.oidc_user.is_admin:
-            abort(403, "Unauthorized: admins only.")
-        return view_func(*args, **kwargs)
-
-    return decorated
 
 
 def _populate_access_user():

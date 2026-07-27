@@ -38,16 +38,10 @@ TAHRIR_TITLE = "Fedora Badges"
 _badges_path = os.path.join(BASE_PATH, "..", "fedora-badges")
 TAHRIR_PNGS_PATH = os.path.join(_badges_path, "pngs")
 TAHRIR_STLS_PATH = os.path.join(_badges_path, "stls")
-TAHRIR_DEFAULT_ISSUER = "fedora-project"
 TAHRIR_DEFAULT_AVATAR = "retro"
-TAHRIR_OPENBADGES_MODAL = True
 TAHRIR_DISPLAY_TAGS = ["content", "development", "community", "quality", "event", "miscellaneous"]
 TAHRIR_SITEDOCS_SUBDIR = "sitedocs"
 TAHRIR_USE_FEDMSG = False
-TAHRIR_SOCIAL_TWITTER = True
-TAHRIR_SOCIAL_TWITTER_USER_TEXT = "Check out all these #fedorabadges :trophy:"
-TAHRIR_SOCIAL_TWITTER_USER_HASH = "#fedora"
-
 # If this is true, we'll store the email from the user's FAS account, if
 # not, then we'll use their FAS_USERNAME@fedoraproject.org.  For Fedora
 # Infrastructure we want this to be false due to some inconsistencies between
@@ -55,8 +49,6 @@ TAHRIR_SOCIAL_TWITTER_USER_HASH = "#fedora"
 # may set this to true with no problem.
 TAHRIR_USE_OPENID_EMAIL = False
 TAHRIR_EMAIL_DOMAIN = "example.com"
-TAHRIR_FAS_URL = "https://accounts.fedoraproject.org"
-
 # Cache
 CACHE = {
     "backend": "dogpile.cache.null",

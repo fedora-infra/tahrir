@@ -1,7 +1,6 @@
 import os
 from logging.config import dictConfig
 
-import flask_talisman
 from flask import Flask
 from flask_cors import CORS
 from flask_healthz import healthz
@@ -9,7 +8,6 @@ from flask_oidc import OpenIDConnect
 from flask_oidc.signals import after_authorize
 from flask_wtf.csrf import CSRFProtect
 
-from tahrir import l10n
 from tahrir.admin import admin
 from tahrir.cache import cache
 from tahrir.cli import tahrir_cli
@@ -17,9 +15,6 @@ from tahrir.database import db
 from tahrir.endpoints import blueprint as endpoint_bp
 from tahrir.endpoints.admin import blueprint as admin_bp
 from tahrir.utils import import_all
-from tahrir.utils.avatar import as_avatar
-from tahrir.utils.date_time import relative_time
-from tahrir.utils.templates import templates_context
 from tahrir.utils.user import on_authorized
 from tahrir.views import add_frontend_view, add_static_view, internal_server_error, page_not_found
 from tahrir.views import blueprint as root_bp
@@ -29,7 +24,6 @@ csrf = CSRFProtect()
 
 # Security
 oidc = OpenIDConnect()
-talisman = flask_talisman.Talisman()
 cors = CORS(
     resources={
         r"/api/*": {"origins": "*", "allow_headers": ["Authorization", "Content-Type"]},
@@ -77,10 +71,6 @@ def create_app(config=None):
 
     # Extensions
     oidc.init_app(app, prefix="/oidc")
-    # app.before_request(oidc._before_request)
-    l10n.babel.init_app(app, locale_selector=l10n.pick_locale)
-    app.before_request(l10n.store_locale)
-    app.jinja_env.add_extension("jinja2.ext.i18n")
     admin.init_app(app)
     csrf.init_app(app)
 
@@ -92,30 +82,9 @@ def create_app(config=None):
 
     # Security
     cors.init_app(app)
-    # talisman.init_app(
-    #     app,
-    #     force_https=app.config.get("SESSION_COOKIE_SECURE", True),
-    #     session_cookie_secure=app.config.get("SESSION_COOKIE_SECURE", True),
-    #     frame_options=flask_talisman.DENY,
-    #     referrer_policy="same-origin",
-    #     content_security_policy={
-    #         "default-src": ["'self'", "apps.fedoraproject.org"],
-    #         "script-src": [
-    #             # https://csp.withgoogle.com/docs/strict-csp.html#example
-    #             "'strict-dynamic'",
-    #         ],
-    #         # "img-src": ["'self'", "seccdn.libravatar.org"],
-    #     },
-    #     content_security_policy_nonce_in=["script-src"],
-    # )
 
     # Authentication callback
     after_authorize.connect(on_authorized)
-
-    # Templates
-    app.context_processor(templates_context)
-    app.jinja_env.filters["relative_time"] = relative_time
-    app.jinja_env.filters["as_avatar"] = as_avatar
 
     # Register views
     import_all("tahrir.views")
