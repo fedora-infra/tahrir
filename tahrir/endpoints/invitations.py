@@ -50,7 +50,7 @@ def get_invitations(user_id: str):
     invitations = g.tahrirdb.get_invitations(person_id=person.id)
 
     if not invitations:
-        return abort(404, "No invitations available")
+        return jsonify({})
 
     invitations_data = {}
 

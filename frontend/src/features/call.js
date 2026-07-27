@@ -235,6 +235,13 @@ export const callUnit = createApi({
         "Discover",
       ],
     }),
+    retrieveAuthList: builder.query({
+      query: (identity) => ({
+        url: `../api/authorizations/${identity}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, username) => [{ type: "Sanction", id: username }],
+    }),
     creationSanction: builder.mutation({
       query: (sanctionData) => ({
         url: "../api/admin/authorization",
@@ -333,6 +340,7 @@ export const {
   useCreationQRInviteMutation,
   useDeletionQRInviteMutation,
   useUpdationAccoladeMutation,
+  useRetrieveAuthListQuery,
   useCreationSanctionMutation,
   useDeletionSanctionMutation,
   useCreationIdentityMutation,

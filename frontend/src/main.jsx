@@ -10,6 +10,7 @@ import { data } from "./features/data.js";
 import Accolade from "./routes/accolade.jsx";
 import AccoList from "./routes/accolist.jsx";
 import Addendum from "./routes/addendum.jsx";
+import AuthList from "./routes/authlist.jsx";
 import Callback from "./routes/callback.jsx";
 import Campaign from "./routes/campaign.jsx";
 import Category from "./routes/category.jsx";
@@ -64,6 +65,7 @@ createRoot(document.getElementById("root")).render(
             <Route element={<Identity />} path="identity/:slugdata" />
             <Route element={<UserPast />} path="userpast/:slugdata" />
             <Route element={<Rarities />} path="rarities/:slugdata" />
+            <Route element={<AuthList />} path="authlist" />
             <Route element={<Campaign />} path="campaign" />
             <Route element={<Governor />} path="governor" />
             <Route element={<Contrast />} path="contrast/:slugdata" />

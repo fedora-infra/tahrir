@@ -2,6 +2,7 @@ import os
 from logging.config import dictConfig
 
 from flask import Flask
+from flask_babel import Babel
 from flask_cors import CORS
 from flask_healthz import healthz
 from flask_oidc import OpenIDConnect
@@ -71,6 +72,7 @@ def create_app(config=None):
 
     # Extensions
     oidc.init_app(app, prefix="/oidc")
+    Babel(app)
     admin.init_app(app)
     csrf.init_app(app)
 

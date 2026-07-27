@@ -1,4 +1,4 @@
-import { mdiBookAccount, mdiHistory } from "@mdi/js";
+import { mdiBookAccount, mdiCrown, mdiHistory } from "@mdi/js";
 import Icon from "@mdi/react";
 import { QRCodeCanvas, QRCodeSVG } from "qrcode.react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -83,13 +83,24 @@ export default function Campaign() {
     <div className="row g-2 mb-2">
       <div className="col-12 col-lg-3 d-flex flex-column gap-2">
         <UserCard
-          mail={profile.mail}
-          name={profile.user}
+          mail={profile.user.mail}
+          name={profile.user.nickname}
           rank={profile.rank}
           perc={profile.percentile}
-          poll={profile.serialized.length}
+          poll={profile.badges.length}
           earn={profile.percent_earned}
         />
+        <Button
+          as={Link}
+          to="/authlist"
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+        >
+          <Icon path={mdiCrown} size={0.875} className="me-1" />
+          Approval
+        </Button>
         <Button
           as={Link}
           to={`/identity/${authUser.nickname}`}

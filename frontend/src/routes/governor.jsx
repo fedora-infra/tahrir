@@ -1,6 +1,7 @@
-import { mdiAccountCircle, mdiCrown, mdiCubeScan, mdiMedal, mdiShieldStarOutline } from "@mdi/js";
+import { mdiAccountCircle, mdiCrown, mdiCubeScan, mdiDatabase, mdiMedal, mdiShieldStarOutline } from "@mdi/js";
+import Icon from "@mdi/react";
 import { useEffect } from "react";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -82,6 +83,18 @@ export default function Governor() {
               </Card.Text>
             </Card.Body>
           </Card>
+          {inAdmins && (
+            <Button
+              href="/database"
+              variant="outline-secondary"
+              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+              size="sm"
+              style={{ "--vibe": vibe }}
+            >
+              <Icon path={mdiDatabase} size={0.875} className="me-1" />
+              Database
+            </Button>
+          )}
         </div>
         <div className="col-12 col-lg-9 d-flex flex-column gap-2">
           <HeadItem icon={mdiMedal} name="Assertions" vibe={vibe} />

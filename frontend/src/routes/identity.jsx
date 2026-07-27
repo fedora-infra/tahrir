@@ -1,4 +1,4 @@
-import { mdiFencing, mdiHistory, mdiSend } from "@mdi/js";
+import { mdiCrown, mdiFencing, mdiHistory, mdiSend } from "@mdi/js";
 import Icon from "@mdi/react";
 import { Button, Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -47,6 +47,19 @@ export default function Identity() {
           poll={user.badges.length}
           earn={user.percent_earned}
         />
+        {authUser && authUser.nickname === identity && (
+          <Button
+            as={Link}
+            to="/authlist"
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+          >
+            <Icon path={mdiCrown} size={0.875} className="me-1" />
+            Approval
+          </Button>
+        )}
         {authUser && authUser.nickname === identity && (
           <Button
             as={Link}
