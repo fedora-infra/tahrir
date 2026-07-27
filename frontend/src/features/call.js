@@ -37,7 +37,7 @@ export const callUnit = createApi({
   endpoints: (builder) => ({
     retrieveIdentity: builder.query({
       query: (identity) => ({
-        url: `user/${identity}`,
+        url: `../api/users/${identity}`,
         method: "GET",
       }),
       providesTags: (result, error, username) => [{ type: "Identity", id: username }],
