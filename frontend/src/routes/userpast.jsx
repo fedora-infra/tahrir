@@ -1,11 +1,10 @@
-import { mdiBookAccount, mdiCrown, mdiFencing, mdiSend } from "@mdi/js";
-import Icon from "@mdi/react";
-import { Badge, Button, Card, ListGroup } from "react-bootstrap";
+import { Badge, Card, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
 
 import TimeLine from "../components/timeline.jsx";
 import UserCard from "../components/usercard.jsx";
+import UserSide from "../components/userside.jsx";
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveIdentityQuery } from "../features/call.js";
 import { useLoadingState } from "../features/hook.js";
@@ -46,56 +45,7 @@ export default function UserPast() {
           poll={user.badges.length}
           earn={user.percent_earned}
         />
-        {authUser && authUser.nickname === identity && (
-          <Button
-            as={Link}
-            to="/authlist"
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiCrown} size={0.875} className="me-1" />
-            Approval
-          </Button>
-        )}
-        {authUser && authUser.nickname === identity && (
-          <Button
-            as={Link}
-            to="/campaign"
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiSend} size={0.875} className="me-1" />
-            Campaign
-          </Button>
-        )}
-        <Button
-          as={Link}
-          to={`/identity/${identity}`}
-          variant="outline-secondary"
-          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          <Icon path={mdiBookAccount} size={0.875} className="me-1" />
-          Collection
-        </Button>
-        {authUser && authUser.nickname !== identity && (
-          <Button
-            as={Link}
-            to={`/contrast/${identity}`}
-            variant="outline-secondary"
-            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-            size="sm"
-            style={{ "--vibe": vibe }}
-          >
-            <Icon path={mdiFencing} size={0.875} className="me-1" />
-            Compare
-          </Button>
-        )}
+        <UserSide identity={identity} authUser={authUser} />
       </div>
       <div className="col-12 col-lg-9 d-flex flex-column gap-2">
         <Card className="vibe-border" style={{ "--vibe": vibe }}>

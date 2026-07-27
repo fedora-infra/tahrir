@@ -1,11 +1,9 @@
-import { mdiBookAccount, mdiHistory, mdiSend } from "@mdi/js";
-import Icon from "@mdi/react";
 import { useEffect } from "react";
-import { Badge, Button, Card, ListGroup } from "react-bootstrap";
+import { Badge, Card, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router";
 
 import UserCard from "../components/usercard.jsx";
+import UserSide from "../components/userside.jsx";
 import VertItem from "../components/vertitem.jsx";
 import { loadUserData } from "../features/auth.js";
 import { useRetrieveAuthListQuery, useRetrieveIdentityQuery } from "../features/call.js";
@@ -65,39 +63,7 @@ export default function AuthList() {
           poll={profile.badges.length}
           earn={profile.percent_earned}
         />
-        <Button
-          as={Link}
-          to="/campaign"
-          variant="outline-secondary"
-          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          <Icon path={mdiSend} size={0.875} className="me-1" />
-          Campaign
-        </Button>
-        <Button
-          as={Link}
-          to={`/identity/${authUser.nickname}`}
-          variant="outline-secondary"
-          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          <Icon path={mdiBookAccount} size={0.875} className="me-1" />
-          Collection
-        </Button>
-        <Button
-          as={Link}
-          to={`/userpast/${authUser.nickname}`}
-          variant="outline-secondary"
-          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          <Icon path={mdiHistory} size={0.875} className="me-1" />
-          History
-        </Button>
+        <UserSide identity={authUser.nickname} authUser={authUser} />
       </div>
       <div className="col-12 col-lg-9">
         <Card className="vibe-border" style={{ "--vibe": vibe }}>

@@ -1,12 +1,11 @@
-import { mdiBookAccount, mdiHistory } from "@mdi/js";
-import Icon from "@mdi/react";
-import { Button, Card, ListGroup } from "react-bootstrap";
+import { Card, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
 import Grouping from "../components/grouping.jsx";
 import UserCard from "../components/usercard.jsx";
+import UserSide from "../components/userside.jsx";
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveContrastQuery } from "../features/call.js";
 import { useLoadingState } from "../features/hook.js";
@@ -76,28 +75,7 @@ export default function Contrast() {
           poll={user_b.badges_count}
           earn={user_b.percent_earned}
         />
-        <Button
-          as={Link}
-          to={`/identity/${id_b}`}
-          variant="outline-secondary"
-          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          <Icon path={mdiBookAccount} size={0.875} className="me-1" />
-          Collection
-        </Button>
-        <Button
-          as={Link}
-          to={`/userpast/${id_b}`}
-          variant="outline-secondary"
-          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          <Icon path={mdiHistory} size={0.875} className="me-1" />
-          History
-        </Button>
+        <UserSide identity={id_b} authUser={authUser} />
       </div>
       <div className="col-12 col-lg-9 d-flex flex-column gap-2">
         <div className="row g-2">

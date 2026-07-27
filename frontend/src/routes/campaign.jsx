@@ -1,5 +1,3 @@
-import { mdiBookAccount, mdiCrown, mdiHistory } from "@mdi/js";
-import Icon from "@mdi/react";
 import { QRCodeCanvas, QRCodeSVG } from "qrcode.react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Badge, Button, Card, ListGroup, Modal } from "react-bootstrap";
@@ -8,6 +6,7 @@ import { Link } from "react-router";
 
 import BaseNote from "../components/basenote.jsx";
 import UserCard from "../components/usercard.jsx";
+import UserSide from "../components/userside.jsx";
 import VertItem from "../components/vertitem.jsx";
 import { loadUserData } from "../features/auth.js";
 import { useRetrieveCampaignQuery, useRetrieveIdentityQuery } from "../features/call.js";
@@ -90,39 +89,7 @@ export default function Campaign() {
           poll={profile.badges.length}
           earn={profile.percent_earned}
         />
-        <Button
-          as={Link}
-          to="/authlist"
-          variant="outline-secondary"
-          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          <Icon path={mdiCrown} size={0.875} className="me-1" />
-          Approval
-        </Button>
-        <Button
-          as={Link}
-          to={`/identity/${authUser.nickname}`}
-          variant="outline-secondary"
-          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          <Icon path={mdiBookAccount} size={0.875} className="me-1" />
-          Collection
-        </Button>
-        <Button
-          as={Link}
-          to={`/userpast/${authUser.nickname}`}
-          variant="outline-secondary"
-          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
-          size="sm"
-          style={{ "--vibe": vibe }}
-        >
-          <Icon path={mdiHistory} size={0.875} className="me-1" />
-          History
-        </Button>
+        <UserSide identity={authUser.nickname} authUser={authUser} />
       </div>
       <div className="col-12 col-lg-9">
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
@@ -170,7 +137,6 @@ export default function Campaign() {
           </Card.Body>
         </Card>
       </div>
-
       <Modal
         show={!!selectedInvite}
         onHide={() => makeSelectedInvite(null)}
