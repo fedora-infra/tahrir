@@ -1,20 +1,22 @@
 from datetime import timezone
 
 from feedgen.feed import FeedGenerator
-from flask import url_for
+from flask import g, url_for
 
 from tahrir.utils.avatar import get_avatar
 from tahrir.utils.badge import get_badge_or_404
 
 from . import blueprint as bp
 
+FEED_CURB = 50
 
-@bp.route("/badge/<badge_id>/rss")
+
+@bp.route("/rss/badges/<badge_id>")
 def badge_rss(badge_id):
     """Render per-badge rss."""
     badge = get_badge_or_404(badge_id)
 
-    sorted_assertions = sorted(badge.assertions, key=lambda x: x.issued_on)
+    assertions = g.tahrirdb.get_assertions_by_badge(badge_id, begin=0, limit=FEED_CURB)
 
     feed = FeedGenerator()
     feed.title(f"Badges Feed for {badge.name}")
@@ -24,7 +26,7 @@ def badge_rss(badge_id):
 
     description_template = "<img src='%s' alt='%s' />%s"
 
-    for assertion in sorted_assertions:
+    for assertion in reversed(assertions):
         url = url_for(
             "tahrir.user", user_id=assertion.person.nickname or assertion.person.id, _external=True
         )

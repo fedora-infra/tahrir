@@ -7,8 +7,10 @@ from tahrir.utils.user import get_person
 
 from . import blueprint as bp
 
+FEED_CURB = 50
 
-@bp.route("/user/<user_id>/rss")
+
+@bp.route("/rss/users/<user_id>")
 def user_rss(user_id):
     """Render per-user rss."""
 
@@ -20,7 +22,7 @@ def user_rss(user_id):
     if person.opt_out and person.email != g.oidc_user.email:
         abort(404, f"User {user_id!r} has opted out.")
 
-    sorted_assertions = sorted(person.assertions, key=lambda x: x.issued_on)
+    recent = sorted(person.assertions, key=lambda x: x.issued_on, reverse=True)[:FEED_CURB]
 
     feed = FeedGenerator()
     feed.title(f"Badges Feed for {person.nickname}")
@@ -33,7 +35,7 @@ def user_rss(user_id):
 
     description_template = "<img src='%s' alt='%s'/>%s -- %s"
 
-    for assertion in sorted_assertions:
+    for assertion in reversed(recent):
         entry = feed.add_entry()
         entry.title(assertion.badge.name)
         entry.link(href=url_for("tahrir.badge", badge_id=assertion.badge.id, _external=True))
