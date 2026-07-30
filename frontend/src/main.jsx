@@ -3,7 +3,7 @@ import "./styles/main.css";
 
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 
 import ModeWrap from "./components/modewrap.jsx";
 import { data } from "./features/data.js";
@@ -26,6 +26,13 @@ import Mistaken from "./routes/mistaken.jsx";
 import Rankings from "./routes/rankings.jsx";
 import Rarities from "./routes/rarities.jsx";
 import Recently from "./routes/recently.jsx";
+import {
+  RedirectContrast,
+  RedirectParam,
+  RedirectRankingsDay,
+  RedirectRankingsMonth,
+  RedirectRankingsYear,
+} from "./routes/redirect.jsx";
 import UserPast from "./routes/userpast.jsx";
 
 createRoot(document.getElementById("root")).render(
@@ -69,6 +76,21 @@ createRoot(document.getElementById("root")).render(
             <Route element={<Campaign />} path="campaign" />
             <Route element={<Governor />} path="governor" />
             <Route element={<Contrast />} path="contrast/:slugdata" />
+            <Route element={<RedirectParam base="/accolade/" />} path="badge/:slugdata/full" />
+            <Route element={<RedirectParam base="/accolade/" />} path="badge/:slugdata" />
+            <Route element={<RedirectParam base="/identity/" />} path="user/:slugdata" />
+            <Route element={<RedirectParam base="/category/" />} path="tags/:slugdata/any" />
+            <Route element={<Navigate to="/addendum" replace />} path="about" />
+            <Route element={<Navigate to="/" replace />} path="explore" />
+            <Route element={<Navigate to="/assembly" replace />} path="explore/badges" />
+            <Route element={<Navigate to="/rankings" replace />} path="leaderboard" />
+            <Route element={<RedirectContrast />} path="diff/:id_a/:id_b" />
+            <Route element={<Navigate to="/rankings" replace />} path="report" />
+            <Route element={<Navigate to="/rankings" replace />} path="report/this/month" />
+            <Route element={<RedirectRankingsYear />} path="report/:year/week/:week" />
+            <Route element={<RedirectRankingsYear />} path="report/:year" />
+            <Route element={<RedirectRankingsMonth />} path="report/:year/:month" />
+            <Route element={<RedirectRankingsDay />} path="report/:year/:month/:day" />
             <Route element={<Mistaken />} path="*" />
           </Route>
         </Routes>
