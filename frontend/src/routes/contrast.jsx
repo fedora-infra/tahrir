@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
 import Grouping from "../components/grouping.jsx";
+import SideArea from "../components/sidearea.jsx";
 import UserCard from "../components/usercard.jsx";
 import UserSide from "../components/userside.jsx";
 import VertItem from "../components/vertitem.jsx";
@@ -66,7 +67,7 @@ export default function Contrast() {
 
   return (
     <div className="row g-2 mb-2">
-      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+      <SideArea>
         <UserCard
           mail={user_b.avatar}
           name={user_b.nickname}
@@ -76,7 +77,7 @@ export default function Contrast() {
           earn={user_b.percent_earned}
         />
         <UserSide identity={id_b} authUser={authUser} />
-      </div>
+      </SideArea>
       <div className="col-12 col-lg-9 d-flex flex-column gap-2">
         <div className="row g-2">
           {stat.map(({ self, peer, selfUnique, peerUnique }) => (

@@ -312,6 +312,22 @@ a.vibe-border {
   }
 }
 
+/* 992px is Bootstrap's lg breakpoint */
+@media (min-width: 992px) {
+  .sidebar-scroll {
+    position: sticky;
+    top: calc(var(--navbar-height) + 0.5rem);
+    max-height: calc(100vh - var(--navbar-height) - 1rem);
+    overflow-y: auto;
+    align-self: start;
+    scrollbar-width: none;
+  }
+
+  .sidebar-scroll::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .recharts-wrapper,
 .recharts-wrapper * {
   outline: none !important;

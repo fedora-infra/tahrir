@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
 import Grouping from "../components/grouping.jsx";
+import SideArea from "../components/sidearea.jsx";
 import StarData from "../components/stardata.jsx";
 import UserCard from "../components/usercard.jsx";
 import UserSide from "../components/userside.jsx";
@@ -37,7 +38,7 @@ export default function Identity() {
 
   return (
     <div className="row g-2 mb-2">
-      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+      <SideArea>
         <UserCard
           mail={user.user.mail}
           name={user.user.nickname}
@@ -47,7 +48,7 @@ export default function Identity() {
           earn={user.percent_earned}
         />
         <UserSide identity={identity} authUser={authUser} />
-      </div>
+      </SideArea>
       <div className="col-12 col-lg-9 d-flex flex-column gap-2">
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2 justify-content-between">

@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
 import Grouping from "../components/grouping.jsx";
+import SideArea from "../components/sidearea.jsx";
 import { useRetrieveRaritiesQuery } from "../features/call.js";
 import { useLoadingState } from "../features/hook.js";
 import { formatTime, generateIdentity, obtainRarityText, rareColors, rarities } from "../features/util.js";
@@ -28,7 +29,7 @@ export default function Rarities() {
 
   return (
     <div className="row g-2 mb-2">
-      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+      <SideArea>
         <Card className="vibe-border" style={{ "--vibe": rareColors[rareunit.toUpperCase()] }}>
           <Card.Img variant="top" src={`/imgs/rare_${rareunit.toLowerCase()}.png`} />
           <Card.Body className="p-2">
@@ -59,7 +60,7 @@ export default function Rarities() {
               </span>
             </Button>
           ))}
-      </div>
+      </SideArea>
       <div className="col-12 col-lg-9">
         <Grouping name={`Tier ${rareunit}`} wide={page.length} head={true}>
           {page.map((item) => (

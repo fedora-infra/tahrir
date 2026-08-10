@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 
 import BaseNote from "../components/basenote.jsx";
 import HeadItem from "../components/headitem.jsx";
+import SideArea from "../components/sidearea.jsx";
 import AssertionCreationForm from "../crud/assertions/create.jsx";
 import AssertionUpdateForm from "../crud/assertions/delete.jsx";
 import AuthorizationCreationForm from "../crud/authorizations/create.jsx";
@@ -58,7 +59,7 @@ export default function Governor() {
   return (
     <>
       <div className="row g-2 mb-2">
-        <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+        <SideArea>
           <Card className="vibe-border" style={{ "--vibe": vibe }}>
             <Card.Body className="p-2">
               <Card.Title className="dataelem text-truncate">Governor</Card.Title>
@@ -95,7 +96,7 @@ export default function Governor() {
               Database
             </Button>
           )}
-        </div>
+        </SideArea>
         <div className="col-12 col-lg-9 d-flex flex-column gap-2">
           <HeadItem icon={mdiMedal} name="Assertions" vibe={vibe} />
           <AssertionCreationForm />
