@@ -1,4 +1,7 @@
-import { Badge, Card, ListGroup } from "react-bootstrap";
+import { mdiAccount, mdiShieldStarOutline } from "@mdi/js";
+import Icon from "@mdi/react";
+import { useRef } from "react";
+import { Badge, Button, Card, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 
@@ -13,6 +16,8 @@ export default function FindPage() {
   const { slugdata: findtext } = useParams();
   const { data: dict, isLoading, error } = useRetrieveDiscoverQuery(findtext, { skip: false });
   const vibe = useSelector((data) => data.area.vibe);
+  const accoRefs = useRef(null);
+  const userRefs = useRef(null);
 
   useLoadingState(isLoading);
 
@@ -28,6 +33,10 @@ export default function FindPage() {
     return null;
   }
 
+  const scrollTo = (ref) => {
+    ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <div className="row g-2 mb-2">
       <SideArea>
@@ -37,9 +46,33 @@ export default function FindPage() {
             <Card.Text className="small">For "{findtext}"</Card.Text>
           </Card.Body>
         </Card>
+        <Button
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+          onClick={() => scrollTo(accoRefs)}
+        >
+          <Icon path={mdiShieldStarOutline} size={0.875} className="me-1" />
+          Badges
+        </Button>
+        <Button
+          variant="outline-secondary"
+          className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+          size="sm"
+          style={{ "--vibe": vibe }}
+          onClick={() => scrollTo(userRefs)}
+        >
+          <Icon path={mdiAccount} size={0.875} className="me-1" />
+          Users
+        </Button>
       </SideArea>
       <div className="col-12 col-lg-9 d-flex flex-column gap-2">
-        <Card className="vibe-border" style={{ "--vibe": vibe }}>
+        <Card
+          ref={accoRefs}
+          className="vibe-border"
+          style={{ "--vibe": vibe, scrollMarginTop: "calc(var(--navbar-height) + 0.5rem)" }}
+        >
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               Badges
@@ -68,12 +101,16 @@ export default function FindPage() {
             </ListGroup>
           </Card.Body>
         </Card>
-        <Card className="vibe-border" style={{ "--vibe": vibe }}>
+        <Card
+          ref={userRefs}
+          className="vibe-border"
+          style={{ "--vibe": vibe, scrollMarginTop: "calc(var(--navbar-height) + 0.5rem)" }}
+        >
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
             <Card.Title className="mb-0 ps-2 dataelem" style={{ textTransform: "capitalize" }}>
               Users
             </Card.Title>
-            <Card.Text className="mb-0 ps-2 small">Found {dict.users.length} badge(s)</Card.Text>
+            <Card.Text className="mb-0 ps-2 small">Found {dict.users.length} user(s)</Card.Text>
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush">
               {dict.users.length > 0 ? (
