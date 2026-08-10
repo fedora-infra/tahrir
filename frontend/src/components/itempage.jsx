@@ -8,6 +8,7 @@ import { formatTime, generateIdentity } from "../features/util.js";
 import Mistaken from "../routes/mistaken.jsx";
 import AccoItem from "./accoitem.jsx";
 import Grouping from "./grouping.jsx";
+import SideArea from "./sidearea.jsx";
 
 export default function ItemPage({ query, title, dataKey, buttons }) {
   const { data: list, isLoading, error } = query;
@@ -28,7 +29,7 @@ export default function ItemPage({ query, title, dataKey, buttons }) {
 
   return (
     <div className="row g-2 mb-2">
-      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+      <SideArea>
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">{title}</Card.Title>
@@ -49,7 +50,7 @@ export default function ItemPage({ query, title, dataKey, buttons }) {
             {name}
           </Button>
         ))}
-      </div>
+      </SideArea>
       <div className="col-12 col-lg-9 d-flex flex-column gap-2">
         {typelist &&
           Object.entries(typelist).map(

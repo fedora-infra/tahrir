@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 
 import BaseNote from "../components/basenote.jsx";
+import SideArea from "../components/sidearea.jsx";
 import UserCard from "../components/usercard.jsx";
 import UserSide from "../components/userside.jsx";
 import VertItem from "../components/vertitem.jsx";
@@ -80,7 +81,7 @@ export default function Campaign() {
 
   return (
     <div className="row g-2 mb-2">
-      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+      <SideArea>
         <UserCard
           mail={profile.user.mail}
           name={profile.user.nickname}
@@ -90,7 +91,7 @@ export default function Campaign() {
           earn={profile.percent_earned}
         />
         <UserSide identity={authUser.nickname} authUser={authUser} />
-      </div>
+      </SideArea>
       <div className="col-12 col-lg-9">
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">

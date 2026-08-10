@@ -5,6 +5,7 @@ import { Badge, Button, Card, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, useParams, useSearchParams } from "react-router";
 
+import SideArea from "../components/sidearea.jsx";
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveAccoladeQuery, useRetrieveAvermentQuery } from "../features/call.js";
 import { useLoadingState } from "../features/hook.js";
@@ -114,7 +115,7 @@ export default function Accolade() {
 
   return (
     <div className="row g-2 mb-2">
-      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+      <SideArea>
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Img variant="top" src={relativeImageUrl(acco.image)} />
           <Card.Body className="p-2">
@@ -250,7 +251,7 @@ export default function Accolade() {
             </Button>
           </div>
         )}
-      </div>
+      </SideArea>
       <div className="col-12 col-lg-9">
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">

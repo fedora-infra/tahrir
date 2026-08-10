@@ -2,6 +2,7 @@ import { Badge, Card, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 
+import SideArea from "../components/sidearea.jsx";
 import VertItem from "../components/vertitem.jsx";
 import { useRetrieveDiscoverQuery } from "../features/call.js";
 import { useLoadingState } from "../features/hook.js";
@@ -29,14 +30,14 @@ export default function FindPage() {
 
   return (
     <div className="row g-2 mb-2">
-      <div className="col-12 col-lg-3">
+      <SideArea>
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">Search result</Card.Title>
             <Card.Text className="small">For "{findtext}"</Card.Text>
           </Card.Body>
         </Card>
-      </div>
+      </SideArea>
       <div className="col-12 col-lg-9 d-flex flex-column gap-2">
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">

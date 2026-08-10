@@ -2,6 +2,7 @@ import { Badge, Card, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 
+import SideArea from "../components/sidearea.jsx";
 import TimeLine from "../components/timeline.jsx";
 import UserCard from "../components/usercard.jsx";
 import UserSide from "../components/userside.jsx";
@@ -36,7 +37,7 @@ export default function UserPast() {
 
   return (
     <div className="row g-2 mb-2">
-      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+      <SideArea>
         <UserCard
           mail={user.user.mail}
           name={user.user.nickname}
@@ -46,7 +47,7 @@ export default function UserPast() {
           earn={user.percent_earned}
         />
         <UserSide identity={identity} authUser={authUser} />
-      </div>
+      </SideArea>
       <div className="col-12 col-lg-9 d-flex flex-column gap-2">
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">

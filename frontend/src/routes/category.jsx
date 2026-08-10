@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
 import Grouping from "../components/grouping.jsx";
+import SideArea from "../components/sidearea.jsx";
 import { useRetrieveCategoryQuery } from "../features/call.js";
 import { useLoadingState } from "../features/hook.js";
 import { formatTime, generateIdentity } from "../features/util.js";
@@ -28,7 +29,7 @@ export default function Category() {
 
   return (
     <div className="row g-2 mb-2">
-      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+      <SideArea>
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">Category</Card.Title>
@@ -46,7 +47,7 @@ export default function Category() {
           <Icon path={mdiViewGridPlus} size={0.875} className="me-1" />
           Complete collection
         </Button>
-      </div>
+      </SideArea>
       <div className="col-12 col-lg-9">
         <Grouping name={category} wide={list.length} head={true}>
           {list.map((item) => (

@@ -38,7 +38,13 @@ export default function Navigate() {
   };
 
   return (
-    <Navbar bg={`${vibe}`} className="shadow-sm sticky-top p-0" style={{ background: vibe, "--vibe": vibe }}>
+    <Navbar
+      /* Publish navbar height as a CSS variable for the sticky sidebar positioning */
+      ref={(el) => el && document.documentElement.style.setProperty("--navbar-height", `${el.offsetHeight}px`)}
+      bg={`${vibe}`}
+      className="shadow-sm sticky-top p-0"
+      style={{ background: vibe, "--vibe": vibe }}
+    >
       <Container>
         <Navbar.Brand className="d-flex align-items-center flex-grow-1">
           <Link to="/">

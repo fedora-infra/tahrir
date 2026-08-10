@@ -3,6 +3,7 @@ import { Card } from "react-bootstrap";
 import Markdown from "react-markdown";
 import { useDispatch, useSelector } from "react-redux";
 
+import SideArea from "../components/sidearea.jsx";
 import { hideLoad, showLoad } from "../features/part.js";
 
 export default function Addendum() {
@@ -26,7 +27,7 @@ export default function Addendum() {
 
   return (
     <div className="row g-2 mb-2">
-      <div className="col-12 col-lg-3 d-flex flex-column gap-2">
+      <SideArea>
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="p-2">
             <Card.Title className="dataelem text-truncate">Fedora Badges</Card.Title>
@@ -54,7 +55,7 @@ export default function Addendum() {
             </Card.Text>
           </Card.Body>
         </Card>
-      </div>
+      </SideArea>
       <div className="col-12 col-lg-9">
         <Card className="vibe-border" style={{ "--vibe": vibe }}>
           <Card.Body className="ps-0 pe-0 pt-2 pb-0">
