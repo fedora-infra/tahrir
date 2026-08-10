@@ -121,8 +121,13 @@ export default function Rankings() {
         !isweekly
       );
     else if (conf === "m")
-      return params.y && params.m && (params.y !== thisdate.getFullYear() || params.m !== thisdate.getMonth() + 1);
-    else if (conf === "y") return params.y && params.y !== thisdate.getFullYear();
+      return (
+        params.y &&
+        params.m &&
+        params.d &&
+        (params.y !== thisdate.getFullYear() || params.m !== thisdate.getMonth() + 1)
+      );
+    else if (conf === "y") return params.y && params.m && params.y !== thisdate.getFullYear();
     return false;
   };
 
