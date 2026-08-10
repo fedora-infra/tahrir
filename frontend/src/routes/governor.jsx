@@ -1,6 +1,6 @@
 import { mdiAccountCircle, mdiCrown, mdiCubeScan, mdiDatabase, mdiMedal, mdiShieldStarOutline } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -30,6 +30,12 @@ export default function Governor() {
   const authStat = useSelector((data) => data.auth.status);
   const vibe = useSelector((data) => data.area.vibe);
 
+  const averRefs = useRef(null);
+  const callRefs = useRef(null);
+  const authRefs = useRef(null);
+  const accoRefs = useRef(null);
+  const userRefs = useRef(null);
+
   useEffect(() => {
     if (authStat === "idle") {
       dispatch(showLoad());
@@ -55,6 +61,10 @@ export default function Governor() {
   }
 
   const inAdmins = user?.groups?.includes(admins);
+
+  const scrollTo = (ref) => {
+    ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <>
@@ -84,6 +94,63 @@ export default function Governor() {
               </Card.Text>
             </Card.Body>
           </Card>
+          <Button
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+            onClick={() => scrollTo(averRefs)}
+          >
+            <Icon path={mdiMedal} size={0.875} className="me-1" />
+            Assertions
+          </Button>
+          <Button
+            variant="outline-secondary"
+            className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+            size="sm"
+            style={{ "--vibe": vibe }}
+            onClick={() => scrollTo(callRefs)}
+          >
+            <Icon path={mdiCubeScan} size={0.875} className="me-1" />
+            Invitations
+          </Button>
+          {inAdmins && (
+            <Button
+              variant="outline-secondary"
+              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+              size="sm"
+              style={{ "--vibe": vibe }}
+              onClick={() => scrollTo(authRefs)}
+            >
+              <Icon path={mdiCrown} size={0.875} className="me-1" />
+              Authorizations
+            </Button>
+          )}
+          {inAdmins && (
+            <Button
+              variant="outline-secondary"
+              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+              size="sm"
+              style={{ "--vibe": vibe }}
+              onClick={() => scrollTo(accoRefs)}
+            >
+              <Icon path={mdiShieldStarOutline} size={0.875} className="me-1" />
+              Badges
+            </Button>
+          )}
+          {inAdmins && (
+            <Button
+              variant="outline-secondary"
+              className="d-grid d-inline-flex align-items-center ps-1 vibe-border"
+              size="sm"
+              style={{ "--vibe": vibe }}
+              onClick={() => scrollTo(userRefs)}
+            >
+              <Icon path={mdiAccountCircle} size={0.875} className="me-1" />
+              Users
+            </Button>
+          )}
+          {inAdmins && <hr className="m-0" />}
           {inAdmins && (
             <Button
               href="/database"
@@ -98,23 +165,33 @@ export default function Governor() {
           )}
         </SideArea>
         <div className="col-12 col-lg-9 d-flex flex-column gap-2">
-          <HeadItem icon={mdiMedal} name="Assertions" vibe={vibe} />
+          <div ref={averRefs} style={{ scrollMarginTop: "calc(var(--navbar-height) + 0.5rem)" }}>
+            <HeadItem icon={mdiMedal} name="Assertions" vibe={vibe} />
+          </div>
           <AssertionCreationForm />
           <AssertionUpdateForm show={inAdmins} />
           <hr className="mt-0 mb-0" />
-          <HeadItem icon={mdiCubeScan} name="Invitations" vibe={vibe} />
+          <div ref={callRefs} style={{ scrollMarginTop: "calc(var(--navbar-height) + 0.5rem)" }}>
+            <HeadItem icon={mdiCubeScan} name="Invitations" vibe={vibe} />
+          </div>
           <InvitationCreationForm />
           <InvitationDeletionForm show={inAdmins} />
           {inAdmins && <hr className="mt-0 mb-0" />}
-          <HeadItem icon={mdiCrown} name="Authorizations" vibe={vibe} show={inAdmins} />
+          <div ref={authRefs} style={{ scrollMarginTop: "calc(var(--navbar-height) + 0.5rem)" }}>
+            <HeadItem icon={mdiCrown} name="Authorizations" vibe={vibe} show={inAdmins} />
+          </div>
           <AuthorizationCreationForm show={inAdmins} />
           <AuthorizationDeletionForm show={inAdmins} />
           {inAdmins && <hr className="mt-0 mb-0" />}
-          <HeadItem icon={mdiShieldStarOutline} name="Badges" vibe={vibe} show={inAdmins} />
+          <div ref={accoRefs} style={{ scrollMarginTop: "calc(var(--navbar-height) + 0.5rem)" }}>
+            <HeadItem icon={mdiShieldStarOutline} name="Badges" vibe={vibe} show={inAdmins} />
+          </div>
           <BadgeCreationForm show={inAdmins} />
           <BadgeUpdateForm show={inAdmins} />
           {inAdmins && <hr className="mt-0 mb-0" />}
-          <HeadItem icon={mdiAccountCircle} name="Users" vibe={vibe} show={inAdmins} />
+          <div ref={userRefs} style={{ scrollMarginTop: "calc(var(--navbar-height) + 0.5rem)" }}>
+            <HeadItem icon={mdiAccountCircle} name="Users" vibe={vibe} show={inAdmins} />
+          </div>
           <UserCreationForm show={inAdmins} />
           <UserUpdateForm show={inAdmins} />
         </div>
