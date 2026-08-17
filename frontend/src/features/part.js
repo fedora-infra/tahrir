@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const DEFAULT_VIBE = import.meta.env.VITE_VIBE;
+
 const initVibe = () => {
   try {
     const savedVibe = localStorage.getItem("tahrir-vibe");
-    return savedVibe || "#008080";
+    return savedVibe || DEFAULT_VIBE;
   } catch {
-    return "#008080";
+    return DEFAULT_VIBE;
   }
 };
 
