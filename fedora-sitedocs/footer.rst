@@ -1,5 +1,5 @@
 You can submit new badge ideas or report issues on existing badges on the `fedora-badges
-<https://pagure.io/Fedora-Badges>`_ tracker.
+<https://forge.fedoraproject.org/apps/badges-assets/>`_ tracker.
 
 This project is free software; you can find the `source
 <https://github.com/fedora-infra/tahrir>`_ on GitHub.
