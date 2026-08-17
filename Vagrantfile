@@ -8,8 +8,8 @@ Vagrant.configure(2) do |config|
   config.hostmanager.manage_guest = true
 
   config.vm.define "badges" do |badges|
-    badges.vm.box_url = "https://download.fedoraproject.org/pub/fedora/linux/releases/38/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-38-1.6.x86_64.vagrant-libvirt.box"
-    badges.vm.box = "f38-cloud-libvirt"
+    badges.vm.box_url = "https://download.fedoraproject.org/pub/fedora/linux/releases/43/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-libvirt-43-1.6.x86_64.vagrant.libvirt.box"
+    badges.vm.box = "f43-cloud-libvirt"
     badges.vm.hostname = "badges.tinystage.test"
 
     badges.vm.synced_folder '.', '/vagrant', type: "sshfs"
