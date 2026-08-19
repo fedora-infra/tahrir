@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Spinner, Toast, ToastContainer } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
@@ -26,8 +27,16 @@ export default function LoadNote() {
     "Monitoring",
     "Organizing",
   ];
-  const time = Math.floor(Date.now() / 1000);
-  const text = list[time % list.length];
+  const slot = useRef("");
+  const done = useRef(false);
+
+  if (load && !done.current) {
+    const time = Math.floor(Date.now() / 1000);
+    slot.current = list[time % list.length];
+  }
+  done.current = load;
+
+  const text = slot.current;
 
   return (
     <ToastContainer position="bottom-center" style={{ position: "fixed", zIndex: 2000 }}>
