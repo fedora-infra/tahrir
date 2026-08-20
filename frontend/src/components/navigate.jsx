@@ -137,7 +137,12 @@ export default function Navigate() {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <NavDropdown title={<Icon path={mdiAccountCircle} size={1} />} drop="down" align="end" className="p-0">
+              <NavDropdown
+                title={<Icon path={mdiAccountCircle} size={1} />}
+                drop="down"
+                align="end"
+                className="p-0 vibe-dropdown"
+              >
                 <NavDropdown.Item onClick={handleLogin} className="small d-flex align-items-center p-1">
                   <Icon className="me-1" size={0.75} path={mdiLogin} />
                   Sign In
