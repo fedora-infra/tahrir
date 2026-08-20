@@ -22,11 +22,11 @@ A special case of this problem affects Badges awarded for things you did before 
 
 ## Who made it?
 
-Lots of people have contributed to the [frontend](https://github.com/fedora-infra/tahrir/graphs/contributors) and the [backend](https://github.com/fedora-infra/fedbadges/graphs/contributors). Various people have also [contributed Badge ideas, art and definitions](https://pagure.io/Fedora-Badges/commits/master). We hang out in `#fedora-apps` on freenode, we have a [mailing list](https://lists.fedoraproject.org/mailman/listinfo/badges), and a [wiki SIG page](https://fedoraproject.org/wiki/Open_Badges).
+Lots of people have contributed to the [frontend](https://github.com/fedora-infra/tahrir/graphs/contributors) and the [backend](https://github.com/fedora-infra/fedbadges/graphs/contributors). Various people have also [contributed Badge ideas, art and definitions](https://forge.fedoraproject.org/apps/badges-assets/commits/branch/master). We hang out in `#fedora-apps` on freenode, we have a [mailing list](https://lists.fedoraproject.org/mailman/listinfo/badges), and a [wiki SIG page](https://fedoraproject.org/wiki/Open_Badges).
 
 ## Can I submit new badge ideas and help build badges?
 
-Yes! We'd love you to! Just head over to the [new badge tracker](https://pagure.io/Fedora-Badges), or see the [wiki page](https://fedoraproject.org/wiki/Open_Badges#Getting_Involved) for more information.
+Yes! We'd love you to! Just head over to the [new badge tracker](https://forge.fedoraproject.org/apps/badges-assets), or see the [wiki page](https://fedoraproject.org/wiki/Open_Badges#Getting_Involved) for more information.
 
 ## Can I help work on the technologies that underlie Badges?
 
@@ -44,7 +44,7 @@ Absolutely! Please join us! Starting at the bottom of the stack:
 
 If you mean how does it WORK work, it's pretty cool! Fedora Badges takes advantage of [fedmsg](https://github.com/fedora-infra/fedora-messaging) (Fedora Infrastructure's Message Bus) and [datanommer](https://apps.fedoraproject.org/datagrepper) to determine what kinds of contributions a person is making.
 
-The badge awarding backend daemon, [fedbadges](https://github.com/fedora-infra/fedbadges), wakes up when it receives a fedmsg event. It compares that message and the history in datanommer against a series of [rules](https://pagure.io/Fedora-Badges/blob/master/f/rules). If a contributor matches the criteria described in one of those rules, then they are **awarded a badge** in real time.
+The badge awarding backend daemon, [fedbadges](https://github.com/fedora-infra/fedbadges), wakes up when it receives a fedmsg event. It compares that message and the history in datanommer against a series of [rules](https://forge.fedoraproject.org/apps/badges-assets/src/branch/master/rules). If a contributor matches the criteria described in one of those rules, then they are **awarded a badge** in real time.
 
 The frontend that you're looking at now is a web application called [tahrir](https://github.com/fedora-infra/tahrir). We tried as much as we could to keep Tahrir "brand agnostic", so you can install it, run it on your own platform, and issue badges to your friends! Some assembly required.
 
