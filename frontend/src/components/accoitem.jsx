@@ -30,12 +30,16 @@ export default function AccoItem({ iden, name, body, foot, shot, rare, diff }) {
           <Popover.Body className="p-2 small" style={{ userSelect: "text" }}>
             <p>{body}</p>
             <p className="mb-0 text-secondary fst-italic">
-              <Link
-                to={`/rarities/${rare}`}
-                className={`text-truncate fw-bold text-decoration-none ${obtainRarityText(rare)}`}
-              >
-                Rarity {rare}
-              </Link>{" "}
+              {rare !== "O" ? (
+                <Link
+                  to={`/rarities/${rare}`}
+                  className={`text-truncate fw-bold text-decoration-none ${obtainRarityText(rare)}`}
+                >
+                  Rarity {rare}
+                </Link>
+              ) : (
+                <span className={`text-truncate fw-bold ${obtainRarityText(rare)}`}>Rarity {rare}</span>
+              )}{" "}
               • Created on {foot}
             </p>
           </Popover.Body>
