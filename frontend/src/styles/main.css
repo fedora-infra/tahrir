@@ -150,6 +150,11 @@ a.dropdown-toggle {
   border-bottom-right-radius: var(--bs-list-group-border-radius) !important;
 }
 
+.rarity-o-bg {
+  background-color: var(--bs-secondary-bg) !important;
+  color: var(--bs-secondary-color) !important;
+}
+
 .rarity-x-bg {
   background-color: #51a2da !important;
   color: #ffffff !important;
@@ -180,6 +185,10 @@ a.dropdown-toggle {
   color: #ffffff !important;
 }
 
+.rarity-o-text {
+  color: var(--bs-secondary-color) !important;
+}
+
 .rarity-x-text {
   color: #51a2da !important;
 }
@@ -202,6 +211,10 @@ a.dropdown-toggle {
 
 .rarity-d-text {
   color: #90989e !important;
+}
+
+.rarity-o-border {
+  border-color: var(--bs-secondary-border-subtle) !important;
 }
 
 .rarity-x-border {

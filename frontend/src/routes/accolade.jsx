@@ -143,7 +143,7 @@ export default function Accolade() {
             <hr className="mt-2 mb-0" />
             <ListGroup variant="flush">
               <VertItem
-                link={`/rarities/${acco.rarity}`}
+                link={acco.rarity !== "O" ? `/rarities/${acco.rarity}` : undefined}
                 head={rarities[acco.rarity]}
                 body={`${parseFloat(acco.percent_earned).toFixed(4)}% earned`}
                 shot={`/imgs/rare_${acco.rarity.toLowerCase()}.png`}
