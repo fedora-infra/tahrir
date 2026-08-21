@@ -33,7 +33,7 @@ def get_all_badges():
             b for b in g.tahrirdb.get_all_badges(include_legacy=True).all() if b.legacy == flag
         ]
     else:
-        all_badges = g.tahrirdb.get_all_badges().all()
+        all_badges = g.tahrirdb.get_all_badges(include_legacy=True).all()
 
     if not all_badges:
         return jsonify(
