@@ -100,7 +100,7 @@ def get_badges_by_tags(name: str):
     """Endpoint to fetch the badges based on matching tag."""
 
     tag = [name.strip()]
-    badges = g.tahrirdb.get_badges_from_tags(tags=tag, match_all=False)
+    badges = g.tahrirdb.get_badges_from_tags(tags=tag, match_all=False, include_legacy=True)
 
     if not badges:
         return jsonify([])
