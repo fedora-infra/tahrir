@@ -34,6 +34,7 @@ export const mainColors = {
 
 // COLORS DERIVED FROM GENSHIN IMPACT
 export const rareColors = {
+  U: "#444444",
   O: "#444444",
   X: "#51A2DA",
   S: "#C3A27F",
@@ -44,6 +45,7 @@ export const rareColors = {
 };
 
 export const rarities = {
+  U: "Unassigned",
   O: "Obsolete",
   X: "Fedorable",
   S: "Legendary",

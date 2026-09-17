@@ -150,6 +150,7 @@ a.dropdown-toggle {
   border-bottom-right-radius: var(--bs-list-group-border-radius) !important;
 }
 
+.rarity-u-bg,
 .rarity-o-bg {
   background-color: var(--bs-secondary-bg) !important;
   color: var(--bs-secondary-color) !important;
@@ -185,6 +186,7 @@ a.dropdown-toggle {
   color: #ffffff !important;
 }
 
+.rarity-u-text,
 .rarity-o-text {
   color: var(--bs-secondary-color) !important;
 }
@@ -213,6 +215,7 @@ a.dropdown-toggle {
   color: #90989e !important;
 }
 
+.rarity-u-border,
 .rarity-o-border {
   border-color: var(--bs-secondary-border-subtle) !important;
 }
