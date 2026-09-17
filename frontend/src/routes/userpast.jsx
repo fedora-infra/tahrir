@@ -68,7 +68,7 @@ export default function UserPast() {
                     key={generateIdentity(item.id)}
                     link={`/accolade/${item.id}`}
                     head={item.name}
-                    body={`Awarded on ${formatTime(item.created_on)}`}
+                    body={`Awarded on ${formatTime(item.issued_on)}`}
                     shot={item.image}
                     hand={
                       item.reason ? (

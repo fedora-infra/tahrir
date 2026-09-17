@@ -179,7 +179,13 @@ def get_user_badge_info(user):
 
     for indx, item in enumerate(assertions):
         badge = badge_json_generator(item.badge)
-        serialized_badges.append({**badge})
+        serialized_badges.append(
+            {
+                **badge,
+                "issued_on": item.issued_on.timestamp() if item.issued_on else None,
+                "reason": item.issued_for if item.issued_for else None,
+            }
+        )
         for name in classified.keys():
             if name in [tag.name for tag in item.badge.tags]:
                 classified[name].append(indx)
