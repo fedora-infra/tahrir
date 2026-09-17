@@ -18,7 +18,7 @@ def json_explore(search_query):
 
     # Get all badges
     all_badges = (
-        g.tahrirdb.get_all_badges()
+        g.tahrirdb.get_all_badges(include_legacy=True)
         .filter(
             sa.func.lower(m.Badge.name).like(f"%{search_query.lower()}%")
             | sa.func.lower(m.Badge.description).like(f"%{search_query.lower()}%")
