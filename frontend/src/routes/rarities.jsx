@@ -40,7 +40,7 @@ export default function Rarities() {
           </Card.Body>
         </Card>
         {Object.keys(rarities)
-          .filter((unit) => unit !== "O" && unit !== rareunit?.toUpperCase())
+          .filter((unit) => !["O", "U"].includes(unit) && unit !== rareunit?.toUpperCase())
           .map((item) => (
             <Button
               key={generateIdentity(item)}

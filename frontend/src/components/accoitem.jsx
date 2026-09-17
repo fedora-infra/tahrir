@@ -18,19 +18,19 @@ export default function AccoItem({ iden, name, body, foot, shot, rare, diff }) {
       onToggle={makeShow}
       overlay={
         <Popover
-          className={`bodyelem ${obtainRarityEdge(rare)}`}
+          className={`bodyelem ${obtainRarityEdge(rare || "U")}`}
           onMouseEnter={() => makeShow(true)}
           onMouseLeave={() => makeShow(false)}
         >
           <Popover.Header
-            className={`p-2 fw-bold text-truncate ${obtainRarityBack(rare) || "bg-secondary text-white"}`}
+            className={`p-2 fw-bold text-truncate ${obtainRarityBack(rare || "U") || "bg-secondary text-white"}`}
           >
             {name}
           </Popover.Header>
           <Popover.Body className="p-2 small" style={{ userSelect: "text" }}>
             <p>{body}</p>
             <p className="mb-0 text-secondary fst-italic">
-              {rare !== "O" ? (
+              {rare && !["O", "U"].includes(rare) ? (
                 <Link
                   to={`/rarities/${rare}`}
                   className={`text-truncate fw-bold text-decoration-none ${obtainRarityText(rare)}`}
@@ -38,7 +38,7 @@ export default function AccoItem({ iden, name, body, foot, shot, rare, diff }) {
                   Rarity {rare}
                 </Link>
               ) : (
-                <span className={`text-truncate fw-bold ${obtainRarityText(rare)}`}>Rarity {rare}</span>
+                <span className={`text-truncate fw-bold ${obtainRarityText(rare || "U")}`}>Rarity {rare || "U"}</span>
               )}{" "}
               • Created on {foot}
             </p>
