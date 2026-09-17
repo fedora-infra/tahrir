@@ -1,5 +1,3 @@
-import sqlalchemy as sa
-import tahrir_api.model as m
 from flask import abort, g, jsonify, request
 
 from ..app import csrf, oidc
@@ -19,19 +17,19 @@ def search_users_by_string(search_string: str):
     """
     Search endpoint that returns users matching the search string
     """
-
-    # We need to have a function for searching users in Tahrir API
-    # Instead of doing this over here like this
     begin = request.args.get("begin", 0, type=int)
     limit = request.args.get("limit", 100, type=int)
 
-    collection = (
-        g.tahrirdb.get_all_persons(include_opted_out=True)
-        .filter(sa.func.lower(m.Person.nickname).like(f"%{search_string.lower()}%"))
-        .all()
+    # Use database-level pagination
+    search_result = g.tahrirdb.get_persons_by_nickname(
+        search_string=search_string,
+        begin=begin,
+        limit=limit,
     )
 
-    # Suggested function should also include pagination feature
+    users = search_result["users"]
+    total_count = search_result["total"]
+
     result = {
         "users": [
             {
@@ -45,9 +43,11 @@ def search_users_by_string(search_string: str):
                 "rank": item.rank,
                 "website": item.website,
             }
-            for item in collection[begin : begin + (limit if limit < 100 else 100)]
+            for item in users
         ],
-        "castup": len(collection),
+        "total": total_count,
+        "begin": begin,
+        "limit": search_result["limit"],
     }
 
     return jsonify(result)
