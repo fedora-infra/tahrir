@@ -16,18 +16,13 @@ export default function Callback() {
 
     const handleCallback = async () => {
       try {
-        const user = await userManager.signinRedirectCallback();
-
-        // Log OIDC groups and agreements for testing
-        console.log("OIDC Login Event - User Profile:", user.profile);
-        console.log("OIDC Groups:", user.profile.groups || "No groups found");
-        console.log("OIDC Agreements:", user.profile.agreements || "No agreements found");
+        await userManager.signinRedirectCallback();
 
         const result = await dispatch(loadUserData());
         if (result.type === "auth/loadUserData/fulfilled") {
           navigate(`/identity/${result.payload.nickname}`);
         } else {
-          console.log("ERROR in loadUserData:", result);
+          navigate("/");
         }
       } catch (error) {
         console.error("OIDC callback error:", error);

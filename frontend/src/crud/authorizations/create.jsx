@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Card, Col, Dropdown, FloatingLabel, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
@@ -32,32 +32,17 @@ export default function AuthorizationCreationForm({ show }) {
   const showAccoladeSpinner = useMinFetching(isAccoladeFetching);
   const showIdentitySpinner = useMinFetching(isIdentityFetching);
 
-  // Debug logging for search results
-  useEffect(() => {
-    if (accoladeResult) {
-      console.log("Badge search results for '" + accoladeLookup + "':", JSON.stringify(accoladeResult, null, 2));
-    }
-  }, [accoladeResult, accoladeLookup]);
-
-  useEffect(() => {
-    if (identityResult) {
-      console.log("User search results for '" + identityLookup + "':", JSON.stringify(identityResult, null, 2));
-    }
-  }, [identityResult, identityLookup]);
-
   useLoadingState(isLoading);
 
   if (!show) return null;
 
   const handleAccoladeSelect = (accolade) => {
-    console.log("Selected badge:", JSON.stringify(accolade, null, 2));
     setAccoladeLookup(accolade.name);
     makeForm((prev) => ({ ...prev, badge_id: accolade.id }));
     setAccoladeDropdownShow(false);
   };
 
   const handleIdentitySelect = (identity) => {
-    console.log("Selected user:", JSON.stringify(identity, null, 2));
     setIdentityLookup(identity.nickname);
     makeForm((prev) => ({ ...prev, user: identity.nickname }));
     setIdentityDropdownShow(false);
@@ -65,7 +50,6 @@ export default function AuthorizationCreationForm({ show }) {
 
   const handleTask = async () => {
     try {
-      console.log("Submitting authorization data:", JSON.stringify(form, null, 2));
       await creationSanction(form).unwrap();
       dispatch(showBaseNote({ pass: true, data: "Authorization was created successfully" }));
       makeForm({
