@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 
 import AccoItem from "../components/accoitem.jsx";
+import BaseNote from "../components/basenote.jsx";
 import Grouping from "../components/grouping.jsx";
 import SideArea from "../components/sidearea.jsx";
 import StarData from "../components/stardata.jsx";
@@ -95,6 +96,7 @@ export default function Identity() {
               )
           )}
       </div>
+      <BaseNote />
     </div>
   );
 }

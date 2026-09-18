@@ -33,6 +33,7 @@ import {
   RedirectRankingsMonth,
   RedirectRankingsYear,
 } from "./routes/redirect.jsx";
+import Rsvp from "./routes/rsvp.jsx";
 import UserPast from "./routes/userpast.jsx";
 
 createRoot(document.getElementById("root")).render(
@@ -74,6 +75,7 @@ createRoot(document.getElementById("root")).render(
             <Route element={<Rarities />} path="rarities/:slugdata" />
             <Route element={<AuthList />} path="authlist" />
             <Route element={<Campaign />} path="campaign" />
+            <Route element={<Rsvp />} path="campaign/:slugdata/rsvp" />
             <Route element={<Governor />} path="governor" />
             <Route element={<Contrast />} path="contrast/:slugdata" />
             <Route element={<RedirectParam base="/accolade/" />} path="badge/:slugdata/full" />

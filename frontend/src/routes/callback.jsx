@@ -25,12 +25,18 @@ export default function Callback() {
 
         const result = await dispatch(loadUserData());
         if (result.type === "auth/loadUserData/fulfilled") {
-          navigate(`/identity/${result.payload.nickname}`);
+          const redirectPath = sessionStorage.getItem("post_login_redirect");
+          if (redirectPath) {
+            sessionStorage.removeItem("post_login_redirect");
+            navigate(redirectPath);
+          } else {
+            navigate(`/identity/${result.payload.nickname}`);
+          }
         } else {
-          console.log("ERROR in loadUserData:", result);
+          navigate("/");
         }
       } catch (error) {
-        console.error("OIDC callback error:", error);
+        console.error("OIDC callback error encountered:", error);
         navigate("/");
       } finally {
         dispatch(hideLoad());
