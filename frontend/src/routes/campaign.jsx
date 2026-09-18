@@ -50,7 +50,7 @@ export default function Campaign() {
   }, [selectedInvite]);
 
   const handleCopyLink = useCallback(() => {
-    const claimUrl = `${window.location.origin}/api/invitations/${selectedInvite.invitation_id}/claim`;
+    const claimUrl = `${window.location.origin}/campaign/${selectedInvite.invitation_id}/rsvp`;
     navigator.clipboard.writeText(claimUrl).then(() => {
       dispatch(showBaseNote({ pass: true, data: "Link copied to clipboard" }));
     });
@@ -152,14 +152,14 @@ export default function Campaign() {
           {selectedInvite && (
             <>
               <QRCodeSVG
-                value={`${window.location.origin}/api/invitations/${selectedInvite.invitation_id}/claim`}
+                value={`${window.location.origin}/campaign/${selectedInvite.invitation_id}/rsvp`}
                 size={256}
                 fgColor={isDark ? "#ffffff" : "#000000"}
                 bgColor="transparent"
               />
               <div ref={downloadLink} style={{ display: "none" }}>
                 <QRCodeCanvas
-                  value={`${window.location.origin}/api/invitations/${selectedInvite.invitation_id}/claim`}
+                  value={`${window.location.origin}/campaign/${selectedInvite.invitation_id}/rsvp`}
                   size={512}
                   fgColor="#000000"
                   bgColor="transparent"

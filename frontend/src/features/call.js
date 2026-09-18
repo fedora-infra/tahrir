@@ -316,6 +316,13 @@ export const callUnit = createApi({
       }),
       invalidatesTags: (result, error, { user_id }) => [{ type: "Identity", id: user_id }, "IdentitySearch"],
     }),
+    affirmInvitation: builder.mutation({
+      query: (invitationId) => ({
+        url: `../api/invitations/${invitationId}/claim`,
+        method: "GET",
+      }),
+      invalidatesTags: ["Identity", "Campaign"],
+    }),
   }),
 });
 
@@ -348,5 +355,6 @@ export const {
   useRetrieveCampaignQuery,
   useRetrieveContrastQuery,
   useToggleIdentityOptOutMutation,
+  useAffirmInvitationMutation,
 } = callUnit;
 export default callUnit.reducer;

@@ -1,40 +1,46 @@
 from datetime import datetime
 
-from flask import abort, g, jsonify
+from flask import abort, g, jsonify, redirect, request
 
 from ..app import csrf, oidc
-from ..utils.user import get_person, need_access_user
+from ..utils.user import _populate_access_user, get_person
 from . import blueprint as bp
 
 
-@bp.route("/api/invitations/<string:invitation_id>/claim")
+@bp.route("/api/invitations/<string:invitation_id>/claim", methods=["GET"])
 @csrf.exempt
 @oidc.accept_token()
-@need_access_user
 def claim_invitation(invitation_id: str):
     """Action that awards a person a badge after scanning a qrcode."""
 
+    if not request.authorization:
+        return redirect(f"/campaign/{invitation_id}/rsvp")
+
+    _populate_access_user()
     if not g.token_email:
         return abort(401, "Unauthorized")
+
+    if g.token_person is None:
+        return abort(403, "Forbidden")
 
     claim = g.tahrirdb.get_invitation(invitation_id)
 
     if not claim:
-        abort(404, f"That invitation {invitation_id!r} does not exists.")
+        return jsonify({"error": "That invitation is invalid"}), 404
 
     if claim.expires_on < datetime.now():
-        return abort(410, f"That invitation {invitation_id!r} is expired.")
+        return jsonify({"error": "That invitation has expired"}), 410
 
     # Check to see if the user already has the badge.
     if g.tahrirdb.assertion_exists(claim.badge_id, g.token_person.email):
-        abort(422, f"You already have badge {claim.badge_id!r}")
+        return jsonify({"error": "You already have received the badge"}), 422
 
     try:
         g.tahrirdb.add_assertion(claim.badge_id, g.token_person.email, datetime.now())
     except ValueError as e:
         return abort(403, str(e))
 
-    return jsonify({"message": f"You have earned badge {claim.badge_id!r}"})
+    return jsonify({"message": "You have successfully redeemed the badge"})
 
 
 @bp.route("/api/invitations/<string:user_id>", methods=["GET"])
