@@ -13,7 +13,7 @@ export default function Discover() {
   const [clearSeen, makeClearSeen] = useState(false);
   const dropDown = useRef(null);
   const navigate = useNavigate();
-  const doLookup = findText.length >= 4;
+  const doLookup = findText.length >= 2;
 
   const {
     data: searchResults,
@@ -41,7 +41,7 @@ export default function Discover() {
   const handleChange = (e) => {
     const text = e.target.value;
     makeFindText(text);
-    makeDropSeen(text.trim().length >= 4);
+    makeDropSeen(text.trim().length >= 2);
     makeClearSeen(text.trim().length >= 1);
   };
 
@@ -51,7 +51,7 @@ export default function Discover() {
   };
 
   const handleSubmit = () => {
-    if (findText.trim().length >= 4) {
+    if (findText.trim().length >= 2) {
       navigate(`/discover/${encodeURIComponent(findText.trim())}`);
       handleResult();
     }

@@ -33,7 +33,7 @@ export default function UserUpdateForm({ show }) {
   const [userDropdownShow, setUserDropdownShow] = useState(false);
 
   const { data: searchResults, isFetching: isUserFetching } = useLookupIdentityQuery(userLookup, {
-    skip: userLookup.length < 4,
+    skip: userLookup.length < 2,
   });
 
   const showUserSpinner = useMinFetching(isUserFetching);
@@ -160,7 +160,7 @@ export default function UserUpdateForm({ show }) {
                   value={userLookup}
                   onChange={(e) => {
                     setUserLookup(e.target.value);
-                    setUserDropdownShow(e.target.value.length >= 4);
+                    setUserDropdownShow(e.target.value.length >= 2);
                     if (e.target.value === "") {
                       makeForm({
                         nickname: "",
@@ -175,14 +175,14 @@ export default function UserUpdateForm({ show }) {
                       });
                     }
                   }}
-                  onFocus={() => userLookup.length >= 4 && setUserDropdownShow(true)}
+                  onFocus={() => userLookup.length >= 2 && setUserDropdownShow(true)}
                   onBlur={() => setTimeout(() => setUserDropdownShow(false), 150)}
                   placeholder="Nickname"
                   autoComplete="off"
                 />
               </FloatingLabel>
               {showUserSpinner && <LookSpin />}
-              {userLookup.length >= 4 &&
+              {userLookup.length >= 2 &&
                 searchResults &&
                 searchResults.users &&
                 searchResults.users.length > 0 &&

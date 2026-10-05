@@ -37,7 +37,7 @@ export default function BadgeUpdateForm({ show }) {
   });
 
   const { data: accoladeResult, isFetching: isAccoladeFetching } = useLookupAccoladeQuery(accoladeLookup, {
-    skip: accoladeLookup.length < 4,
+    skip: accoladeLookup.length < 2,
   });
 
   const showAccoladeSpinner = useMinFetching(isAccoladeFetching);
@@ -165,7 +165,7 @@ export default function BadgeUpdateForm({ show }) {
                   onChange={(e) => {
                     setAccoladeLookup(e.target.value);
                     handleFormChange("name", e.target.value);
-                    setAccoladeDropdownShow(e.target.value.length >= 4);
+                    setAccoladeDropdownShow(e.target.value.length >= 2);
                     if (e.target.value === "") {
                       makeForm({
                         name: "",
@@ -179,14 +179,14 @@ export default function BadgeUpdateForm({ show }) {
                       });
                     }
                   }}
-                  onFocus={() => accoladeLookup.length >= 4 && setAccoladeDropdownShow(true)}
+                  onFocus={() => accoladeLookup.length >= 2 && setAccoladeDropdownShow(true)}
                   onBlur={() => setTimeout(() => setAccoladeDropdownShow(false), 150)}
                   placeholder="Name"
                   autoComplete="off"
                 />
               </FloatingLabel>
               {showAccoladeSpinner && <LookSpin />}
-              {accoladeLookup.length >= 4 &&
+              {accoladeLookup.length >= 2 &&
                 accoladeResult &&
                 accoladeResult.badges &&
                 accoladeResult.badges.length > 0 &&
