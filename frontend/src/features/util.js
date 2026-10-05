@@ -71,7 +71,7 @@ export function obtainRarityEdge(rarity) {
 }
 
 export const owners = "signed_fpca";
-export const admins = "elections";
+export const admins = "sysadmin-badges";
 
 export function relativeImageUrl(url) {
   return url.toString().replace("https://badges.fedoraproject.org", import.meta.env.VITE_API_URL);
