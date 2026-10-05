@@ -21,7 +21,7 @@ export default function FindPage() {
 
   useLoadingState(isLoading);
 
-  if (findtext.length < 4) {
+  if (findtext.length < 2) {
     return <Mistaken />;
   }
 

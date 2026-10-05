@@ -16,7 +16,7 @@ export default function InvitationDeletionForm({ show }) {
   const [invitationDropdownShow, makeInvitationDropdownShow] = useState(false);
 
   const { data: identityResult, isFetching: isIdentityFetching } = useLookupIdentityQuery(identitySearch, {
-    skip: identitySearch.length < 4,
+    skip: identitySearch.length < 2,
   });
 
   const showIdentitySpinner = useMinFetching(isIdentityFetching);
@@ -109,16 +109,16 @@ export default function InvitationDeletionForm({ show }) {
                   value={identitySearch}
                   onChange={(e) => {
                     makeIdentitySearch(e.target.value);
-                    makeIdentityDropdownShow(e.target.value.length >= 4);
+                    makeIdentityDropdownShow(e.target.value.length >= 2);
                   }}
-                  onFocus={() => identitySearch.length >= 4 && makeIdentityDropdownShow(true)}
+                  onFocus={() => identitySearch.length >= 2 && makeIdentityDropdownShow(true)}
                   onBlur={() => setTimeout(() => makeIdentityDropdownShow(false), 150)}
                   autoComplete="off"
                   required
                 />
               </FloatingLabel>
               {showIdentitySpinner && <LookSpin />}
-              {identitySearch.length >= 4 &&
+              {identitySearch.length >= 2 &&
                 identityResult &&
                 identityResult.users &&
                 identityResult.users.length > 0 &&

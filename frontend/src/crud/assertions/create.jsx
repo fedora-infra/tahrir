@@ -17,10 +17,10 @@ export default function AssertionCreationForm() {
   const [identityDropdownShow, makeIdentityDropdownShow] = useState(false);
 
   const { data: accoladeResult, isFetching: isAccoladeFetching } = useLookupAccoladeQuery(accoladeLookup, {
-    skip: accoladeLookup.length < 4,
+    skip: accoladeLookup.length < 2,
   });
   const { data: identityResult, isFetching: isIdentityFetching } = useLookupIdentityQuery(identityLookup, {
-    skip: identityLookup.length < 4,
+    skip: identityLookup.length < 2,
   });
 
   const showAccoladeSpinner = useMinFetching(isAccoladeFetching);
@@ -113,16 +113,16 @@ export default function AssertionCreationForm() {
                   value={accoladeLookup}
                   onChange={(e) => {
                     makeAccoladeLookup(e.target.value);
-                    makeAccoladeDropdownShow(e.target.value.length >= 4);
+                    makeAccoladeDropdownShow(e.target.value.length >= 2);
                   }}
-                  onFocus={() => accoladeLookup.length >= 4 && makeAccoladeDropdownShow(true)}
+                  onFocus={() => accoladeLookup.length >= 2 && makeAccoladeDropdownShow(true)}
                   onBlur={() => setTimeout(() => makeAccoladeDropdownShow(false), 150)}
                   autoComplete="off"
                   required
                 />
               </FloatingLabel>
               {showAccoladeSpinner && <LookSpin />}
-              {accoladeLookup.length >= 4 &&
+              {accoladeLookup.length >= 2 &&
                 accoladeResult &&
                 accoladeResult.badges &&
                 accoladeResult.badges.length > 0 &&
@@ -165,16 +165,16 @@ export default function AssertionCreationForm() {
                   value={identityLookup}
                   onChange={(e) => {
                     makeIdentityLookup(e.target.value);
-                    makeIdentityDropdownShow(e.target.value.length >= 4);
+                    makeIdentityDropdownShow(e.target.value.length >= 2);
                   }}
-                  onFocus={() => identityLookup.length >= 4 && makeIdentityDropdownShow(true)}
+                  onFocus={() => identityLookup.length >= 2 && makeIdentityDropdownShow(true)}
                   onBlur={() => setTimeout(() => makeIdentityDropdownShow(false), 150)}
                   autoComplete="off"
                   required
                 />
               </FloatingLabel>
               {showIdentitySpinner && <LookSpin />}
-              {identityLookup.length >= 4 &&
+              {identityLookup.length >= 2 &&
                 identityResult &&
                 identityResult.users &&
                 identityResult.users.length > 0 &&
