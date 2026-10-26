@@ -78,25 +78,21 @@ export default function Rankings() {
   };
 
   const showHead = () => {
-    let name = "";
-    if (params.w) name = "Weekly";
-    else if (params.d) name = "Daily";
-    else if (params.m) name = "Monthly";
-    else if (params.y) name = "Yearly";
-    else name = "All time";
-    return name;
+    if (params.w) return "Weekly";
+    if (params.d) return "Daily";
+    if (params.m) return "Monthly";
+    if (params.y) return "Yearly";
+    return "All time";
   };
 
   const readLink = (conf = "") => {
-    let link = "";
     if (conf === "d")
-      link = `/rankings/y/${thisdate.getFullYear()}/m/${thisdate.getMonth() + 1}/d/${thisdate.getDate()}`;
-    else if (conf === "w")
-      link = `/rankings/y/${thisdate.getFullYear()}/m/${thisdate.getMonth() + 1}/d/${thisdate.getDate()}/week`;
-    else if (conf === "m") link = `/rankings/y/${thisdate.getFullYear()}/m/${thisdate.getMonth() + 1}`;
-    else if (conf === "y") link = `/rankings/y/${thisdate.getFullYear()}`;
-    else link = `/rankings`;
-    return link;
+      return `/rankings/y/${thisdate.getFullYear()}/m/${thisdate.getMonth() + 1}/d/${thisdate.getDate()}`;
+    if (conf === "w")
+      return `/rankings/y/${thisdate.getFullYear()}/m/${thisdate.getMonth() + 1}/d/${thisdate.getDate()}/week`;
+    if (conf === "m") return `/rankings/y/${thisdate.getFullYear()}/m/${thisdate.getMonth() + 1}`;
+    if (conf === "y") return `/rankings/y/${thisdate.getFullYear()}`;
+    return `/rankings`;
   };
 
   const scanDate = (conf = "") => {
