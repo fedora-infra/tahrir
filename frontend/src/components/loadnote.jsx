@@ -1,42 +1,42 @@
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 import { Spinner, Toast, ToastContainer } from "react-bootstrap";
 import { useSelector } from "react-redux";
+
+const MESSAGES = [
+  "Assembling",
+  "Committing",
+  "Validating",
+  "Sanitizing",
+  "Tokenizing",
+  "Throttling",
+  "Encrypting",
+  "Decrypting",
+  "Processing",
+  "Optimizing",
+  "Allocating",
+  "Generating",
+  "Inspecting",
+  "Harvesting",
+  "Journaling",
+  "Networking",
+  "Yakshaving",
+  "Qualifying",
+  "Monitoring",
+  "Organizing",
+];
 
 export default function LoadNote() {
   const load = useSelector((area) => area.area.load);
   const vibe = useSelector((data) => data.area.vibe);
-  const list = [
-    "Assembling",
-    "Committing",
-    "Validating",
-    "Sanitizing",
-    "Tokenizing",
-    "Throttling",
-    "Encrypting",
-    "Decrypting",
-    "Processing",
-    "Optimizing",
-    "Allocating",
-    "Generating",
-    "Inspecting",
-    "Harvesting",
-    "Journaling",
-    "Networking",
-    "Yakshaving",
-    "Qualifying",
-    "Monitoring",
-    "Organizing",
-  ];
-  const slot = useRef("");
-  const done = useRef(false);
+  const [text, setText] = useState("");
 
-  if (load && !done.current) {
-    const time = Math.floor(Date.now() / 1000);
-    slot.current = list[time % list.length];
-  }
-  done.current = load;
-
-  const text = slot.current;
+  useEffect(() => {
+    if (load) {
+      const time = Math.floor(Date.now() / 1000);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setText(MESSAGES[time % MESSAGES.length]);
+    }
+  }, [load]);
 
   return (
     <ToastContainer position="bottom-center" style={{ position: "fixed", zIndex: 2000 }}>

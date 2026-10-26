@@ -46,6 +46,7 @@ export default function BadgeUpdateForm({ show }) {
 
   useEffect(() => {
     if (badge) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       makeForm({
         name: badge.name || "",
         description: badge.description || "",

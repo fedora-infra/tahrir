@@ -29,6 +29,7 @@ export function useMinFetching(isFetching, minMs = 1000) {
   useEffect(() => {
     if (isFetching) {
       startRef.current = Date.now();
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setVisible(true);
       if (timerRef.current) {
         clearTimeout(timerRef.current);
