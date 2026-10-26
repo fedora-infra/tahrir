@@ -8,7 +8,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout the codebase current state
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Install the base required dependencies
         run: dnf install --assumeyes --setopt=install_weak_deps=False npm
       - name: Mark this directory as safe for Git
