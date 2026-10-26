@@ -6,10 +6,10 @@ import simpleImportSort from "eslint-plugin-simple-import-sort";
 import globals from "globals";
 
 export default defineConfig([
-  globalIgnores(["dist"]),
+  globalIgnores(["dist", ".vite"]),
   {
     files: ["**/*.{js,jsx}"],
-    extends: [js.configs.recommended, reactHooks.configs["recommended-latest"], reactRefresh.configs.vite],
+    extends: [js.configs.recommended, reactHooks.configs.flat["recommended-latest"], reactRefresh.configs.vite],
     plugins: {
       "simple-import-sort": simpleImportSort,
     },

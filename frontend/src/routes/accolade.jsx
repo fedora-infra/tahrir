@@ -85,6 +85,7 @@ export default function Accolade() {
 
   // Reset paginating state when data changes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPaginating(false);
   }, [averlist]);
 
