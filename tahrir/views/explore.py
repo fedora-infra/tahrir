@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import UTC
 
 import sqlalchemy as sa
 import tahrir_api.model as m
@@ -85,7 +85,7 @@ def explore_badges_rss():
         entry = feed.add_entry()
         entry.title(f"New badge: {badge.name} !")
         entry.link(href=url)
-        pubdate = badge.created_on.replace(tzinfo=timezone.utc)
+        pubdate = badge.created_on.replace(tzinfo=UTC)
         entry.published(pubdate)
         entry.description(
             description_template

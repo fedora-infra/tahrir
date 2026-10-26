@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import UTC
 
 from feedgen.feed import FeedGenerator
 from flask import g, url_for
@@ -33,7 +33,7 @@ def badge_rss(badge_id):
         entry = feed.add_entry()
         entry.title(assertion.person.nickname)
         entry.link(href=url)
-        pubdate = assertion.issued_on.replace(tzinfo=timezone.utc)
+        pubdate = assertion.issued_on.replace(tzinfo=UTC)
         entry.published(pubdate)
         entry.description(
             description_template
