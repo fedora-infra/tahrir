@@ -1,5 +1,5 @@
 import { mdiAlertCircleOutline, mdiCheckCircleOutline } from "@mdi/js";
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import { Toast, ToastContainer } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 

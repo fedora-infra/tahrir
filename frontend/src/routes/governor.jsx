@@ -1,5 +1,5 @@
 import { mdiAccountCircle, mdiCrown, mdiCubeScan, mdiDatabase, mdiMedal, mdiShieldStarOutline } from "@mdi/js";
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import { useEffect, useRef } from "react";
 import { Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";

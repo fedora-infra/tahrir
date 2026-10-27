@@ -1,5 +1,5 @@
 import { mdiArrowLeft, mdiArrowRight, mdiLink, mdiViewGridPlus } from "@mdi/js";
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import { useEffect, useMemo, useState } from "react";
 import { Badge, Button, Card, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";

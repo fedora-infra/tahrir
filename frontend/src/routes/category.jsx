@@ -1,5 +1,5 @@
 import { mdiViewGridPlus } from "@mdi/js";
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import { Button, Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router";

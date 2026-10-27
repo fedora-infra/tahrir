@@ -6,7 +6,7 @@ import {
   mdiTrophy,
   mdiViewGridPlus,
 } from "@mdi/js";
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Button, Card, ListGroup, OverlayTrigger, Tooltip } from "react-bootstrap";

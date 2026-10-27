@@ -1,5 +1,5 @@
 import { mdiAccount, mdiShieldStarOutline } from "@mdi/js";
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import { useRef } from "react";
 import { Badge, Button, Card, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";

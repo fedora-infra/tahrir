@@ -1,4 +1,4 @@
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import { ListGroup } from "react-bootstrap";
 
 export default function HeadItem({ icon, name, vibe, show = true }) {

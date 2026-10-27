@@ -1,5 +1,5 @@
 import { mdiBookAccount, mdiCrown, mdiFencing, mdiHistory, mdiSend } from "@mdi/js";
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router";
