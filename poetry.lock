@@ -858,8 +858,10 @@ files = [
 [package.dependencies]
 flask = ">=2.0"
 flask-babel = {version = ">=3.0.1", optional = true, markers = "extra == \"translation\""}
+flask-sqlalchemy = {version = ">=3", optional = true, markers = "extra == \"sqlalchemy\""}
 jinja2 = ">=3.0"
 markupsafe = ">=2.0"
+sqlalchemy = {version = ">=1.4", optional = true, markers = "extra == \"sqlalchemy\""}
 typing_extensions = {version = "*", markers = "python_version < \"3.11\""}
 werkzeug = ">=2.0"
 wtforms = ">=2.3"
@@ -947,6 +949,22 @@ authlib = ">=1.2.0,<2.0.0"
 blinker = ">=1.4.0,<2.0.0"
 flask = ">=0.12.2,<4.0.0"
 requests = ">=2.20.0,<3.0.0"
+
+[[package]]
+name = "flask-sqlalchemy"
+version = "3.1.1"
+description = "Add SQLAlchemy support to your Flask application."
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "flask_sqlalchemy-3.1.1-py3-none-any.whl", hash = "sha256:4ba4be7f419dc72f4efd8802d69974803c37259dd42f3913b0dcf75c9447e0a0"},
+    {file = "flask_sqlalchemy-3.1.1.tar.gz", hash = "sha256:e4b68bb881802dda1a7d878b2fc84c06d1ee57fb40b874d3dc97dabfa36b8312"},
+]
+
+[package.dependencies]
+flask = ">=2.2.5"
+sqlalchemy = ">=2.0.16"
 
 [[package]]
 name = "flask-wtf"
@@ -3002,4 +3020,4 @@ docs = ["myst-parser", "sphinx"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10.0"
-content-hash = "65b7c244204164dbf9e207d12b4628a322577f069579cc235f0b7b6e5043a93a"
+content-hash = "ced3777b6bb992000c282e6403009dbe895d49a404380e1d5e7572f9679c2e3c"
