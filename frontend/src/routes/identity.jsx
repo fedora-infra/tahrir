@@ -78,9 +78,11 @@ export default function Identity() {
             ([category, iterlist]) =>
               iterlist.length > 0 && (
                 <Grouping key={generateIdentity(category)} name={category} wide={iterlist.length} head={true}>
-                  {iterlist.map((indx) => {
-                    const item = user.badges[indx];
-                    return item ? (
+                  {iterlist
+                    .map((indx) => user.badges[indx])
+                    .filter(Boolean)
+                    .sort((a, b) => (a.name || "").localeCompare(b.name || ""))
+                    .map((item) => (
                       <AccoItem
                         key={generateIdentity(item.id)}
                         iden={item.id}
@@ -90,8 +92,7 @@ export default function Identity() {
                         shot={item.image}
                         rare={item.rarity}
                       />
-                    ) : null;
-                  })}
+                    ))}
                 </Grouping>
               )
           )}
