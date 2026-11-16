@@ -36,9 +36,12 @@ export default function BadgeUpdateForm({ show }) {
     skip: !accolade,
   });
 
-  const { data: accoladeResult, isFetching: isAccoladeFetching } = useLookupAccoladeQuery(accoladeLookup, {
-    skip: accoladeLookup.length < 2,
-  });
+  const { data: accoladeResult, isFetching: isAccoladeFetching } = useLookupAccoladeQuery(
+    { searchString: accoladeLookup, searchLegacy: true },
+    {
+      skip: accoladeLookup.length < 2,
+    }
+  );
 
   const showAccoladeSpinner = useMinFetching(isAccoladeFetching);
 
