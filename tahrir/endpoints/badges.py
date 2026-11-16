@@ -123,9 +123,10 @@ def search_badges_by_string(search_string: str):
     # Instead of doing this over here like this
     begin = request.args.get("begin", 0, type=int)
     limit = request.args.get("limit", 100, type=int)
+    debar = request.args.get("debar", "false").lower() in ("true", "1")
 
     collection = (
-        g.tahrirdb.get_all_badges()
+        g.tahrirdb.get_all_badges(include_legacy=debar)
         .filter(
             sa.func.lower(m.Badge.name).like(f"%{search_string.lower()}%")
             | sa.func.lower(m.Badge.description).like(f"%{search_string.lower()}%")
@@ -145,6 +146,7 @@ def search_badges_by_string(search_string: str):
                 "image": item.image,
                 "name": item.name,
                 "tags": [tag.name for tag in item.tags],
+                "legacy": item.legacy,
             }
             for item in collection[begin : begin + (limit if limit < 100 else 100)]
         ],

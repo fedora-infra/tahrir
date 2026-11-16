@@ -172,11 +172,19 @@ export const callUnit = createApi({
       invalidatesTags: ["Averment", "Discover"], // Reload Averment and Discover on deletion
     }),
     lookupAccolade: builder.query({
-      query: (searchString) => ({
-        url: `../api/badges/search/${encodeURIComponent(searchString)}`,
-        method: "GET",
-      }),
-      providesTags: (result, error, searchString) => [{ type: "AccoladeSearch", id: searchString }],
+      query: (arg) => {
+        const searchString = typeof arg === "string" ? arg : arg.searchString;
+        const searchLegacy = typeof arg === "string" ? false : arg.searchLegacy || false;
+        return {
+          url: `../api/badges/search/${encodeURIComponent(searchString)}`,
+          params: searchLegacy ? { debar: "true" } : {},
+          method: "GET",
+        };
+      },
+      providesTags: (result, error, arg) => {
+        const searchString = typeof arg === "string" ? arg : arg.searchString;
+        return [{ type: "AccoladeSearch", id: searchString }];
+      },
     }),
     lookupIdentity: builder.query({
       query: (searchString) => ({
