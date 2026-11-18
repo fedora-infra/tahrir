@@ -2,6 +2,7 @@ from flask import g
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.theme import Bootstrap4Theme
+
 from tahrir_api import model
 
 from .database import db
