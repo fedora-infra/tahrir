@@ -7,6 +7,7 @@ import { Link, useParams, useSearchParams } from "react-router";
 
 import SideArea from "../components/sidearea.jsx";
 import VertItem from "../components/vertitem.jsx";
+import VampList from "../config/vamp.js";
 import { useRetrieveAccoladeQuery, useRetrieveAvermentQuery } from "../features/call.js";
 import { useLoadingState } from "../features/hook.js";
 import { formatTime, generateIdentity, portraitProvider, rarities, relativeImageUrl } from "../features/util.js";
@@ -58,6 +59,16 @@ export default function Accolade() {
       rank: item.person?.rank,
     }));
   }, [averment]);
+
+  // Artwork is considered revamped when its image file is listed in VampList
+  // See https://discussion.fedoraproject.org/t/badges-revamp-and-template-showcase/86819
+  const vamped = useMemo(() => {
+    const file = acco?.image
+      ?.split("/")
+      .pop()
+      ?.replace(/\.[^.]+$/, "");
+    return file ? VampList.includes(file) : false;
+  }, [acco?.image]);
 
   const progress = mainLoad || averLoad || paginating;
   const haveError = mainFlaw || averFlaw;
@@ -159,9 +170,23 @@ export default function Accolade() {
             <ListGroup variant="flush">
               <VertItem
                 link={acco.legacy ? "/deadlist" : "/livelist"}
-                head={acco.legacy ? "Legacy" : "Modern"}
-                body={acco.legacy ? "This badge is currently deactivated" : "This badge is currently active"}
-                shot={`/imgs/stat_${acco.legacy ? "legacy" : "modern"}_${isDark ? "dark" : "lite"}.svg`}
+                head={acco.legacy ? "Inactive" : "Active"}
+                body={acco.legacy ? "Cannot be obtained anymore" : "Can be obtained currently"}
+                shot={`/imgs/stat_${acco.legacy ? "paused" : "active"}_${isDark ? "dark" : "lite"}.svg`}
+              />
+            </ListGroup>
+          </Card.Body>
+        </Card>
+        <Card className="vibe-border" style={{ "--vibe": vibe }}>
+          <Card.Body className="ps-0 pe-0 pt-2 pb-0">
+            <Card.Title className="mb-0 ps-2 dataelem">Artworks</Card.Title>
+            <hr className="mt-2 mb-0" />
+            <ListGroup variant="flush">
+              <VertItem
+                link={"https://discussion.fedoraproject.org/t/badges-revamp-and-template-showcase/86819"}
+                head={vamped ? "Modern" : "Legacy"}
+                body={vamped ? "Artwork was recently refreshed" : "Artwork now requires refreshing"}
+                shot={`/imgs/stat_${vamped ? "modern" : "legacy"}_${isDark ? "dark" : "lite"}.svg`}
               />
             </ListGroup>
           </Card.Body>
